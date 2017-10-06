@@ -13,7 +13,7 @@ class KitukizuriServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Router $router)
     {
          if (!$this->app->routesAreCached()) {
             require __DIR__.'/Http/routes.php';
