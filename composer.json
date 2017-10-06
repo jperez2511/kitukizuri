@@ -9,5 +9,15 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "icebearsoft/kitukizuri": "dev-master"
+    },
+    "autoload": {
+    	"classmap": [
+    	],
+    	"psr-4": {
+    	    "Icebearsoft\\Kitukizuri\\": "src"
+    	}
+     },
+
 }
