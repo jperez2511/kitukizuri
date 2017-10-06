@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibs\Kitukizuri;
+namespace Icebearsoft\Kitukizuri;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
