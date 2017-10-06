@@ -13,11 +13,10 @@
         "icebearsoft/kitukizuri": "dev-master"
     },
     "autoload": {
-    	"classmap": [
+	   "classmap": [
     	],
     	"psr-4": {
     	    "Icebearsoft\\Kitukizuri\\": "src"
     	}
-     },
-
+    }
 }
