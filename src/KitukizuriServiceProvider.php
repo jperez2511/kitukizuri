@@ -20,7 +20,13 @@ class KitukizuriServiceProvider extends ServiceProvider
         }
         $this->loadViewsFrom(__DIR__.'/resources/views', 'kitukizuri');
         AliasLoader::getInstance()->alias('Kitukizuri','Icebearsoft\Kitukizuri\KituKizuri');
-        $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizuri');
+        $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizurimd');
+        $this->publishes([
+            __DIR__.'/database/migrations' => $this->app->databasePath() . '/migrations',
+        ], 'migrations');
+         $this->publishes([
+            __DIR__.'/database/seeds' => $this->app->databasePath() . '/seeds',
+        ], 'seeds');
     }
 
     /**

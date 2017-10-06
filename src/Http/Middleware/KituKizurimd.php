@@ -6,7 +6,7 @@ use Kitukizuri;
 use Closure;
 use Auth, Route;
 
-class KituKizuri {
+class KituKizurimd {
     public function handle($request, Closure $next) {
 			if (Auth::guest())
 					return redirect()->guest('/login');
