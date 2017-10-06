@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibs\Kitukizuri;
+namespace Icebearsoft\Kitukizuri;
 
 use App\Models\Modulo;
 use App\Models\ModuloPermiso;

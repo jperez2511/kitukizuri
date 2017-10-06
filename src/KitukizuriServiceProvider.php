@@ -19,8 +19,8 @@ class KitukizuriServiceProvider extends ServiceProvider
             require __DIR__.'/Http/routes.php';
         }
         $this->loadViewsFrom(__DIR__.'/resources/views', 'kitukizuri');
-        AliasLoader::getInstance()->alias('Kitukizuri','Ibs\Kitukizuri\Kitukizuri');
-        $router->aliasMiddleware('kitukizuri', '\Icebearsoft\Kitukizuri\Http\Middleware\Kitukizuri');
+        AliasLoader::getInstance()->alias('Kitukizuri','Icebearsoft\Kitukizuri\KituKizuri');
+        $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizuri');
     }
 
     /**
@@ -31,7 +31,7 @@ class KitukizuriServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('kitukizuri', function($app) {
-            return new Kitukizuri;
+            return new KituKizuri;
         });
     }
 }
