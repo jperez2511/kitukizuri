@@ -1,0 +1,13 @@
+{
+    "name": "ibs/kitukizuri",
+    "description": "Auth",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josue Perez",
+            "email": "jperez.chek@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
