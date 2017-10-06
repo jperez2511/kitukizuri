@@ -20,6 +20,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         }
         $this->loadViewsFrom(__DIR__.'/resources/views', 'kitukizuri');
         AliasLoader::getInstance()->alias('Kitukizuri','Ibs\Kitukizuri\Kitukizuri');
+        $router->aliasMiddleware('kitukizuri', '\Icebearsoft\Kitukizuri\Http\Middleware\Kitukizuri');
     }
 
     /**
