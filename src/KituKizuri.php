@@ -24,7 +24,6 @@ class KituKizuri extends Controller {
 		if(empty($mi)){
 			return false;
 		} 
-
 		if ($rNombre == 'index'){
 			$rNombre = ['show'];
 		}
@@ -33,20 +32,18 @@ class KituKizuri extends Controller {
 		}else {
 			$rNombre = [$rNombre];
 		}
-
 		foreach ($rNombre as $val) {
 			$p = Permiso::where('nombreLaravel', $val)->first();
-			if (!$p->isEmpty()) {
-				break;
+			$mp = ModuloPermiso::where('moduloid', $mi->moduloid)->where('permisoid', $p->permisoid)->first(); //modulo permiso
+			if(empty($mp)) {
+				continue;
 			}
-		}
-		
-		$mp = ModuloPermiso::where('moduloid', $mi->moduloid)->where('permisoid', $p->permisoid)->first(); //modulo permiso
-		if(empty($mp)) return false;
-		foreach($roles as $r ){
-			$rmp = RolModuloPermiso::where('rolid',$r->rolid)->where('modulopermisoid',$mp->modulopermisoid)->first();
-			if($rmp != null)
-				return true;
+			foreach($roles as $r ) {
+				$rmp = RolModuloPermiso::where('rolid',$r->rolid)->where('modulopermisoid',$mp->modulopermisoid)->first();
+				if($rmp != null){
+					return true;
+				}
+			}			
 		}
 		return false;
 	}
