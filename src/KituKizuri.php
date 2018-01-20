@@ -21,12 +21,26 @@ class KituKizuri extends Controller {
 		$roles = UsuarioRol::where('usuarioid', Auth::id())->get();
 		if ($roles->isEmpty()) return false;
 		$mi = Modulo::where('ruta', $mNombre)->first(); //modulo id
-		if(empty($mi)) return false;
-		if ($rNombre == 'index')
-			$rNombre = 'show';
-		elseif ($rNombre == 'store')
-			$rNombre = 'show';
-		$p = Permiso::where('nombreLaravel', $rNombre)->first();
+		if(empty($mi)){
+			return false;
+		} 
+
+		if ($rNombre == 'index'){
+			$rNombre = ['show'];
+		}
+		elseif ($rNombre == 'store'){
+			$rNombre = ['create','edit'];
+		}else {
+			$rNombre = [$rNombre];
+		}
+
+		foreach ($rNombre as $val) {
+			$p = Permiso::where('nombreLaravel', $val)->first();
+			if (!$p->isEmpty()) {
+				break;
+			}
+		}
+		
 		$mp = ModuloPermiso::where('moduloid', $mi->moduloid)->where('permisoid', $p->permisoid)->first(); //modulo permiso
 		if(empty($mp)) return false;
 		foreach($roles as $r ){
