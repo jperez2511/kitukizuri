@@ -30,6 +30,18 @@ class Krud extends Controller
     private $wheres   = [];
     private $parents  = [];
     private $orderBy  = [];
+    private $template = [
+        'datatable',
+    ];
+
+
+    private function setTemplate($templates)
+    {
+        foreach ($templates as $t) {
+            $this->template[] = $t;
+        }
+    }
+
     public function setParents($nombre, $value)
     {
         array_push($this->parents, ['nombre' => $nombre, 'value'=>$value]);
@@ -78,6 +90,15 @@ class Krud extends Controller
         if (!array_key_exists('campo', $params)) {
             dd('"campo" es un parametro requerido');
         }
+
+        if ($params['tipo'] == 'datetime' || $params['tipo'] == 'date') {
+            $this->setTemplate(['datetimepicker']);
+        }
+
+        if ($params['tipo'] == 'icono') {
+            $this->setTemplate(['iconpicker']);
+        }
+
 
         if (!in_array($params['tipo'], $tipos)) {
             dd('El tipo configurado (' . $params['tipo'] . ') no existe! solamente se permiten: ' . implode(', ', $tipos));
@@ -295,13 +316,14 @@ class Krud extends Controller
         
         $ruta = $this->getModuloRuta();
         
-        return view('crud.index', [
+        return view('krud.index', [
             'titulo'   => $this->titulo,
             'columnas' => $this->getColumnas($this->getSelectShow()),
             'data'     => $this->transformData($this->getData()->toArray()),
             'botones'  => $botones,
             'permisos' => $this->setPermisos(Auth::id()),
             'ruta'     => $ruta
+            'template' => $this->template;
         ]);
     }
 
