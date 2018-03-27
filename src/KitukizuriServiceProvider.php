@@ -28,9 +28,6 @@ class KitukizuriServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/database/seeds' => $this->app->databasePath() . '/seeds',
         ], 'seeds');
-        $this->publishes([
-            __DIR__.'/views/krud' => $this->app->viewsPath() . '/krud',
-        ], 'seeds');
     }
 
     /**
