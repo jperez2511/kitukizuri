@@ -322,8 +322,8 @@ class Krud extends Controller
             'data'     => $this->transformData($this->getData()->toArray()),
             'botones'  => $botones,
             'permisos' => $this->setPermisos(Auth::id()),
-            'ruta'     => $ruta
-            'template' => $this->template;
+            'ruta'     => $ruta,
+            'template' => $this->template
         ]);
     }
 
