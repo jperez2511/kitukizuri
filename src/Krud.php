@@ -351,7 +351,7 @@ class Krud extends Controller
         }
 
         $url = $this->getUrl($request->url());
-        return view('crud.edit', [
+        return view('krud.edit', [
             'titulo'   => $titulo,
             'campos'   => $this->campos,
             'action'   => $url,
