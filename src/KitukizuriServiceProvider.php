@@ -31,6 +31,9 @@ class KitukizuriServiceProvider extends ServiceProvider
         $this->publishes([
              __DIR__.'/resources/views/krud' => $this->app->basePath() . '/resources/views/krud',
         ]);
+        $this->publishes([
+             __DIR__.'/resources/views/errors' => $this->app->basePath() . '/resources/views/errors',
+        ]);
     }
 
     /**
