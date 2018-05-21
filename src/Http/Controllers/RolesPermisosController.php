@@ -1,6 +1,6 @@
 <?php
 
-namespace Icebearsoft\Kitukizuri\Controllers;
+namespace App\Http\Controllers\KituKizuri;
 
 use Illuminate\Http\Request;
 

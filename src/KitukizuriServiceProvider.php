@@ -40,6 +40,10 @@ class KitukizuriServiceProvider extends ServiceProvider
         $this->publishes([
              __DIR__.'/resources/views/errors' => $this->app->basePath() . '/resources/views/errors',
         ]);
+
+        $this->publishes([
+             __DIR__.'/Http/Controllers/Kitukizuri' => $this->app->basePath() . '/App/Controllers/Kitukizuri',
+        ]);
     }
 
     /**
