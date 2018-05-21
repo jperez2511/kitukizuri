@@ -19,7 +19,7 @@ class RolesController extends Krud
         $this->setBoton(['nombre'=>'Asignar Permisos', 'url'=>'/rolpermisos?id={id}', 'class'=>'warning', 'icon'=>'lock-outline']);
         $this->middleware(function ($request, $next) {
             if (!empty(Auth::user()->empresaid)) {
-                $empresaid = Auth::user()->empresaid
+                $empresaid = Auth::user()->empresaid;
                 $this->setCampo(['nombre'=>'empresaid', 'campo'=>'empresaid', 'tipo' => 'hidden', 'value'=>$empresaid, 'show'=>false]);
                 $this->setWhere('empresaid', '=', $empresaid);
             }
