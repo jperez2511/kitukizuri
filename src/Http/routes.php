@@ -5,7 +5,7 @@ Route::get('tururu', function () {
 });
 
 
-Route::resource('roles', 'RolesController');
+Route::resource('roles', 'Icebearsoft\Kitukizuri\Controllers\RolesController');
 
 // Route::group(['prefix' => 'admin'], function() {
 
