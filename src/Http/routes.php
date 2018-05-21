@@ -4,8 +4,11 @@ Route::get('tururu', function () {
     dd('here kitukizuri');
 });
 
+Route::group(['namespace' => 'Icebearsoft\Kitukizuri\Controllers'], function () {
+    Route::resource('roles', 'RolesController');
+    Route::resource('rolpermisos', 'RolesPermisosController', ['only'=>['index', 'store']]);
+});
 
-Route::resource('roles', 'Icebearsoft\Kitukizuri\Controllers\RolesController');
 
 // Route::group(['prefix' => 'admin'], function() {
 
