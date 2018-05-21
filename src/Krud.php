@@ -4,15 +4,15 @@ namespace Icebearsoft\Kitukizuri;
 
 use DB;
 use Route;
-use KituKizuri;
 use Carbon\Carbon;
 use Mockery\Exception;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\QueryException;
+
 use App\Models\Municipio;
 
 class Krud extends Controller
