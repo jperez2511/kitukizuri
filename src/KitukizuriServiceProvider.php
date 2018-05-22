@@ -18,7 +18,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         // if (!$this->app->routesAreCached()) {
         //     require __DIR__.'/Http/routes.php';
         // }
-        
+
         $this->loadViewsFrom(__DIR__.'/resources/views', 'kitukizuri');
         
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
@@ -47,7 +47,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
-             __DIR__.'/Http/routes' => $this->app->basePath() . '/app/routes/Kitukizuri',
+             __DIR__.'/routes' => $this->app->basePath() . '/app/routes/Kitukizuri',
         ]);
     }
 
