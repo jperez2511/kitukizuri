@@ -51,9 +51,14 @@ class KituKizuri extends Controller
         }
         return false;
     }
-    public static function getPermisos($uid=null)
+    public static function getPermisos($uid=null, $currentRoute = null)
     {
-        $ruta = Route::currentRouteName();
+        if (empty($currentRoute)) {
+            $ruta = Route::currentRouteName();
+        } else {
+            $ruta = $currentRoute;
+        }
+        
         $ruta = explode('.', $ruta);
         $ruta = $ruta[0];
         $aprobados = [];
