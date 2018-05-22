@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\AdminGlobal;
+namespace App\Http\Controllers\KituKizuri;
 
 use Krud;
 use Auth;
