@@ -45,10 +45,6 @@ class KitukizuriServiceProvider extends ServiceProvider
         $this->publishes([
              __DIR__.'/Http/Controllers' => $this->app->basePath() . '/app/Http/Controllers/Kitukizuri',
         ]);
-
-        $this->publishes([
-             __DIR__.'/routes' => $this->app->basePath() . '/routes/Kitukizuri',
-        ]);
     }
 
     /**
