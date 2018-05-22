@@ -2,7 +2,7 @@
 
 @section('content')
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/lib/datatables/css/dataTables.bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
     <style>
         div.dataTables_wrapper div.dataTables_filter{
             text-align: justify;
@@ -82,6 +82,8 @@
   </div>
 @endsection
 @section('scripts')
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
     <script>
     $.fn.niftyModal('setDefaults',{
         overlaySelector: '.modal-overlay',
