@@ -73,7 +73,7 @@ class Krud extends Controller
 
         $tipos = [
             'string','numeric', 'date','datetime', 'bool','combobox', 'password','enum',
-            'file','image', 'textarea','url','summernote', 'hidden', 'icono'
+            'file','file64','image', 'textarea','url','summernote', 'hidden', 'icono'
         ];
 
         $this->allowed($params, $allowed);
@@ -393,10 +393,10 @@ class Krud extends Controller
                             $v = $this->model->{$k};
                         }
                     }
-                    if ($c['campo'] == $k && $c['tipo'] == 'image') {
+                    if ($c['campo'] == $k && ($c['tipo'] == 'image' || $c['tipo'] == 'file64')) {
                         if ($request->hasFile($c['campo'])) {
                             $file = $request->file($c['campo']);
-                            $file = 'data:image/jpeg;base64,'.base64_encode(file_get_contents($file));
+                            $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
                             
                             //$filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
                             //$path     = public_path() . $campo['filepath'];
@@ -411,6 +411,25 @@ class Krud extends Controller
                             $v = $this->model->{$k};
                         }
                     }
+
+                    if ($c['campo'] == $k && $c['tipo'] == 'file') {
+                        if ($request->hasFile($c['campo'])) {
+                            $file = $request->file($c['campo']);
+                            // $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
+                            $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
+                            $path     = public_path() . $campo['filepath'];
+
+                            if (!file_exists($path)) {
+                                mkdir($path, 0777, true);
+                            }
+
+                            $file->move($path, $filename);
+                            $v = $file;
+                        } else {
+                            $v = $this->model->{$k};
+                        }
+                    }
+
                     if ($c['campo'] == $k && $c['tipo'] == 'bool') {
                         $v = $v == 'on' ?  true : false;
                     }

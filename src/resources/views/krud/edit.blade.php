@@ -78,7 +78,7 @@
                                 </select>
                             </div>
                         </div>
-                    @elseif($c['tipo'] == 'image')
+                    @elseif($c['tipo'] == 'image' || $c['tipo'] == 'file' || $c['tipo'] == 'file64')
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{$c['nombre']}}</label>
