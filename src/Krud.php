@@ -417,7 +417,7 @@ class Krud extends Controller
                             $file = $request->file($c['campo']);
                             // $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
                             $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
-                            $path     = public_path() . $campo['filepath'];
+                            $path     = public_path() . $c['filepath'];
 
                             if (!file_exists($path)) {
                                 mkdir($path, 0777, true);
