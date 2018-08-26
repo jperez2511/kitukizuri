@@ -174,5 +174,5 @@
                 })
             })
         @endif
-</script>
+    </script>
 @endsection

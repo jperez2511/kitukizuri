@@ -43,3 +43,19 @@ de esta forma no solo instalara el paquete sino que descargara la version mas ac
 Icebearsoft\Kitukizuri\KitukizuriServiceProvider::class
 ```
 
+una vez agregado publicaremos al codigo los archivos que el usuario puede modificar del paquete estos van desde las migrations hasta las vistas para eso ejecutar el siguiente comando:
+
+```bash
+php artisan vendor:publish
+```
+
+### Configuracion de los seeders
+
+si el usuario requiere agregar modulos, permisos o asignar permisos a modulos desde los seeder es necesario agregar las siguientes lineas de codigo dentro del la funcion **run()** en **database/seeds/DatabaseSeeder.php**
+
+```php
+$this->call(ModulosSeeder::class);
+$this->call(PermisosSeeder::class);
+$this->call(ModuloPermisosSeeder::class);
+```
+

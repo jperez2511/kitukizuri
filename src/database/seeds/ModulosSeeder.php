@@ -18,8 +18,8 @@ class ModulosSeeder extends Seeder {
 			['moduloid' => 2,	'nombre' => 'Modulos', 'ruta'=>'modulos'],
 			['moduloid' => 3,	'nombre' => 'Permisos', 'ruta'=>'permisos'],
 			['moduloid' => 4,	'nombre' => 'Roles', 'ruta'=>'roles'],
-			['moduloid' => 5,	'nombre' => 'Roles', 'ruta'=>'rolpermisos'],
-			['moduloid' => 6,	'nombre' => 'Rol Permisos', 'ruta'=>'usuarios'],
+			['moduloid' => 5,	'nombre' => 'Rol Permisos', 'ruta'=>'rolpermisos'],
+			['moduloid' => 6,	'nombre' => 'Usuarios', 'ruta'=>'usuarios'],
 			['moduloid' => 7,	'nombre' => 'AsignarPermisos', 'ruta'=>'asignarpermiso'],
 		]);
 
