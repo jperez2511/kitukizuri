@@ -11,6 +11,7 @@ use Icebearsoft\Kitukizuri\Models\Modulo;
 use Icebearsoft\Kitukizuri\Models\Permiso;
 use Icebearsoft\Kitukizuri\Models\UsuarioRol;
 use Icebearsoft\Kitukizuri\Models\ModuloPermiso;
+use Icebearsoft\Kitukizuri\Models\ModuloEmpresas;
 use Icebearsoft\Kitukizuri\Models\RolModuloPermiso;
 
 class KituKizuri extends Controller
