@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 //== Models
 use Icebearsoft\Kitukizuri\Models\Rol;
+use Icebearsoft\Kitukizuri\Models\UsuarioRol;
 
 class RolesController extends Krud
 {
@@ -19,9 +20,12 @@ class RolesController extends Krud
         $this->setBoton(['nombre'=>'Asignar Permisos', 'url'=>'/rolpermisos?id={id}', 'class'=>'warning', 'icon'=>'lock']);
         $this->middleware(function ($request, $next) {
             if (!empty(Auth::user()->empresaid)) {
-                $empresaid = Auth::user()->empresaid;
-                $this->setCampo(['nombre'=>'empresaid', 'campo'=>'empresaid', 'tipo' => 'hidden', 'value'=>$empresaid, 'show'=>false]);
-                $this->setWhere('empresaid', '=', $empresaid);
+                $usuarioRol = UsuarioRol::where('usuarioid', Auth::id())->get();
+                if ($usuarioRol->find(['rolid'=>1])->isEmpty()) {
+                    $empresaid = Auth::user()->empresaid;
+                    $this->setCampo(['nombre'=>'empresaid', 'campo'=>'empresaid', 'tipo' => 'hidden', 'value'=>$empresaid, 'show'=>false]);
+                    $this->setWhere('empresaid', '=', $empresaid);
+                }
             }
             return $next($request);
         });
