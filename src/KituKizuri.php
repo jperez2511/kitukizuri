@@ -15,6 +15,7 @@ use Icebearsoft\Kitukizuri\Models\RolModuloPermiso;
 
 class KituKizuri extends Controller
 {
+    //== Valida los premisos segun una ruta
     public static function permiso($ruta)
     {
         $ruta = explode('.', $ruta);
@@ -51,6 +52,8 @@ class KituKizuri extends Controller
         }
         return false;
     }
+
+    //== Retorna un array con los permisos segun usuario y/o ruta
     public static function getPermisos($uid=null, $currentRoute = null)
     {
         if (empty($currentRoute)) {
@@ -74,5 +77,29 @@ class KituKizuri extends Controller
             }
         }
         return $aprobados;
+    }
+
+    public static function validar($ruta)
+    {
+        $permiso = false; 
+
+        //== validando si los usuarios tienen empresa id 
+        if (empty(Auth::user()->empresaid)) {
+            return $permiso;
+        }
+
+        //dividiendo la ruta
+        $ruta = explode('.', $ruta);
+        //obteniendo moduloid
+        $modulo = Modulo::where('ruta', $ruta[0])->first();
+        //obteniendo la empresa id a traves del usuarioid
+        $empresaModulo = ModuloEmpresas::where('empresaid', Auth::user()->empresaid)
+            ->where('moduloid', $modulo->moduloid)->first();
+
+        if (!empty($empresaModulo)) {
+            $permiso = true;
+        } 
+        
+        return $permiso;
     }
 }
