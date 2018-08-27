@@ -97,6 +97,8 @@ class KituKizuri extends Controller
 
         if (empty($empresaModulo)) {
             return false;
-        } 
+        }
+
+        return true;
     }
 }
