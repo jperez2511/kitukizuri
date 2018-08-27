@@ -15,11 +15,13 @@ class KituKizurimd {
 		$me = KituKizuri::validar(Route::currentRouteName());
 
 		//== Vaidando Permisos
-		$continue = KituKizuri::permiso(Route::currentRouteName());
+		$continue = KituKizuri::permiso(Route::currentRouteName());        
 		
-        
-		
-		if (!$continue && !$me) {
+		if (!$me) {
+			abort(401);
+		}
+
+		if (!$continue) {
 			abort(401);
 		}
 

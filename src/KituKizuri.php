@@ -82,11 +82,9 @@ class KituKizuri extends Controller
 
     public static function validar($ruta)
     {
-        $permiso = false; 
-
         //== validando si los usuarios tienen empresa id 
         if (empty(Auth::user()->empresaid)) {
-            return $permiso;
+            return true;
         }
 
         //dividiendo la ruta
@@ -97,10 +95,8 @@ class KituKizuri extends Controller
         $empresaModulo = ModuloEmpresas::where('empresaid', Auth::user()->empresaid)
             ->where('moduloid', $modulo->moduloid)->first();
 
-        if (!empty($empresaModulo)) {
-            $permiso = true;
+        if (empty($empresaModulo)) {
+            return false;
         } 
-        
-        return $permiso;
     }
 }
