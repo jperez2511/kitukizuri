@@ -21,6 +21,8 @@ class ModulosSeeder extends Seeder {
 			['moduloid' => 5,	'nombre' => 'Rol Permisos', 'ruta'=>'rolpermisos'],
 			['moduloid' => 6,	'nombre' => 'Usuarios', 'ruta'=>'usuarios'],
 			['moduloid' => 7,	'nombre' => 'AsignarPermisos', 'ruta'=>'asignarpermiso'],
+			['moduloid' => 8,	'nombre' => 'Empresas', 'ruta' => 'empresas'],
+			['moduloid' => 9,	'nombre' => 'Empresas - Modulos', 'ruta' =>'moduloempresas'],
 		]);
 
 		DB::statement('UPDATE modulos SET created_at=NOW(), updated_at=NOW()');
