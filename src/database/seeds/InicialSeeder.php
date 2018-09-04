@@ -14,8 +14,6 @@ class InicialSeeder extends Seeder {
 
 		DB::table('empresas')->insert([
 			'empresaid'     => 1,
-			'paisid'        => 1,
-			'tipoempresaid' => 1,
 			'nombre'        => 'Empresa',
 			'telefono'      => '123456789',
 			'correo'        => 'admin@mail.com',
