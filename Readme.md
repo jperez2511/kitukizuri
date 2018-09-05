@@ -2,60 +2,90 @@
 
 Este es un paquete para laravel que te permitira aplicar un control dentro de tu aplicacion en temas de permisos de usuario. Este paquete cuenta con 4 partes importantes necesarias en una aplicacion web con multiples usuarios. 
 
-1. Modulos
-2. Permisos que necesitara al modulo
-3. Roles
-4. Usuarios
-
-## Modulos 
-
-La seccion de modulos sirve para definir las partes de tu proyecto por ejemplo el modulo de clientes, proveedores, Inicio, etc. 
-
-## Permios que necesita el modulo
-
-En programacion es un hecho que los modulos a veces necesitan permisos mas especificos y no solo Crear, Editar, Leer y Eliminar. Es por eso que con este paquete al modulo puedes asignarles los permisos que necesitara por ejemplo si tu modulo solo requiere el permiso de leer tu puedes asignarle solamente ese permiso o crear tus propios permisos. 
-
-## Roles
-
-una vez que ya se han creado los modulos y asignados los permisos que este requiere, tu puedes crear tus propios roles haciendo combinaciones entre los modulos y sus permisos de esta forma tue puedes crear combinaciones infinitas segun la cantidad de modulos que existan en tu proyecto.
-
-## Usuarios
-
-al dejar los usuariso en manos de kitu kizuri tu puedes administrarlos incluyendo la asignacion de permisos, el paquete soporta multiples roles por lo tanto no tiendras que preocuparte por desarrollar esta funcionalidad.
+- **Modulos**
+  - La seccion de modulos sirve para definir las partes de tu proyecto por ejemplo el modulo de clientes, proveedores, Inicio, etc. 
+- **Permisos que necesitara al modulo**
+  - En muchos casos los modulos necesitan permisos especificos y no solo Crear, Editar, Leer y Eliminar. Es por eso que kitukizuri permite agregar permisos adicionales.
+- **Roles**
+  - tu puedes crear tus propios roles haciendo combinaciones entre los modulos y sus permisos de esta forma tu puedes crear combinaciones infinitas segun la cantidad de modulos que existan en tu proyecto.
+- **Usuarios**
+  - al dejar los usuarios en manos de kitukizuri puedes administrarlos incluyendo la asignacion de permisos, soporta multiples roles.
 
 ## Instalacion 
 
-para instalarlo es necesario agregar en tu **composer.json** en require la siguiente linea: 
+Agregar en tu **composer.json** lo siguiente: 
 
 ```json
-"icebearsoft/kitukizuri": "dev-master"
+"requiere": {
+  "icebearsoft/kitukizuri": "dev-master"
+}
 ```
 
-luego en tu consola correr el siguiente comando:
+Ejecutar el siguiente comando para instalar y actualizar
 
 ```bash
 composer update
 ```
 
-de esta forma no solo instalara el paquete sino que descargara la version mas actualizada. para luego agregar dentro de **config/app.php** en providers la siguiente linea:
+Configurar nuestro service provider dentro de **config/app.php** :
 
 ```php
-Icebearsoft\Kitukizuri\KitukizuriServiceProvider::class
+'providers' => [
+  Icebearsoft\Kitukizuri\KitukizuriServiceProvider::class
+]
 ```
 
-una vez agregado publicaremos al codigo los archivos que el usuario puede modificar del paquete estos van desde las migrations hasta las vistas para eso ejecutar el siguiente comando:
+Publicaremos los archivos que el usuario puede modificar del paquete, ejecutar el siguiente comando:
 
 ```bash
 php artisan vendor:publish
 ```
 
-### Configuracion de los seeders
+## Configuracion
 
-si el usuario requiere agregar modulos, permisos o asignar permisos a modulos desde los seeder es necesario agregar las siguientes lineas de codigo dentro del la funcion **run()** en **database/seeds/DatabaseSeeder.php**
+### Seeders
+
+ Agregar en **database/seeds/DatabaseSeeder.php**
 
 ```php
-$this->call(ModulosSeeder::class);
-$this->call(PermisosSeeder::class);
-$this->call(ModuloPermisosSeeder::class);
+public function run()
+{
+  $this->call(ModulosSeeder::class);
+  $this->call(PermisosSeeder::class);
+  $this->call(ModuloPermisosSeeder::class);
+}
 ```
+### Rutas
+
+Agregar en **routes/web.php**
+```php
+Route::middleware(['auth', 'kitukizuri'])->group(function () {
+  Route::resource('roles', 'Kitukizuri\RolesController');
+  Route::resource('modulos', 'Kitukizuri\ModulosController');
+  Route::resource('usuarios', 'Kitukizuri\UsuariosController');
+  Route::resource('asignarpermiso', 'Kitukizuri\UsuarioRolController');
+  Route::resource('permisos', 'Kitukizuri\PermisosController', ['only'=>['index', 'store']]);
+  Route::resource('rolpermisos', 'Kitukizuri\RolesPermisosController', ['only'=>['index', 'store']]);
+  Route::resource('empresas', 'Kitukizuri\EmpresasController');
+  Route::resource('moduloempresas', 'Kitukizuri\ModuloEmpresasController');
+});
+```
+
+middleware kitukizuri es el encargado de verificar los permisos que tiene el usuario para la ruta en cuestion.
+
+### Ejecutar Migrations & Seeders
+
+una vez configurados los seeders es necesario ejecutar las migrations y los seeders para eso ejecutar el siguiente comando:
+
+```bash
+php artisan migrate
+php artisan db:seed
+php artisan db:seed --class=InicialSeeder
+```
+
+Este comando **php artisan db:seed --class=InicialSeeder** sirve para configurar el usuario inicial, con el rol GOD (rol adminstrador). Datos del usuario: 
+
+> Usuario: admin@mail.com
+> Password: temp,123
+
 

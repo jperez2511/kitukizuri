@@ -18,7 +18,7 @@ class RolesPermisosController extends Controller
         $rolid = $request->get('id');
         $modulos = Modulo::with('modulopermiso', 'modulopermiso.permisos')->orderBy('nombre')->get();
         $rmp = RolModuloPermiso::where('rolid', $rolid)->select('modulopermisoid')->pluck('modulopermisoid')->toArray();
-        return view('admin.modulopermisos', [
+        return view('kitukizuri.modulopermisos', [
             'modulos'=>$modulos,
             'rmp' => $rmp
         ]);
@@ -37,13 +37,7 @@ class RolesPermisosController extends Controller
         }
         
         $roles = UsuarioRol::where('usuarioid', Auth::id())->get();
-        $isAdmin = false;
-        foreach ($roles as $rol) {
-            if ($rol->rolid == 1) {
-                $isAdmin = true;
-                break;
-            }
-        }
-        return redirect($isAdmin ? '/admin-global/roles' : '/admin/admin-roles');
+
+        return redirect('/roles');
     }
 }
