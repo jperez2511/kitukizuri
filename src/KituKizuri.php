@@ -91,6 +91,9 @@ class KituKizuri extends Controller
         $ruta = explode('.', $ruta);
         //obteniendo moduloid
         $modulo = Modulo::where('ruta', $ruta[0])->first();
+        if (empty($modulo)) {
+            return false;
+        }
         //obteniendo la empresa id a traves del usuarioid
         $empresaModulo = ModuloEmpresas::where('empresaid', Auth::user()->empresaid)
             ->where('moduloid', $modulo->moduloid)->first();

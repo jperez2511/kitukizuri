@@ -46,6 +46,16 @@ class ModuloPermisosSeeder extends Seeder {
 			['modulopermisoid' => 23, 'moduloid' => 7, 'permisoid'=> 2],
 			['modulopermisoid' => 24, 'moduloid' => 7, 'permisoid'=> 3],
 			['modulopermisoid' => 25, 'moduloid' => 7, 'permisoid'=> 4],
+			//== Empresas
+			['modulopermisoid' => 26, 'moduloid' => 8, 'permisoid'=> 1],
+			['modulopermisoid' => 27, 'moduloid' => 8, 'permisoid'=> 2],
+			['modulopermisoid' => 28, 'moduloid' => 8, 'permisoid'=> 3],
+			['modulopermisoid' => 29, 'moduloid' => 8, 'permisoid'=> 4],
+			//== Modulos Empresas
+			['modulopermisoid' => 30, 'moduloid' => 9, 'permisoid'=> 1],
+			['modulopermisoid' => 31, 'moduloid' => 9, 'permisoid'=> 2],
+			['modulopermisoid' => 32, 'moduloid' => 9, 'permisoid'=> 3],
+			['modulopermisoid' => 33, 'moduloid' => 9, 'permisoid'=> 4],
 		]);
 
 		DB::statement('UPDATE moduloPermiso SET created_at=NOW(), updated_at=NOW()');
