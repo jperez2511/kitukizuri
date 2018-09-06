@@ -1,20 +1,6 @@
-@extends('layouts.app')
+@extends('krud.layout')
 
 @section('content')
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
-    <style>
-        div.dataTables_wrapper div.dataTables_filter{
-            text-align: justify;
-            padding-left: 15px;
-        }
-        .dataTables_info{
-            padding-left:15px;
-        }
-        .dataTables_paginate{
-            padding-right: 15px;
-        }
-    </style>
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default panel-table">
@@ -66,76 +52,75 @@
         </div>
     </div>
     <div id="full-success" class="modal-container modal-full-color modal-full-color-success modal-effect-8" style="perspective: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close modal-close"><span class="mdi mdi-close"></span></button>
-            </div>
-            <div class="modal-body">
-                <div class="text-center"><span class="modal-main-icon mdi mdi-check"></span>
-                <h3>Opciones</h3>
-                </div>
-                <div style="height: 10px;"></div>
-                <div class="text-center" id="modalContent"></div>
-            </div>
-            <div class="modal-footer"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="close modal-close"><span class="mdi mdi-close"></span></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center"><span class="modal-main-icon mdi mdi-check"></span>
+          <h3>Opciones</h3>
         </div>
+        <div style="height: 10px;"></div>
+        <div class="text-center" id="modalContent"></div>
+      </div>
+      <div class="modal-footer"></div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+  </div>
+@endsection
+@section('scripts')
     <script>
-    $.fn.niftyModal('setDefaults',{
-        overlaySelector: '.modal-overlay',
-        closeSelector: '.modal-close',
-        classAddAfterOpen: 'modal-show',
+        $.fn.niftyModal('setDefaults',{
+            overlaySelector: '.modal-overlay',
+            closeSelector: '.modal-close',
+            classAddAfterOpen: 'modal-show',
         });
-    $('#table1').DataTable({
-        "bLengthChange": false,
-        "sortable": false,
-        buttons: [{
-            text: 'Agregar',
-            action: function ( e, dt, node, config ) {
-                location.replace('/{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
+        $('#table1').DataTable({
+            "bLengthChange": false,
+            "sortable": false,
+            buttons: [{
+                text: 'Agregar',
+                action: function ( e, dt, node, config ) {
+                    location.replace('/{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
+                }
+            }],
+            "sDom": '<"row"<"col-sm-8 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left"i><"pull-right"p>'
+        });
+        function edit(id){
+            var url = '/{{$ruta}}';
+            var id2 = null;
+            if(url.includes('?')){
+                var result = url.split('?');
+                url = result[0];
+                id2 = '?'+result[1];
             }
-        }],
-        "sDom": '<"row"<"col-sm-8 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left"i><"pull-right"p>'
-    });
-    function edit(id){
-        var url = '/{{$ruta}}';
-        var id2 = null;
-        if(url.includes('?')){
-            var result = url.split('?');
-            url = result[0];
-            id2 = '?'+result[1];
+            window.location.replace(url+'/'+id+'/edit'+(id2 != null ? id2 : ''));
         }
-        window.location.replace(url+'/'+id+'/edit'+(id2 != null ? id2 : ''));
-    }
-    function destroy(id){
-        var url = String(window.location);
-        var id2 = null;
-        if(url.includes('?')){
-            var result = url.split('?');
-            url = result[0];
-            id2 = '?'+result[1];
-        }else{
-            id2 = '';
-        }
-        $.post(url+'/'+id+id2,{_token:'{{csrf_token()}}', _method:'DELETE'}, function(data){
-            if(data == 1) {
-                window.location.reload();
+        function destroy(id){
+            var url = String(window.location);
+            var id2 = null;
+            if(url.includes('?')){
+                var result = url.split('?');
+                url = result[0];
+                id2 = '?'+result[1];
             }else{
-                alert(data);
+                id2 = '';
             }
-        });
-    }
-    function opciones(botones, id) {
-        var buttons = '';
-        $.each(botones, function(index, val) {
-            var url = val.url.replace('{id}', id);
-            buttons += '<div class="col-md-6"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><span class="mdi mdi-'+val.icon+'"></span> '+val.nombre+'</a></div>'
-        });
-        $('#modalContent').empty();
-        $('#modalContent').append(buttons);
-    }
+            $.post(url+'/'+id+id2,{_token:'{{csrf_token()}}', _method:'DELETE'}, function(data){
+                if(data == 1) {
+                    window.location.reload();
+                }else{
+                    alert(data);
+                }
+            });
+        }
+        function opciones(botones, id) {
+            var buttons = '';
+            $.each(botones, function(index, val) {
+                var url = val.url.replace('{id}', id);
+                buttons += '<div class="col-md-6"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><span class="mdi mdi-'+val.icon+'"></span> '+val.nombre+'</a></div>'
+            });
+            $('#modalContent').empty();
+            $('#modalContent').append(buttons);
+        }
     </script>
 @endsection
