@@ -66,22 +66,21 @@
         </div>
     </div>
     <div id="full-success" class="modal-container modal-full-color modal-full-color-success modal-effect-8" style="perspective: none;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" data-dismiss="modal" aria-hidden="true" class="close modal-close"><span class="mdi mdi-close"></span></button>
-      </div>
-      <div class="modal-body">
-        <div class="text-center"><span class="modal-main-icon mdi mdi-check"></span>
-          <h3>Opciones</h3>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close modal-close"><span class="mdi mdi-close"></span></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center"><span class="modal-main-icon mdi mdi-check"></span>
+                <h3>Opciones</h3>
+                </div>
+                <div style="height: 10px;"></div>
+                <div class="text-center" id="modalContent"></div>
+            </div>
+            <div class="modal-footer"></div>
         </div>
-        <div style="height: 10px;"></div>
-        <div class="text-center" id="modalContent"></div>
-      </div>
-      <div class="modal-footer"></div>
     </div>
-  </div>
-@endsection
-@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
     <script>
@@ -89,7 +88,7 @@
         overlaySelector: '.modal-overlay',
         closeSelector: '.modal-close',
         classAddAfterOpen: 'modal-show',
-     });
+        });
     $('#table1').DataTable({
         "bLengthChange": false,
         "sortable": false,

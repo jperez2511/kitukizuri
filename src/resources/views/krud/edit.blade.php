@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"> 
     <div class="panel panel-default panel-border-color panel-border-color-primary">
         <div class="panel-heading panel-heading-divider">{{$titulo}}</div>
         <div class="panel-body">
@@ -116,8 +117,7 @@
             </div>
         </div>
     @endif
-@endsection
-@section('scripts')
+
     <script>
         $.urlParam = function(name){
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -128,15 +128,15 @@
                 return decodeURI(results[1]) || 0;
             }
         }
-
+    
         @foreach($parents as $p)
             $('#{{$p['nombre']}}').val($.urlParam('{{$p['value']}}'))
         @endforeach
-
+    
         @if (!empty($template) && in_array('datetimepicker', $template))
             $('.date').datetimepicker();
         @endif
-
+    
         $('#departamentoid').change(function(event){
             $.get('/deptos/'+$(this).val(), {}, function(data){
                 var muni = '';
@@ -165,7 +165,7 @@
                         {{$id}} : $('#{{$id}}').val(),
                     @endif
                 @endforeach
-              id        : $('#id').val(),
+                id        : $('#id').val(),
                 token : $('#_token').val()
             }
             $('#guardar').click(function(event){
