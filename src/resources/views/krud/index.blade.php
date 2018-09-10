@@ -34,7 +34,9 @@
                                                 <?php $b['url'] = str_replace('{id}', $id, $b['url']); ?>
                                                 <a href="{{$b['url']}}" class="btn btn-xs btn-{{$b['class']}}"><span class="mdi mdi-{{$b['icon']}}"></span></a>
                                             @endforeach
-                                        @endif
+                                        @else
+											<a href="javascript:void(0)" data-modal="full-success" class="btn btn-xs btn-default md-trigger" onclick="opciones({{ $botones }}, {{ $id }})"><span class="mdi mdi-settings"></span></a>
+										@endif
 
                                         @if(in_array('edit', $permisos))
                                             <a href="javascript:void(0)" onclick="edit('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-primary"><span class="mdi mdi-edit"></span></a>
