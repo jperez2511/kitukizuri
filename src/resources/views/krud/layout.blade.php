@@ -470,16 +470,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script src="/kitukizuri/js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
     <script src="/kitukizuri/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="/kitukizuri/js/sidebarmenu.js"></script>
     <!--stickey kit -->
     <script src="https://cdn.rawgit.com/leafo/sticky-kit/v1.1.2/jquery.sticky-kit.min.js"></script>
     
     <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
+    <script src="/kitukizuri/js/custom.min.js"></script>
 </body>
 
 </html>
