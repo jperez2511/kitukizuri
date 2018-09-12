@@ -1,13 +1,11 @@
 <?php
 
-Route::middleware(['auth', 'kitukizuri'])->group(function () {
-    Route::get('dashboard', 'Kitukizuri\DashboardController@index')->name('dashboard.index');
-    Route::resource('roles', 'Kitukizuri\RolesController');
-    Route::resource('modulos', 'Kitukizuri\ModulosController');
-    Route::resource('usuarios', 'Kitukizuri\UsuariosController');
-    Route::resource('asignarpermiso', 'Kitukizuri\UsuarioRolController');
-    Route::resource('permisos', 'Kitukizuri\PermisosController', ['only'=>['index', 'store']]);
-    Route::resource('rolpermisos', 'Kitukizuri\RolesPermisosController', ['only'=>['index', 'store']]);
-    Route::resource('empresas', 'Kitukizuri\EmpresasController');
-    Route::resource('moduloempresas', 'Kitukizuri\ModuloEmpresasController');
-  });
+Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+Route::resource('roles', 'RolesController');
+Route::resource('modulos', 'ModulosController');
+Route::resource('usuarios', 'UsuariosController');
+Route::resource('asignarpermiso', 'UsuarioRolController');
+Route::resource('permisos', 'PermisosController', ['only'=>['index', 'store']]);
+Route::resource('rolpermisos', 'RolesPermisosController', ['only'=>['index', 'store']]);
+Route::resource('empresas', 'EmpresasController');
+Route::resource('moduloempresas', 'ModuloEmpresasController');
