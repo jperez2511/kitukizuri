@@ -63,6 +63,7 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register('Kitukizuri\KitukizuriRouteServiceProvider');
         $this->app->singleton('kitukizuri', function ($app) {
             return new KituKizuri;
         });
