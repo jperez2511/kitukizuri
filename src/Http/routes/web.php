@@ -1,6 +1,6 @@
 <?php
 
-Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+Route::get('/', 'DashboardController@index')->name('dashboard.index');
 Route::resource('roles', 'RolesController');
 Route::resource('modulos', 'ModulosController');
 Route::resource('usuarios', 'UsuariosController');

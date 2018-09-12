@@ -38,6 +38,6 @@ class RolesPermisosController extends Controller
         
         $roles = UsuarioRol::where('usuarioid', Auth::id())->get();
 
-        return redirect('/roles');
+        return redirect('/kk/roles');
     }
 }

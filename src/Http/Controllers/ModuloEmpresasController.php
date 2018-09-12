@@ -32,7 +32,7 @@ class ModuloEmpresasController extends Controller
 			$me->empresaid = $request->empresa;
 			$me->save();
 	 	}    	
-    	return redirect('/admin-global/moduloempresas?parent='.$request->empresa);
+    	return redirect('/kk/moduloempresas?parent='.$request->empresa);
     }
 
     public function validar($ruta)
