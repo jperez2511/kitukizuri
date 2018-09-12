@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 class KitukizuriRouteServiceProvider extends RouteServiceProvider
 {
-    protected $namespace = 'Kitukizuri';
+    protected $namespace = 'Icebearsoft\Kitukizuri\Http\Controllers';
 
     public function boot()
     {

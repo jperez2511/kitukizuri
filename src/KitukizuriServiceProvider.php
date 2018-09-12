@@ -48,9 +48,10 @@ class KitukizuriServiceProvider extends ServiceProvider
              __DIR__.'/resources/views/errors' => $this->app->basePath() . '/resources/views/errors',
         ]);
 
-        $this->publishes([
-             __DIR__.'/Http/Controllers' => $this->app->basePath() . '/app/Http/Controllers/Kitukizuri',
-        ]);
+        // $this->publishes([
+        //      __DIR__.'/Http/Controllers' => $this->app->basePath() . '/app/Http/Controllers/Kitukizuri',
+        // ]);
+        
         $this->publishes([
             __DIR__.'/public' => $this->app->basePath() . '/public',
        ]);
@@ -63,7 +64,7 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register('Kitukizuri\KitukizuriRouteServiceProvider');
+        $this->app->register('Icebearsoft\Kitukizuri\KitukizuriRouteServiceProvider');
         $this->app->singleton('kitukizuri', function ($app) {
             return new KituKizuri;
         });
