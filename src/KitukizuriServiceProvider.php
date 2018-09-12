@@ -19,6 +19,8 @@ class KitukizuriServiceProvider extends ServiceProvider
         //     require __DIR__.'/Http/routes.php';
         // }
 
+        $this->loadRoutesFrom(__DIR__.'/Http/routes/web.php');
+
         $this->loadViewsFrom(__DIR__.'/resources/views', 'kitukizuri');
         
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');

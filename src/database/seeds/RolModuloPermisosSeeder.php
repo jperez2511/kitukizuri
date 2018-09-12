@@ -47,6 +47,7 @@ class RolModuloPermisosSeeder extends Seeder {
 			['rolmodulopermisoid' => 31, 'rolid' => 1, 'modulopermisoid'=> 31],
 			['rolmodulopermisoid' => 32, 'rolid' => 1, 'modulopermisoid'=> 32],
 			['rolmodulopermisoid' => 33, 'rolid' => 1, 'modulopermisoid'=> 33],
+			['rolmodulopermisoid' => 34, 'rolid' => 1, 'modulopermisoid'=> 34],
 		]);
 
 		DB::statement('UPDATE rolModuloPermiso SET created_at=NOW(), updated_at=NOW()');

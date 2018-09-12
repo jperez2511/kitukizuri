@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <!-- <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png"> -->
-    <title>Krud</title>
+    <title>Kitu Kizuri</title>
     
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
@@ -49,13 +49,13 @@
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             
                             <!-- Light Logo icon -->
-                            Kitu Kizuri
+                            Kitu
                         </b>
 
                         <!-- Logo text -->
                         <span> 
                             <!-- Light Logo text -->    
-                            Kitu Kizuri
+                            Kizuri
                          </span> 
                     </a>
                 </div>
@@ -85,7 +85,7 @@
                         <!-- Profile -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class="profile-pic m-r-10" />Markarn Doe</a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{Auth::user()->name}}</a>
                         </li>
                     </ul>
                 </div>
@@ -103,7 +103,7 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="index.html" aria-expanded="false"><i class="zmdi zmdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/dashboard" aria-expanded="false"><i class="zmdi zmdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="pages-profile.html" aria-expanded="false"><i class="zmdi zmdi-account-check"></i><span class="hide-menu">Profile</span></a>
                         </li>

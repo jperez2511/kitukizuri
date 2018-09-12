@@ -56,6 +56,8 @@ class ModuloPermisosSeeder extends Seeder {
 			['modulopermisoid' => 31, 'moduloid' => 9, 'permisoid'=> 2],
 			['modulopermisoid' => 32, 'moduloid' => 9, 'permisoid'=> 3],
 			['modulopermisoid' => 33, 'moduloid' => 9, 'permisoid'=> 4],
+			//== Dashboard
+			['modulopermisoid' => 34, 'moduloid' => 10, 'permisoid'=> 2],
 		]);
 
 		DB::statement('UPDATE moduloPermiso SET created_at=NOW(), updated_at=NOW()');
