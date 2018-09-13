@@ -3,46 +3,44 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default panel-table">
-                <div class="panel-heading">{!! $titulo !!}
-                    <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
-                </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">{!! $titulo !!} </div>
                 <div class="panel-body">
-                    <table id="table1" class="table table-striped table-hover table-fw-widget">
+                    <table id="table1" class="table table-striped table-hover">
                         <thead>
                             <tr>
-                            @foreach($columnas as $c)
-                                <td>{{$c}}</td>
-                            @endforeach
+                                @foreach($columnas as $c)
+                                    <td>{{ $c }}</td>
+                                @endforeach
                                 <td width="10%"></td>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($data as $d)
                                 <tr>
-                                <?php $id = null; ?>
-                                @foreach($d as $k => $v)
-                                    @if($k !== '__id__')
-                                        <td>{!! $v !!}</td>
-                                    @else
-                                        <?php $id = $v; ?>
-                                    @endif
-                                @endforeach
+                                    <?php $id = null; ?>
+                                    @foreach($d as $k => $v)
+                                        @if($k !== '__id__')
+                                            <td>{!! $v !!}</td>
+                                        @else
+                                            <?php $id = $v; ?>
+                                        @endif
+                                    @endforeach
                                     <td>
                                         @if(!empty($botones) && is_array($botones))
                                             @foreach($botones as $b)
                                                 <?php $b['url'] = str_replace('{id}', $id, $b['url']); ?>
-                                                <a href="{{$b['url']}}" class="btn btn-xs btn-{{$b['class']}}"><span class="mdi mdi-{{$b['icon']}}"></span></a>
+                                                <a href="{{$b['url']}}" class="btn btn-xs btn-{{$b['class']}}"><span class="zmdi zmdi-{{$b['icon']}}"></span></a>
                                             @endforeach
                                         @else
-											<a href="javascript:void(0)" data-modal="full-success" class="btn btn-xs btn-default md-trigger" onclick="opciones({{ $botones }}, {{ $id }})"><span class="mdi mdi-settings"></span></a>
+											<a href="javascript:void(0)" class="btn btn-xs btn-default" onclick="opciones({{ $botones }}, {{ $id }})"><span class="zmdi zmdi-settings"></span></a>
 										@endif
 
                                         @if(in_array('edit', $permisos))
-                                            <a href="javascript:void(0)" onclick="edit('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-primary"><span class="mdi mdi-edit"></span></a>
+                                            <a href="javascript:void(0)" onclick="edit('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-primary"><span class="zmdi zmdi-edit"></span></a>
                                         @endif
                                         @if(in_array('destroy', $permisos))
-                                            <a href="javascript:void(0)" onclick="destroy('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-danger"><span class="mdi mdi-delete"></span></a>
+                                            <a href="javascript:void(0)" onclick="destroy('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-danger"><span class="zmdi zmdi-delete"></span></a>
                                         @endif
                                     </td>
                                 </tr>
@@ -53,21 +51,21 @@
             </div>
         </div>
     </div>
-    <div id="full-success" class="modal-container modal-full-color modal-full-color-success modal-effect-8" style="perspective: none;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" data-dismiss="modal" aria-hidden="true" class="close modal-close"><span class="mdi mdi-close"></span></button>
-      </div>
-      <div class="modal-body">
-        <div class="text-center"><span class="modal-main-icon mdi mdi-check"></span>
-          <h3>Opciones</h3>
+
+    <div id="myModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 15px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">Opciones</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center" id="modalContent"></div>            
+                </div>
+            </div>
         </div>
-        <div style="height: 10px;"></div>
-        <div class="text-center" id="modalContent"></div>
-      </div>
-      <div class="modal-footer"></div>
     </div>
-  </div>
+
 @endsection
 @section('scripts')
     <script>
@@ -119,10 +117,11 @@
             var buttons = '';
             $.each(botones, function(index, val) {
                 var url = val.url.replace('{id}', id);
-                buttons += '<div class="col-md-6"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><span class="mdi mdi-'+val.icon+'"></span> '+val.nombre+'</a></div>'
+                buttons += '<div class="col-md-6"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><span class="zmdi zmdi-'+val.icon+'"></span> '+val.nombre+'</a></div>'
             });
             $('#modalContent').empty();
             $('#modalContent').append(buttons);
+            $('#myModal').modal('show')
         }
     </script>
 @endsection

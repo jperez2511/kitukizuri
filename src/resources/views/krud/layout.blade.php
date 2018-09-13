@@ -43,7 +43,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/kitukizuri">
+                    <a class="navbar-brand" href="/kitukizuri" style="color: #fff">
                         <!-- Logo icon -->
                         <b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -115,7 +115,7 @@
                         </li>
                     </ul>
                     <div class="text-center m-t-30">
-                        <a href="https://github.com/jperez2511/kitukizuri" class="btn waves-effect waves-light btn-warning hidden-md-down"> Info</a>
+                        <a href="https://github.com/jperez2511/kitukizuri" target="_blank" class="btn waves-effect waves-light btn-warning hidden-md-down"> Info</a>
                     </div>
                 </nav>
                 <!-- End Sidebar navigation -->
