@@ -22,8 +22,8 @@ class KitukizuriRouteServiceProvider extends RouteServiceProvider
     protected function mapWebRoutes()
     {
         Route::prefix('kk')
-            ->middleware(['web', 'auth', 'kitukizuri'])
+            ->middleware([ 'auth', 'kitukizuri'])
             ->namespace($this->namespace)
-            ->group(__DIR__.'/Http/routes/web.php');
+            ->group(__DIR__.'/Http/routes/kitukizuri.php');
     }
 }
