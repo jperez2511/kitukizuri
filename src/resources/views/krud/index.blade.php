@@ -69,11 +69,6 @@
 @endsection
 @section('scripts')
     <script>
-        $.fn.niftyModal('setDefaults',{
-            overlaySelector: '.modal-overlay',
-            closeSelector: '.modal-close',
-            classAddAfterOpen: 'modal-show',
-        });
         $('#table1').DataTable({
             "bLengthChange": false,
             "sortable": false,
