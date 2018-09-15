@@ -20,6 +20,9 @@
 
     <!-- You can change the theme colors from here -->
     <link href="/kitukizuri/css/blue.css" id="theme" rel="stylesheet">
+    
+    <!-- Datatable -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" id="theme" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -103,15 +106,15 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="/kk" aria-expanded="false"><i class="zmdi zmdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk" aria-expanded="false"><i class="zmdi zdmi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="/kk/empresas" aria-expanded="false"><i class="zmdi zmdi-account-check"></i><span class="hide-menu">Empresas</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/modulos" aria-expanded="false"><i class="zmdi zmdi-table"></i><span class="hide-menu">Modulos</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk/modulos" aria-expanded="false"><i class="zmdi zmdi-apps"></i><span class="hide-menu">Modulos</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/roles" aria-expanded="false"><i class="zmdi zmdi-emoticon"></i><span class="hide-menu">Roles</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk/roles" aria-expanded="false"><i class="zmdi zmdi-traffic"></i><span class="hide-menu">Roles</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/usuarios" aria-expanded="false"><i class="zmdi zmdi-earth"></i><span class="hide-menu">Usuarios</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk/usuarios" aria-expanded="false"><i class="zmdi zmdi-accounts"></i><span class="hide-menu">Usuarios</span></a>
                         </li>
                     </ul>
                     <div class="text-center m-t-30">
@@ -206,6 +209,9 @@
     
     <!--Custom JavaScript -->
     <script src="/kitukizuri/js/custom.min.js"></script>
+    
+    <!--Datatable -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     @yield('scripts')
 </body>
 
