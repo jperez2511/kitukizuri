@@ -18,6 +18,7 @@ class RolesController extends Krud
         $this->setCampo(['nombre'=>'Nombre', 'campo'=>'nombre']);
         $this->setCampo(['nombre'=>'Descripcion', 'campo'=>'descripcion']);
         $this->setBoton(['nombre'=>'Asignar Permisos', 'url'=>'/kk/rolpermisos?id={id}', 'class'=>'warning', 'icon'=>'lock']);
+        $this->setLayout('krud.layout');
         $this->middleware(function ($request, $next) {
             if (!empty(Auth::user()->empresaid)) {
                 $usuarioRol = UsuarioRol::where('usuarioid', Auth::id())->get();

@@ -17,9 +17,10 @@ class ModuloEmpresasController extends Controller
     	$modulos = Modulo::orderBy('nombre')->get();
 
     	return view('empresa.moduloempresas.index', [
-			'moduloEmpresas' => $select->toArray(),
-			'modulos'        => $modulos,
-			'empresa'        => $request->parent
+            'layout'           => 'krud.layout',
+            'modulos'          => $modulos,
+            'empresa'          => $request->parent,
+			'moduloEmpresas'   => $select->toArray(),
     	]);
     }
 

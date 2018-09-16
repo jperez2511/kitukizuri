@@ -20,7 +20,8 @@ class RolesPermisosController extends Controller
         $rmp = RolModuloPermiso::where('rolid', $rolid)->select('modulopermisoid')->pluck('modulopermisoid')->toArray();
         return view('kitukizuri.modulopermisos', [
             'modulos'=>$modulos,
-            'rmp' => $rmp
+            'rmp' => $rmp,
+            'layout' => 'krud.layout'
         ]);
     }
 

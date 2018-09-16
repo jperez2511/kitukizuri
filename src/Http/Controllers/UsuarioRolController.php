@@ -33,5 +33,6 @@ class UsuarioRolController extends Krud
         $this->setJoin('roles as r', 'r.rolid', '=', 'usuarioRol.rolid');
         $this->setwhere('usuarioid', '=', $request->get('parent'));
         $this->setParentId('usuarioid');
+        $this->setLayout('krud.layout');
     }
 }

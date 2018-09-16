@@ -42,7 +42,7 @@ class Krud extends Controller
         return $this->layout;
     }
 
-    private function setLayout($layout){
+    protected function setLayout($layout){
         $this->layout = $layout;
     }
 
@@ -367,7 +367,7 @@ class Krud extends Controller
         $url = $this->getUrl($request->url());
 
         $layout = $this->getLayout();
-        
+
         return view('krud.edit', [
             'titulo'   => $titulo,
             'campos'   => $this->campos,

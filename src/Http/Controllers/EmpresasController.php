@@ -21,5 +21,6 @@ class EmpresasController extends Krud
         $this->setCampo(['nombre'=>'Logo', 'campo'=>'logo', 'tipo'=>'image', 'show' => false]);
         $this->setCampo(['nombre'=>'Activa', 'campo'=>'activo', 'tipo'=>'bool']);
         $this->setBoton(['nombre'=>'Modulos', 'url' => '/kk/moduloempresas?parent={id}', 'class'=>'success', 'icon'=>'mdi mdi-group']);
+        $this->setLayout('krud.layout');
     }
 }
