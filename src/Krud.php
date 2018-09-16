@@ -22,6 +22,7 @@ class Krud extends Controller
     private $titulo   = null;
     private $editId   = null;
     private $parentid = null;
+    private $layout   = null;
     private $embed    = [];
     private $campos   = [];
     private $joins    = [];
@@ -34,6 +35,16 @@ class Krud extends Controller
         'datatable',
     ];
 
+    private function getLayout(){
+        if (!empty($this->layout)) {
+            $this->layout = config('krud.layout');
+        }
+        return $this->layout;
+    }
+
+    private function setLayout($layout){
+        $this->layout = $layout;
+    }
 
     private function setTemplate($templates)
     {
@@ -316,6 +327,8 @@ class Krud extends Controller
         
         $ruta = $this->getModuloRuta();
         
+         $layout = $this->getLayout();
+
         return view('krud.index', [
             'titulo'   => $this->titulo,
             'columnas' => $this->getColumnas($this->getSelectShow()),
@@ -323,7 +336,8 @@ class Krud extends Controller
             'botones'  => $botones,
             'permisos' => $this->setPermisos(Auth::id()),
             'ruta'     => $ruta,
-            'template' => $this->template
+            'template' => $this->template,
+            'layout'   => $layout
         ]);
     }
 
@@ -351,6 +365,9 @@ class Krud extends Controller
         }
 
         $url = $this->getUrl($request->url());
+
+        $layout = $this->getLayout();
+        
         return view('krud.edit', [
             'titulo'   => $titulo,
             'campos'   => $this->campos,
@@ -360,7 +377,8 @@ class Krud extends Controller
             'embed'    => $this->embed,
             'parent'   => $this->parentid,
             'parentid' => $parentid,
-            'parents'  => $this->parents
+            'parents'  => $this->parents,
+            'layout'   => $layout            
         ]);
     }
 

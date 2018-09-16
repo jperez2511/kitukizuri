@@ -1,56 +1,55 @@
 @extends('krud.layout')
 
 @section('content')
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">{!! $titulo !!} </div>
-                <div class="panel-body">
-                    <table id="table1" class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                @foreach($columnas as $c)
-                                    <td>{{ $c }}</td>
-                                @endforeach
-                                <td width="10%"></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($data as $d)
-                                <tr>
-                                    <?php $id = null; ?>
-                                    @foreach($d as $k => $v)
-                                        @if($k !== '__id__')
-                                            <td>{!! $v !!}</td>
-                                        @else
-                                            <?php $id = $v; ?>
-                                        @endif
-                                    @endforeach
-                                    <td>
-                                        @if(!empty($botones) && is_array($botones))
-                                            @foreach($botones as $b)
-                                                <?php $b['url'] = str_replace('{id}', $id, $b['url']); ?>
-                                                <a href="{{$b['url']}}" class="btn btn-xs btn-{{$b['class']}}"><span class="zmdi zmdi-{{$b['icon']}}"></span></a>
-                                            @endforeach
-                                        @else
-											<a href="javascript:void(0)" class="btn btn-xs btn-default" onclick="opciones({{ $botones }}, {{ $id }})"><span class="zmdi zmdi-settings"></span></a>
-										@endif
-
-                                        @if(in_array('edit', $permisos))
-                                            <a href="javascript:void(0)" onclick="edit('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-primary"><span class="zmdi zmdi-edit"></span></a>
-                                        @endif
-                                        @if(in_array('destroy', $permisos))
-                                            <a href="javascript:void(0)" onclick="destroy('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-danger"><span class="zmdi zmdi-delete"></span></a>
-                                        @endif
-                                    </td>
-                                </tr>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">{!! $titulo !!} </div>
+            <div class="panel-body">
+                <table id="table1" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            @foreach($columnas as $c)
+                                <td>{{ $c }}</td>
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                            <td width="10%"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data as $d)
+                            <tr>
+                                <?php $id = null; ?>
+                                @foreach($d as $k => $v)
+                                    @if($k !== '__id__')
+                                        <td>{!! $v !!}</td>
+                                    @else
+                                        <?php $id = $v; ?>
+                                    @endif
+                                @endforeach
+                                <td>
+                                    @if(!empty($botones) && is_array($botones))
+                                        @foreach($botones as $b)
+                                            <?php $b['url'] = str_replace('{id}', $id, $b['url']); ?>
+                                            <a href="{{$b['url']}}" class="btn btn-xs btn-{{$b['class']}}"><span class="zmdi zmdi-{{$b['icon']}}"></span></a>
+                                        @endforeach
+                                    @else
+                                        <a href="javascript:void(0)" class="btn btn-xs btn-default" onclick="opciones({{ $botones }}, {{ $id }})"><span class="zmdi zmdi-settings"></span></a>
+                                    @endif
+
+                                    @if(in_array('edit', $permisos))
+                                        <a href="javascript:void(0)" onclick="edit('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-primary"><span class="zmdi zmdi-edit"></span></a>
+                                    @endif
+                                    @if(in_array('destroy', $permisos))
+                                        <a href="javascript:void(0)" onclick="destroy('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-danger"><span class="zmdi zmdi-delete"></span></a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+    
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

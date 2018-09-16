@@ -106,15 +106,15 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="/kk" aria-expanded="false"><i class="zmdi zdmi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk" aria-expanded="false"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw"></i><span class="hide-menu">Dashboard</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/empresas" aria-expanded="false"><i class="zmdi zmdi-account-check"></i><span class="hide-menu">Empresas</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk/empresas" aria-expanded="false"><i class="zmdi zmdi-balance zmdi-hc-fw"></i><span class="hide-menu">Empresas</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/modulos" aria-expanded="false"><i class="zmdi zmdi-apps"></i><span class="hide-menu">Modulos</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk/modulos" aria-expanded="false"><i class="zmdi zmdi-apps zmdi-hc-fw"></i><span class="hide-menu">Modulos</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/roles" aria-expanded="false"><i class="zmdi zmdi-traffic"></i><span class="hide-menu">Roles</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk/roles" aria-expanded="false"><i class="zmdi zmdi-traffic zmdi-hc-fw"></i><span class="hide-menu">Roles</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/usuarios" aria-expanded="false"><i class="zmdi zmdi-accounts"></i><span class="hide-menu">Usuarios</span></a>
+                        <li> <a class="waves-effect waves-dark" href="/kk/usuarios" aria-expanded="false"><i class="zmdi zmdi-accounts zmdi-hc-fw"></i><span class="hide-menu">Usuarios</span></a>
                         </li>
                     </ul>
                     <div class="text-center m-t-30">
@@ -156,13 +156,7 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-block">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="d-flex flex-wrap">
-                                            @yield('content')
-                                        </div>
-                                    </div>
-                                </div>
+                                @yield('content')
                             </div>
                         </div>
                     </div>
@@ -177,7 +171,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © 2018 kitu Kizuri - Icebearsoft.com </footer>
+            <footer class="footer"> © 2018 Kitu Kizuri - Icebearsoft.com </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->

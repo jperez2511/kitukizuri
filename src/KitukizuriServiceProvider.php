@@ -15,12 +15,6 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        // if (!$this->app->routesAreCached()) {
-        //     require __DIR__.'/Http/routes.php';
-        // }
-
-        // $this->loadRoutesFrom(__DIR__.'/Http/routes/web.php');
-
         $this->loadViewsFrom(__DIR__.'/resources/views', 'kitukizuri');
         
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
@@ -28,6 +22,10 @@ class KitukizuriServiceProvider extends ServiceProvider
         
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizurimd');
         
+        $this->publishes([
+            __DIR__.'/database/migrations' => $this->app->databasePath() . '/migrations',
+        ], 'migrations');
+
         $this->publishes([
             __DIR__.'/database/migrations' => $this->app->databasePath() . '/migrations',
         ], 'migrations');
@@ -48,9 +46,9 @@ class KitukizuriServiceProvider extends ServiceProvider
              __DIR__.'/resources/views/errors' => $this->app->basePath() . '/resources/views/errors',
         ]);
 
-        // $this->publishes([
-        //      __DIR__.'/Http/Controllers' => $this->app->basePath() . '/app/Http/Controllers/Kitukizuri',
-        // ]);
+        $this->publishes([
+             __DIR__.'/config' => $this->app->basePath() . '/config',
+        ]);
         
         $this->publishes([
             __DIR__.'/public' => $this->app->basePath() . '/public',
@@ -64,7 +62,9 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Registrando provider de rutas
         $this->app->register('Icebearsoft\Kitukizuri\KitukizuriRouteServiceProvider');
+
         $this->app->singleton('kitukizuri', function ($app) {
             return new KituKizuri;
         });
