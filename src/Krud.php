@@ -36,7 +36,7 @@ class Krud extends Controller
     ];
 
     private function getLayout(){
-        if (!empty($this->layout)) {
+        if (empty($this->layout)) {
             $this->layout = config('krud.layout');
         }
         return $this->layout;
