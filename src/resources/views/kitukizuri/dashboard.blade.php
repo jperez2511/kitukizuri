@@ -1,4 +1,4 @@
-@extends('krud.layout')
+@extends($layout)
 
 @section('content')
 <div class="col-md-12 text-center">
