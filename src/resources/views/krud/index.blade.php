@@ -1,6 +1,18 @@
 @extends($layout)
 
 @section('content')
+    <style>
+        .dataTables_wrapper .dataTables_filter {
+            float: left;
+            text-align: justify;
+            padding-top: 1em;
+            padding-bottom: 1em;
+        }
+        .btn-toolbar {
+            padding-top: 1em;
+            padding-bottom: 1em;
+        }
+    </style>
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">{!! $titulo !!} </div>
@@ -78,7 +90,7 @@
                     location.replace('/{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
                 }
             }],
-            "sDom": '<"row"<"col-sm-8 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left"i><"pull-right"p>'
+            "sDom": '<"row"<"col-sm-12 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left"i><"pull-right"p>'
         });
         function edit(id){
             var url = '/{{$ruta}}';
