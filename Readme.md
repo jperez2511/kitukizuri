@@ -1,13 +1,13 @@
 # Kitu Kizuri
 
-Este es un paquete para laravel que te permitira aplicar un control dentro de tu aplicacion en temas de permisos de usuario. Este paquete cuenta con 4 partes importantes necesarias en una aplicacion web con multiples usuarios. 
+Paquete para laravel permite aplicar control de permisos de usuario. Este paquete cuenta con 4 partes importantes necesarias en una aplicacion web con multiples usuarios. 
 
 - **Modulos**
-  - La seccion de modulos sirve para definir las partes de tu proyecto por ejemplo el modulo de clientes, proveedores, Inicio, etc. 
+  - Sirve para definir las partes de tu proyecto por ejemplo el modulo de clientes, proveedores, Inicio, etc. 
 - **Permisos que necesitara al modulo**
-  - En muchos casos los modulos necesitan permisos especificos y no solo Crear, Editar, Leer y Eliminar. Es por eso que kitukizuri permite agregar permisos adicionales.
+  - A cada modulo se le pueden asignar permisos de Crear, Actualizar, Leer y Eliminar pero tambien puedes agregar tus propios permisos.
 - **Roles**
-  - tu puedes crear tus propios roles haciendo combinaciones entre los modulos y sus permisos de esta forma tu puedes crear combinaciones infinitas segun la cantidad de modulos que existan en tu proyecto.
+  - tu puedes crear tus propios roles haciendo combinaciones entre los modulos y sus permisos casi en combinaciones infinitas segun la cantidad de modulos de tu proyecto.
 - **Usuarios**
   - al dejar los usuarios en manos de kitukizuri puedes administrarlos incluyendo la asignacion de permisos, soporta multiples roles.
 
@@ -55,21 +55,6 @@ public function run()
   $this->call(ModuloPermisosSeeder::class);
 }
 ```
-### Rutas
-
-Agregar en **routes/web.php**
-```php
-Route::middleware(['auth', 'kitukizuri'])->group(function () {
-  Route::resource('roles', 'Kitukizuri\RolesController');
-  Route::resource('modulos', 'Kitukizuri\ModulosController');
-  Route::resource('usuarios', 'Kitukizuri\UsuariosController');
-  Route::resource('asignarpermiso', 'Kitukizuri\UsuarioRolController');
-  Route::resource('permisos', 'Kitukizuri\PermisosController', ['only'=>['index', 'store']]);
-  Route::resource('rolpermisos', 'Kitukizuri\RolesPermisosController', ['only'=>['index', 'store']]);
-  Route::resource('empresas', 'Kitukizuri\EmpresasController');
-  Route::resource('moduloempresas', 'Kitukizuri\ModuloEmpresasController');
-});
-```
 
 middleware kitukizuri es el encargado de verificar los permisos que tiene el usuario para la ruta en cuestion.
 
@@ -89,3 +74,4 @@ Este comando **php artisan db:seed --class=InicialSeeder** sirve para configurar
 > Password: temp,123
 
 
+Visita la Wiki para sabes como utilizar este paquete. 
