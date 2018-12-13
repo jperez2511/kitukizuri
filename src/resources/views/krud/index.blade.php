@@ -84,6 +84,10 @@
         $('#table1').DataTable({
             "bLengthChange": false,
             "sortable": false,
+            "ajax": {
+                url:  "/{{$ruta}}/0",
+		        type:  'GET',
+            },
             "buttons": [{
                 text: 'Agregar',
                 action: function ( e, dt, node, config ) {
