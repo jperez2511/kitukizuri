@@ -2,50 +2,85 @@
 
 namespace Icebearsoft\Kitukizuri;
 
+// Dependencias
 use DB;
 use Route;
 use Carbon\Carbon;
 use Mockery\Exception;
+
+// librerias del framwork
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\QueryException;
 
+// Controllers 
+use App\Http\Controllers\Controller;
+
+// Models
 use App\Models\Municipio;
 
 class Krud extends Controller
 {
+    // Variable remplazo id  
     private $id       = '__id__';
+
+    // Variales de valor unico
     private $model    = null;
     private $titulo   = null;
     private $editId   = null;
-    private $parentid = null;
     private $layout   = null;
-    private $embed    = [];
-    private $campos   = [];
-    private $joins    = [];
+    private $parentid = null;
+
+    // variales en array
     private $rt       = [];
-    private $botones  = [];
+    private $joins    = [];
+    private $embed    = [];
     private $wheres   = [];
+    private $campos   = [];
+    private $botones  = [];
     private $parents  = [];
     private $orderBy  = [];
     private $template = [
         'datatable',
     ];
 
-    private function getLayout(){
+    /**
+     * getLayout
+     * Defnine el layout predeterminado
+     * 
+     * @return void
+     */
+    private function getLayout()
+    {
         if (empty($this->layout)) {
-            $this->layout = config('krud.layout');
+            $this->layout = config('kitukizuri.layout');
         }
         return $this->layout;
     }
 
-    protected function setLayout($layout){
+    /**
+     * setLayout
+     * Define el layout a utilizar en el controller
+     * 
+     * @param  mixed $layout
+     *
+     * @return void
+     */
+    protected function setLayout($layout)
+    {
         $this->layout = $layout;
     }
 
+    /**
+     * setTemplate
+     * Define las librerias a utilizar por ejemplo datatable, fontawesome ,etc.
+     *
+     * @param  mixed $templates
+     *
+     * @return void
+     */
     private function setTemplate($templates)
     {
         foreach ($templates as $t) {
@@ -53,28 +88,70 @@ class Krud extends Controller
         }
     }
 
+    /**
+     * setParents
+     * Define el valor padre por url para recibirlo un controller hijo
+     *
+     * @param  mixed $nombre
+     * @param  mixed $value
+     *
+     * @return void
+     */
     public function setParents($nombre, $value)
     {
         array_push($this->parents, ['nombre' => $nombre, 'value'=>$value]);
     }
 
+    /**
+     * setPermisos
+     * Define los permisos a los que tiene acceso el controller
+     *
+     * @param  mixed $id
+     *
+     * @return void
+     */
     public function setPermisos($id)
     {
         $kitukizuri = new KituKizuri;
         return $kitukizuri->getPermisos($id);
     }
 
-    //metodos para el construc
+    
+    /**
+     * setModel
+     * Define el modelo donde se obtendran y almacenaran los datos
+     *
+     * @param  mixed $model
+     *
+     * @return void
+     */
     public function setModel($model)
     {
         $this->model = $model;
     }
 
+    /**
+     * setTitulo
+     * Define el titulo que se mostrara en pantalla index
+     *
+     * @param  mixed $titulo
+     *
+     * @return void
+     */
     public function setTitulo($titulo)
     {
         $this->titulo = $titulo;
     }
 
+    /**
+     * setCampo
+     * Define las propiedades de un campo a utilizar en el controller,
+     * Viesta y posteriormente almacenado desde el modelo.
+     *
+     * @param  mixed $params
+     *
+     * @return void
+     */
     public function setCampo($params)
     {
         $allowed = [
@@ -166,21 +243,59 @@ class Krud extends Controller
         array_push($this->campos, $params);
     }
 
+    /**
+     * setJoin
+     * Define las relaciones a utilizar entre las tablas y que estaran disponbles para mostrar 
+     * en la tabla de la vista index.
+     *
+     * @param  mixed $tabla
+     * @param  mixed $v1
+     * @param  mixed $operador
+     * @param  mixed $v2
+     *
+     * @return void
+     */
     public function setJoin($tabla, $v1, $operador, $v2)
     {
         array_push($this->joins, ['tabla'=>$tabla,'value1'=>$v1,'operador'=>$operador, 'value2'=>$v2]);
     }
 
+    /**
+     * setWhere
+     * Define las condiciones al momento de obtener la data y mostrarla en la vista index.
+     *
+     * @param  mixed $column
+     * @param  mixed $op
+     * @param  mixed $column2
+     *
+     * @return void
+     */
     public function setWhere($column, $op='=', $column2)
     {
         array_push($this->wheres, [$column, $op, $column2]);
     }
 
+    /**
+     * setOrderBy
+     * Define el orden para obtener la data que se mostrara en la vista index.
+     *
+     * @param  mixed $column
+     *
+     * @return void
+     */
     public function setOrderBy($column)
     {
         array_push($this->orderBy, $column);
     }
 
+    /**
+     * setBoton
+     * Define los botones personalizados disponibles a utilizar en la tabla de la vista index.
+     *
+     * @param  mixed $params
+     *
+     * @return void
+     */
     public function setBoton($params)
     {
         $allowed = ['nombre', 'url', 'class', 'icon'];
@@ -188,23 +303,59 @@ class Krud extends Controller
         array_push($this->botones, $params);
     }
 
+    /**
+     * embedView
+     * Pretende embedir una vista dentro de una vista AUN EN DESARROLLO
+     *
+     * @param  mixed $view
+     * @param  mixed $model
+     * @param  mixed $idRelation
+     * @param  mixed $campos
+     *
+     * @return void
+     */
     public function embedView($view, $model, $idRelation, $campos)
     {
         array_push($this->embed, [view($view, ['id' => Crypt::encrypt($this->editId)]), $model, $idRelation, $campos]);
     }
 
+    /**
+     * setParentId
+     * Define el nombre del id padre al que pertenece el controller
+     * para usarlo el controller padre debe de tener en la URL ?parent={id}
+     * 
+     * @param  mixed $text
+     *
+     * @return void
+     */
     public function setParentId($text)
     {
         $this->parentid = $text;
     }
 
+    /**
+     * getMunicipios
+     * Obtiene una lista de los municipios ingresados en al tabla municipios
+     *
+     * @param  mixed $departamentoid
+     *
+     * @return void
+     */
     public function getMunicipios($departamentoid)
     {
         $municipios = Municipio::select('municipioid', 'nombre')->where('departamentoid', $departamentoid)->get();
         return $municipios;
     }
 
-    // Metodos y funciones utilitarios
+    
+    /**
+     * transformData
+     * Transforma la data segun el estilo visual de boostrap.
+     *
+     * @param  mixed $data
+     *
+     * @return void
+     */
     private function transformData($data)
     {
         $i = 0;
@@ -212,6 +363,7 @@ class Krud extends Controller
             foreach ($a as $k => $v) {
                 foreach ($this->campos as $cn => $cv) {
                     if ($k == $cv['campo']) {
+                        // agregnado estilo visual a los campos booleanos
                         if ($cv['tipo'] == 'bool') {
                             $v = '<span class="label label-'.($v ? 'success' : 'default').'">'.($v ? 'Si' : 'No').'</span>';
                             $data[$i][$k] = $v;
@@ -223,6 +375,13 @@ class Krud extends Controller
         }
         return $data;
     }
+    
+    /**
+     * getData
+     * Obtiene la data que se mostrara en la tabla consolidando joins, where y, orderby
+     * 
+     * @return void
+     */
     private function getData()
     {
         $campos = $this->getSelectShow();
