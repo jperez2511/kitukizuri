@@ -84,6 +84,8 @@
         $('#table1').DataTable({
             "bLengthChange": false,
             "sortable": false,
+            "serverSide": true,
+            "processing": true,
             "ajax": {
                 url:  "/{{$ruta}}/0",
 		        type:  'GET',

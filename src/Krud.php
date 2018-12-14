@@ -382,20 +382,42 @@ class Krud extends Controller
      * 
      * @return void
      */
-    private function getData()
+    private function getData($limit = null, $offset = null)
     {
+        // lista de campos a mostrar en la tabla
         $campos = $this->getSelectShow();
+
+        //consultando al modelo los campos a mostrar en la tabla 
         $data = $this->model->select($this->getSelect($campos));
+
+        // validando si existe un limite para obtenr los datos
+        if ($limit != null) {
+            $data->take($limit);
+        }
+
+        // validando si hay un offset a utilizar
+        if ($offset != null) {
+            $data->take($offset);
+        }
+
+        // Obteniendo el id de la tabla
         $data->addSelect($this->model->getTable().'.'.$this->model->getKeyName().' as '.$this->id);
+
+        //agregando joins a la consulta
         foreach ($this->joins as $join) {
             $data->join($join['tabla'], $join['value1'], $join['operador'], $join['value2']);
         }
+
+        // Agregando wehres a la consulta
         foreach ($this->wheres as $where) {
             $data->where($where[0], $where[1], $where[2]);
         }
+        
+        // Agregando el orden para mostrar los datos
         foreach ($this->orderBy as $column) {
             $data->orderBy($column);
         }
+
         return $data->get();
     }
 
@@ -491,13 +513,71 @@ class Krud extends Controller
         return view('krud.index', [
             'titulo'   => $this->titulo,
             'columnas' => $this->getColumnas($this->getSelectShow()),
-            'data'     => $this->transformData($this->getData()->toArray()),
+            //'data'     => $this->transformData($this->getData()->toArray()),
             'botones'  => $botones,
             'permisos' => $this->setPermisos(Auth::id()),
             'ruta'     => $ruta,
             'template' => $this->template,
             'layout'   => $layout
         ]);
+    }
+
+    public function show($id, Request $request) 
+    {
+        $response = [];
+        $permisos = $this->setPermisos(Auth::id());
+
+        //Contador de datos a renderizar
+        $response['draw'] = intval($request->draw);
+        
+        // Datos para paginacion
+        $limit   = $request->length != '' ? $request->length : 10;
+        $offset  = $request->start ? $request->start : 0;
+        $columns = $this->getColumnas($this->getSelectShow());
+
+        // Obteniendo los datos de la tabla
+        $data = $this->getData($limit, $offset);
+
+        //total de datos obtenidos
+        $response['data'] = [];
+        $response['recordsTotal'] = $data->count();
+        $response['recordsFiltered'] = $response['recordsTotal'];
+
+        $data = $this->transformData($data->toArray());
+
+        foreach ($data as $item) {
+            // string de botones a imprimir
+            $btns = '';
+            
+            // Validando si los botones son mas de uno para renderdizar modal
+            if (!empty($this->botones) && count($this->botones) > 1) {
+                //recorriendo todos los botones extras
+                foreach($this->botones as $boton) {
+                    $boton['url'] = str_replace('{id}', $item['__id__'], $boton['url']);
+                    $btns .= '<a href="'.$boton['url'].'" class="btn btn-xs btn-'.$boton['class'].'"><span class="'.$boton['icon'].'"></span></a>';
+                }
+            } else {
+                $btns .= '<a href="javascript:void(0)" class="btn btn-xs btn-default" onclick="opciones(\''.json_encode($this->botones).'\', '.$item['__id__'].')"><span class="fa fa-plus"></span></a>';
+            }
+
+            //Agregando boton para Editar
+            if(in_array('edit', $permisos)) {
+                $btns .= '<a href="javascript:void(0)" onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" class="btn btn-xs btn-primary"><span class="zmdi zmdi-edit"></span></a>';
+            }
+
+            if(in_array('destroy', $permisos)) {
+                $btns .= '<a href="javascript:void(0)" onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" class="btn btn-xs btn-danger"><span class="zmdi zmdi-delete"></span></a>';
+            }
+            
+            $item['btn'] = $btns;
+
+            unset($item['__id__']);
+
+            $response['data'][] = array_values($item);
+        }        
+        
+        return response()->json($response);
+
     }
 
     public function create(Request $request)
