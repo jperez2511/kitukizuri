@@ -1,18 +1,6 @@
 @extends($layout)
 
 @section('content')
-    <style>
-        .dataTables_wrapper .dataTables_filter {
-            float: left;
-            text-align: justify;
-            padding-top: 1em;
-            padding-bottom: 1em;
-        }
-        .btn-toolbar {
-            padding-top: 1em;
-            padding-bottom: 1em;
-        }
-    </style>
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">{!! $titulo !!} </div>
@@ -26,36 +14,7 @@
                             <td width="10%"></td>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($data as $d)
-                            <tr>
-                                <?php $id = null; ?>
-                                @foreach($d as $k => $v)
-                                    @if($k !== '__id__')
-                                        <td>{!! $v !!}</td>
-                                    @else
-                                        <?php $id = $v; ?>
-                                    @endif
-                                @endforeach
-                                <td>
-                                    @if(!empty($botones) && is_array($botones))
-                                        @foreach($botones as $b)
-                                            <?php $b['url'] = str_replace('{id}', $id, $b['url']); ?>
-                                            <a href="{{$b['url']}}" class="btn btn-xs btn-{{$b['class']}}"><span class="zmdi zmdi-{{$b['icon']}}"></span></a>
-                                        @endforeach
-                                    @else
-                                        <a href="javascript:void(0)" class="btn btn-xs btn-default" onclick="opciones({{ $botones }}, {{ $id }})"><span class="zmdi zmdi-settings"></span></a>
-                                    @endif
-
-                                    @if(in_array('edit', $permisos))
-                                        <a href="javascript:void(0)" onclick="edit('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-primary"><span class="zmdi zmdi-edit"></span></a>
-                                    @endif
-                                    @if(in_array('destroy', $permisos))
-                                        <a href="javascript:void(0)" onclick="destroy('{{Crypt::encrypt($id)}}')" class="btn btn-xs btn-danger"><span class="zmdi zmdi-delete"></span></a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
+                    <tbody>                        
                     </tbody>
                 </table>
             </div>
@@ -82,7 +41,7 @@
 @section('scripts')
     <script>
         $('#table1').DataTable({
-            "bLengthChange": false,
+            //"bLengthChange": false,
             "sortable": false,
             "serverSide": true,
             "processing": true,
@@ -96,7 +55,8 @@
                     location.replace('/{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
                 }
             }],
-            "sDom": '<"row"<"col-sm-12 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left" i><"pull-right"p>'
+            "sDom": 'Bfrtip'
+            //"sDom": '<"row"<"col-sm-12 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left" i><"pull-right"p>'
         });
         function edit(id){
             var url = '/{{$ruta}}';
