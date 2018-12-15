@@ -27,7 +27,7 @@ class PermisosController extends Controller
 		$id = $request->get('id');
 		$permisos = Permiso::get();
 		$mp = ModuloPermiso::where('moduloid', $id)->pluck('permisoid')->toArray();
-		return view('admin.permisos',[
+		return view('kitukizuri.permisos',[
 			'modulo'   => Crypt::encrypt($id),
 			'permisos' => $permisos,
 			'mp'       => $mp
@@ -56,6 +56,6 @@ class PermisosController extends Controller
 			$mp->permisoid = $p;
 			$mp->save();
 		}
-		return redirect('/admin-global/modulos');
+		return redirect('/kk/modulos');
 	}
 }

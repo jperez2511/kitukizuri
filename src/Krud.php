@@ -556,7 +556,7 @@ class Krud extends Controller
                     $btns .= '<a href="'.$boton['url'].'" class="btn btn-xs btn-'.$boton['class'].'"><span class="'.$boton['icon'].'"></span></a>';
                 }
             } else {
-                $btns .= '<a href="javascript:void(0)" class="btn btn-xs btn-default" onclick="opciones('.$item['__id__'].')"><span class="fa fa-plus"></span></a>';
+                $btns .= '<a href="javascript:void(0)" class="btn btn-xs btn-warning" onclick="opciones('.$item['__id__'].')"><span class="fa fa-plus"></span></a>';
             }
 
             //Agregando boton para Editar
