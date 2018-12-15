@@ -30,7 +30,9 @@ class PermisosController extends Controller
 		return view('kitukizuri.permisos',[
 			'modulo'   => Crypt::encrypt($id),
 			'permisos' => $permisos,
-			'mp'       => $mp
+            'mp'       => $mp, 
+            'layout' => 'krud.layout',
+            'titulo' => 'Permisos'
 		]);
 	}
 

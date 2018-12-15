@@ -7,15 +7,13 @@
 				Permisos
 				<span class="panel-subtitle">estos permisos pertenecen al modulo, seran agregados pero no activados.</span>
 			</div>
-			<form action="/permisos" method="post">
+			<form action="/kk/permisos" method="post">
 				{{csrf_field()}}
 				<input type="hidden" name="modulo" value="{{$modulo}}">
 				@foreach($permisos as $p)
 					<div class="col-md-3">
-						<div class="be-checkbox be-checkbox-color {{$p->color}} inline">
-							<input id="{{$p->permisoid}}" name="permisos[]" value="{{$p->permisoid}}" type="checkbox" {{in_array($p->permisoid, $mp) ? 'checked' : ''}}>
-							<label for="{{$p->permisoid}}">{{$p->nombre}}</label>
-						</div>
+						<input id="{{$p->permisoid}}" name="permisos[]" value="{{$p->permisoid}}" type="checkbox" {{in_array($p->permisoid, $mp) ? 'checked' : ''}}>
+						<label for="{{$p->permisoid}}">{{$p->nombre}}</label>
 					</div>
 				@endforeach
 				<div class="clearfix"></div>

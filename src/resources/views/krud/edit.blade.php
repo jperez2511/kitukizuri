@@ -88,8 +88,8 @@
             @elseif($c['tipo'] == 'bool')
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>{{$c['nombre']}}</label><br>
                         <input type="checkbox" name="{{$nombre}}" id="{{$nombre}}" {{!empty($c['value']) ? 'checked' : null}}>
+                        <label for="{{$nombre}}">{{$c['nombre']}}</label>
                     </div>
                 </div>
             @endif
