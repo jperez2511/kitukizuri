@@ -37,7 +37,8 @@ class PermisosController extends Controller
 				return view('kitukizuri.error', [
 					'msg' => 'El modulo a editar ya tiene permisos asignados a los roles. Se recomienda ingresarlos desde los Seeders.',
 					'type' => 'warning',
-					'layout' => 'krud.layout'
+					'layout' => 'krud.layout',
+					'titulo' => 'Error',
 				]);
 			}
 		}

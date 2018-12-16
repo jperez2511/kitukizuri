@@ -4,7 +4,7 @@
 <div class="col-md-12 text-center">
     <h1>
         @if ($type == 'warning')
-            <span class="fas fa-exclamation-triangle"></span>
+            <span class="fa fa-exclamation-triangle"></span>
         @endif
     </h1>
     <h3>{{ $msg }}</h3>
