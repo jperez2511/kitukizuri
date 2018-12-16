@@ -13,6 +13,13 @@ use Icebearsoft\Kitukizuri\Models\RolModuloPermiso;
 
 class RolesPermisosController extends Controller
 {
+    /**
+     * index
+     *
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function index(Request $request)
     {
         $rolid = $request->get('id');
@@ -26,18 +33,19 @@ class RolesPermisosController extends Controller
         ]);
     }
 
+    /**
+     * store
+     *
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function store(Request $request)
     {
         $id = $request->get('id');
         $permisos = $request->get('permisos');
-        
-        try {
-            RolModuloPermiso::where('rolid', $id)->delete();
-        } catch (Exception $e) {
-            dd('ahorita no joven');
-        }
-
-        
+    
+        RolModuloPermiso::where('rolid', $id)->delete();
         
         foreach ($permisos as $p) {
             $tmp = new RolModuloPermiso;

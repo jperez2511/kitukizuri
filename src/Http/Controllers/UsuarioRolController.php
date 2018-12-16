@@ -19,7 +19,7 @@ class UsuarioRolController extends Krud
         $this->setCampo(['nombre'=>'Rol', 'campo'=>'r.nombre', 'edit'=>false]);
         $this->setCampo(['nombre'=>'Descripcion', 'campo'=>'r.descripcion', 'edit'=>false]);
         $this->middleware(function ($request, $next) {
-            $collect    = Rol::select('rolid', 'nombre')->get();
+            $collect    = Rol::select('rolid', 'nombre');
             $usuarioRol = UsuarioRol::where('usuarioid', Auth::id())->get();
             if ($usuarioRol->find(['rolid'=>1])->isEmpty()) {
                 if (!empty(Auth::user()->empresaid)) {
@@ -31,7 +31,7 @@ class UsuarioRolController extends Krud
             return $next($request);
         });
         $this->setJoin('roles as r', 'r.rolid', '=', 'usuarioRol.rolid');
-        $this->setwhere('usuarioid', '=', $request->get('parent'));
+        $this->setWhere('usuarioid', '=', $request->get('parent'));
         $this->setParentId('usuarioid');
         $this->setLayout('krud.layout');
     }
