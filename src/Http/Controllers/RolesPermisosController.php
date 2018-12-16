@@ -21,7 +21,8 @@ class RolesPermisosController extends Controller
         return view('kitukizuri.modulopermisos', [
             'modulos'=>$modulos,
             'rmp' => $rmp,
-            'layout' => 'krud.layout'
+            'layout' => 'krud.layout',
+            'titulo' => 'Permisos'
         ]);
     }
 
@@ -29,7 +30,15 @@ class RolesPermisosController extends Controller
     {
         $id = $request->get('id');
         $permisos = $request->get('permisos');
-        RolModuloPermiso::where('rolid', $id)->delete();
+        
+        try {
+            RolModuloPermiso::where('rolid', $id)->delete();
+        } catch (Exception $e) {
+            dd('ahorita no joven');
+        }
+
+        
+        
         foreach ($permisos as $p) {
             $tmp = new RolModuloPermiso;
             $tmp->rolid = $id;

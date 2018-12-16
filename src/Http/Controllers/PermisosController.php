@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Crypt;
 use App\Http\Controllers\Controller;
 
 //Models
-use Icebearsoft\Kitukizuri\Models\ModuloPermiso;
 use Icebearsoft\Kitukizuri\Models\Permiso;
+use Icebearsoft\Kitukizuri\Models\ModuloPermiso;
+use Icebearsoft\Kitukizuri\Models\RolModuloPermiso;
 
 class PermisosController extends Controller 
 {
@@ -25,8 +26,23 @@ class PermisosController extends Controller
     public function index(Request $request)
     {
 		$id = $request->get('id');
-		$permisos = Permiso::get();
+		
+		//obteniendo los permisos del modulo actualmente
 		$mp = ModuloPermiso::where('moduloid', $id)->pluck('permisoid')->toArray();
+		
+		//validando si el permiso actual existe en algun rolModuloPermiso
+		foreach ($mp as $id) {
+			$permiso = RolModuloPermiso::where('modulopermisoid', $id)->first();
+			if (!empty($permiso)) {
+				return view('kitukizuri.error', [
+					'msg' => 'El modulo a editar ya tiene permisos asignados a los roles. Se recomienda ingresarlos desde los Seeders.',
+					'type' => 'warning'
+				]);
+			}
+		}
+
+		$permisos = Permiso::get();
+		
 		return view('kitukizuri.permisos',[
 			'modulo'   => Crypt::encrypt($id),
 			'permisos' => $permisos,
@@ -50,9 +66,12 @@ class PermisosController extends Controller
 		} catch (Exception $e) {
 			dd($e);
 		}
+		
+		//Obteniendo los permisos seleccionados por el usuario
+		$permisos = $request->get('permisos');
 
 		ModuloPermiso::where('moduloid',$modulo)->delete();
-		foreach($request->get('permisos') as $p){
+		foreach($permisos as $p){
 			$mp = new ModuloPermiso;
 			$mp->moduloid  = $modulo;
 			$mp->permisoid = $p;

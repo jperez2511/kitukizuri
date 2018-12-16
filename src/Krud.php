@@ -495,6 +495,11 @@ class Krud extends Controller
         return implode('/', $ruta);
     }
 
+    /**
+     * index
+     *
+     * @return void
+     */
     public function index()
     {
         if ($this->model == null) {
@@ -579,11 +584,26 @@ class Krud extends Controller
 
     }
 
+    /**
+     * create
+     *
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function create(Request $request)
     {
         return $this->edit(Crypt::encrypt(0), $request);
     }
 
+    /**
+     * edit
+     *
+     * @param  mixed $id
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function edit($id, Request $request)
     {
         try {
