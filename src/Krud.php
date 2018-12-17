@@ -421,6 +421,12 @@ class Krud extends Controller
         return $data->get();
     }
 
+    /**
+     * getSelectShow
+     * valida y clasifica los campos a mostrar y los que no.
+     *
+     * @return void
+     */
     private function getSelectShow()
     {
         $campos = $this->campos;
@@ -432,6 +438,14 @@ class Krud extends Controller
         return array_values($campos);
     }
 
+    /**
+     * getSelect
+     * retorna una lista de los campos a mostrar.
+     *
+     * @param  mixed $campos
+     *
+     * @return void
+     */
     private function getSelect($campos)
     {
         $s = [];
@@ -445,6 +459,13 @@ class Krud extends Controller
         }, $s);
     }
 
+    /**
+     * getColumnas
+     *
+     * @param  mixed $campos
+     *
+     * @return void
+     */
     private function getColumnas($campos)
     {
         $s = [];
@@ -458,6 +479,13 @@ class Krud extends Controller
         }, $s);
     }
 
+    /**
+     * makeArrayData
+     *
+     * @param  mixed $data
+     *
+     * @return void
+     */
     private function makeArrayData($data)
     {
         for ($i = 0; $i< count($this->campos); $i++) {
@@ -465,6 +493,13 @@ class Krud extends Controller
         }
     }
 
+    /**
+     * getUrl
+     *
+     * @param  mixed $url
+     *
+     * @return void
+     */
     private function getUrl($url)
     {
         $url = explode('/', $url);
@@ -477,8 +512,11 @@ class Krud extends Controller
         return implode('/', $url);
     }
 
-    //funciones propias del controller
-
+    /**
+     * getModuloRuta
+     *
+     * @return void
+     */
     public function getModuloRuta()
     {
         $ruta       = [];
@@ -497,6 +535,7 @@ class Krud extends Controller
 
     /**
      * index
+     * Genera la vista principal del catalogo
      *
      * @return void
      */
@@ -526,6 +565,16 @@ class Krud extends Controller
         ]);
     }
 
+    /**
+     * show
+     * Obteniene la data que se mostrara en la tabla principal
+     * del catalogo
+     *
+     * @param  mixed $id
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function show($id, Request $request) 
     {
         $response = [];
@@ -640,6 +689,14 @@ class Krud extends Controller
         ]);
     }
 
+    /**
+     * store
+     * almacena la data segun el modelo utlizado
+     *
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function store(Request $request)
     {
         $param = null;
@@ -727,6 +784,15 @@ class Krud extends Controller
         return redirect($request->url().$param);
     }
 
+    /**
+     * destroy
+     * Elimina un reigstro seleccionado 
+     *
+     * @param  mixed $id
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function destroy($id, Request $request)
     {
         try {
@@ -743,6 +809,14 @@ class Krud extends Controller
         return 1;
     }
 
+    /**
+     * toDateMysql
+     * transforma una fecha a formato mysql
+     *
+     * @param  mixed $date
+     *
+     * @return void
+     */
     public function toDateMysql($date)
     {
         $date = str_replace('/', '-', $date);
@@ -750,6 +824,15 @@ class Krud extends Controller
         return $date;
     }
 
+    /**
+     * mesesEntreFechas
+     * Calcula cuantos meses hay entre dos fecha
+     *
+     * @param  mixed $aFechaInicio
+     * @param  mixed $aFechaFin
+     *
+     * @return void
+     */
     public function mesesEntreFechas($aFechaInicio, $aFechaFin)
     {
         $fi = new Carbon($aFechaInicio);
@@ -758,6 +841,15 @@ class Krud extends Controller
         return $ff->diffInMonths($fi);
     }
 
+    /**
+     * allowed
+     * verifica los parametros permitidos segun la lista enviada
+     *
+     * @param  mixed $params
+     * @param  mixed $allowed
+     *
+     * @return void
+     */
     private function allowed($params, $allowed)
     {
         foreach ($params as $key => $val) { //Validamos que todas las variables del array son permitidas.

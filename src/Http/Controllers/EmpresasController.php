@@ -9,6 +9,11 @@ use Icebearsoft\Kitukizuri\Models\Empresa;
 
 class EmpresasController extends Krud
 {
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->setModel(new Empresa);

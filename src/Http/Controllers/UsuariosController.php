@@ -12,6 +12,11 @@ class UsuariosController extends Krud
 {
     protected $empresaid;
 
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->setModel(new Usuario);

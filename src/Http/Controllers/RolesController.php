@@ -11,6 +11,11 @@ use Icebearsoft\Kitukizuri\Models\UsuarioRol;
 
 class RolesController extends Krud
 {
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->setModel(new Rol());

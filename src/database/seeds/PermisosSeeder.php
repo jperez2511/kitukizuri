@@ -9,7 +9,13 @@
 use Illuminate\Database\Seeder;
 
 class PermisosSeeder extends Seeder {
-	public function run(){
+	/**
+	 * run
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
 		DB::table('permisos')->truncate();
 

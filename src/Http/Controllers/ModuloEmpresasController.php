@@ -14,7 +14,15 @@ use Icebearsoft\Kitukizuri\Models\Modulo;
 
 class ModuloEmpresasController extends Controller
 {
-    public function index(Request $request){
+    /**
+     * index
+     *
+     * @param  mixed $request
+     *
+     * @return void
+     */
+    public function index(Request $request)
+    {
     	$select = ModuloEmpresas::select('moduloid')->where('empresaid', $request->parent)->pluck('moduloid');
     	$modulos = Modulo::orderBy('nombre')->get();
 
@@ -27,6 +35,13 @@ class ModuloEmpresasController extends Controller
     	]);
     }
 
+    /**
+     * store
+     *
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function store(Request $request)
     {
     	ModuloEmpresas::where('empresaid', $request->empresa)->delete();
@@ -39,6 +54,13 @@ class ModuloEmpresasController extends Controller
     	return redirect('/kk/moduloempresas?parent='.$request->empresa);
     }
 
+    /**
+     * validar
+     *
+     * @param  mixed $ruta
+     *
+     * @return void
+     */
     public function validar($ruta)
     {
         //dividiendo la ruta

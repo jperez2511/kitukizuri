@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Http\Controllers\Controller;
 
+//Models
 use Icebearsoft\Kitukizuri\Models\Modulo;
 use Icebearsoft\Kitukizuri\Models\UsuarioRol;
 use Icebearsoft\Kitukizuri\Models\RolModuloPermiso;

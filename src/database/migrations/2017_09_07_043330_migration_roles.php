@@ -5,8 +5,15 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MigrationRoles extends Migration {
-	public function up() {
+class MigrationRoles extends Migration 
+{
+	/**
+	 * up
+	 *
+	 * @return void
+	 */
+	public function up() 
+	{
 		Schema::create('roles', function (Blueprint $table){
 			$table->increments('rolid');
 			$table->string('nombre');
@@ -44,7 +51,13 @@ class MigrationRoles extends Migration {
 		});
 	}
 
-	public function down() {
+	/**
+	 * down
+	 *
+	 * @return void
+	 */
+	public function down() 
+	{
 		Schema::drop('rolModuloPermiso');
 		Schema::drop('moduloPermiso');
 		Schema::drop('permisos');

@@ -12,6 +12,13 @@ use Icebearsoft\Kitukizuri\Models\UsuarioRol;
 
 class UsuarioRolController extends Krud
 {
+    /**
+     * __construct
+     *
+     * @param  mixed $request
+     *
+     * @return void
+     */
     public function __construct(Request $request)
     {
         $this->setModel(new UsuarioRol);

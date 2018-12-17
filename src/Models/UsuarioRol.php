@@ -10,6 +10,11 @@ class UsuarioRol extends Model
     protected $primaryKey = "usuariorolid";
     protected $guarded    = ['usuariorolid'];
 
+    /**
+     * modulos
+     *
+     * @return void
+     */
     public function modulos()
     {
         return $this->hasMany(RolModuloPermiso::class, 'rolid', 'rolid');

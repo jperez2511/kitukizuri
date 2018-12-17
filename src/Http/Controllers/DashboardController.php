@@ -9,7 +9,13 @@ use Icebearsoft\Kitukizuri\Models\Empresa;
 
 class DashboardController extends Controller
 {
-    public function index() {
+    /**
+     * index
+     *
+     * @return void
+     */
+    public function index() 
+    {
         return view('kitukizuri.dashboard', [
             'layout' => 'krud.layout',
             'titulo' => 'Dashboard'

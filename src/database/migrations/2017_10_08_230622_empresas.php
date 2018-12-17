@@ -6,6 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class Empresas extends Migration
 {
+    /**
+     * up
+     *
+     * @return void
+     */
     public function up()
     {   
         Schema::create('empresas', function (Blueprint $table) {
@@ -40,6 +45,11 @@ class Empresas extends Migration
         });     
     }
 
+    /**
+     * down
+     *
+     * @return void
+     */
     public function down()
     {   
         Schema::table('users', function($table) {

@@ -8,8 +8,15 @@
 
 use Illuminate\Database\Seeder;
 
-class ModulosSeeder extends Seeder {
-	public function run(){
+class ModulosSeeder extends Seeder 
+{
+	/**
+	 * run
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
 		DB::table('modulos')->truncate();
 

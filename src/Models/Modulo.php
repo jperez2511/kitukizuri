@@ -10,6 +10,11 @@ class Modulo extends Model
     protected $primaryKey = 'moduloid';
     protected $guarded    = ['moduloid'];
 
+    /**
+     * modulopermiso
+     *
+     * @return void
+     */
     public function modulopermiso()
     {
         return $this->hasMany(ModuloPermiso::class, 'moduloid', 'moduloid');

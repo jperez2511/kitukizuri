@@ -6,8 +6,18 @@ use Kitukizuri;
 use Closure;
 use Auth, Route;
 
-class KituKizurimd {
-    public function handle($request, Closure $next) {
+class KituKizurimd 
+{
+	/**
+	 * handle
+	 *
+	 * @param  mixed $request
+	 * @param  mixed $next
+	 *
+	 * @return void
+	 */
+	public function handle($request, Closure $next) 
+	{
 		if (Auth::guest()) {
 			return redirect()->guest('/login');
 		}

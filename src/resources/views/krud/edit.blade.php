@@ -35,12 +35,12 @@
                         <input type="password" name="{{$nombre}}" id="{{$nombre}}" onkeyup="comparar('{{$nombre}}')" class="form-control">
                     </div>
                 </div>
-                    <div class="col-md-6" style="padding-right: 0px;">
-                        <div class="form-group">
-                            <label>Confirmar {{$c['nombre']}}</label>
-                            <input type="password" name="" id="{{$nombre}}_2" onkeyup="comparar('{{$nombre}}')" class="form-control">
-                        </div>
+                <div class="col-md-6" style="padding-right: 0px;">
+                    <div class="form-group">
+                        <label>Confirmar {{$c['nombre']}}</label>
+                        <input type="password" name="" id="{{$nombre}}_2" onkeyup="comparar('{{$nombre}}')" class="form-control">
                     </div>
+                </div>
             </div>
             @elseif($c['tipo'] == 'combobox')
                 <div class="col-md-6">
