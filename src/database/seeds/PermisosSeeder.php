@@ -8,7 +8,8 @@
 
 use Illuminate\Database\Seeder;
 
-class PermisosSeeder extends Seeder {
+class PermisosSeeder extends Seeder 
+{
 	/**
 	 * run
 	 *

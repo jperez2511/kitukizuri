@@ -397,7 +397,7 @@ class Krud extends Controller
 
         // validando si hay un offset a utilizar
         if ($offset != null) {
-            $data->take($offset);
+            $data->skip($offset);
         }
 
         // Obteniendo el id de la tabla
