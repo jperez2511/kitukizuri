@@ -46,7 +46,7 @@
             "serverSide": true,
             "processing": true,
             "ajax": {
-                url:  "/{{$ruta}}/0"+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : '')),
+                url:  "/{{$ruta}}/0"+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''),
 		        type:  'GET',
             },
             "buttons": [{
