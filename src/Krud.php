@@ -390,16 +390,6 @@ class Krud extends Controller
         //consultando al modelo los campos a mostrar en la tabla 
         $data = $this->model->select($this->getSelect($campos));
 
-        // validando si existe un limite para obtenr los datos
-        if ($limit != null) {
-            $data->take($limit);
-        }
-
-        // validando si hay un offset a utilizar
-        if ($offset != null) {
-            $data->skip($offset);
-        }
-
         // Obteniendo el id de la tabla
         $data->addSelect($this->model->getTable().'.'.$this->model->getKeyName().' as '.$this->id);
 
@@ -418,7 +408,15 @@ class Krud extends Controller
             $data->orderBy($column);
         }
 
-        return $data->get();
+        $count = $data->count();
+
+        // validando si existe un limite para obtenr los datos
+        $data->take($limit);
+
+        // validando si hay un offset a utilizar
+        $data->skip($offset);
+
+        return [$data->get(), $count];
     }
 
     /**
@@ -593,10 +591,10 @@ class Krud extends Controller
 
         //total de datos obtenidos
         $response['data'] = [];
-        $response['recordsTotal'] = $data->count();
+        $response['recordsTotal'] = $data[1];
         $response['recordsFiltered'] = $response['recordsTotal'];
 
-        $data = $this->transformData($data->toArray());
+        $data = $this->transformData($data[0]->toArray());
 
         foreach ($data as $item) {
             // string de botones a imprimir
