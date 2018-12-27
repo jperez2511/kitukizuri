@@ -605,19 +605,19 @@ class Krud extends Controller
                 //recorriendo todos los botones extras
                 foreach($this->botones as $boton) {
                     $boton['url'] = str_replace('{id}', $item['__id__'], $boton['url']);
-                    $btns .= '<a href="'.$boton['url'].'" class="btn btn-xs btn-'.$boton['class'].'"><span class="'.$boton['icon'].'"></span></a>';
+                    $btns .= '<a href="'.$boton['url'].'" class="btn btn-xs btn-sm btn-'.$boton['class'].'"><span class="'.$boton['icon'].'"></span></a>';
                 }
             } else {
-                $btns .= '<a href="javascript:void(0)" class="btn btn-xs btn-warning" onclick="opciones('.$item['__id__'].')"><span class="'.config('kitukizuri.options').'"></span></a>';
+                $btns .= '<a href="javascript:void(0)" class="btn btn-xs btn-sm btn-warning" onclick="opciones('.$item['__id__'].')"><span class="'.config('kitukizuri.options').'"></span></a>';
             }
 
             //Agregando boton para Editar
             if(in_array('edit', $permisos)) {
-                $btns .= '<a href="javascript:void(0)" onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" class="btn btn-xs btn-primary"><span class="'.config('kitukizuri.edit').'"></span></a>';
+                $btns .= '<a href="javascript:void(0)" onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" class="btn btn-xs btn-sm btn-primary"><span class="'.config('kitukizuri.edit').'"></span></a>';
             }
 
             if(in_array('destroy', $permisos)) {
-                $btns .= '<a href="javascript:void(0)" onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" class="btn btn-xs btn-danger"><span class="'.config('kitukizuri.delete').'"></span></a>';
+                $btns .= '<a href="javascript:void(0)" onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" class="btn btn-xs btn-sm btn-danger"><span class="'.config('kitukizuri.delete').'"></span></a>';
             }
             
             $item['btn'] = $btns;
