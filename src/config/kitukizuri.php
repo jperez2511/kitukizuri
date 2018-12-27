@@ -30,4 +30,33 @@ return [
     'delete'  => 'zmdi zmdi-delete',
     'options' => 'fa fa-plus',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Clases Menu
+    |--------------------------------------------------------------------------
+    |
+    | Esta opcion permite definir las clases para dar estilos graficos al menu
+    | 
+    */
+
+    'menu' => [
+        'ul' => [
+            'id' => '',
+            'class' => ''
+        ],
+        'li' => [
+            'class' => '',
+            'layout' => 
+                '<a href="{{url}}" class="has-arrow" aria-expanded="false">
+                    <span class="has-icon">
+                        <i class="{{icono}}"></i>
+                    </span>
+                    <span class="nav-title">{{label}}</span>
+                </a>',
+        ],
+        'ul-jr' => [
+            'aria-expanded'=>'false',
+            'class' => 'collapse'  
+        ]
+    ],
 ];

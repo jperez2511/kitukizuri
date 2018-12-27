@@ -16,9 +16,15 @@ class Empresas extends Migration
         Schema::create('menu', function (Blueprint $table) {
             $table->increments('menuid');
             $table->integer('padreid')->nullable()->unsigned();
+            $table->integer('modulopermisoid')->nullable()->unsigned();
+            $table->integer('orden')->unsigned();
+            $table->string('icono');
             $table->string('ruta');
             $table->string('etiqueta');
             $table->nullableTimestamps();
+            //ForeignKeys
+            $table->foreign('padreid')->references('padreid')->on('menu');
+            $table->foreign('modulopermisoid')->references('modulopermisoid')->on('moduloPermiso');
         });
     }
 
