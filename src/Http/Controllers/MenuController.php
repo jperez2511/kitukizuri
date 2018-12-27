@@ -78,7 +78,7 @@ class MenuController
         $formato = config('kitukizuri.menu.li.layout');
             
         // remplazando url
-        $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#', $nodo->ruta), $formato);
+        $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : $nodo->ruta), $formato);
 
         // remplazando icono
         $formato = str_replace('{{icono}}', $nodo->icono, $formato );
