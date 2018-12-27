@@ -2,22 +2,18 @@
 
 @section('content')
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <table id="table1" class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            @foreach($columnas as $c)
-                                <td>{{ $c }}</td>
-                            @endforeach
-                            <td width="10%"></td>
-                        </tr>
-                    </thead>
-                    <tbody>                        
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <table id="table1" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    @foreach($columnas as $c)
+                        <td>{{ $c }}</td>
+                    @endforeach
+                    <td width="10%"></td>
+                </tr>
+            </thead>
+            <tbody>                        
+            </tbody>
+        </table>
     </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -44,6 +40,7 @@
             "sortable": false,
             "serverSide": true,
             "processing": true,
+            "lengthMenu": 10,
             "ajax": {
                 url:  "/{{$ruta}}/0"+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''),
 		        type:  'GET',
