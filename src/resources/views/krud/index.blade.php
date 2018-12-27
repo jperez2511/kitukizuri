@@ -3,7 +3,6 @@
 @section('content')
     <div class="col-md-12">
         <div class="panel panel-default">
-            <div class="panel-heading">{!! $titulo !!} </div>
             <div class="panel-body">
                 <table id="table1" class="table table-striped table-hover">
                     <thead>

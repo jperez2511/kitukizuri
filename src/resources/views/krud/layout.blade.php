@@ -49,7 +49,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/kitukizuri" style="color: #fff">
+                    <a class="navbar-brand" href="/kk" style="color: #fff">
                         <!-- Logo icon -->
                         <b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->

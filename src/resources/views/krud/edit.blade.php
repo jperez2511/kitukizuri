@@ -1,9 +1,11 @@
 @extends($layout)
 
 @section('content')
-    <div class="form-group">
-        <h3>{{$titulo}}</h3>
-    </div>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
     <form action="{{$action}}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
         <input type="hidden" name="id" id="id" value="{{$id}}">
@@ -116,62 +118,63 @@
             </div>
         </div>
     @endif
+@endsection
+@section('scripts')
+<script>
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+            return null;
+        }
+        else{
+            return decodeURI(results[1]) || 0;
+        }
+    }
 
-    <script>
-        $.urlParam = function(name){
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-            if (results==null){
-                return null;
-            }
-            else{
-                return decodeURI(results[1]) || 0;
-            }
-        }
-    
-        @foreach($parents as $p)
-            $('#{{$p['nombre']}}').val($.urlParam('{{$p['value']}}'))
-        @endforeach
-    
-        @if (!empty($template) && in_array('datetimepicker', $template))
-            $('.date').datetimepicker();
-        @endif
-    
-        $('#departamentoid').change(function(event){
-            $.get('/deptos/'+$(this).val(), {}, function(data){
-                var muni = '';
-                $.each(data, function(index,val){
-                    muni += '<option value="'+val.municipioid+'">'+val.nombre+'</option>';
-                });
-                $('#municipioid').empty();
-                $('#municipioid').append(muni);
+    @foreach($parents as $p)
+        $('#{{$p['nombre']}}').val($.urlParam('{{$p['value']}}'))
+    @endforeach
+
+    @if (!empty($template) && in_array('datetimepicker', $template))
+        $('.date').datetimepicker();
+    @endif
+
+    $('#departamentoid').change(function(event){
+        $.get('/deptos/'+$(this).val(), {}, function(data){
+            var muni = '';
+            $.each(data, function(index,val){
+                muni += '<option value="'+val.municipioid+'">'+val.nombre+'</option>';
             });
+            $('#municipioid').empty();
+            $('#municipioid').append(muni);
         });
-        function comparar(nombre){
-            if($('#'+nombre).val() != $('#'+nombre+'_2').val()){
-                $('#msgError').removeClass('hide');
-                $('#guardar').hide();
-            }else{
-                $('#msgError').addClass('hide');
-                $('#guardar').show();
-            }
+    });
+    function comparar(nombre){
+        if($('#'+nombre).val() != $('#'+nombre+'_2').val()){
+            $('#msgError').removeClass('hide');
+            $('#guardar').hide();
+        }else{
+            $('#msgError').addClass('hide');
+            $('#guardar').show();
         }
-        @if($embed)
-        //haciendo submit de los campos genericos
-            var array = {
-                @foreach($campos as $c)
-                    <?php $id = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo'];?>
-                    @if($c['edit'] == true)
-                        {{$id}} : $('#{{$id}}').val(),
-                    @endif
-                @endforeach
-                id        : $('#id').val(),
-                token : $('#_token').val()
-            }
-            $('#guardar').click(function(event){
-                $.post('{{$action}}', array, function(data){
-                    console.log(data);
-                })
+    }
+    @if($embed)
+    //haciendo submit de los campos genericos
+        var array = {
+            @foreach($campos as $c)
+                <?php $id = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo'];?>
+                @if($c['edit'] == true)
+                    {{$id}} : $('#{{$id}}').val(),
+                @endif
+            @endforeach
+            id        : $('#id').val(),
+            token : $('#_token').val()
+        }
+        $('#guardar').click(function(event){
+            $.post('{{$action}}', array, function(data){
+                console.log(data);
             })
-        @endif
-    </script>
+        })
+    @endif
+</script>
 @endsection

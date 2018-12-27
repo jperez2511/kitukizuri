@@ -21,6 +21,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');
         
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizurimd');
+        $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\Http\Middleware\Menu');
         
         $this->publishes([
             __DIR__.'/database/migrations' => $this->app->databasePath() . '/migrations',
