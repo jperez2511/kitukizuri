@@ -81,10 +81,10 @@ class MenuController
         $formato = str_replace('{{url}}', '#', $formato);
 
         // remplazando icono
-        $formato = str_replace('{{icono}}', '#', $nodo->icono);
+        $formato = str_replace('{{icono}}', $nodo->icono, $formato );
 
         // remplazando label
-        $formato = str_replace('{{icono}}', '#', $nodo->etiqueta);
+        $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
 
         $this->tree .= '<li class="'.config('kitukizuri.menu.li.class').'">'.$formato;
 
@@ -102,6 +102,8 @@ class MenuController
 
             // Cerrando las etiquetas
             $this->tree .= '</ul></li>';  
+        }else {
+            $this->tree .= '</li>';
         }
     }
 }
