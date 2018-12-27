@@ -91,7 +91,7 @@ class MenuController
         if ($hijos->count() > 0 ) {
             // Agregando ul para los hijos
             $this->tree .= '<ul ';
-            foreach ($variable as $key => $value) {
+            foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
                 $this->tree .= $key.'="'.$value.'"';
             }
             $this->tree .= '>';

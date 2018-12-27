@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Icebearsoft\Kitukizuri\Http\Middleware;
 
 use Route;
 use Closure;
