@@ -23,7 +23,6 @@ class Menu extends Migration
             $table->string('etiqueta');
             $table->nullableTimestamps();
             //ForeignKeys
-            $table->foreign('padreid')->references('padreid')->on('menu');
             $table->foreign('modulopermisoid')->references('modulopermisoid')->on('moduloPermiso');
         });
     }
