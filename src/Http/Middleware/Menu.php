@@ -20,7 +20,7 @@ class Menu
     public function handle($request, Closure $next)
     {
         $menu = new MenuController;
-        $tree = $menu->generarMenu();
+        $tree = $menu->construirMenu();
 
         dd($tree);
 
