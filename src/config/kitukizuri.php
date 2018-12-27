@@ -13,5 +13,21 @@ return [
     | 
     */
 
-    'layout' => 'layouts.app'
+    'layout' => 'layouts.app',
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Iconos
+    |--------------------------------------------------------------------------
+    |
+    | Esta opcion permite definir los iconos que se mostraran en los botones de
+    | la tabla en la vista index, en tal caso que no se quisiera usar los 
+    | iconos predeterminados (Font-Awesome, Material icons)
+    | 
+    */
+
+    'edit'    => 'zmdi zmdi-edit',
+    'delete'  => 'zmdi zmdi-delete',
+    'options' => 'fa fa-plus',
+
 ];
