@@ -44,19 +44,26 @@ return [
             'id' => '',
             'class' => ''
         ],
-        'li' => [
+        'li-parent' => [
             'class' => '',
             'layout' => 
-                '<a href="{{url}}" class="has-arrow" aria-expanded="false">
+                '<a href="{{url}}" aria-expanded="false">
                     <span class="has-icon">
                         <i class="{{icono}}"></i>
                     </span>
                     <span class="nav-title">{{label}}</span>
                 </a>',
         ],
+        'li-jr' => [
+            'class' => '',
+            'layout' => 
+                '<a href="{{url}}">
+                    <span class="nav-title">{{label}}</span>
+                </a>',
+        ],
         'ul-jr' => [
             'aria-expanded'=>'false',
-            'class' => 'collapse'  
+            'class' => 'collapse in'  
         ]
     ],
 ];

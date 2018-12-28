@@ -74,21 +74,21 @@ class MenuController
         // obteniendo los hijos del elemento actual
         $hijos = Menu::getHijos($nodo->menuid);
 
-        //aplicando formato para el li
-        $formato = config('kitukizuri.menu.li.layout');
-            
-        // remplazando url
-        $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : $nodo->ruta), $formato);
-
-        // remplazando icono
-        $formato = str_replace('{{icono}}', $nodo->icono, $formato );
-
-        // remplazando label
-        $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
-
-        $this->tree .= '<li class="'.config('kitukizuri.menu.li.class').'">'.$formato;
-
         if ($hijos->count() > 0 ) {
+            //aplicando formato para el li cuando es padre
+            $formato = config('kitukizuri.menu.li-parent.layout');
+                
+            // remplazando url
+            $formato = str_replace('{{url}}', '#', $formato);
+
+            // remplazando icono
+            $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+
+            // remplazando label
+            $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
+
+            $this->tree .= '<li class="'.config('kitukizuri.menu.li-parent.class').'">'.$formato;
+            
             // Agregando ul para los hijos
             $this->tree .= '<ul ';
             foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
@@ -102,7 +102,17 @@ class MenuController
 
             // Cerrando las etiquetas
             $this->tree .= '</ul></li>';  
-        }else {
+        } else {
+            //aplicando formato para el li cuando es hijo
+            $formato = config('kitukizuri.menu.li-jr.layout');
+                
+            // remplazando url
+            $formato = str_replace('{{url}}', $nodo->ruta, $formato);
+
+            // remplazando label
+            $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
+
+            $this->tree .= '<li class="'.config('kitukizuri.menu.li-jr.class').'">'.$formato;
             $this->tree .= '</li>';
         }
     }

@@ -21,10 +21,9 @@ class Menu
     {
         $menu = new MenuController;
         $tree = $menu->construirMenu();
-
-        dd($tree);
-
-
+        if (empty(Session::get('menu'))) {
+            Session::put('menu', $tree);    
+        }
         return $next($request);
     }
 }
