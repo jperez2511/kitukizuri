@@ -108,7 +108,7 @@ class MenuController
                 $this->tree .= '</ul>';
             }
             
-            $this->tree = '</li>';
+            $this->tree .= '</li>';
         } else {
             //aplicando formato para el li cuando es hijo
             $formato = config('kitukizuri.menu.li-jr.layout');
