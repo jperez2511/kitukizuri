@@ -3,6 +3,7 @@
 namespace Icebearsoft\Kitukizuri\Http\Middleware;
 
 use Route;
+use Session;
 use Closure;
 
 // Controller
