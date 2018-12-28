@@ -89,19 +89,24 @@ class MenuController
 
             $this->tree .= '<li class="'.config('kitukizuri.menu.li-parent.class').'">'.$formato;
             
-            // Agregando ul para los hijos
-            $this->tree .= '<ul ';
-            foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
-                $this->tree .= $key.'="'.$value.'"';
+            if ($hijos->count() > 0) {
+                
+                // Agregando ul para los hijos
+                $this->tree .= '<ul ';
+                foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
+                    $this->tree .= $key.'="'.$value.'"';
+                }
+                $this->tree .= '>';
+                
+                foreach ($hijos as $hijo) {
+                    $this->getNodos($hijo);
+                }
+                
+                // Cerrando las etiquetas
+                $this->tree .= '</ul>';
             }
-            $this->tree .= '>';
-
-            foreach ($hijos as $hijo) {
-                $this->getNodos($hijo);
-            }
-
-            // Cerrando las etiquetas
-            $this->tree .= '</ul></li>';  
+            
+            $this->tree = '</li>';
         } else {
             //aplicando formato para el li cuando es hijo
             $formato = config('kitukizuri.menu.li-jr.layout');
