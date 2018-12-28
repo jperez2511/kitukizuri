@@ -53,7 +53,9 @@ class MenuController
         
         // recorriendo para hacer las validaciones
         foreach ($nodos as $nodo) {
-			$this->getNodos($nodo);	
+            if(in_array($nodo->modulopermisoid, $this->permisos) || $nodo->modulopermisoid == null) {
+                $this->getNodos($nodo);	
+            }
         }
         
         // cerrando ul
