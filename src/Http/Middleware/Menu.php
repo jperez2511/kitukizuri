@@ -22,9 +22,7 @@ class Menu
     {
         $menu = new MenuController;
         $tree = $menu->construirMenu();
-        if (empty(Session::get('menu'))) {
-            Session::put('menu', $tree);    
-        }
+        Session::put('menu', $tree);    
         return $next($request);
     }
 }

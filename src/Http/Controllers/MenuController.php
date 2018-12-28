@@ -74,12 +74,12 @@ class MenuController
         // obteniendo los hijos del elemento actual
         $hijos = Menu::getHijos($nodo->menuid);
 
-        if ($hijos->count() > 0 ) {
+        if ($hijos->count() > 0 || $nodo->padreid == null) {
             //aplicando formato para el li cuando es padre
             $formato = config('kitukizuri.menu.li-parent.layout');
                 
             // remplazando url
-            $formato = str_replace('{{url}}', '#', $formato);
+            $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : $nodo->ruta), $formato);
 
             // remplazando icono
             $formato = str_replace('{{icono}}', $nodo->icono, $formato );
