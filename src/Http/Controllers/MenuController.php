@@ -77,6 +77,11 @@ class MenuController
         $hijos = Menu::getHijos($nodo->menuid);
 
         if ($hijos->count() > 0 || $nodo->padreid == null) {
+            
+            if ($nodo->modulopermisoid == null) {
+                return 0;
+            }
+
             //aplicando formato para el li cuando es padre
             $formato = config('kitukizuri.menu.li-parent.layout');
                 
