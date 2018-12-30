@@ -110,6 +110,9 @@ class MenuController
             
             $this->tree .= '</li>';
         } else {
+            if ($nodo->modulopermisoid == null) {
+                return 0;
+            }
             //aplicando formato para el li cuando es hijo
             $formato = config('kitukizuri.menu.li-jr.layout');
                 
