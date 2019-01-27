@@ -806,7 +806,7 @@ class Krud extends Controller
         try {
             $this->model->save();
             Session::flash('type', 'success');
-            Session::flash('msg ', $this->getStoreMSG());
+            Session::flash('msg', $this->getStoreMSG());
         } catch (Exception $e) {
             Session::flash('type', 'danger');
             Session::flash('msg ', $e);

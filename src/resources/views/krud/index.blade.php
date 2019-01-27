@@ -1,6 +1,10 @@
 @extends($layout)
-
 @section('content')
+    @if (!empty(*Session::get('type')) && !empty(Session::get('msg')))
+        <div class="alert alert-{{Session::get('type')}}" role="alert">
+            {{Session::get('msg')}}
+        </div>    
+    @endif
     <div class="col-md-12">
         <table id="table1" class="table table-striped table-hover">
             <thead>
