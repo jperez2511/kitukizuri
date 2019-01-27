@@ -809,7 +809,7 @@ class Krud extends Controller
             Session::flash('msg', $this->getStoreMSG());
         } catch (Exception $e) {
             Session::flash('type', 'danger');
-            Session::flash('msg ', $e);
+            Session::flash('msg', $e);
         }
 
         // Retornando mensaje de guardado 
@@ -835,6 +835,8 @@ class Krud extends Controller
         }
         try {
             $this->model->destroy($id);
+            Session::flash('type', 'success');
+            Session::flash('msg', $this->getStoreMSG());
         } catch (QueryException $e) {
             return $e;
         }
