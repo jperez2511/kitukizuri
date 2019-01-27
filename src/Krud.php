@@ -70,7 +70,7 @@ class Krud extends Controller
     private function getStoreMSG()
     {
         if(empty($this->storemsg)) {
-            $this->storemsg = config('kitukizuri.layout');
+            $this->storemsg = config('kitukizuri.storemsg');
         }
         return $this->storemsg;
     }
