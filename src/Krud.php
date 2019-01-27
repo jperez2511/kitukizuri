@@ -5,6 +5,7 @@ namespace Icebearsoft\Kitukizuri;
 // Dependencias
 use DB;
 use Route;
+use Session;
 use Carbon\Carbon;
 use Mockery\Exception;
 
@@ -32,6 +33,7 @@ class Krud extends Controller
     private $editId   = null;
     private $layout   = null;
     private $parentid = null;
+    private $storemsg = null;
 
     // variales en array
     private $rt       = [];
@@ -58,6 +60,29 @@ class Krud extends Controller
             $this->layout = config('kitukizuri.layout');
         }
         return $this->layout;
+    }
+
+    /**
+     * getStoreMSG
+     *
+     * @return void
+     */
+    private function getStoreMSG()
+    {
+        if(empty($this->storemsg)) {
+            $this->storemsg = config('kitukizuri.layout');
+        }
+        return $this->storemsg;
+    }
+    
+    /**
+     * setStoreMSG
+     *
+     * @return void
+     */
+    protected function setStoreMSG($msg)
+    {
+        $this->storemsg = $msg;
     }
 
     /**
@@ -778,7 +803,17 @@ class Krud extends Controller
             }
         }
 
-        $this->model->save();
+        try {
+            $this->model->save();
+            Session::flash('type', 'success');
+            Session::flash('msg ', $this->getStoreMSG());
+        } catch (Exception $e) {
+            Session::flash('type', 'danger');
+            Session::flash('msg ', $e);
+        }
+
+        // Retornando mensaje de guardado 
+
         return redirect($request->url().$param);
     }
 
