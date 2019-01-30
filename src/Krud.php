@@ -581,7 +581,7 @@ class Krud extends Controller
         $view   = 'krud.index';
 
         if ($prefix != null && $prefix == 'kk') {
-            $view = 'krud::index'
+            $view = 'krud::index';
         }
 
         return view($view, [
@@ -738,7 +738,7 @@ class Krud extends Controller
         $view   = 'krud.edit';
 
         if ($prefix != null && $prefix == 'kk') {
-            $view = 'krud::edit'
+            $view = 'krud::edit';
         }
 
         return view($view, [
