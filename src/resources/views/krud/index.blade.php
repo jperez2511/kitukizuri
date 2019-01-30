@@ -1,6 +1,6 @@
 @extends($layout)
 @section('content')
-    @if (!empty(*Session::get('type')) && !empty(Session::get('msg')))
+    @if (!empty(Session::get('type')) && !empty(Session::get('msg')))
         <div class="alert alert-{{Session::get('type')}}" role="alert">
             {{Session::get('msg')}}
         </div>    
