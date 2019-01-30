@@ -601,7 +601,7 @@ class Krud extends Controller
     public function show($id, Request $request) 
     {
         $icnEdit    = config('kitukizuri.edit');
-        $icnDelete  = config('kitukizuri.delete')
+        $icnDelete  = config('kitukizuri.delete');
         $icnOptions = config('kitukizuri.options');
         
         $prefix = Route::current()->action['prefix'];
