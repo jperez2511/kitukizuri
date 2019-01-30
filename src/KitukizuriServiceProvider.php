@@ -15,7 +15,8 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $this->loadViewsFrom(__DIR__.'/resources/views/kituKizuri', 'kitukizuri');
+        $this->loadViewsFrom(__DIR__.'/resources/views/krud', 'krud');
+        $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri', 'kitukizuri');
         
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');

@@ -575,9 +575,16 @@ class Krud extends Controller
         
         $ruta = $this->getModuloRuta();
         
-         $layout = $this->getLayout();
+        $layout = $this->getLayout();
 
-        return view('krud.index', [
+        $prefix = Route::current()->action['prefix'];
+        $view   = 'krud.index';
+
+        if ($prefix != null && $prefix == 'kk') {
+            $view = 'krud::index'
+        }
+
+        return view($view, [
             'titulo'   => $this->titulo,
             'columnas' => $this->getColumnas($this->getSelectShow()),
             'botones'  => $botones,
@@ -711,7 +718,9 @@ class Krud extends Controller
         } catch (Exception $e) {
             dd($e);
         }
+        
         $this->editId = $id;
+
         if ($id != 0) {
             $data = $this->model->find($id);
             $titulo = 'Editar '.$this->titulo;
@@ -725,7 +734,14 @@ class Krud extends Controller
 
         $layout = $this->getLayout();
 
-        return view('krud.edit', [
+        $prefix = Route::current()->action['prefix'];
+        $view   = 'krud.edit';
+
+        if ($prefix != null && $prefix == 'kk') {
+            $view = 'krud::edit'
+        }
+
+        return view($view, [
             'titulo'   => $titulo,
             'campos'   => $this->campos,
             'action'   => $url,
