@@ -45,7 +45,7 @@ class PermisosController extends Controller
 
 		$permisos = Permiso::get();
 		
-		return view('kitukizuri.permisos',[
+		return view('kitukizuri::permisos',[
 			'modulo'   => Crypt::encrypt($id),
 			'permisos' => $permisos,
             'mp'       => $mp, 
