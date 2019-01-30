@@ -575,6 +575,18 @@ class Krud extends Controller
      */
     public function show($id, Request $request) 
     {
+        $icnEdit    = config('kitukizuri.edit');
+        $icnDelete  = config('kitukizuri.delete')
+        $icnOptions = config('kitukizuri.options');
+        
+        $prefix = Route::current()->action['prefix'];
+
+        if ($prefix != null && $prefix == 'kk') {
+            $icnEdit    = 'zmdi zmdi-edit';
+            $icnDelete  = 'zmdi zmdi-delete';
+            $icnOptions = 'fa fa-plus';
+        }
+
         $response = [];
         $permisos = $this->setPermisos(Auth::id());
 
@@ -608,16 +620,31 @@ class Krud extends Controller
                     $btns .= '<a href="'.$boton['url'].'" class="btn btn-xs btn-sm btn-'.$boton['class'].'"><span class="'.$boton['icon'].'"></span></a>';
                 }
             } else {
-                $btns .= '<a href="javascript:void(0)" class="btn btn-xs btn-sm btn-warning" onclick="opciones('.$item['__id__'].')"><span class="'.config('kitukizuri.options').'"></span></a>';
+                $btns .= '<a 
+                    href="javascript:void(0)" 
+                    class="btn btn-xs btn-sm btn-warning" 
+                    onclick="opciones('.$item['__id__'].')">
+                        <span class="'.$icnOptions.'"></span>
+                    </a>';
             }
 
             //Agregando boton para Editar
             if(in_array('edit', $permisos)) {
-                $btns .= '<a href="javascript:void(0)" onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" class="btn btn-xs btn-sm btn-primary"><span class="'.config('kitukizuri.edit').'"></span></a>';
+                $btns .= '<a 
+                    href="javascript:void(0)" 
+                    onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" 
+                    class="btn btn-xs btn-sm btn-primary">
+                        <span class="'.$icnEdit.'"></span>
+                    </a>';
             }
 
             if(in_array('destroy', $permisos)) {
-                $btns .= '<a href="javascript:void(0)" onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" class="btn btn-xs btn-sm btn-danger"><span class="'.config('kitukizuri.delete').'"></span></a>';
+                $btns .= '<a 
+                    href="javascript:void(0)" 
+                    onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" 
+                    class="btn btn-xs btn-sm btn-danger">
+                        <span class="'.$icnDelete.'"></span>
+                    </a>';
             }
             
             $item['btn'] = $btns;
