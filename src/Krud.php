@@ -776,66 +776,71 @@ class Krud extends Controller
         if ($id != 0) {
             $this->model = $this->model->find($id);
         }
-        foreach ($request->all() as $k => $v) {
-            if ($k != '_token' && $k != 'id') {
-                foreach ($this->campos as $c) {
-                    if ($c['campo'] == $k && $c['tipo'] == 'date') {
-                        $v = $this->toDateMysql($v);
-                    }
-                    if ($c['campo'] == $k && $c['tipo'] == 'numeric') {
-                        $v = str_replace(',', '', $v);
-                    }
-                    if ($c['campo'] == $k && $c['tipo'] == 'password') {
-                        if (!empty($v)) {
-                            $v = bcrypt($v);
-                        } else {
-                            $v = $this->model->{$k};
-                        }
-                    }
-                    if ($c['campo'] == $k && ($c['tipo'] == 'image' || $c['tipo'] == 'file64')) {
-                        if ($request->hasFile($c['campo'])) {
-                            $file = $request->file($c['campo']);
-                            $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
-                            
-                            //$filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
-                            //$path     = public_path() . $campo['filepath'];
 
-                            // if (!file_exists($path)) {
-                            // mkdir($path, 0777, true);
-                            // }
+        $in = $request->all();
 
-                            // $file->move($path, $filename);
-                            $v = $file;
-                        } else {
-                            $v = $this->model->{$k};
-                        }
-                    }
-
-                    if ($c['campo'] == $k && $c['tipo'] == 'file') {
-                        if ($request->hasFile($c['campo'])) {
-                            $file = $request->file($c['campo']);
-                            // $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
-                            $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
-                            $path     = public_path() . $c['filepath'];
-
-                            if (!file_exists($path)) {
-                                mkdir($path, 0777, true);
-                            }
-
-                            $file->move($path, $filename);
-                            $v = $file;
-                        } else {
-                            $v = $this->model->{$k};
-                        }
-                    }
-
-                    if ($c['campo'] == $k && $c['tipo'] == 'bool') {
-                        $v = $v == 'on' ?  true : false;
+        foreach ($this->campos as $c) {  
+            if (array_key_exists($c['campo'], $in)) {
+                $v = $in[$c['campo']];
+                if ($c['tipo'] == 'date') {
+                    $v = $this->toDateMysql($v);
+                }
+                if ($c['tipo'] == 'numeric') {
+                    $v = str_replace(',', '', $v);
+                }
+                if ($c['tipo'] == 'password') {
+                    if (!empty($v)) {
+                        $v = bcrypt($v);
+                    } else {
+                        $v = $this->model->{$k};
                     }
                 }
-                $this->model->{$k} = $v;
+                if (($c['tipo'] == 'image' || $c['tipo'] == 'file64')) {
+                    if ($request->hasFile($c['campo'])) {
+                        $file = $request->file($c['campo']);
+                        $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
+                        
+                        //$filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
+                        //$path     = public_path() . $campo['filepath'];
+
+                        // if (!file_exists($path)) {
+                        // mkdir($path, 0777, true);
+                        // }
+
+                        // $file->move($path, $filename);
+                        $v = $file;
+                    } else {
+                        $v = $this->model->{$k};
+                    }
+                }
+                if ($c['tipo'] == 'file') {
+                    if ($request->hasFile($c['campo'])) {
+                        $file = $request->file($c['campo']);
+                        // $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
+                        $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
+                        $path     = public_path() . $c['filepath'];
+
+                        if (!file_exists($path)) {
+                            mkdir($path, 0777, true);
+                        }
+
+                        $file->move($path, $filename);
+                        $v = $file;
+                    } else {
+                        $v = $this->model->{$k};
+                    }
+                }
+                if ($c['tipo'] == 'bool') {
+                    $v = $v == 'on' ?  true : false;
+                }
+
+            } else {
+                if ($c['tipo'] == 'bool') {
+                    $v = false;
+                }
             }
-            if ($this->parentid == $k) {
+            $this->model->{$c['campo']} = $v;
+            if ($this->parentid == $c['campo']) {
                 $param = '?parent='.$v;
             }
         }

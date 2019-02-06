@@ -105,76 +105,65 @@
             </div>
         @endif
     </form>
-        
-    
-    @if($embed)
-        @foreach($embed as $e)
-            {!!$e[0]!!}
-        @endforeach
-
-        <div class="panel panel-default panel-border-color panel-border-color-success">
-            <div class="panel-body">
-                <button class="btn btn-success btn-block" id="guardar">Guardar</button>
-            </div>
-        </div>
-    @endif
 @endsection
 @section('scripts')
-<script>
-    $.urlParam = function(name){
-        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        if (results==null){
-            return null;
+    <script>
+        // --------------------------------
+        // Extrae las variables por URL
+        // ---------------------------------
+        $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results==null){
+                return null;
+            }
+            else{
+                return decodeURI(results[1]) || 0;
+            }
         }
-        else{
-            return decodeURI(results[1]) || 0;
-        }
-    }
 
-    @foreach($parents as $p)
-        $('#{{$p['nombre']}}').val($.urlParam('{{$p['value']}}'))
-    @endforeach
+        // --------------------------------
+        // Estableciendo los valores de los
+        // valores padres. 
+        // ---------------------------------
+        @foreach($parents as $p)
+            $('#{{$p['nombre']}}').val($.urlParam('{{$p['value']}}'))
+        @endforeach
 
-    @if (!empty($template) && in_array('datetimepicker', $template))
-        $('.date').datetimepicker();
-    @endif
+        // --------------------------------
+        // estableciendo libreria para 
+        // los campos tipo fecha.
+        // --------------------------------
+        @if (!empty($template) && in_array('datetimepicker', $template))
+            $('.date').datetimepicker();
+        @endif
 
-    $('#departamentoid').change(function(event){
-        $.get('/deptos/'+$(this).val(), {}, function(data){
-            var muni = '';
-            $.each(data, function(index,val){
-                muni += '<option value="'+val.municipioid+'">'+val.nombre+'</option>';
+        // --------------------------------
+        // Si la URL esta disponible 
+        // lista los departamentos
+        // --------------------------------
+        $('#departamentoid').change(function(event){
+            $.get('/deptos/'+$(this).val(), {}, function(data){
+                var muni = '';
+                $.each(data, function(index,val){
+                    muni += '<option value="'+val.municipioid+'">'+val.nombre+'</option>';
+                });
+                $('#municipioid').empty();
+                $('#municipioid').append(muni);
             });
-            $('#municipioid').empty();
-            $('#municipioid').append(muni);
         });
-    });
-    function comparar(nombre){
-        if($('#'+nombre).val() != $('#'+nombre+'_2').val()){
-            $('#msgError').removeClass('hide');
-            $('#guardar').hide();
-        }else{
-            $('#msgError').addClass('hide');
-            $('#guardar').show();
+
+        // --------------------------------
+        // Compara dos valores se utiliza
+        // para validar las contraseñas
+        // ---------------------------------
+        function comparar(nombre){
+            if($('#'+nombre).val() != $('#'+nombre+'_2').val()){
+                $('#msgError').removeClass('hide');
+                $('#guardar').hide();
+            }else{
+                $('#msgError').addClass('hide');
+                $('#guardar').show();
+            }
         }
-    }
-    @if($embed)
-    //haciendo submit de los campos genericos
-        var array = {
-            @foreach($campos as $c)
-                <?php $id = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo'];?>
-                @if($c['edit'] == true)
-                    {{$id}} : $('#{{$id}}').val(),
-                @endif
-            @endforeach
-            id        : $('#id').val(),
-            token : $('#_token').val()
-        }
-        $('#guardar').click(function(event){
-            $.post('{{$action}}', array, function(data){
-                console.log(data);
-            })
-        })
-    @endif
-</script>
+    </script>
 @endsection
