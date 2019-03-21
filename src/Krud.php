@@ -36,15 +36,16 @@ class Krud extends Controller
     private $storemsg = null;
 
     // variales en array
-    private $rt       = [];
-    private $joins    = [];
-    private $embed    = [];
-    private $wheres   = [];
-    private $campos   = [];
-    private $botones  = [];
-    private $parents  = [];
-    private $orderBy  = [];
-    private $template = [
+    private $rt = [];
+    private $joins = [];
+    private $embed = [];
+    private $wheres = [];
+    private $campos = [];
+    private $botones = [];
+    private $parents = [];
+    private $orderBy = [];
+    private $orWheres = [];
+    private $template= [
         'datatable',
     ];
 
@@ -301,6 +302,20 @@ class Krud extends Controller
     }
 
     /**
+     * setOrWhere
+     *
+     * @param  mixed $column
+     * @param  mixed $op
+     * @param  mixed $column2
+     *
+     * @return void
+     */
+    public function setOrWhere($column, $op='=', $column2)
+    {
+        array_push($this->orWheres, [$column, $op, $column2]);
+    }
+
+    /**
      * setOrderBy
      * Define el orden para obtener la data que se mostrara en la vista index.
      *
@@ -426,6 +441,11 @@ class Krud extends Controller
         // Agregando wehres a la consulta
         foreach ($this->wheres as $where) {
             $data->where($where[0], $where[1], $where[2]);
+        }
+        
+        // Agregando orWhere a la onsulta general
+        foreach ($this->orWheres as $orWhere) {
+            $data->orWhere($orWhere[0], $orWhere[1], $orWhere[2]);
         }
         
         // Agregando el orden para mostrar los datos
@@ -629,6 +649,12 @@ class Krud extends Controller
         $limit   = $request->length != '' ? $request->length : 10;
         $offset  = $request->start ? $request->start : 0;
         $columns = $this->getColumnas($this->getSelectShow());
+
+        if (!empty($request->search['value'])) {
+            foreach ($columns as $column) {
+                $this->setOrWhere($column, 'like', '%'.$request->search['value'].'%');
+            }   
+        }
 
         // Obteniendo los datos de la tabla
         $data = $this->getData($limit, $offset);
