@@ -2,9 +2,10 @@
 
 namespace Icebearsoft\Kitukizuri;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\ServiceProvider;
 
 class KitukizuriServiceProvider extends ServiceProvider
 {
@@ -51,6 +52,18 @@ class KitukizuriServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/public' => $this->app->basePath() . '/public',
        ]);
+
+       Route::group(['prefix' => 'kk','namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
+            Route::get('/', 'DashboardController@index')->name('dashboard.index');
+            Route::resource('roles', 'RolesController');
+            Route::resource('modulos', 'ModulosController');
+            Route::resource('usuarios', 'UsuariosController');
+            Route::resource('asignarpermiso', 'UsuarioRolController');
+            Route::resource('permisos', 'PermisosController', ['only'=>['index', 'store']]);
+            Route::resource('rolpermisos', 'RolesPermisosController', ['only'=>['index', 'store']]);
+            Route::resource('empresas', 'EmpresasController');
+            Route::resource('moduloempresas', 'ModuloEmpresasController'); 
+       });
     }
 
     /**
@@ -60,9 +73,6 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Registrando provider de rutas
-        $this->app->register('Icebearsoft\Kitukizuri\KitukizuriRouteServiceProvider');
-
         $this->app->singleton('kitukizuri', function ($app) {
             return new KituKizuri;
         });
