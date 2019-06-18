@@ -39,6 +39,7 @@
 @endsection
 @section('scripts')
     <script>
+        $('[data-toggle="tooltip"]').tooltip()
         $('#table1').DataTable({
             //"bLengthChange": false,
             "sortable": false,
@@ -92,7 +93,7 @@
             console.log(botones)
             $.each(botones, function(index, val) {
                 var url = val.url.replace('{id}', id);
-                buttons += '<div class="col-md-6"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><span class="zmdi zmdi-'+val.icon+'"></span> '+val.nombre+'</a></div>'
+                buttons += '<div class="col-md-6"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><span class="'+val.icon+'"></span> '+val.nombre+'</a></div>'
             });
             $('#modalContent').empty();
             $('#modalContent').append(buttons);

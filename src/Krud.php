@@ -673,23 +673,31 @@ class Krud extends Controller
             // Validando si los botones son mas de uno para renderdizar modal
             if (!empty($this->botones) && count($this->botones) > 1) {
                 //recorriendo todos los botones extras
-                foreach($this->botones as $boton) {
-                    $boton['url'] = str_replace('{id}', $item['__id__'], $boton['url']);
-                    $btns .= '<a href="'.$boton['url'].'" class="btn btn-xs btn-sm btn-'.$boton['class'].'"><span class="'.$boton['icon'].'"></span></a>';
-                }
-            } else {
-                $btns .= '<a 
+                $btns .= '<a
+                    data-toggle="tooltip" data-placement="left" title="Mas opciones" 
                     href="javascript:void(0)" 
                     class="btn btn-xs btn-sm btn-warning" 
                     onclick="opciones('.$item['__id__'].')">
                         <span class="'.$icnOptions.'"></span>
                     </a>';
+            } else {
+                foreach($this->botones as $boton) {
+                    //dd($boton);
+                    $boton['url'] = str_replace('{id}', $item['__id__'], $boton['url']);
+                    $btns .= '<a 
+                        data-toggle="tooltip" data-placement="left" title="'.$boton['nombre'].'" 
+                        href="'.$boton['url'].'" 
+                        class="btn btn-xs btn-sm btn-'.$boton['class'].'">
+                            <span class="'.$boton['icon'].'"></span>
+                        </a>';
+                }
             }
 
             //Agregando boton para Editar
             if(in_array('edit', $permisos)) {
                 $btns .= '<a 
-                    href="javascript:void(0)" 
+                    href="javascript:void(0)"
+                    data-toggle="tooltip" data-placement="left" title="Editar" 
                     onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" 
                     class="btn btn-xs btn-sm btn-primary">
                         <span class="'.$icnEdit.'"></span>
@@ -698,7 +706,8 @@ class Krud extends Controller
 
             if(in_array('destroy', $permisos)) {
                 $btns .= '<a 
-                    href="javascript:void(0)" 
+                    href="javascript:void(0)"
+                    data-toggle="tooltip" data-placement="left" title="Eliminar" 
                     onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" 
                     class="btn btn-xs btn-sm btn-danger">
                         <span class="'.$icnDelete.'"></span>

@@ -155,14 +155,18 @@
                 <!-- ============================================================== -->
                 <!-- Row -->
                 <div class="row">
-                    <!-- Column -->
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-block">
-                                @yield('content')
+                    @if (!empty($dash))
+                        @yield('content')
+                    @else
+                        <!-- Column -->
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-block">
+                                    @yield('content')
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
