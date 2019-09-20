@@ -9,7 +9,7 @@
                     los modulos seleccionados seran los unicos a los que tiene acceso la empresa.
                 </span>
             </div>
-            <form action="/kk/moduloempresas" method="post">
+            <form action="{{route('moduloempresas.store')}}" method="post">
                 {{csrf_field()}}
                 <input type="hidden" name="empresa" value="{{$empresa}}">
                 @foreach($modulos as $m)

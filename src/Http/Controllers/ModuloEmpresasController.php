@@ -52,7 +52,7 @@ class ModuloEmpresasController extends Controller
 			$me->save();
          }    	
          $ruta = route('moduloempresas.index');
-    	return redirect(route($ruta).'?parent='.$request->empresa);
+    	return redirect($ruta.'?parent='.$request->empresa);
     }
 
     /**
