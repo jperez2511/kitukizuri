@@ -31,8 +31,8 @@
                         </div>
                     </div>
                 @elseif($c['tipo'] == 'password')
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{$c['nombre']}}</label>
