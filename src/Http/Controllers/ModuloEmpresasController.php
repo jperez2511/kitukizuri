@@ -50,8 +50,9 @@ class ModuloEmpresasController extends Controller
 			$me->moduloid = $modulo;
 			$me->empresaid = $request->empresa;
 			$me->save();
-	 	}    	
-    	return redirect('/kk/moduloempresas?parent='.$request->empresa);
+         }    	
+         $ruta = route('moduloempresas.index');
+    	return redirect($ruta.'?parent='.$request->empresa);
     }
 
     /**

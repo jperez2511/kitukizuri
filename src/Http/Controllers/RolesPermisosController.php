@@ -27,10 +27,10 @@ class RolesPermisosController extends Controller
         $modulos = Modulo::with('modulopermiso', 'modulopermiso.permisos')->orderBy('nombre')->get();
         $rmp = RolModuloPermiso::where('rolid', $rolid)->select('modulopermisoid')->pluck('modulopermisoid')->toArray();
         return view('kitukizuri::modulopermisos', [
-            'modulos'=>$modulos,
-            'rmp' => $rmp,
-            'layout' => 'krud.layout',
-            'titulo' => 'Permisos'
+            'modulos' => $modulos,
+            'rmp'     => $rmp,
+            'layout'  => 'krud.layout',
+            'titulo'  => 'Permisos'
         ]);
     }
 
@@ -57,6 +57,6 @@ class RolesPermisosController extends Controller
         
         $roles = UsuarioRol::where('usuarioid', Auth::id())->get();
 
-        return redirect('/kk/roles');
+        return redirect()->route('roles.index');
     }
 }

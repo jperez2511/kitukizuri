@@ -16,9 +16,9 @@ class ModulosController extends Krud
     {
         $this->setModel(new Modulo);
         $this->setTitulo('Modulos');
-        $this->setCampo(['nombre'=>'Nombre', 'campo'=>'nombre']);
-        $this->setCampo(['nombre'=>'Ruta', 'campo'=>'ruta']);
-        $this->setBoton(['nombre'=>'Permisos', 'url'=>'/kk/permisos?id={id}', 'class'=>'success', 'icon'=>'zmdi zmdi-globe-lock']);
+        $this->setCampo(['nombre'=>'Nombre', 'campo'=> 'nombre']);
+        $this->setCampo(['nombre'=>'Ruta', 'campo'=> 'ruta']);
+        $this->setBoton(['nombre'=>'Permisos', 'url'=> route('permisos.index').'?id={id}', 'class'=>'success', 'icon'=>'zmdi zmdi-globe-lock']);
         $this->setLayout('krud.layout');
     }
 }

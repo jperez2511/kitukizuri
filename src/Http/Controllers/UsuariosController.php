@@ -24,7 +24,7 @@ class UsuariosController extends Krud
         $this->setCampo(['nombre'=>'Email', 'campo'=>'email']);
         $this->setCampo(['nombre'=>'Nombre', 'campo'=>'name']);
         $this->setCampo(['nombre'=>'Constraseña', 'campo'=>'password', 'tipo'=>'password', 'show'=>false]);
-        $this->setBoton(['nombre'=>'Asignar Permiso', 'url'=>'/kk/asignarpermiso?parent={id}', 'class'=>'success', 'icon'=>'fa fa-lock']);
+        $this->setBoton(['nombre'=>'Asignar Permiso', 'url'=>route('asignarpermiso.index').'?parent={id}', 'class'=>'success', 'icon'=>'fa fa-lock']);
         $this->setLayout('krud.layout');
         $this->middleware(function ($request, $next) {
             if (!empty(Auth::user()->empresaid)) {

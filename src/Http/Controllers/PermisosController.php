@@ -79,6 +79,6 @@ class PermisosController extends Controller
 			$mp->permisoid = $p;
 			$mp->save();
 		}
-		return redirect('/kk/modulos');
+		return redirect()->route('modulos.index');
 	}
 }
