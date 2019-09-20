@@ -7,7 +7,7 @@
 				Permisos
 				<span class="panel-subtitle">estos permisos pertenecen al modulo, seran agregados pero no activados.</span>
 			</div>
-			<form action="/kk/permisos" method="post">
+			<form action="{{route('permisos.store')}}" method="post">
 				{{csrf_field()}}
 				<input type="hidden" name="modulo" value="{{$modulo}}">
 				@foreach($permisos as $p)
