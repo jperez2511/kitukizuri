@@ -14,10 +14,10 @@ class Menu extends Migration
     public function up()
     {   
         Schema::create('menu', function (Blueprint $table) {
-            $table->increments('menuid');
-            $table->integer('padreid')->nullable()->unsigned();
-            $table->integer('modulopermisoid')->nullable()->unsigned();
-            $table->integer('orden')->unsigned();
+            $table->bigIncrements('menuid');
+            $table->bigInteger('padreid')->nullable()->unsigned();
+            $table->bigInteger('modulopermisoid')->nullable()->unsigned();
+            $table->bigInteger('orden')->unsigned();
             $table->string('icono');
             $table->string('ruta');
             $table->string('etiqueta');

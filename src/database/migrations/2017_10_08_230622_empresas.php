@@ -14,7 +14,7 @@ class Empresas extends Migration
     public function up()
     {   
         Schema::create('empresas', function (Blueprint $table) {
-            $table->increments('empresaid');
+            $table->bigIncrements('empresaid');
             $table->string('nombre');
             $table->string('telefono');
             $table->string('correo');
@@ -26,19 +26,19 @@ class Empresas extends Migration
         });
         
         Schema::table('users', function($table) {
-            $table->integer('empresaid')->unsigned()->nullable()->after('id');
+            $table->bigInteger('empresaid')->unsigned()->nullable()->after('id');
             $table->foreign('empresaid')->references('empresaid')->on('empresas');
         });
 
         Schema::table('roles', function($table) {
-            $table->integer('empresaid')->unsigned()->nullable()->after('rolid');
+            $table->bigInteger('empresaid')->unsigned()->nullable()->after('rolid');
             $table->foreign('empresaid')->references('empresaid')->on('empresas');
         });
         
         Schema::create('moduloEmpresas', function (Blueprint $table) {
-            $table->increments('moduloempresaid');
-            $table->integer('empresaid')->unsigned();
-            $table->integer('moduloid')->unsigned();
+            $table->bigIncrements('moduloempresaid');
+            $table->bigInteger('empresaid')->unsigned();
+            $table->bigInteger('moduloid')->unsigned();
             $table->foreign('empresaid')->references('empresaid')->on('empresas');
             $table->foreign('moduloid')->references('moduloid')->on('modulos');
             $table->nullableTimestamps();
