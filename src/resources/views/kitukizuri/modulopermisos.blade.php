@@ -14,25 +14,27 @@
                     <a href="javascript:void(0)" onclick="todos()" title="">Todos</a>
                     |
                     <a href="javascript:void(0)" onclick="none()" title="">Ninguno</a>
-                </div>              
-                @foreach($modulos as $m)
-                    <div class="col-md-12">
-                        <div class="ribbon-wrapper">
-                            <div class="ribbon {!! $color[rand(0,6)] !!}">{{$m->nombre}}</div>
-                            @foreach($m->modulopermiso()->get() as $mp)
-                                <?php $p = $mp->permisos()->first(); ?>
-                                <div class="col-md-3 col-xs-3">
-                                    <div class="be-checkbox be-checkbox-color {{$p->color}} inline">
-                                        <input class="check" id="{{$mp->modulopermisoid}}" name="permisos[]" value="{{$mp->modulopermisoid}}" type="checkbox" {{in_array($mp->modulopermisoid, $rmp) ? 'checked' : ''}}>
-                                        <label for="{{$mp->modulopermisoid}}">{{$p->nombre}}</label>
+                </div>  
+                <div class="row">
+                    @foreach($modulos as $m)
+                        <div class="col-md-4">
+                            <div class="ribbon-wrapper">
+                                <div class="ribbon {!! $color[rand(0,6)] !!}">{{$m->nombre}}</div>
+                                @foreach($m->modulopermiso()->get() as $mp)
+                                    <?php $p = $mp->permisos()->first(); ?>
+                                    <div class="col-md-3 col-xs-3">
+                                        <div class="be-checkbox be-checkbox-color {{$p->color}} inline">
+                                            <input class="check" id="{{$mp->modulopermisoid}}" name="permisos[]" value="{{$mp->modulopermisoid}}" type="checkbox" {{in_array($mp->modulopermisoid, $rmp) ? 'checked' : ''}}>
+                                            <label for="{{$mp->modulopermisoid}}">{{$p->nombre}}</label>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
-                            <div class="clearfix"></div>
+                                @endforeach
+                                <div class="clearfix"></div>
+                            </div>
+                            <div style="height: 10px;"></div>
                         </div>
-                        <div style="height: 10px;"></div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>            
                 <div class="col-md-12 text-center">
                     <input type="submit" class="btn btn-success" value="Guardar">
                 </div>
