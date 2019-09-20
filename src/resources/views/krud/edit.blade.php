@@ -31,20 +31,22 @@
                         </div>
                     </div>
                 @elseif($c['tipo'] == 'password')
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{$c['nombre']}}</label>
-                            <input type="password" name="{{$nombre}}" id="{{$nombre}}" onkeyup="comparar('{{$nombre}}')" class="form-control">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{$c['nombre']}}</label>
+                                    <input type="password" name="{{$nombre}}" id="{{$nombre}}" onkeyup="comparar('{{$nombre}}')" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Confirmar {{$c['nombre']}}</label>
+                                    <input type="password" name="" id="{{$nombre}}_2" onkeyup="comparar('{{$nombre}}')" class="form-control">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Confirmar {{$c['nombre']}}</label>
-                            <input type="password" name="" id="{{$nombre}}_2" onkeyup="comparar('{{$nombre}}')" class="form-control">
-                        </div>
-                    </div>
-                </div>
                 @elseif($c['tipo'] == 'combobox')
                     <div class="col-md-6">
                         <div class="form-group">
