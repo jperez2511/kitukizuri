@@ -34,7 +34,7 @@ class PermisosController extends Controller
 		foreach ($mp as $id) {
 			$permiso = RolModuloPermiso::where('modulopermisoid', $id)->first();
 			if (!empty($permiso)) {
-				return view('kitukizuri.error', [
+				return view('kitukizuri::error', [
 					'msg' => 'El modulo a editar ya tiene permisos asignados a los roles. Se recomienda ingresarlos desde los Seeders.',
 					'type' => 'warning',
 					'layout' => 'krud.layout',
