@@ -17,14 +17,14 @@
 
     <!-- Datatable -->
     {{-- <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" id="theme" rel="stylesheet"> --}}
-    <link href="/kitukizuri/css/datatable.css" rel="stylesheet">
+    <link href="{{asset('/kitukizuri/css/datatable.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css">
     
     <!-- Custom CSS -->
-    <link href="/kitukizuri/css/style.css" rel="stylesheet">
+    <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet">
 
     <!-- You can change the theme colors from here -->
-    <link href="/kitukizuri/css/blue.css" id="theme" rel="stylesheet">
+    <link href="{{asset('/kitukizuri/css/blue.css')}}" id="theme" rel="stylesheet">
     
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -109,15 +109,15 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="/kk" aria-expanded="false"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw"></i><span class="hide-menu">Dashboard</span></a>
+                        <li> <a class="waves-effect waves-dark" href="{{route('dashboard.index')}}" aria-expanded="false"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw"></i><span class="hide-menu">Dashboard</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/empresas" aria-expanded="false"><i class="zmdi zmdi-balance zmdi-hc-fw"></i><span class="hide-menu">Empresas</span></a>
+                        <li> <a class="waves-effect waves-dark" href="{{route('empresas.index')}}" aria-expanded="false"><i class="zmdi zmdi-balance zmdi-hc-fw"></i><span class="hide-menu">Empresas</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/modulos" aria-expanded="false"><i class="zmdi zmdi-apps zmdi-hc-fw"></i><span class="hide-menu">Modulos</span></a>
+                        <li> <a class="waves-effect waves-dark" href="{{route('modulos.index')}}" aria-expanded="false"><i class="zmdi zmdi-apps zmdi-hc-fw"></i><span class="hide-menu">Modulos</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/roles" aria-expanded="false"><i class="zmdi zmdi-traffic zmdi-hc-fw"></i><span class="hide-menu">Roles</span></a>
+                        <li> <a class="waves-effect waves-dark" href="{{route('roles.index')}}" aria-expanded="false"><i class="zmdi zmdi-traffic zmdi-hc-fw"></i><span class="hide-menu">Roles</span></a>
                         </li>
-                        <li> <a class="waves-effect waves-dark" href="/kk/usuarios" aria-expanded="false"><i class="zmdi zmdi-accounts zmdi-hc-fw"></i><span class="hide-menu">Usuarios</span></a>
+                        <li> <a class="waves-effect waves-dark" href="{{route('usuarios.index')}}" aria-expanded="false"><i class="zmdi zmdi-accounts zmdi-hc-fw"></i><span class="hide-menu">Usuarios</span></a>
                         </li>
                     </ul>
                     <div class="text-center m-t-30">
@@ -200,16 +200,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="/kitukizuri/js/jquery.slimscroll.js"></script>
+    <script src="{{asset('/kitukizuri/js/jquery.slimscroll.js')}}"></script>
     <!--Wave Effects -->
-    <script src="/kitukizuri/js/waves.js"></script>
+    <script src="{{asset('/kitukizuri/js/waves.js')}}"></script>
     <!--Menu sidebar -->
-    <script src="/kitukizuri/js/sidebarmenu.js"></script>
+    <script src="{{asset('/kitukizuri/js/sidebarmenu.js')}}"></script>
     <!--stickey kit -->
     <script src="https://cdn.rawgit.com/leafo/sticky-kit/v1.1.2/jquery.sticky-kit.min.js"></script>
     
     <!--Custom JavaScript -->
-    <script src="/kitukizuri/js/custom.min.js"></script>
+    <script src="{{asset('/kitukizuri/js/custom.min.js')}}"></script>
     
     <!--Datatable -->
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>

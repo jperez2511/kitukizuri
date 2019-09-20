@@ -573,7 +573,7 @@ class Krud extends Controller
             }
         }
 
-        return implode('/', $ruta);
+        return route(end($ruta).'.index');
     }
 
     /**

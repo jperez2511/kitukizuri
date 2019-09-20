@@ -47,20 +47,20 @@
             "processing": true,
             "lengthMenu": 10,
             "ajax": {
-                url:  "/{{$ruta}}/0"+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''),
+                url:  "{{$ruta}}/0"+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''),
 		        type:  'GET',
             },
             "buttons": [{
                 text: 'Agregar',
                 action: function ( e, dt, node, config ) {
-                    location.replace('/{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
+                    location.replace('{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
                 }
             }],
             "sDom": 'Bfrtip'
             //"sDom": '<"row"<"col-sm-12 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left" i><"pull-right"p>'
         });
         function edit(id){
-            var url = '/{{$ruta}}';
+            var url = '{{$ruta}}';
             var id2 = null;
             if(url.includes('?')){
                 var result = url.split('?');
