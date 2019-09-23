@@ -48,11 +48,13 @@ class RolesPermisosController extends Controller
     
         RolModuloPermiso::where('rolid', $id)->delete();
         
-        foreach ($permisos as $p) {
-            $tmp = new RolModuloPermiso;
-            $tmp->rolid = $id;
-            $tmp->modulopermisoid = $p;
-            $tmp->save();
+        if(!empty($permisos)){
+            foreach ($permisos as $p) {
+                $tmp = new RolModuloPermiso;
+                $tmp->rolid = $id;
+                $tmp->modulopermisoid = $p;
+                $tmp->save();
+            }
         }
         
         $roles = UsuarioRol::where('usuarioid', Auth::id())->get();
