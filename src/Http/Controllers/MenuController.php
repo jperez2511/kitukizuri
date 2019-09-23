@@ -86,7 +86,7 @@ class MenuController
             $formato = config('kitukizuri.menu.li-parent.layout');
                 
             // remplazando url
-            $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : $nodo->ruta), $formato);
+            $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : route($nodo->ruta.'.index')), $formato);
 
             // remplazando icono
             $formato = str_replace('{{icono}}', $nodo->icono, $formato );
@@ -122,7 +122,7 @@ class MenuController
             $formato = config('kitukizuri.menu.li-jr.layout');
                 
             // remplazando url
-            $formato = str_replace('{{url}}', $nodo->ruta, $formato);
+            $formato = str_replace('{{url}}', $nodo->ruta == '/' ? $nodo->ruta : route($nodo->ruta.'.index'), $formato);
 
             // remplazando label
             $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
