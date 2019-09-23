@@ -811,77 +811,80 @@ class Krud extends Controller
         if ($id != 0) {
             $this->model = $this->model->find($id);
         }
-
+        
+        // inputs 
         $in = $request->all();
 
-        foreach ($this->campos as $c) {  
-            if (array_key_exists($c['campo'], $in)) {
-                $v = $in[$c['campo']];
-                if ($c['tipo'] == 'date') {
-                    $v = $this->toDateMysql($v);
-                }
-                if ($c['tipo'] == 'numeric') {
-                    $v = str_replace(',', '', $v);
-                }
-                if ($c['tipo'] == 'password') {
-                    if (!empty($v)) {
-                        $v = bcrypt($v);
-                    } else {
-                        $v = $this->model->{$k};
+        // validando los campos que vienen
+        foreach ($in as $k => $v) {
+            if ($k != '_token' && $k != 'id') {
+                foreach ($this->campos as $c) {
+                    if ($c['campo'] == $k && $c['tipo'] == 'date') {
+                        $v = $this->toDateMysql($v);
                     }
-                }
-                if (($c['tipo'] == 'image' || $c['tipo'] == 'file64')) {
-                    if ($request->hasFile($c['campo'])) {
-                        $file = $request->file($c['campo']);
-                        $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
-                        
-                        //$filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
-                        //$path     = public_path() . $campo['filepath'];
-
-                        // if (!file_exists($path)) {
-                        // mkdir($path, 0777, true);
-                        // }
-
-                        // $file->move($path, $filename);
-                        $v = $file;
-                    } else {
-                        $v = $this->model->{$k};
+                    if ($c['campo'] == $k && $c['tipo'] == 'numeric') {
+                        $v = str_replace(',', '', $v);
                     }
-                }
-                if ($c['tipo'] == 'file') {
-                    if ($request->hasFile($c['campo'])) {
-                        $file = $request->file($c['campo']);
-                        // $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
-                        $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
-                        $path     = public_path() . $c['filepath'];
-
-                        if (!file_exists($path)) {
-                            mkdir($path, 0777, true);
+                    if ($c['campo'] == $k && $c['tipo'] == 'password') {
+                        if (!empty($v)) {
+                            $v = bcrypt($v);
+                        } else {
+                            $v = $this->model->{$k};
                         }
-
-                        $file->move($path, $filename);
-                        $v = $file;
-                    } else {
-                        $v = $this->model->{$k};
                     }
+                    if ($c['campo'] == $k && ($c['tipo'] == 'image' || $c['tipo'] == 'file64')) {
+                        if ($request->hasFile($c['campo'])) {
+                            $file = $request->file($c['campo']);
+                            $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
+                            
+                            //$filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
+                            //$path     = public_path() . $campo['filepath'];
+    
+                            // if (!file_exists($path)) {
+                            // mkdir($path, 0777, true);
+                            // }
+    
+                            // $file->move($path, $filename);
+                            $v = $file;
+                        } else {
+                            $v = $this->model->{$k};
+                        }
+                    }
+                    if ($c['campo'] == $k && $c['tipo'] == 'file') {
+                        if ($request->hasFile($c['campo'])) {
+                            $file = $request->file($c['campo']);
+                            // $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
+                            $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
+                            $path     = public_path() . $c['filepath'];
+    
+                            if (!file_exists($path)) {
+                                mkdir($path, 0777, true);
+                            }
+    
+                            $file->move($path, $filename);
+                            $v = $file;
+                        } else {
+                            $v = $this->model->{$k};
+                        }
+                    }
+                    if ($c['campo'] == $k && $c['tipo'] == 'bool') {
+                        $v = $v == 'on' ?  true : false;
+                    }    
                 }
-                if ($c['tipo'] == 'bool') {
-                    $v = $v == 'on' ?  true : false;
-                }
-
-            } else {
-                if ($c['tipo'] == 'bool') {
-                    $v = false;
-                    $this->model->{$c['campo']} = $v;
-                }
+                $this->model->{$k} = $v;
             }
-            
-            if ($this->parentid == $c['campo']) {
+            if ($this->parentid == $k) {
                 $param = '?parent='.$v;
             }
         }
 
         foreach ($this->campos as $c) {
+            if (!array_key_exists($c['campo'], $in)) {
+                if ($c['tipo'] == 'bool') {
+                    $this->model->{$c['campo']} = false;
+                }
+            }
+
             if ($c['tipo'] == 'hidden') {
                 $this->model->{$c['campo']} = $c['value'] == 'userid' ? Auth::id() : $c['value'];
             }
