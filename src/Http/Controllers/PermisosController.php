@@ -73,11 +73,13 @@ class PermisosController extends Controller
 		$permisos = $request->get('permisos');
 
 		ModuloPermiso::where('moduloid',$modulo)->delete();
-		foreach($permisos as $p){
-			$mp = new ModuloPermiso;
-			$mp->moduloid  = $modulo;
-			$mp->permisoid = $p;
-			$mp->save();
+		if(!empty($permisos)){
+			foreach($permisos as $p){
+				$mp = new ModuloPermiso;
+				$mp->moduloid  = $modulo;
+				$mp->permisoid = $p;
+				$mp->save();
+			}
 		}
 		return redirect()->route('modulos.index');
 	}
