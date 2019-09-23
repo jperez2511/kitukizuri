@@ -872,9 +872,10 @@ class Krud extends Controller
             } else {
                 if ($c['tipo'] == 'bool') {
                     $v = false;
+                    $this->model->{$c['campo']} = $v;
                 }
             }
-            $this->model->{$c['campo']} = $v;
+            
             if ($this->parentid == $c['campo']) {
                 $param = '?parent='.$v;
             }
