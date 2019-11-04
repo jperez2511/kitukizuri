@@ -40,7 +40,7 @@ class KituKizuri extends Controller
         }
         if ($rNombre == 'index') {
             $rNombre = ['show'];
-        } elseif ($rNombre == 'store') {
+        } elseif ($rNombre == 'store' || $rNombre == 'update') {
             $rNombre = ['create','edit'];
         } else {
             $rNombre = [$rNombre];
