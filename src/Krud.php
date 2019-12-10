@@ -36,15 +36,16 @@ class Krud extends Controller
     private $storemsg = null;
 
     // variales en array
-    private $rt = [];
-    private $joins = [];
-    private $embed = [];
-    private $wheres = [];
-    private $campos = [];
-    private $botones = [];
-    private $parents = [];
-    private $orderBy = [];
-    private $orWheres = [];
+    private $rt        = [];
+    private $joins     = [];
+    private $embed     = [];
+    private $wheres    = [];
+    private $campos    = [];
+    private $botones   = [];
+    private $parents   = [];
+    private $orderBy   = [];
+    private $orWheres  = [];
+    private $leftJoins = [];
     private $template= [
         'datatable',
     ];
@@ -287,6 +288,21 @@ class Krud extends Controller
     }
 
     /**
+     * setLeftJoin
+     *
+     * @param  mixed $tabla
+     * @param  mixed $v1
+     * @param  mixed $operador
+     * @param  mixed $v2
+     *
+     * @return void
+     */
+    public function setLeftJoin($tabla, $v1, $operador, $v2)
+    {
+        array_push($this->leftJoins, ['tabla'=>$tabla,'value1'=>$v1,'operador'=>$operador, 'value2'=>$v2]);
+    }
+
+    /**
      * setWhere
      * Define las condiciones al momento de obtener la data y mostrarla en la vista index.
      *
@@ -436,6 +452,11 @@ class Krud extends Controller
         //agregando joins a la consulta
         foreach ($this->joins as $join) {
             $data->join($join['tabla'], $join['value1'], $join['operador'], $join['value2']);
+        }
+
+        //agregando leftJoins a la consulta
+        foreach ($this->leftJoins as $leftJoin) {
+            $data->leftJoin($leftJoin['tabla'], $leftJoin['value1'], $leftJoin['operador'], $leftJoin['value2']);
         }
 
         // Agregando wehres a la consulta
