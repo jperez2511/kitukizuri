@@ -151,7 +151,7 @@ class MenuController
         
         // recorrido y validacion de permisos de los hijos 
         foreach ($hijos as $hijo) {
-            if ($hijo->modulopermisoid != null && in_array($nodo->modulopermisoid, $this->permisos)) {
+            if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
                 $permiso = 1;
                 break;
             }
