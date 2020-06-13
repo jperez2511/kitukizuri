@@ -110,7 +110,9 @@ class MenuController
                 $this->tree .= '>';
                 
                 foreach ($hijos as $hijo) {
-                    $this->getNodos($hijo);
+                    if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
+                        $this->getNodos($hijo);
+                    }
                 }
                 
                 // Cerrando las etiquetas
