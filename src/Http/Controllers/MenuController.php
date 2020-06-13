@@ -79,7 +79,11 @@ class MenuController
         if ($hijos->count() > 0 || $nodo->padreid == null) {
             
             if ($nodo->modulopermisoid == null) {
-                return 0;
+                // valida si alguno de los hijos tiene permisos
+                $result = $this->hijosPermisos($nodo);
+                if ($result != 1) {
+                    return 0;    
+                }
             }
 
             //aplicando formato para el li cuando es padre
@@ -130,5 +134,29 @@ class MenuController
             $this->tree .= '<li class="'.config('kitukizuri.menu.li-jr.class').'">'.$formato;
             $this->tree .= '</li>';
         }
+    }
+    
+    /**
+     * hijosPermisos
+     *
+     * @param  mixed $nodo
+     * @return void
+     */
+    public function hijosPermisos($nodo)
+    {
+        // estado inicial
+        $permiso = 0;
+
+        $hijos = Menu::getHijos($nodo->menuid);
+        
+        // recorrido y validacion de permisos de los hijos 
+        foreach ($hijos as $hijo) {
+            if ($hijo->modulopermisoid != null) {
+                $permiso = 1;
+                break;
+            }
+        }
+
+        return $permiso;
     }
 }
