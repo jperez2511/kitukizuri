@@ -530,7 +530,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    private function getColumnas($campos)
+    private function getColumnas($campos, $onlyCampos = false)
     {
         $s = [];
         for ($i = 0; $i <count($campos); $i++) {
@@ -538,8 +538,12 @@ class Krud extends Controller
                 array_push($s, $campos[$i]);
             }
         }
-        return array_map(function ($c) {
-            return $c['nombre'];
+        return array_map(function ($c) use ($onlyCampos) {
+            if ($onlyCampos == true) {
+                return $c['campo'];
+            } else {
+                return $c['nombre'];
+            }
         }, $s);
     }
 
@@ -669,10 +673,12 @@ class Krud extends Controller
         // Datos para paginacion
         $limit   = $request->length != '' ? $request->length : 10;
         $offset  = $request->start ? $request->start : 0;
-        $columns = $this->getColumnas($this->getSelectShow());
-
+        $columns = $this->getColumnas($this->getSelectShow(), true);
         if (!empty($request->search['value'])) {
             foreach ($columns as $column) {
+                if (strpos($column, 'as')) {
+                    $column = trim(explode('as', $column)[0]);
+                }
                 $this->setOrWhere($column, 'like', '%'.$request->search['value'].'%');
             }   
         }
