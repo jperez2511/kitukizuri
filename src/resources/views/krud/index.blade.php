@@ -56,8 +56,8 @@
                     location.replace('{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
                 }
             }],
-            "sDom": 'Bfrtip'
-            //"sDom": '<"row"<"col-sm-12 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left" i><"pull-right"p>'
+            //"sDom": 'Bfrtip'
+            "sDom": '<"row"<"col-sm-12 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left" i><"pull-right"p>'
         });
         function edit(id){
             var url = '{{$ruta}}';
@@ -79,13 +79,18 @@
             }else{
                 id2 = '';
             }
-            $.post(url+'/'+id+id2,{_token:'{{csrf_token()}}', _method:'DELETE'}, function(data){
-                if(data == 1) {
-                    window.location.reload();
-                }else{
-                    alert(data);
-                }
-            });
+
+            let result = confirm('¿Esta seguro de eliminar este elemento?');
+
+            if(result == true) {
+                $.post(url+'/'+id+id2,{_token:'{{csrf_token()}}', _method:'DELETE'}, function(data){
+                    if(data == 1) {
+                        window.location.reload();
+                    }else{
+                        alert(data);
+                    }
+                });
+            }
         }
         function opciones(id) {
             var buttons = '';
