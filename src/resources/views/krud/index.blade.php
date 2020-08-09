@@ -80,9 +80,9 @@
                 id2 = '';
             }
 
-            var result = confirm('¿Esta seguro de eliminar este elemento?');
+            var confirmResult = confirm('¿Esta seguro de eliminar este elemento?');
 
-            if(result == true) {
+            if(confirmResult == true) {
                 $.post(url+'/'+id+id2,{_token:'{{csrf_token()}}', _method:'DELETE'}, function(data){
                     if(data == 1) {
                         window.location.reload();
