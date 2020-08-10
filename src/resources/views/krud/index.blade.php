@@ -29,8 +29,8 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div id="modalContent" class="modal-body">
-              
+            <div class="modal-body">
+                <div class="row" id="modalContent"></div>
             </div>
           </div>
         </div>
