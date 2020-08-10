@@ -94,7 +94,7 @@
         }
         function opciones(id) {
             var buttons = '';
-            var botones = {!! json_encode($botones) !!}
+            var botones = {!! $botones !!}
             console.log(botones)
             $.each(botones, function(index, val) {
                 var url = val.url.replace('{id}', id);
