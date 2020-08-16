@@ -613,7 +613,7 @@ class Krud extends Controller
             dd('El Modelo es requerido');
         }
 
-        json_encode($this->botones);
+        $botones = json_encode($this->botones);
         
         $ruta = $this->getModuloRuta();
         
