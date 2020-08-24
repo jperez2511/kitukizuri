@@ -36,7 +36,7 @@ class MenuController
     {
         // Obteniendo los permisos del rol
         $rolModulo = usuarioRol::with('modulos')
-            ->where('usuariorolid', Auth::id())
+            ->where('usuarioid', Auth::id())
             ->get();
         
         // poblando array permisos
