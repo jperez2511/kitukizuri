@@ -76,7 +76,7 @@ class MenuController
         // obteniendo los hijos del elemento actual
         $hijos = Menu::getHijos($nodo->menuid);
 
-        if ($hijos->count() > 0 || $nodo->padreid == null) {
+        if ($hijos->count() > 0 && $nodo->padreid == null) {
             
             if ($nodo->modulopermisoid == null) {
                 // valida si alguno de los hijos tiene permisos
@@ -129,6 +129,9 @@ class MenuController
                 
             // remplazando url
             $formato = str_replace('{{url}}', $nodo->ruta == '/' ? $nodo->ruta : route($nodo->ruta.'.index'), $formato);
+
+            // remplazando icono
+            $formato = str_replace('{{icono}}', $nodo->icono, $formato );
 
             // remplazando label
             $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
