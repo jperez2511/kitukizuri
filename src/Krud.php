@@ -182,16 +182,53 @@ class Krud extends Controller
     public function setCampo($params)
     {
         $allowed = [
-            'campo','nombre','edit','show','tipo','class','default','reglas','reglasmensaje', 'decimales',
-            'collect','enumarray','filepath', 'filewidth','fileheight','target', 'value'
+            'campo',
+            'nombre',
+            'edit',
+            'show',
+            'tipo',
+            'class',
+            'default',
+            'reglas',
+            'reglasmensaje', 
+            'decimales',
+            'collect',
+            'enumarray',
+            'filepath', 
+            'filewidth',
+            'fileheight',
+            'target', 
+            'value', 
+            'format'
         ];
-
         $tipos = [
-            'string','numeric', 'date','datetime', 'bool','combobox', 'password','enum',
-            'file','file64','image', 'textarea','url','summernote', 'hidden', 'icono'
+            'string',
+            'numeric', 
+            'date',
+            'datetime', 
+            'bool',
+            'combobox', 
+            'password',
+            'enum',
+            'file',
+            'file64',
+            'image', 
+            'textarea',
+            'url',
+            'summernote', 
+            'hidden', 
+            'icono'
         ];
 
         $this->allowed($params, $allowed);
+
+        if (!array_key_exists('campo', $params)) {
+            dd('"campo" es un parametro requerido');
+        }
+
+        if (!in_array($params['tipo'], $tipos)) {
+            dd('El tipo configurado (' . $params['tipo'] . ') no existe! solamente se permiten: ' . implode(', ', $tipos));
+        }
 
         $params['nombre']    = (!array_key_exists('nombre', $params) ? str_replace('_', ' ', ucfirst($params['campo'])) : $params['nombre']);
         $params['edit']      = (!array_key_exists('edit', $params) ? true : $params['edit']);
@@ -201,10 +238,7 @@ class Krud extends Controller
         $params['collect']   = (!array_key_exists('collect', $params) ? '' : $params['collect']);
         $params['filepath']  = (!array_key_exists('filepath', $params) ? '' : $params['filepath']);
         $params['value']     = (!array_key_exists('value', $params) ? '' : $params['value']);
-
-        if (!array_key_exists('campo', $params)) {
-            dd('"campo" es un parametro requerido');
-        }
+        $params['format']    = (!array_key_exists('format', $params) ? '' : $params['format']);
 
         if ($params['tipo'] == 'datetime' || $params['tipo'] == 'date') {
             $this->setTemplate(['datetimepicker']);
@@ -212,11 +246,6 @@ class Krud extends Controller
 
         if ($params['tipo'] == 'icono') {
             $this->setTemplate(['iconpicker']);
-        }
-
-
-        if (!in_array($params['tipo'], $tipos)) {
-            dd('El tipo configurado (' . $params['tipo'] . ') no existe! solamente se permiten: ' . implode(', ', $tipos));
         }
 
         if ($params['tipo'] == 'combobox' && ($params['collect'] == '')) {
@@ -235,7 +264,7 @@ class Krud extends Controller
         if ($params['tipo'] == 'hidden' && $params['value'] == '') {
             dd('Para el tipo hidden requiere agregar value');
         }
-
+        
         if (!strpos($params['campo'], ')')) {
             $arr = explode('.', $params['campo']);
             if (count($arr)>=2) {
@@ -422,6 +451,12 @@ class Krud extends Controller
                         // agregnado estilo visual a los campos booleanos
                         if ($cv['tipo'] == 'bool') {
                             $v = '<span class="label label-'.($v ? 'success' : 'default').'">'.($v ? 'Si' : 'No').'</span>';
+                            $data[$i][$k] = $v;
+                        } else if ($cv['tipo'] == 'url') {
+                            if($cv['format'] != '') {
+                                $v = str_replace('{value}', $v, $cv['format']);
+                            }
+                            $v = '<a href="'.$v.'">'.$v.'</a>';
                             $data[$i][$k] = $v;
                         }
                     }
@@ -629,7 +664,6 @@ class Krud extends Controller
         return view($view, [
             'titulo'     => $this->titulo,
             'columnas'   => $this->getColumnas($this->getSelectShow()),
-            'dataColumn' => $this->getSelectShow(),
             'botones'    => $botones,
             'permisos'   => $this->setPermisos(Auth::id()),
             'ruta'       => $ruta,
