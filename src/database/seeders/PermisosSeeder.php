@@ -1,11 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jperez
- * Date: 7/09/17
- * Time: 12:18 AM
- */
 
+namespace Database\Seeders;
+
+use DB;
 use Illuminate\Database\Seeder;
 
 class PermisosSeeder extends Seeder 

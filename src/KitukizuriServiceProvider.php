@@ -34,7 +34,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         ], 'migrations');
         
         $this->publishes([
-            __DIR__.'/database/seeds' => $this->app->databasePath() . '/seeds',
+            __DIR__.'/database/seeders' => $this->app->databasePath() . '/seeders',
         ], 'seeds');
         
         $this->publishes([

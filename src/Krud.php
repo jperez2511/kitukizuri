@@ -46,7 +46,7 @@ class Krud extends Controller
     private $orderBy   = [];
     private $orWheres  = [];
     private $leftJoins = [];
-    private $template= [
+    private $template  = [
         'datatable',
     ];
 
@@ -627,13 +627,14 @@ class Krud extends Controller
         }
 
         return view($view, [
-            'titulo'   => $this->titulo,
-            'columnas' => $this->getColumnas($this->getSelectShow()),
-            'botones'  => $botones,
-            'permisos' => $this->setPermisos(Auth::id()),
-            'ruta'     => $ruta,
-            'template' => $this->template,
-            'layout'   => $layout
+            'titulo'     => $this->titulo,
+            'columnas'   => $this->getColumnas($this->getSelectShow()),
+            'dataColumn' => $this->getSelectShow(),
+            'botones'    => $botones,
+            'permisos'   => $this->setPermisos(Auth::id()),
+            'ruta'       => $ruta,
+            'template'   => $this->template,
+            'layout'     => $layout
         ]);
     }
 
