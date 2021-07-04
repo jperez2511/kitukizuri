@@ -226,10 +226,6 @@ class Krud extends Controller
             dd('"campo" es un parametro requerido');
         }
 
-        if (!in_array($params['tipo'], $tipos)) {
-            dd('El tipo configurado (' . $params['tipo'] . ') no existe! solamente se permiten: ' . implode(', ', $tipos));
-        }
-
         $params['nombre']    = (!array_key_exists('nombre', $params) ? str_replace('_', ' ', ucfirst($params['campo'])) : $params['nombre']);
         $params['edit']      = (!array_key_exists('edit', $params) ? true : $params['edit']);
         $params['show']      = (!array_key_exists('show', $params) ? true : $params['show']);
@@ -239,6 +235,10 @@ class Krud extends Controller
         $params['filepath']  = (!array_key_exists('filepath', $params) ? '' : $params['filepath']);
         $params['value']     = (!array_key_exists('value', $params) ? '' : $params['value']);
         $params['format']    = (!array_key_exists('format', $params) ? '' : $params['format']);
+
+        if (!in_array($params['tipo'], $tipos)) {
+            dd('El tipo configurado (' . $params['tipo'] . ') no existe! solamente se permiten: ' . implode(', ', $tipos));
+        }
 
         if ($params['tipo'] == 'datetime' || $params['tipo'] == 'date') {
             $this->setTemplate(['datetimepicker']);
