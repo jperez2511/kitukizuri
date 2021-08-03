@@ -441,7 +441,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    private function transformData($data)
+    private function transformData($data, $prefix = null)
     {
         $i = 0;
         foreach ($data as $a) {
@@ -450,7 +450,7 @@ class Krud extends Controller
                     if ($k == $cv['campo']) {
                         // agregnado estilo visual a los campos booleanos
                         if ($cv['tipo'] == 'bool') {
-                            $v = '<span class="label label-'.($v ? 'success' : 'default').'">'.($v ? 'Si' : 'No').'</span>';
+                            $v = '<span class="'.($prefix != null && $prefix == 'kk' ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? 'Si' : 'No').'</span>';
                             $data[$i][$k] = $v;
                         } else if ($cv['tipo'] == 'url') {
                             if($cv['format'] != '') {
@@ -723,7 +723,7 @@ class Krud extends Controller
         $response['recordsTotal'] = $data[1];
         $response['recordsFiltered'] = $response['recordsTotal'];
 
-        $data = $this->transformData($data[0]->toArray());
+        $data = $this->transformData($data[0]->toArray(), $prefix);
 
         foreach ($data as $item) {
             // string de botones a imprimir
