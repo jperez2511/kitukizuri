@@ -24,11 +24,9 @@
                                     @foreach($m->modulopermiso()->get() as $mp)
                                         <?php $p = $mp->permisos()->first(); ?>
                                         <div class="col-3">
-                                            <div class="col-md-3 col-xs-3">
-                                                <div class="be-checkbox be-checkbox-color {{$p->color}} inline">
-                                                    <input class="check" id="{{$mp->modulopermisoid}}" name="permisos[]" value="{{$mp->modulopermisoid}}" type="checkbox" {{in_array($mp->modulopermisoid, $rmp) ? 'checked' : ''}}>
-                                                    <label for="{{$mp->modulopermisoid}}">{{$p->nombre}}</label>
-                                                </div>
+                                            <div class="be-checkbox be-checkbox-color {{$p->color}} inline">
+                                                <input class="check" id="{{$mp->modulopermisoid}}" name="permisos[]" value="{{$mp->modulopermisoid}}" type="checkbox" {{in_array($mp->modulopermisoid, $rmp) ? 'checked' : ''}}>
+                                                <label for="{{$mp->modulopermisoid}}">{{$p->nombre}}</label>
                                             </div>
                                         </div>
                                     @endforeach
