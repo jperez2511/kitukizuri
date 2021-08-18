@@ -8,7 +8,7 @@
                 <span class="panel-subtitle">
                     los modulos seleccionados seran los unicos a los que tiene acceso la empresa.
                 </span>
-                <br>
+                <br><br>
             </div>
             <form action="{{route('moduloempresas.store')}}" method="post">
                 {{csrf_field()}}
