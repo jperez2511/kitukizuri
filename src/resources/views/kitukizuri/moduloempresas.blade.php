@@ -12,14 +12,16 @@
             <form action="{{route('moduloempresas.store')}}" method="post">
                 {{csrf_field()}}
                 <input type="hidden" name="empresa" value="{{$empresa}}">
-                @foreach($modulos as $m)
-                    <div class="col-md-3">
-                        <div class="be-checkbox be-checkbox-color has-success inline">
-                            <input id="{{$m->moduloid}}" name="modulos[]" value="{{$m->moduloid}}" type="checkbox" {{in_array($m->moduloid, $moduloEmpresas) ? 'checked' : ''}}>
-                            <label for="{{$m->moduloid}}">{{$m->nombre}}</label>
+                <div class="row">
+                    @foreach($modulos as $m)
+                        <div class="col-md-3">
+                            <div class="be-checkbox be-checkbox-color has-success inline">
+                                <input id="{{$m->moduloid}}" name="modulos[]" value="{{$m->moduloid}}" type="checkbox" {{in_array($m->moduloid, $moduloEmpresas) ? 'checked' : ''}}>
+                                <label for="{{$m->moduloid}}">{{$m->nombre}}</label>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
                 <div class="clearfix"></div>
                 <div style=" height: 20px;"></div>
                 <div class="col-md-12 text-center">
