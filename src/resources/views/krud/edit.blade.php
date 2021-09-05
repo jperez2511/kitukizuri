@@ -20,7 +20,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{$c['nombre']}}</label>
-                            <input type="text" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control {{$c['tipo'] == 'date' ? 'date' : null}}">
+                            <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control">
                         </div>
                     </div>
                 @elseif($c['tipo'] == 'numeric')

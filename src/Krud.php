@@ -187,6 +187,7 @@ class Krud extends Controller
             'edit',
             'show',
             'tipo',
+            'column',
             'class',
             'default',
             'reglas',
