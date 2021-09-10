@@ -19,7 +19,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Icebearsoft\Kitukizuri\KitukizuriServiceProvider"
+                "Icebearsoft\\Kitukizuri\\KitukizuriServiceProvider"
             ]
         }
     }
