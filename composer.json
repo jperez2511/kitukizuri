@@ -15,5 +15,12 @@
     	"psr-4": {
     	    "Icebearsoft\\Kitukizuri\\": "src"
     	}
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Icebearsoft\Kitukizuri\KitukizuriServiceProvider"
+            ]
+        }
     }
 }
