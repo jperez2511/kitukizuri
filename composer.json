@@ -9,9 +9,6 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {
-        "icebearsoft/kitukizuri": "dev-master"
-    },
     "autoload": {
 	   "classmap": [
     	],
