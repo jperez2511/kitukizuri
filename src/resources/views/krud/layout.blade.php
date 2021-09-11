@@ -6,25 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta content="Panel de administración" name="description" />
+    <meta name="author" content="Ice Bear Soft">
     <!-- Favicon icon -->
-    <!-- <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png"> -->
+    <link rel="icon" type="image/svg" sizes="16x16" href="{{asset('kitukizuri/images/logo.svg')}}">
     <title>Kitu Kizuri</title>
     
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link href="{{asset('/kitukizuri/css/bootstrap-dark.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{asset('/kitukizuri/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+     <!-- App Css-->
+     <link href="{{asset('/kitukizuri/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" />
+     <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- Datatable -->
     {{-- <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" id="theme" rel="stylesheet"> --}}
     <link href="{{asset('/kitukizuri/css/datatable.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css">
-    
-    <!-- Custom CSS -->
-    <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet">
-
-    <!-- You can change the theme colors from here -->
-    <link href="{{asset('/kitukizuri/css/blue.css')}}" id="theme" rel="stylesheet">
     
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,186 +34,348 @@
 <![endif]-->
 </head>
 
-<body class="fix-header fix-sidebar card-no-border">
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
-                <!-- ============================================================== -->
-                <!-- Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="{{route('dashboard.index')}}" style="color: #fff">
-                        <!-- Logo icon -->
-                        <b>
-                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                            
-                            <!-- Light Logo icon -->
-                            Kitu
-                        </b>
+<body data-sidebar="dark" class="sidebar-enable vertical-collpsed">
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box">
+                        <a href="index.html" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="{{asset('kitukizuri/images/logo.svg')}}" alt="" height="40">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{asset('kitukizuri/images/logo.svg')}}" alt="" height="40">
+                            </span>
+                        </a>
+                    </div>
 
-                        <!-- Logo text -->
-                        <span> 
-                            <!-- Light Logo text -->    
-                            Kizuri
-                         </span> 
-                    </a>
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                        <i class="mdi mdi-backburger"></i>
+                    </button>
+
+                    <!-- App Search-->
+                    <form class="app-search d-none d-lg-block">
+                        <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Buscar...">
+                            <span class="mdi mdi-magnify"></span>
+                        </div>
+                    </form>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav mr-auto mt-md-0">
-                        <!-- This is  -->
-                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="zmdi zmdi-menu"></i></a> </li>
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
-                        </li>
-                    </ul>
-                    <!-- ============================================================== -->
-                    <!-- User profile and search -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav my-lg-0">
-                        <!-- ============================================================== -->
-                        <!-- Profile -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{Auth::user()->name}}</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <aside class="left-sidebar">
-            <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li> <a class="waves-effect waves-dark" href="{{route('dashboard.index')}}" aria-expanded="false"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw"></i><span class="hide-menu">Dashboard</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="{{route('empresas.index')}}" aria-expanded="false"><i class="zmdi zmdi-balance zmdi-hc-fw"></i><span class="hide-menu">Empresas</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="{{route('modulos.index')}}" aria-expanded="false"><i class="zmdi zmdi-apps zmdi-hc-fw"></i><span class="hide-menu">Modulos</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="{{route('roles.index')}}" aria-expanded="false"><i class="zmdi zmdi-traffic zmdi-hc-fw"></i><span class="hide-menu">Roles</span></a>
-                        </li>
-                        <li> <a class="waves-effect waves-dark" href="{{route('usuarios.index')}}" aria-expanded="false"><i class="zmdi zmdi-accounts zmdi-hc-fw"></i><span class="hide-menu">Usuarios</span></a>
-                        </li>
-                    </ul>
-                    <div class="text-center m-t-30">
-                        <a href="https://github.com/jperez2511/kitukizuri" target="_blank" class="btn waves-effect waves-light btn-warning hidden-md-down"> Info</a>
+
+                <div class="d-flex">
+
+                    <div class="dropdown d-inline-block d-lg-none ml-2">
+                        <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-magnify"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
+                            aria-labelledby="page-header-search-dropdown">
+                
+                            <form class="p-3">
+                                <div class="form-group m-0">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Recipient's username">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </nav>
-                <!-- End Sidebar navigation -->
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
+                            <i class="mdi mdi-information-variant"></i>
+                        </button>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-incognito"></i>  
+                            <span class="d-none d-sm-inline-block ml-1">{{Auth::user()->name}}</span>
+                            <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- item-->
+                            <a class="dropdown-item" href="#"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Perfil</a>
+                            <a class="dropdown-item" href="#"><i class="mdi mdi-credit-card-outline font-size-16 align-middle mr-1"></i> Facturación</a>
+                            <a class="dropdown-item" href="#"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Configuración</a>
+                            <a class="dropdown-item" href="#"><i class="mdi mdi-lock font-size-16 align-middle mr-1"></i> Bloquear Pantalla</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Cerrar Sesión</a>
+                        </div>
+                    </div>
+        
+                </div>
             </div>
-            <!-- End Sidebar scroll-->
-        </aside>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
-        <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
-            <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <div class="row page-titles">
-                    <div class="col-md-12 col-12 align-self-center">
-                        <h3 class="text-themecolor">{{ $titulo }}</h3>
-                    </div>
+        </header>
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+
+            <div data-simplebar class="h-100">
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li>
+                            <a href="/" class="waves-effect">
+                                <i class="mdi mdi-keyboard-return"></i>
+                                <span>Regresar a la aplicación</span>
+                            </a>
+                        </li>
+
+                        <li class="menu-title">Configuraciones</li>
+
+                        <li>
+                            <a href="{{route('usuarios.index')}}" class=" waves-effect">
+                                <i class="mdi mdi-account-supervisor text-warning"></i>
+                                <span>Usuarios</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="mdi mdi-view-dashboard-variant text-permission"></i>
+                                <span>Permisos</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{route('empresas.index')}}">Empresas</a></li>
+                                <li><a href="{{route('modulos.index')}}">Modulos</a></li>
+                                <li><a href="{{route('roles.index')}}">Roles</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="mdi mdi-database text-primary"></i>
+                                <span>Base de datos</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="email-inbox.html">Crear Conexion</a></li>
+                                <li><a href="email-read.html">Ejecutar Seeder</a></li>
+                                <li><a href="email-compose.html">Ejecutar Migrations</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="mdi mdi-package-variant-closed text-package"></i>
+                                <span>Paquetes</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="email-inbox.html">Instalar Paquetes</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                <!-- Row -->
-                <div class="row">
-                    @if (!empty($dash))
-                        @yield('content')
-                    @else
-                        <!-- Column -->
-                        <div class="col-lg-12 col-md-12">
-                            <div class="card">
-                                <div class="card-block">
-                                    @yield('content')
+                <!-- Sidebar -->
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="mb-0 font-size-18">{{ $titulo }}</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <!-- <li class="breadcrumb-item"><a href="javascript: void(0);">Apaxy</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li> -->
+                                        <li class="breadcrumb-item active">{{ $titulo }}</li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
-                    @endif
-                </div>
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
+                    </div>     
+                    <!-- end page title -->
+
+                    <div class="row">
+                        @if (!empty($dash))
+                            @yield('content')
+                        @else
+                            <!-- Column -->
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card">
+                                    <div class="card-block">
+                                        @yield('content')
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
+                </div> <!-- container-fluid -->
             </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer"> © 2018 Kitu Kizuri - Icebearsoft.com </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+            <!-- End Page-content -->
+
+            
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="offset-sm-6 col-sm-6">
+                            <div class="text-sm-right d-none d-sm-block">
+                                <span id="year"></span> © Ice Bear Soft.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
+        <!-- end main content-->
+
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="{{asset('/kitukizuri/js/jquery.slimscroll.js')}}"></script>
-    <!--Wave Effects -->
-    <script src="{{asset('/kitukizuri/js/waves.js')}}"></script>
-    <!--Menu sidebar -->
-    <script src="{{asset('/kitukizuri/js/sidebarmenu.js')}}"></script>
-    <!--stickey kit -->
-    <script src="https://cdn.rawgit.com/leafo/sticky-kit/v1.1.2/jquery.sticky-kit.min.js"></script>
-    
-    <!--Custom JavaScript -->
-    <script src="{{asset('/kitukizuri/js/custom.min.js')}}"></script>
-    
-    <!--Datatable -->
+    <!-- END layout-wrapper -->
+
+    <!-- Right Sidebar -->
+    <div class="right-bar">
+        <div data-simplebar class="h-100">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-tabs-custom rightbar-nav-tab nav-justified" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link py-3 active" data-toggle="tab" href="#tasks-tab" role="tab">
+                        <i class="mdi mdi-format-list-checkbox font-size-22"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-3" data-toggle="tab" href="#settings-tab" role="tab">
+                        <i class="mdi mdi-settings font-size-22"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-3" data-toggle="tab" href="#chat-tab" role="tab">
+                        <i class="mdi mdi-message-text font-size-22"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content text-muted">
+                <div class="tab-pane" id="chat-tab" role="tabpanel">
+                    <h6 class="font-weight-medium px-2 py-3 text-uppercase bg-light">Soporte Técnico</h6>
+                    <div class="p-2">
+                        <div class="form-group">
+                            <textarea required="" class="form-control" rows="5" placeholder="Mensaje"></textarea>
+                            <div class="font-size-12 text-muted">
+                                <p class="mt-2 text-justify text-warning">El mensaje se enviará por correo electrónico y uno de nuestros técnicos se comunicará con ud.</p>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-outline-success btn-block waves-effect waves-float waves-light"><i class="mdi mdi-telegram"></i> Enviar</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="tab-pane active" id="tasks-tab" role="tabpanel">
+                    <h6 class="font-weight-medium px-2 py-3 text-uppercase bg-light">Plan </h6>
+
+                    <div class="p-2">
+                        <a href="javascript: void(0);" class="text-reset item-hovered d-block p-3">
+                            <p class="text-muted mb-0">Empresas<span class="float-right">0%</span></p>
+                            <div class="progress mt-2" style="height: 4px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </a>
+
+                        <a href="javascript: void(0);" class="text-reset item-hovered d-block p-3">
+                            <p class="text-muted mb-0">Usuarios<span class="float-right">37%</span></p>
+                            <div class="progress mt-2" style="height: 4px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 37%" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="tab-pane" id="settings-tab" role="tabpanel">
+                        <h6 class="font-weight-medium px-4 py-3 text-uppercase bg-light">Configuraciones</h6>
+
+                    <div class="p-4">
+                        <h6 class="font-weight-medium">Online Status</h6>
+                        <div class="custom-control custom-switch mb-1">
+                            <input type="checkbox" class="custom-control-input" id="settings-check1" name="settings-check1" checked="">
+                            <label class="custom-control-label font-weight-normal" for="settings-check1">Show your status to all</label>
+                        </div>
+
+                        <h6 class="font-weight-medium mt-4">Auto Updates</h6>
+                        <div class="custom-control custom-switch mb-1">
+                            <input type="checkbox" class="custom-control-input" id="settings-check2" name="settings-check2" checked="">
+                            <label class="custom-control-label font-weight-normal" for="settings-check2">Keep up to date</label>
+                        </div>
+
+                        <h6 class="font-weight-medium mt-4">Backup Setup</h6>
+                        <div class="custom-control custom-switch mb-1">
+                            <input type="checkbox" class="custom-control-input" id="settings-check3" name="settings-check3">
+                            <label class="custom-control-label font-weight-normal" for="settings-check3">Auto backup</label>
+                        </div>
+
+                    </div>
+
+                    <h6 class="font-weight-medium px-4 py-3 mt-2 text-uppercase bg-light">Advanced Settings</h6>
+
+                    <div class="p-4">
+                        <h6 class="font-weight-medium">Application Alerts</h6>
+                        <div class="custom-control custom-switch mb-1">
+                            <input type="checkbox" class="custom-control-input" id="settings-check4" name="settings-check4" checked="">
+                            <label class="custom-control-label font-weight-normal" for="settings-check4">Email Notifications</label>
+                        </div>
+
+                        <div class="custom-control custom-switch mb-1">
+                            <input type="checkbox" class="custom-control-input" id="settings-check5" name="settings-check5">
+                            <label class="custom-control-label font-weight-normal" for="settings-check5">SMS Notifications</label>
+                        </div>
+
+                        <h6 class="font-weight-medium mt-4">API</h6>
+                        <div class="custom-control custom-switch mb-1">
+                            <input type="checkbox" class="custom-control-input" id="settings-check6" name="settings-check6">
+                            <label class="custom-control-label font-weight-normal" for="settings-check6">Enable access</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- end slimscroll-menu-->
+    </div>
+    <!-- /Right-bar -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <!-- JAVASCRIPT -->
+    <script src="{{asset('kitukizuri/libs/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/metismenu/metisMenu.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/simplebar/simplebar.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/node-waves/waves.min.js')}}"></script>
+
+    <script src="{{asset('kitukizuri/js/app.js')}}"></script>
+
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    
     @yield('scripts')
-</body>
 
+    <script>
+        var year = new Date();
+        $('#year').text(year.getFullYear()); 
+    </script>
+</body>
 </html>
