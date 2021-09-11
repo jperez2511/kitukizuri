@@ -12,19 +12,19 @@
     <link rel="icon" type="image/svg" sizes="16x16" href="{{asset('kitukizuri/images/logo.svg')}}">
     <title>Kitu Kizuri</title>
     
+    
+    <!-- Plugins -->
+    <link href="{{asset('kitukizuri/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('kitukizuri/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css">
+
     <!-- Bootstrap -->
     <link href="{{asset('/kitukizuri/css/bootstrap-dark.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{asset('/kitukizuri/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
      <!-- App Css-->
      <link href="{{asset('/kitukizuri/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" />
-     <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
 
-    <!-- Datatable -->
-    {{-- <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" id="theme" rel="stylesheet"> --}}
-    <link href="{{asset('/kitukizuri/css/datatable.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css">
-    
+     <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
