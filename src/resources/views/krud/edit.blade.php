@@ -16,26 +16,39 @@
         <div class="row">
             @foreach($campos as $c)
                 <?php $nombre = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo']; ?>
-
-
-
-
-
-                @if((($c['tipo'] == 'string' || $c['tipo'] == 'date') && $c['edit'] == true))
+                @if($c['tipo'] != 'password')
                     <div class="{!! !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6' !!}">
                         <div class="form-group">
                             <label>{{$c['nombre']}}</label>
-                            <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control {!! !empty($c['inputclass']) ? $c['inputclass'] : null !!}">
+                            @if((($c['tipo'] == 'string' || $c['tipo'] == 'date') && $c['edit'] == true))
+                                <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control {!! !empty($c['inputclass']) ? $c['inputclass'] : null !!}">
+                            @elseif($c['tipo'] == 'numeric')
+                                <input type="text" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? number_format($c['value'])  : null}}" onfocusout="$(this).val(number_format($(this).val(), 2))" class="form-control">
+                            @elseif($c['tipo'] == 'combobox')
+                                <select name="{{$nombre}}" id="{{$nombre}}" class="form-control">
+                                    @foreach($c['options'] as $op)
+                                        <option value="{{$op[0]}}" {{!empty($c['value']) && $op[0] == $c['value'] ? 'selected' : ''}}>{{$op[1]}}</option>
+                                    @endforeach
+                                </select>    
+                            @elseif($c['tipo'] == 'icono')
+                                <button class="btn btn-default form-control" name="{{$nombre}}" data-iconset="glyphicon" {{!empty($c['value']) ? 'data-icon='.$c['value'] : null}} role="iconpicker"></button>
+                            @elseif($c['tipo'] == 'textarea')
+                                <textarea name="{{$nombre}}" class="form-control" id="{{$nombre}}" cols="30" rows="10">{{!empty($c['value']) ? $c['value'] : null}}</textarea>
+                            @elseif($c['tipo'] == 'enum')
+                                <select name="{{$nombre}}" class="form-control">
+                                    @foreach($c['enumarray'] as $v)
+                                        <option value="{{$v}}">{{$v}}</option>
+                                    @endforeach
+                                </select>
+                            @elseif($c['tipo'] == 'image' || $c['tipo'] == 'file' || $c['tipo'] == 'file64')
+                                <input type="file" name="{{$nombre}}" class="form-control" id="{{$nombre}}">
+                            @elseif($c['tipo'] == 'bool')
+                                <input type="checkbox" name="{{$nombre}}" id="{{$nombre}}" {{!empty($c['value']) ? 'checked' : null}}>
+                                <label for="{{$nombre}}">{{$c['nombre']}}</label>
+                            @endif 
                         </div>
                     </div>
-                @elseif($c['tipo'] == 'numeric')
-                    <div class="{!! !empty($c['columnclass']) ? $c('columnclass') : 'col-md-6' !!}">
-                        <div class="form-group">
-                            <label>{{$c['nombre']}}</label>
-                            <input type="text" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? number_format($c['value'])  : null}}" onfocusout="$(this).val(number_format($(this).val(), 2))" class="form-control">
-                        </div>
-                    </div>
-                @elseif($c['tipo'] == 'password')
+                @else
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-6">
@@ -50,56 +63,6 @@
                                     <input type="password" name="" id="{{$nombre}}_2" onkeyup="comparar('{{$nombre}}')" class="form-control">
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                @elseif($c['tipo'] == 'combobox')
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{$c['nombre']}}</label>
-                            <select name="{{$nombre}}" id="{{$nombre}}" class="form-control">
-                                @foreach($c['options'] as $op)
-                                    <option value="{{$op[0]}}" {{!empty($c['value']) && $op[0] == $c['value'] ? 'selected' : ''}}>{{$op[1]}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                @elseif($c['tipo'] == 'icono')
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{$c['nombre']}}</label>
-                            <button class="btn btn-default form-control" name="{{$nombre}}" data-iconset="glyphicon" {{!empty($c['value']) ? 'data-icon='.$c['value'] : null}} role="iconpicker"></button>
-                        </div>
-                    </div>
-                @elseif($c['tipo'] == 'textarea')
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{$c['nombre']}}</label>
-                            <textarea name="{{$nombre}}" class="form-control" id="{{$nombre}}" cols="30" rows="10">{{!empty($c['value']) ? $c['value'] : null}}</textarea>
-                        </div>
-                    </div>
-                @elseif($c['tipo'] == 'enum')
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{$c['nombre']}}</label>
-                            <select name="{{$nombre}}" class="form-control">
-                                @foreach($c['enumarray'] as $v)
-                                    <option value="{{$v}}">{{$v}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                @elseif($c['tipo'] == 'image' || $c['tipo'] == 'file' || $c['tipo'] == 'file64')
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{$c['nombre']}}</label>
-                            <input type="file" name="{{$nombre}}" class="form-control" id="{{$nombre}}">
-                        </div>
-                    </div>
-                @elseif($c['tipo'] == 'bool')
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="checkbox" name="{{$nombre}}" id="{{$nombre}}" {{!empty($c['value']) ? 'checked' : null}}>
-                            <label for="{{$nombre}}">{{$c['nombre']}}</label>
                         </div>
                     </div>
                 @endif
