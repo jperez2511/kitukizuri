@@ -19,7 +19,7 @@
                 @if($c['tipo'] != 'password')
                     <div class="{!! !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6' !!}">
                         <div class="form-group">
-                            <label>{{$c['nombre']}}</label>
+                            <label for="{{$nombre}}">{{$c['nombre']}}</label>
                             @if((($c['tipo'] == 'string' || $c['tipo'] == 'date') && $c['edit'] == true))
                                 <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control {!! !empty($c['inputclass']) ? $c['inputclass'] : null !!}">
                             @elseif($c['tipo'] == 'numeric')
@@ -44,7 +44,6 @@
                                 <input type="file" name="{{$nombre}}" class="form-control" id="{{$nombre}}">
                             @elseif($c['tipo'] == 'bool')
                                 <input type="checkbox" name="{{$nombre}}" id="{{$nombre}}" {{!empty($c['value']) ? 'checked' : null}}>
-                                <label for="{{$nombre}}">{{$c['nombre']}}</label>
                             @endif 
                         </div>
                     </div>

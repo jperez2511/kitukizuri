@@ -22,8 +22,8 @@ class EmpresasController extends Krud
         $this->setCampo(['nombre'=>'NIT', 'campo'=>'nit']);
         $this->setCampo(['nombre'=>'Telefono', 'campo'=>'telefono']);
         $this->setCampo(['nombre'=>'Correo', 'campo'=>'correo']);
-        $this->setCampo(['nombre'=>'Direccion', 'campo'=>'direccion', 'tipo'=>'textarea']);
-        $this->setCampo(['nombre'=>'Logo', 'campo'=>'logo', 'tipo'=>'image', 'show' => false]);
+        $this->setCampo(['nombre'=>'Direccion', 'campo'=>'direccion', 'tipo'=>'textarea', 'columnclass'=> 'col-md-12']);
+        $this->setCampo(['nombre'=>'Logo', 'campo'=>'logo', 'tipo'=>'image', 'columnclass'=> 'col-md-12', 'show' => false]);
         $this->setCampo(['nombre'=>'Activa', 'campo'=>'activo', 'tipo'=>'bool']);
         $this->setBoton(['nombre'=>'Modulos', 'url' => route('moduloempresas.index').'?parent={id}', 'class'=>'success', 'icon'=>'zmdi zmdi-group']);
         $this->setLayout('krud.layout');
