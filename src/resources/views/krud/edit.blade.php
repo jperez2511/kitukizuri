@@ -16,15 +16,20 @@
         <div class="row">
             @foreach($campos as $c)
                 <?php $nombre = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo']; ?>
+
+
+
+
+
                 @if((($c['tipo'] == 'string' || $c['tipo'] == 'date') && $c['edit'] == true))
-                    <div class="col-md-6">
+                    <div class="{!! !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6' !!}">
                         <div class="form-group">
                             <label>{{$c['nombre']}}</label>
-                            <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control">
+                            <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control {!! !empty($c['inputclass']) ? $c['inputclass'] : null !!}">
                         </div>
                     </div>
                 @elseif($c['tipo'] == 'numeric')
-                    <div class="col-md-6">
+                    <div class="{!! !empty($c['columnclass']) ? $c('columnclass') : 'col-md-6' !!}">
                         <div class="form-group">
                             <label>{{$c['nombre']}}</label>
                             <input type="text" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? number_format($c['value'])  : null}}" onfocusout="$(this).val(number_format($(this).val(), 2))" class="form-control">
