@@ -343,7 +343,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setWhere($column, $op='=', $column2)
+    public function setWhere($column, $op, $column2)
     {
         array_push($this->wheres, [$column, $op, $column2]);
     }
@@ -357,7 +357,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setOrWhere($column, $op='=', $column2)
+    public function setOrWhere($column, $op, $column2)
     {
         array_push($this->orWheres, [$column, $op, $column2]);
     }
