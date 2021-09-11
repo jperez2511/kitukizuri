@@ -6,7 +6,7 @@
         </div>    
     @endif
     <div class="col-md-12">
-        <table id="table1" class="table table-striped table-hover">
+        <table id="table1" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
             <thead>
                 <tr>
                     @foreach($columnas as $c)
@@ -50,14 +50,17 @@
                 url:  "{{$ruta}}/0"+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''),
 		        type:  'GET',
             },
-            "buttons": [{
-                text: 'Agregar',
-                action: function ( e, dt, node, config ) {
-                    location.replace('{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
+            "buttons": [
+                'copy',
+                {
+                    text: 'Agregar',
+                    action: function ( e, dt, node, config ) {
+                        location.replace('{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
+                    }
                 }
-            }],
+            ],
             //"sDom": 'Bfrtip'
-            "sDom": '<"row"<"col-sm-8 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left" i><"pull-right"p>'
+            //"sDom": '<"row"<"col-sm-8 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left" i><"pull-right"p>'
         });
         function edit(id){
             var url = '{{$ruta}}';
