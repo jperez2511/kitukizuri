@@ -41,7 +41,7 @@
     <script>
         $('[data-toggle="tooltip"]').tooltip()
         $('#table1').DataTable({
-            "bLengthChange": false,
+            "bLengthChange": true,
             "sortable": false,
             "serverSide": true,
             "processing": true,

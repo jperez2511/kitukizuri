@@ -22,7 +22,7 @@ class RolesController extends Krud
         $this->setTitulo('Roles');
         $this->setCampo(['nombre'=>'Nombre', 'campo'=>'nombre']);
         $this->setCampo(['nombre'=>'Descripcion', 'campo'=>'descripcion']);
-        $this->setBoton(['nombre'=>'Asignar Permisos', 'url'=>route('rolpermisos.index').'?id={id}', 'class'=>'warning', 'icon'=>'fa fa-lock']);
+        $this->setBoton(['nombre'=>'Asignar Permisos', 'url'=>route('rolpermisos.index').'?id={id}', 'class'=>'outline-warning', 'icon'=>'fa fa-lock']);
         $this->setLayout('krud.layout');
         $this->middleware(function ($request, $next) {
             if (!empty(Auth::user()->empresaid)) {
