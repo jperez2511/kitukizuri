@@ -689,13 +689,21 @@ class Krud extends Controller
         $icnEdit    = config('kitukizuri.edit');
         $icnDelete  = config('kitukizuri.delete');
         $icnOptions = config('kitukizuri.options');
+
+        $classBtnEdit    = config('kitukizuri.editClass');
+        $classBtnDelete  = config('kitukizuri.deleteClass');
+        $classBtnOptions = config('kitukizuri.optionsClass');
         
         $prefix = Route::current()->action['prefix'];
 
         if ($prefix != null && $prefix == 'kk') {
-            $icnEdit    = 'zmdi zmdi-edit';
-            $icnDelete  = 'zmdi zmdi-delete';
-            $icnOptions = 'fa fa-plus';
+            $icnEdit    = 'mdi mdi-pencil-outline';
+            $icnDelete  = 'mdi mdi-trash-can-outline';
+            $icnOptions = 'mdi mdi-plus';
+
+            $classBtnEdit    = 'btn-outline-primary';
+            $classBtnDelete  = 'btn-outline-danger';
+            $classBtnOptions = 'btn-outline-warning';
         }
 
         $response = [];
@@ -721,8 +729,8 @@ class Krud extends Controller
         $data = $this->getData($limit, $offset);
 
         //total de datos obtenidos
-        $response['data'] = [];
-        $response['recordsTotal'] = $data[1];
+        $response['data']            = [];
+        $response['recordsTotal']    = $data[1];
         $response['recordsFiltered'] = $response['recordsTotal'];
 
         $data = $this->transformData($data[0]->toArray(), $prefix);
@@ -737,7 +745,7 @@ class Krud extends Controller
                 $btns .= '<a
                     data-toggle="tooltip" data-placement="left" title="Mas opciones" 
                     href="javascript:void(0)" 
-                    class="btn btn-xs btn-sm btn-warning" 
+                    class="btn btn-xs btn-sm '.$classBtnOptions.'" 
                     onclick="opciones('.$item['__id__'].')">
                         <span class="'.$icnOptions.'"></span>
                     </a>';
@@ -760,7 +768,7 @@ class Krud extends Controller
                     href="javascript:void(0)"
                     data-toggle="tooltip" data-placement="left" title="Editar" 
                     onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" 
-                    class="btn btn-xs btn-sm btn-primary">
+                    class="btn btn-xs btn-sm '.$classBtnEdit.'">
                         <span class="'.$icnEdit.'"></span>
                     </a>';
             }
@@ -770,7 +778,7 @@ class Krud extends Controller
                     href="javascript:void(0)"
                     data-toggle="tooltip" data-placement="left" title="Eliminar" 
                     onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" 
-                    class="btn btn-xs btn-sm btn-danger">
+                    class="btn btn-xs btn-sm '.$classBtnDelete.'">
                         <span class="'.$icnDelete.'"></span>
                     </a>';
             }

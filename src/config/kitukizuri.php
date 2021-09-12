@@ -26,9 +26,13 @@ return [
     | 
     */
 
-    'edit'    => 'zmdi zmdi-edit',
-    'delete'  => 'zmdi zmdi-delete',
+    'edit'    => 'mdi mdi-pencil',
+    'delete'  => 'mdi mdi-trash-can-outline',
     'options' => 'fa fa-plus',
+
+    'classBtnEdit'    => 'btn-outline-primary',
+    'classBtnDelete'  => 'btn-outline-danger',
+    'classBtnOptions' => 'btn-outline-warning',
 
     /*
     |--------------------------------------------------------------------------

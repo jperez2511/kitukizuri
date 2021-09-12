@@ -143,7 +143,7 @@
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="mdi mdi-view-dashboard-variant text-permission"></i>
+                                <i class="mdi mdi-shield text-permission"></i>
                                 <span>Permisos</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
@@ -214,7 +214,7 @@
                             <!-- Column -->
                             <div class="col-lg-12 col-md-12">
                                 <div class="card">
-                                    <div class="card-block">
+                                    <div class="card-body">
                                         @yield('content')
                                     </div>
                                 </div>

@@ -41,7 +41,7 @@
     <script>
         $('[data-toggle="tooltip"]').tooltip()
         $('#table1').DataTable({
-            //"bLengthChange": false,
+            "bLengthChange": false,
             "sortable": false,
             "serverSide": true,
             "processing": true,
@@ -51,7 +51,10 @@
 		        type:  'GET',
             },
             "buttons": [
-                'copy',
+                "copy",
+                "excel",
+                "pdf",
+                "colvis",
                 {
                     text: 'Agregar',
                     action: function ( e, dt, node, config ) {
@@ -61,7 +64,7 @@
             ],
             //"sDom": 'Bfrtip'
             //"sDom": '<"row"<"col-sm-8 pull-left"f><"col-sm-4" <"btn-toolbar pull-right"  {!! in_array('create', $permisos) ? 'B <"btn-group btn-group-sm btn-group-agregar">' : null !!}>>>t<"pull-left" i><"pull-right"p>'
-        });
+        }).buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)");
         function edit(id){
             var url = '{{$ruta}}';
             var id2 = null;
