@@ -17,7 +17,7 @@ return [
     
     /*
     |--------------------------------------------------------------------------
-    | Iconos
+    | Iconos y Estilos
     |--------------------------------------------------------------------------
     |
     | Esta opcion permite definir los iconos que se mostraran en los botones de
@@ -33,6 +33,9 @@ return [
     'classBtnEdit'    => 'btn-outline-primary',
     'classBtnDelete'  => 'btn-outline-danger',
     'classBtnOptions' => 'btn-outline-warning',
+
+    'dtBtnAdd'   => 'btn btn-outline-success',
+    'dtBtnLiner' => 'btn btn-outline-secondary',
 
     /*
     |--------------------------------------------------------------------------
