@@ -660,7 +660,7 @@ class Krud extends Controller
         $view   = 'krud.index';
 
         $dtBtnAdd = config('kitukizuri.dtBtnAdd');
-        $dtBtnLiner = config('kitukizuri.dtBtnAdd');
+        $dtBtnLiner = config('kitukizuri.dtBtnLiner');
 
 
         if ($prefix != null && $prefix == 'kk') {
