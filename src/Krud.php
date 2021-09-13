@@ -659,8 +659,14 @@ class Krud extends Controller
         $prefix = Route::current()->action['prefix'];
         $view   = 'krud.index';
 
+        $dtBtnAdd = config('kitukizuri.dtBtnAdd');
+        $dtBtnLiner = config('kitukizuri.dtBtnAdd');
+
+
         if ($prefix != null && $prefix == 'kk') {
-            $view = 'krud::index';
+            $view       = 'krud::index';
+            $dtBtnAdd   = 'btn btn-outline-success';
+            $dtBtnLiner = 'btn btn-outline-secondary';
         }
 
         return view($view, [
@@ -670,7 +676,9 @@ class Krud extends Controller
             'permisos'   => $this->setPermisos(Auth::id()),
             'ruta'       => $ruta,
             'template'   => $this->template,
-            'layout'     => $layout
+            'layout'     => $layout,
+            'dtBtnAdd'   => $dtBtnAdd,
+            'dtBtnLiner' => $dtBtnLiner,
         ]);
     }
 

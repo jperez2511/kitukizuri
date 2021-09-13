@@ -57,7 +57,7 @@
                     @if(in_array('create', $permisos))
                         {
                             text: 'Agregar',
-                            className: '{{config('kitukizuri.dtBtnAdd')}}',
+                            className: '{{$dtBtnAdd}}',
                             action: function ( e, dt, node, config ) {
                                 location.replace('{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
                             }
@@ -66,7 +66,7 @@
                 ],
                 "dom": {
                     button: {
-                        className: '{{config('kitukizuri.dtBtnAdd')}}'
+                        className: '{{$dtBtnLiner}}'
                     },
                     buttonLiner: {
                         tag: null
