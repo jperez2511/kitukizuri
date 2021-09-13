@@ -19,7 +19,7 @@
                 @if($c['tipo'] != 'password')
                     <div class="{!! !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6' !!}">
                         <div class="form-group">
-                            @if($c['tipo'] != 'bool')
+                            @if($c['tipo'] != 'bool' && $c['tipo'] != 'hidden')
                                 <label for="{{$nombre}}">{{$c['nombre']}}</label>
                             @endif
                             
