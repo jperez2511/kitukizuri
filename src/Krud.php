@@ -698,9 +698,9 @@ class Krud extends Controller
         $icnDelete  = config('kitukizuri.delete');
         $icnOptions = config('kitukizuri.options');
 
-        $classBtnEdit    = config('kitukizuri.editClass');
-        $classBtnDelete  = config('kitukizuri.deleteClass');
-        $classBtnOptions = config('kitukizuri.optionsClass');
+        $classBtnEdit    = config('kitukizuri.classBtnEdit');
+        $classBtnDelete  = config('kitukizuri.classBtnDelete');
+        $classBtnOptions = config('kitukizuri.classBtnOptions');
         
         $prefix = Route::current()->action['prefix'];
 
