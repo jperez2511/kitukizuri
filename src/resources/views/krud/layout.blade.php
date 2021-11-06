@@ -39,7 +39,7 @@
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
-                        <a href="index.html" class="logo logo-light">
+                        <a href="{{url('/')}}" class="logo logo-light">
                             <span class="logo-sm">
                                 <img src="{{asset('kitukizuri/images/logo.svg')}}" alt="" height="40">
                             </span>
@@ -103,7 +103,6 @@
                             <a class="dropdown-item" href="#"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Perfil</a>
                             <a class="dropdown-item" href="#"><i class="mdi mdi-credit-card-outline font-size-16 align-middle mr-1"></i> Facturación</a>
                             <a class="dropdown-item" href="#"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Configuración</a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-lock font-size-16 align-middle mr-1"></i> Bloquear Pantalla</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Cerrar Sesión</a>
                         </div>
@@ -150,7 +149,7 @@
                             </ul>
                         </li>
 
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="mdi mdi-database text-primary"></i>
                                 <span>Base de datos</span>
@@ -160,9 +159,9 @@
                                 <li><a href="email-read.html">Ejecutar Seeder</a></li>
                                 <li><a href="email-compose.html">Ejecutar Migrations</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
 
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="mdi mdi-package-variant-closed text-package"></i>
                                 <span>Paquetes</span>
@@ -170,7 +169,7 @@
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="email-inbox.html">Instalar Paquetes</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <!-- Sidebar -->
