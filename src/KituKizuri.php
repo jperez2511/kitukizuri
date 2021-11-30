@@ -72,26 +72,33 @@ class KituKizuri extends Controller
      */
     public static function getPermisos($uid=null, $currentRoute = null)
     {
-        if (empty($currentRoute)) {
-            $ruta = Route::currentRouteName();
-        } else {
-            $ruta = $currentRoute;
-        }
-        
+        // Variables utilitarias
+        $aprobados = [];
+
+        // Obteneindo datos de ruta
+        $ruta = empty($currentRoute) ? Route::currentRouteName() : $currentRoute;
         $ruta = explode('.', $ruta);
         $ruta = $ruta[0];
-        $aprobados = [];
-        $mi = Modulo::where('ruta', $ruta)->first(); //modulo id
-        $mp = ModuloPermiso::where('moduloid', $mi->moduloid)->select('modulopermisoid')->pluck('modulopermisoid')->toArray(); //modulo permiso
-        $roles = UsuarioRol::where('usuarioid', $uid != null ? $uid : Auth::id())->get();
-        foreach ($roles as $r) {
-            $rmp = RolModuloPermiso::with('rol', 'modulopermiso', 'modulopermiso.permisos')->where('rolid', $r->rolid)->whereIn('modulopermisoid', $mp)->get();
-            foreach ($rmp as $value) {
-                $mp = $value->modulopermiso()->first();
-                $p = $mp->permisos()->first();
-                array_push($aprobados, $p->nombreLaravel);
-            }
+
+        //Obteniendo informacion del modulo
+        $mi = Modulo::select('moduloid')->where('ruta', $ruta)->value('moduloid'); //modulo id
+        $mp = ModuloPermiso::where('moduloid', $mi)->select('modulopermisoid')->pluck('modulopermisoid')->toArray(); //modulo permiso
+        
+        // obteniendo datos de los reoles
+        $roles = UsuarioRol::select('rolid')->where('usuarioid', $uid != null ? $uid : Auth::id())->pluck('rolid')->toArray();
+        $rmp   = RolModuloPermiso::with('rol', 'modulopermiso', 'modulopermiso.permisos')
+            ->select('modulopermisoid')
+            ->whereIn('rolid', $roles)
+            ->whereIn('modulopermisoid', $mp)
+            ->groupBy('modulopermisoid')->get();
+
+        // Recorriendo permisos
+        foreach ($rmp as $value) {
+            $mp = $value->modulopermiso()->first();
+            $p  = $mp->permisos()->first();
+            array_push($aprobados, $p->nombreLaravel);
         }
+
         return $aprobados;
     }
 
