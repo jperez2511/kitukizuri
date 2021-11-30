@@ -64,6 +64,9 @@
     <script>
         $('[data-toggle="tooltip"]').tooltip()
         $('#table1').DataTable({
+            "language": {
+                "url": "{{asset('kitukizuri/libs/datatables.net/lang/es_es.json')}}"
+            },
             "sortable": false,
             "serverSide": true,
             "processing": true,
