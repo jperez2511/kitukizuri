@@ -899,7 +899,7 @@ class Krud extends Controller
             if ($k != '_token' && $k != 'id') {
                 
                 foreach ($this->campos as $c) {
-                    if ($c['campo'] == $k && $c['unique'] == true && $c['edit'] == true) {
+                    if ($c['campo'] == $k && $c['unique'] == true && $c['edit'] == true && $id == 0) {
                         $validate = $this->model->where($c['campo'], $v)->first();
                         if($validate != null) {
                             Session::flash('type', 'danger');
@@ -925,31 +925,19 @@ class Krud extends Controller
                         if ($request->hasFile($c['campo'])) {
                             $file = $request->file($c['campo']);
                             $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
-                            
-                            //$filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
-                            //$path     = public_path() . $campo['filepath'];
-    
-                            // if (!file_exists($path)) {
-                            // mkdir($path, 0777, true);
-                            // }
-    
-                            // $file->move($path, $filename);
-                            $v = $file;
+                            $v    = $file;
                         } else {
                             $v = $this->model->{$k};
                         }
                     }
                     if ($c['campo'] == $k && $c['tipo'] == 'file') {
                         if ($request->hasFile($c['campo'])) {
-                            $file = $request->file($c['campo']);
-                            // $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
+                            $file     = $request->file($c['campo']);
                             $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
                             $path     = public_path() . $c['filepath'];
-    
                             if (!file_exists($path)) {
                                 mkdir($path, 0777, true);
                             }
-    
                             $file->move($path, $filename);
                             $v = $file;
                         } else {
