@@ -21,7 +21,7 @@ class UsuariosController extends Krud
     {
         $this->setModel(new Usuario);
         $this->setTitulo('Usuarios');
-        $this->setCampo(['nombre'=>'Email', 'campo'=>'email']);
+        $this->setCampo(['nombre'=>'Email', 'campo'=>'email', 'unique' => true]);
         $this->setCampo(['nombre'=>'Nombre', 'campo'=>'name']);
         $this->setCampo(['nombre'=>'Constraseña', 'campo'=>'password', 'tipo'=>'password', 'show'=>false]);
         $this->setBoton(['nombre'=>'Asignar Permiso', 'url'=>route('asignarpermiso.index').'?parent={id}', 'class'=>'outline-success', 'icon'=>'mdi mdi-lock-open-variant-outline']);
