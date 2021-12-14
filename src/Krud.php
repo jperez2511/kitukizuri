@@ -201,7 +201,8 @@ class Krud extends Controller
             'fileheight',
             'target', 
             'value', 
-            'format'
+            'format',
+            'unique'
         ];
         $tipos = [
             'string',
@@ -237,6 +238,7 @@ class Krud extends Controller
         $params['filepath']  = (!array_key_exists('filepath', $params) ? '' : $params['filepath']);
         $params['value']     = (!array_key_exists('value', $params) ? '' : $params['value']);
         $params['format']    = (!array_key_exists('format', $params) ? '' : $params['format']);
+        $params['unique']    = (!array_key_exists('unique', $params) ? false : $params['unique']);
 
         if (!in_array($params['tipo'], $tipos)) {
             dd('El tipo configurado (' . $params['tipo'] . ') no existe! solamente se permiten: ' . implode(', ', $tipos));
@@ -895,7 +897,17 @@ class Krud extends Controller
         // validando los campos que vienen
         foreach ($in as $k => $v) {
             if ($k != '_token' && $k != 'id') {
+                
                 foreach ($this->campos as $c) {
+                    if ($c['campo'] == $k && $c['unique'] == true && $c['edit'] == true) {
+                        $validate = $this->model->where($c['campo'], $v)->first();
+                        if($validate != null) {
+                            Session::flash('type', 'danger');
+                            Session::flash('msg', 'El valor del campo '.$c['nombre'].' ya se encuentra registrado en la base de datos.');
+                            return redirect()->back();
+                        }
+                    }
+
                     if ($c['campo'] == $k && $c['tipo'] == 'date') {
                         $v = $this->toDateMysql($v);
                     }

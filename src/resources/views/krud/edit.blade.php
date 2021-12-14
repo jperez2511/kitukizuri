@@ -6,6 +6,11 @@
             display: none;
         }
     </style>
+     @if (!empty(Session::get('type')) && !empty(Session::get('msg')))
+        <div class="alert alert-{{Session::get('type')}}" role="alert">
+            {{Session::get('msg')}}
+        </div>    
+    @endif
     <form action="{{$action}}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
         <input type="hidden" name="id" id="id" value="{{$id}}">
