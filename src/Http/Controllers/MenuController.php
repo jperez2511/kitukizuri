@@ -109,14 +109,14 @@ class MenuController
             if ($hijos->count() > 0) {
                 
                 if ($this->vBootstrap == '4.1') {
-                    $this->tree .= '<div';
+                    $this->tree .= '<div ';
                     foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
                         $value = str_replace('{{parent}}', '#'.$nodo->menuid, $value);
                         $this->tree .= $key.'="'.$value.'"';
                     }
                     $this->tree .= '>';
 
-                    $this->tree .= '<div';
+                    $this->tree .= '<div ';
                     foreach (config('kitukizuri.menu.ul-jr-divStyle') as $key => $value) {
                         $this->tree .= $key.'="'.$value.'"';
                     }
