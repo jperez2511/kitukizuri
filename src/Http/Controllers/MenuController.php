@@ -161,7 +161,7 @@ class MenuController
                 return 0;
             }
              //aplicando formato para el li cuando es padre
-             $formato = config('kitukizuri.menu.li-parent.layout-whitout-son');
+             $formato = config('kitukizuri.menu.li-parent.layout-without-son');
                 
              // remplazando url
              $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : route($nodo->ruta.'.index')), $formato);

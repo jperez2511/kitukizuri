@@ -96,7 +96,7 @@ return [
                     </span>
                     <span class="nav-title">{{label}}</span>
                 </a>',
-            'layout-whitout-son' => 
+            'layout-without-son' => 
                 '<a href="{{url}}">
                     <span class="has-icon">
                         <i class="{{icono}}"></i>
