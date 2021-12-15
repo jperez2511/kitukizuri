@@ -132,21 +132,25 @@ class MenuController
                     $this->tree .= '</div>';
                     $this->tree .= '</div>';
                 } else {
-                    // Agregando ul para los hijos
-                    $this->tree .= '<ul ';
-                    foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
-                        $this->tree .= $key.'="'.$value.'"';
-                    }
-                    $this->tree .= '>';
-                    
-                    foreach ($hijos as $hijo) {
-                        if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
-                            $this->getNodos($hijo);
+                    if ($this->vBootstrap == '4.1') {
+                        
+                    } else {
+                        // Agregando ul para los hijos
+                        $this->tree .= '<ul ';
+                        foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
+                            $this->tree .= $key.'="'.$value.'"';
                         }
+                        $this->tree .= '>';
+                        
+                        foreach ($hijos as $hijo) {
+                            if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
+                                $this->getNodos($hijo);
+                            }
+                        }
+                        
+                        // Cerrando las etiquetas
+                        $this->tree .= '</ul>';
                     }
-                    
-                    // Cerrando las etiquetas
-                    $this->tree .= '</ul>';
                 }
             }
             
@@ -167,8 +171,14 @@ class MenuController
             // remplazando label
             $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
 
-            $this->tree .= '<li class="'.config('kitukizuri.menu.li-jr.class').'">'.$formato;
-            $this->tree .= '</li>';
+            if ($this->vBootstrap == '4.1') {
+                $this->tree .= $formato;    
+            } else {
+                $this->tree .= '<li class="'.config('kitukizuri.menu.li-jr.class').'">'.$formato;
+                $this->tree .= '</li>';    
+            }
+
+            
         }
     }
     
