@@ -107,6 +107,9 @@ return [
         'ul-jr' => [
             'aria-expanded'=>'false',
             'class' => 'collapse in'  
+        ],
+        'ul-jr-divStyle' => [
+            'class' => ''
         ]
     ],
 ];
