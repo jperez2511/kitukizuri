@@ -12,6 +12,9 @@ class MenuController
 {
     // String para almacenar el menu Final
     private $tree = null;
+
+    // String para conocer la version de bootstrap
+    private $vBootstrap = null;
     
     // Array para los modulos que tiene acceso el usuario
     private $permisos = [];
@@ -25,6 +28,7 @@ class MenuController
     {
         //abriendo tag ul con los estilos personalizables
         $this->tree .= '<ul class="'.config('kitukizuri.menu.ul.class').'" id="'.config('kitukizuri.menu.ul.id').'">';
+        $this->vBootstrap = config('kitukizuri.vBootstrap');
     }
 
     /**
@@ -102,21 +106,38 @@ class MenuController
             
             if ($hijos->count() > 0) {
                 
-                // Agregando ul para los hijos
-                $this->tree .= '<ul ';
-                foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
-                    $this->tree .= $key.'="'.$value.'"';
-                }
-                $this->tree .= '>';
-                
-                foreach ($hijos as $hijo) {
-                    if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
-                        $this->getNodos($hijo);
+                if ($this->vBootstrap == '4.1') {
+                    $this->tree .= '<div';
+                    foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
+                        $this->tree .= $key.'="'.$value.'"';
                     }
+                    $this->tree .= '>';
+
+                    foreach ($hijos as $hijo) {
+                        if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
+                            $this->getNodos($hijo);
+                        }
+                    }
+                    
+                    // Cerrando las etiquetas
+                    $this->tree .= '</div>';
+                } else {
+                    // Agregando ul para los hijos
+                    $this->tree .= '<ul ';
+                    foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
+                        $this->tree .= $key.'="'.$value.'"';
+                    }
+                    $this->tree .= '>';
+                    
+                    foreach ($hijos as $hijo) {
+                        if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
+                            $this->getNodos($hijo);
+                        }
+                    }
+                    
+                    // Cerrando las etiquetas
+                    $this->tree .= '</ul>';
                 }
-                
-                // Cerrando las etiquetas
-                $this->tree .= '</ul>';
             }
             
             $this->tree .= '</li>';
