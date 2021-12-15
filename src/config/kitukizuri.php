@@ -96,6 +96,13 @@ return [
                     </span>
                     <span class="nav-title">{{label}}</span>
                 </a>',
+            'layout-whitout-son' => 
+                '<a href="{{url}}">
+                    <span class="has-icon">
+                        <i class="{{icono}}"></i>
+                    </span>
+                    <span class="nav-title">{{label}}</span>
+                </a>',
         ],
         'li-jr' => [
             'class' => '',
