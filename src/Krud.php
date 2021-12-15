@@ -182,45 +182,31 @@ class Krud extends Controller
     public function setCampo($params)
     {
         $allowed = [
-            'campo',
-            'nombre',
-            'edit',
-            'show',
-            'tipo',
-            'column',
+            'campo', 'column', 'columnclass', 'collect',
+            'default', 'decimales',
+            'edit', 'enumarray',
+            'filepath', 'filewidth', 'fileheight', 'format',
             'inputclass',
-            'columnclass',
-            'default',
-            'reglas',
-            'reglasmensaje', 
-            'decimales',
-            'collect',
-            'enumarray',
-            'filepath', 
-            'filewidth',
-            'fileheight',
-            'target', 
+            'nombre',
+            'reglas', 'reglasmensaje', 
+            'show',
+            'tipo', 'target', 
+            'unique',
             'value', 
-            'format',
-            'unique'
         ];
         $tipos = [
-            'string',
-            'numeric', 
-            'date',
-            'datetime', 
             'bool',
             'combobox', 
-            'password',
+            'date', 'datetime', 
             'enum',
-            'file',
-            'file64',
-            'image', 
+            'file', 'file64',
+            'hidden', 
+            'icono', 'image', 
+            'numeric', 
+            'password',
+            'string', 'summernote', 
             'textarea',
             'url',
-            'summernote', 
-            'hidden', 
-            'icono'
         ];
 
         $this->allowed($params, $allowed);
@@ -261,7 +247,7 @@ class Krud extends Controller
         if ($params['tipo'] == 'file' && $params['filepath'] == '') {
             dd('Para el tipo file falta parametro filepath');
         }
-        //if($params['tipo'] == 'image' && $params['filepath'] == '') dd('Para el tipo image para parametro filepath');
+        
         if ($params['tipo'] == 'enum' && count($params['enumarray']) == 0) {
             dd('Para el tipo enum el enumarray es requerido');
         }
@@ -696,10 +682,9 @@ class Krud extends Controller
      */
     public function show($id, Request $request) 
     {
-        $icnEdit    = config('kitukizuri.edit');
-        $icnDelete  = config('kitukizuri.delete');
-        $icnOptions = config('kitukizuri.options');
-
+        $icnEdit         = config('kitukizuri.edit');
+        $icnDelete       = config('kitukizuri.delete');
+        $icnOptions      = config('kitukizuri.options');
         $classBtnEdit    = config('kitukizuri.classBtnEdit');
         $classBtnDelete  = config('kitukizuri.classBtnDelete');
         $classBtnOptions = config('kitukizuri.classBtnOptions');
@@ -707,10 +692,9 @@ class Krud extends Controller
         $prefix = Route::current()->action['prefix'];
 
         if ($prefix != null && $prefix == 'kk') {
-            $icnEdit    = 'mdi mdi-pencil-outline';
-            $icnDelete  = 'mdi mdi-trash-can-outline';
-            $icnOptions = 'mdi mdi-plus';
-
+            $icnEdit         = 'mdi mdi-pencil-outline';
+            $icnDelete       = 'mdi mdi-trash-can-outline';
+            $icnOptions      = 'mdi mdi-plus';
             $classBtnEdit    = 'btn-outline-primary';
             $classBtnDelete  = 'btn-outline-danger';
             $classBtnOptions = 'btn-outline-warning';
@@ -726,6 +710,7 @@ class Krud extends Controller
         $limit   = $request->length != '' ? $request->length : 10;
         $offset  = $request->start ? $request->start : 0;
         $columns = $this->getColumnas($this->getSelectShow(), true);
+        
         if (!empty($request->search['value'])) {
             foreach ($columns as $column) {
                 if (strpos($column, 'as')) {
