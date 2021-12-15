@@ -156,7 +156,26 @@ class MenuController
             }
             
             $this->tree .= '</li>';
-        } else {
+        } else if ($hijos->count() < 1 && $nodo->padreid == null) {
+            if ($nodo->modulopermisoid == null) {
+                return 0;
+            }
+             //aplicando formato para el li cuando es padre
+             $formato = config('kitukizuri.menu.li-parent.layout');
+                
+             // remplazando url
+             $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : route($nodo->ruta.'.index')), $formato);
+ 
+             // remplazando icono
+             $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+ 
+             // remplazando label
+             $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
+ 
+             $formato = str_replace('{{target}}', $nodo->menuid, $formato);
+ 
+             $this->tree .= '<li class="'.config('kitukizuri.menu.li-parent.class').'">'.$formato;
+        }else {
             if ($nodo->modulopermisoid == null) {
                 return 0;
             }
