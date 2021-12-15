@@ -112,6 +112,7 @@ class MenuController
                     $this->tree .= '<div ';
                     foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
                         $value = str_replace('{{parent}}', '#'.$nodo->menuid, $value);
+                        $value = str_replace('{{target}}', $nodo->menuid, $value);
                         $this->tree .= $key.'="'.$value.'"';
                     }
                     $this->tree .= '>';
