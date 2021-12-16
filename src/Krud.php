@@ -635,6 +635,7 @@ class Krud extends Controller
     public function index()
     {
         if ($this->model == null) {
+            return view('krud::training', ['tipo' => 'setModelo']);
             dd('El Modelo es requerido');
         }
 
