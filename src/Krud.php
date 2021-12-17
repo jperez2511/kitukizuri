@@ -212,6 +212,7 @@ class Krud extends Controller
         $this->allowed($params, $allowed);
 
         if (!array_key_exists('campo', $params)) {
+            return view('krud::training', ['tipo' => 'setCampo']);
             dd('"campo" es un parametro requerido');
         }
 
@@ -627,6 +628,17 @@ class Krud extends Controller
     }
 
     /**
+     * getHelp
+     * Genera una vista de ayuda para usar el paquete
+     *
+     * @return void
+     */
+    public function help()
+    {
+        return view('krud::training', ['tipo' => 'help']);
+    }
+
+    /**
      * index
      * Genera la vista principal del catalogo
      *
@@ -636,19 +648,14 @@ class Krud extends Controller
     {
         if ($this->model == null) {
             return view('krud::training', ['tipo' => 'setModelo']);
-            dd('El Modelo es requerido');
         }
 
-        $botones = json_encode($this->botones);
-        
-        $ruta = $this->getModuloRuta();
-        
-        $layout = $this->getLayout();
-
-        $prefix = Route::current()->action['prefix'];
-        $view   = 'krud.index';
-
-        $dtBtnAdd = config('kitukizuri.dtBtnAdd');
+        $botones    = json_encode($this->botones);
+        $ruta       = $this->getModuloRuta();
+        $layout     = $this->getLayout();
+        $prefix     = Route::current()->action['prefix'];
+        $view       = 'krud.index';
+        $dtBtnAdd   = config('kitukizuri.dtBtnAdd');
         $dtBtnLiner = config('kitukizuri.dtBtnLiner');
 
 
