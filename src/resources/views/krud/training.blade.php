@@ -30,7 +30,7 @@
                     <div class="col-lg-7">
                         <div class="text-center mb-5">
                             <div class="mb-5">
-                                <img src="{{asset('kitukizuri/images/logo.svg')}}" alt="logo">
+                                <img src="{{asset('kitukizuri/images/logo.svg')}}" width="100px" alt="logo">
                             </div>
                             @if ($tipo == 'setModelo')
                                 <h4 class="mt-4">Configuración de modelo</h4>    
@@ -41,28 +41,18 @@
                 </div>
                 <!-- end row -->
                 <div class="row pt-4 align-items-center justify-content-center">
-                    <div class="col-sm-5">
-                        <div class="">
-                            <img src="{{asset('kitukizuri/images/server.svg')}}"" alt="" class="img-fluid mx-auto d-block">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 ml-lg-auto">
+                    <div class="col-lg-12 ml-lg-auto">
                         <div class="mt-5 mt-lg-0">
                             <div class="card maintenance-box">
                                 <div class="card-body p-4">
                                     <div class="media">
                                         <div class="avatar-xs mr-3">
                                             <span class="avatar-title rounded-circle bg-primary">
-                                                03
+                                                <i class="mdi mdi-information-outline"></i>
                                             </span>
                                         </div>
                                         <div class="media-body">
-                                            <h5 class="font-size-15 text-uppercase">
-                                                Do you need Support?</h5>
-                                            <p class="text-muted mb-0">If you are going to use a passage of Lorem
-                                                Ipsum, you need to be sure there isn't anything embar.. <a
-                                                        href="mailto:no-reply@domain.com"
-                                                        class="text-decoration-underline">no-reply@domain.com</a></p>
+                                            <h5 class="font-size-15 text-uppercase">Ejemplo de configuración</h5>
                                         </div>
                                     </div>
                                     <div id="editor"> </div>
@@ -70,8 +60,6 @@
                             </div>
                         </div>
                     </div>
-                    
-
                 </div>
             </div>
         </div>
@@ -90,6 +78,13 @@
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/loader.js')}}"></script>
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/editor/editor.main.nls.js')}}"></script>
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/editor/editor.main.js')}}"></script>
+
+        <script>
+            @if ($tipo == 'setModelo')
+                var code = "<?php \n\nnamespace kitukizuri\\training; \n\nuse Krud; \nuse Icebearsoft\\Models\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t$this->setModel(new Training);\n\t}\n}"
+            @endif
+        </script>
+
         <script>
             "use strict";
             var el = document.getElementById('editor');
@@ -104,7 +99,7 @@
     
                     editor = monaco.editor.create(el, {
                         theme: 'vs-dark',
-                        model: monaco.editor.createModel("#Test \np", "javascript")
+                        model: monaco.editor.createModel(code, "php")
                     });
     
                     editor.layout();
