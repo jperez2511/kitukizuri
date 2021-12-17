@@ -30,7 +30,7 @@
                     <div class="col-lg-7">
                         <div class="text-center mb-5">
                             <div class="mb-5">
-                                <img src="{{asset('kitukizuri/images/logo.svg')}}" height="24" alt="logo">
+                                <img src="{{asset('kitukizuri/images/logo.svg')}}" alt="logo">
                             </div>
                             @if ($tipo == 'setModelo')
                                 <h4 class="mt-4">Configuración de modelo</h4>    
@@ -43,44 +43,11 @@
                 <div class="row pt-4 align-items-center justify-content-center">
                     <div class="col-sm-5">
                         <div class="">
-                            <img src="assets/images/maintenance.png" alt="" class="img-fluid mx-auto d-block">
+                            <img src="{{asset('kitukizuri/images/server.svg')}}"" alt="" class="img-fluid mx-auto d-block">
                         </div>
                     </div>
                     <div class="col-lg-6 ml-lg-auto">
                         <div class="mt-5 mt-lg-0">
-                            <div class="card maintenance-box">
-                                <div class="card-body p-4">
-                                    <div class="media">
-                                        <div class="avatar-xs mr-3">
-                                            <span class="avatar-title rounded-circle bg-primary">
-                                                01
-                                            </span>
-                                        </div>
-                                        <div class="media-body">
-                                            <h5 class="font-size-15 text-uppercase">Why is the Site Down?</h5>
-                                            <p class="text-muted mb-0">There are many variations of passages of
-                                                Lorem Ipsum available, but the majority have suffered alteration.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card maintenance-box">
-                                <div class="card-body p-4">
-                                    <div class="media">
-                                        <div class="avatar-xs mr-3">
-                                            <span class="avatar-title rounded-circle bg-primary">
-                                                02
-                                            </span>
-                                        </div>
-                                        <div class="media-body">
-                                            <h5 class="font-size-15 text-uppercase">
-                                                What is the Downtime?</h5>
-                                            <p class="text-muted mb-0">Contrary to popular belief, Lorem Ipsum is not
-                                                simply random text. It has roots in a piece of classical.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="card maintenance-box">
                                 <div class="card-body p-4">
                                     <div class="media">
@@ -98,6 +65,7 @@
                                                         class="text-decoration-underline">no-reply@domain.com</a></p>
                                         </div>
                                     </div>
+                                    <div id="editor"> </div>
                                 </div>
                             </div>
                         </div>
@@ -118,5 +86,35 @@
 
         <script src="{{asset('kitukizuri/js/app.js')}}"></script>
 
+        <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/libs/package/min/vs')}}' } };</script>
+        <script type="text/javascript" src="{{asset('kitukizuri/libs/package/min/vs/loader.js')}}"></script>
+        <script type="text/javascript" src="{{asset('kitukizuri/libs/package/min/vs/editor/editor.main.nls.js')}}"></script>
+        <script type="text/javascript" src="{{asset('kitukizuri/libs/package/min/vs/editor/editor.main.js')}}"></script>
+        <script>
+            "use strict";
+            var el = document.getElementById('editor');
+            el.style.height = '300px';
+            el.style.width = '100%';
+    
+            // window.editor is accessible. 
+            var editor = null;
+            var init = function () {
+    
+                require(['vs/editor/editor.main'], function () {
+    
+                    editor = monaco.editor.create(el, {
+                        theme: 'vs-dark',
+                        model: monaco.editor.createModel("#Test \np", "javascript")
+                    });
+    
+                    editor.layout();
+                });
+    
+                // no point in keeping this around.
+                window.removeEventListener("load", init);
+            };
+    
+            window.addEventListener("load", init);
+        </script> 
     </body>
 </html>
