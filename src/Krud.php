@@ -46,6 +46,7 @@ class Krud extends Controller
     private $orderBy   = [];
     private $orWheres  = [];
     private $leftJoins = [];
+    private $erros     = [];
     private $template  = [
         'datatable',
     ];
@@ -212,8 +213,7 @@ class Krud extends Controller
         $this->allowed($params, $allowed);
 
         if (!array_key_exists('campo', $params)) {
-            return view('krud::training', ['tipo' => 'setCampo']);
-            dd('"campo" es un parametro requerido');
+            return $this->errors = ['tipo' => 'setCampo'];
         }
 
         $params['nombre']    = (!array_key_exists('nombre', $params) ? str_replace('_', ' ', ucfirst($params['campo'])) : $params['nombre']);
@@ -228,7 +228,7 @@ class Krud extends Controller
         $params['unique']    = (!array_key_exists('unique', $params) ? false : $params['unique']);
 
         if (!in_array($params['tipo'], $tipos)) {
-            dd('El tipo configurado (' . $params['tipo'] . ') no existe! solamente se permiten: ' . implode(', ', $tipos));
+            return $this->errors = ['tipo' => 'badType', 'bad' => $params['tipo'], 'permitidos' => $tipos];
         }
 
         if ($params['tipo'] == 'datetime' || $params['tipo'] == 'date') {
@@ -240,6 +240,7 @@ class Krud extends Controller
         }
 
         if ($params['tipo'] == 'combobox' && ($params['collect'] == '')) {
+            return $this->errors = ['tipo' => 'typeCombo', 'bad' => $params['tipo']];
             dd('Para el tipo combobox el collection es requerido');
         }
         if ($params['tipo'] == 'combobox') {
@@ -648,6 +649,10 @@ class Krud extends Controller
     {
         if ($this->model == null) {
             return view('krud::training', ['tipo' => 'setModelo']);
+        }
+
+        if (!empty($this->errors)) {
+            return view('krud::training', $this->errors);
         }
 
         $botones    = json_encode($this->botones);

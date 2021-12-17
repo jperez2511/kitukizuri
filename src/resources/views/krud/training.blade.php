@@ -39,8 +39,18 @@
                                     <p>Antes de todo siempre se debe configurar un modelo, puesto que va a ser el encargado de hacer el mapeo de los campos en al base de datos, asi como el encargado de guardar, editar, eliminar los datos.</p>
                                 @elseif ($tipo == 'setCampo')
                                     <h4 class="mt-4">Debes agregar la propiedad <code>Campo</code></h4>    
-                                    <p>La propiedad Campo debe ser el nombre de la columna de la tabla en base de datos, donde se almacenara el valor ingresado por el usuario.</p>
+                                    <p>La propiedad Campo debe ser el nombre de la columna de la tabla en base de datos, donde se almacenara el valor ingresado por el usuario, si no se define un tipo de campo por defecto es texto abierto</p>
+                                @elseif ($tipo == 'badType')
+                                    <h4 class="mt-4">El tipo de campo <code>{{ $bad }}</code> No existe</h4>    
+                                    <p>El tipo de campo define si será un texto, un campo numerico, etc. Para ello se han definido los siguientes tipos permitidos:</p>
+                                    @foreach ($permitidos as $permitido)
+                                        <code>{{ $permitido }}</code> <br>
+                                    @endforeach
+                                @elseif ($tipo == 'typeCombo')
+                                    <h4 class="mt-4">Falta la propiedad <code>Collect</code></h4>    
+                                    <p>El tipo de campo combobox requiere de la propiedad collect, este puede ser un collection de laravel con dos elementos asi como se muestra en el ejemplo: </p>
                                 @endif
+                                <br>
                                 <p>Para conocer mas puedes mandar a llamar la función <code>$this->help();</code></p>
                             </div>
                         </div>
@@ -88,11 +98,20 @@
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/editor/editor.main.js')}}"></script>
 
         <script>
-            @if ($tipo == 'setModelo')
-                @php $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; // <- Llamando al modelo \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training); // <- configurando modelo (lo que falta en tu codigo)\n\t}\n}'; @endphp
-            @elseif($tipo == 'setCampo')
-                @php $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t$this->setCampo([\'nombre\'=>\'Label del campo\', \'campo\'=>\'nombre_columna_base_de_datos\'])\n\t}\n}'; @endphp
-            @endif
+            @php
+                if ($tipo == 'setModelo') {
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; // <- Llamando al modelo \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training); // <- configurando modelo (lo que falta en tu codigo)\n\t}\n}';
+                } elseif($tipo == 'setCampo') {
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\']);\n\t}\n}';
+                } elseif($tipo == 'badType') {
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'bool\\\']);\n\t}\n}';
+                } elseif($tipo == 'badType') {
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'bool\\\']);\n\t}\n}';
+                } elseif($tipo == 'typeCombo') {
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \nuse Icebearsoft\\\\Models\\\\Example; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$collection = Example::select(\\\'id\\\', \\\'value\\\')->get();\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'combobox\\\', \\\'collect\\\'=>$collection]);\n\t}\n}';
+                }
+            @endphp
+            
             var code = '{!! $code !!}'
         </script>
 
@@ -124,6 +143,3 @@
         </script> 
     </body>
 </html>
-
-Estela - telefono
-53052636
