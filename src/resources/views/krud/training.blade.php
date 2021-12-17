@@ -86,7 +86,7 @@
 
         <script src="{{asset('kitukizuri/js/app.js')}}"></script>
 
-        <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/libs/monaco/min/vs')}}' } };</script>
+        <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/monaco/min/vs')}}' } };</script>
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/loader.js')}}"></script>
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/editor/editor.main.nls.js')}}"></script>
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/editor/editor.main.js')}}"></script>
