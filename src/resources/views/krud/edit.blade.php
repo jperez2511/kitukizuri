@@ -81,6 +81,7 @@
                 <p id="msgError" class="hide" align="justify" style="color: darkred;">
                     Las contraseñas no coinciden
                 </p>
+                <a href="#" class="btn btn-danger btn-space" onclick="history.back()"> Cancelar</a>
                 <button type="submit" class="btn btn-space btn-success" id="guardar">Guardar</button>
             </div>
         @endif

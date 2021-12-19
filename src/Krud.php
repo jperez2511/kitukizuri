@@ -36,17 +36,18 @@ class Krud extends Controller
     private $storemsg = null;
 
     // variales en array
-    private $rt        = [];
-    private $joins     = [];
-    private $embed     = [];
-    private $wheres    = [];
-    private $campos    = [];
-    private $botones   = [];
-    private $parents   = [];
-    private $orderBy   = [];
-    private $orWheres  = [];
-    private $leftJoins = [];
-    private $erros     = [];
+    private $rt         = [];
+    private $joins      = [];
+    private $embed      = [];
+    private $wheres     = [];
+    private $campos     = [];
+    private $botones    = [];
+    private $parents    = [];
+    private $orderBy    = [];
+    private $orWheres   = [];
+    private $leftJoins  = [];
+    private $erros      = [];
+    private $whereAndFn = [];
     private $template  = [
         'datatable',
     ];
@@ -321,6 +322,11 @@ class Krud extends Controller
         array_push($this->wheres, [$column, $op, $column2]);
     }
 
+    public function setWhereAndFn($conditions)
+    {
+        array_push($this->whereAndFn, $conditions);
+    }
+
     /**
      * setOrWhere
      *
@@ -479,6 +485,15 @@ class Krud extends Controller
             $data->orWhere($orWhere[0], $orWhere[1], $orWhere[2]);
         }
         
+        // Agrupando Or en And como funcion
+        if (!empty($this->whereAndFn)) {
+            $data->where(function($q){
+                foreach ($this->whereAndFn as $where) {
+                    $q->orWhere(...$where);
+                }
+            });
+        }
+
         // Agregando el orden para mostrar los datos
         foreach ($this->orderBy as $column) {
             $data->orderBy($column);
@@ -491,7 +506,7 @@ class Krud extends Controller
 
         // validando si hay un offset a utilizar
         $data->skip($offset);
-
+        
         return [$data->get(), $count];
     }
 
@@ -712,7 +727,7 @@ class Krud extends Controller
                 if (strpos($column, 'as')) {
                     $column = trim(explode('as', $column)[0]);
                 }
-                $this->setOrWhere($column, 'like', '%'.$request->search['value'].'%');
+                $this->setWhereAndFn([$column, 'like', '%'.$request->search['value'].'%']);
             }   
         }
 
