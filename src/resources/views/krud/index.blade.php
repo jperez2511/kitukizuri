@@ -85,7 +85,7 @@
                             text: 'Agregar',
                             className: '{{$dtBtnAdd}}',
                             action: function ( e, dt, node, config ) {
-                                location.replace('{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
+                                location.assign('{{$ruta}}'+'/create'+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''));
                             }
                         }
                     @endif
@@ -109,7 +109,7 @@
                 url = result[0];
                 id2 = '?'+result[1];
             }
-            window.location.replace(url+'/'+id+'/edit'+(id2 != null ? id2 : ''));
+            window.location.assign(url+'/'+id+'/edit'+(id2 != null ? id2 : ''));
         }
         function destroy(id){
             var url = String(window.location);
