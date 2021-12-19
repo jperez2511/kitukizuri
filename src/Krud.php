@@ -210,7 +210,7 @@ class Krud extends Controller
             'url',
         ];
 
-        $this->allowed($params, $allowed);
+        $this->allowed($params, $allowed, 'badType');
 
         if (!array_key_exists('campo', $params)) {
             return $this->errors = ['tipo' => 'setCampo'];
@@ -221,14 +221,11 @@ class Krud extends Controller
         $params['show']      = (!array_key_exists('show', $params) ? true : $params['show']);
         $params['tipo']      = (!array_key_exists('tipo', $params) ? 'string' : $params['tipo']);
         $params['decimales'] = (!array_key_exists('decimales', $params) ? 0 : $params['decimales']);
-        $params['collect']   = (!array_key_exists('collect', $params) ? '' : $params['collect']);
-        $params['filepath']  = (!array_key_exists('filepath', $params) ? '' : $params['filepath']);
-        $params['value']     = (!array_key_exists('value', $params) ? '' : $params['value']);
         $params['format']    = (!array_key_exists('format', $params) ? '' : $params['format']);
         $params['unique']    = (!array_key_exists('unique', $params) ? false : $params['unique']);
 
         if (!in_array($params['tipo'], $tipos)) {
-            return $this->errors = ['tipo' => 'badType', 'bad' => $params['tipo'], 'permitidos' => $tipos];
+            $this->errors = ['tipo' => 'badType', 'bad' => $params['tipo'], 'permitidos' => $tipos];
         }
 
         if ($params['tipo'] == 'datetime' || $params['tipo'] == 'date') {
@@ -239,22 +236,32 @@ class Krud extends Controller
             $this->setTemplate(['iconpicker']);
         }
 
-        if ($params['tipo'] == 'combobox' && ($params['collect'] == '')) {
-            return $this->errors = ['tipo' => 'typeCombo', 'bad' => $params['tipo']];
-            dd('Para el tipo combobox el collection es requerido');
+        if ($params['tipo'] == 'combobox' && empty($params['collect'])) {
+            $this->errors = ['tipo' => 'typeCombo'];
+        } else if ($params['tipo'] == 'combobox' && !empty($params['collect'])) {
+            $collect = $params['collect']->toArray();
+            $options = [];
+            foreach ($collect as $k) {
+                $option =[];
+                foreach ($k as $v) {
+                    array_push($option, $v);
+                }
+                array_push($options, $option);
+            }
+            $params['options'] = $options;
+            $params['show']    = false;
         }
-        if ($params['tipo'] == 'combobox') {
-            $params['show'] = false;
-        }
-        if ($params['tipo'] == 'file' && $params['filepath'] == '') {
-            dd('Para el tipo file falta parametro filepath');
+        
+        if ($params['tipo'] == 'file' && empty($params['filepath'])) {
+            $this->errors = ['tipo' => 'filepath'];
         }
         
         if ($params['tipo'] == 'enum' && count($params['enumarray']) == 0) {
-            dd('Para el tipo enum el enumarray es requerido');
+            $this->errors = ['tipo' => 'enum'];
         }
-        if ($params['tipo'] == 'hidden' && $params['value'] == '') {
-            dd('Para el tipo hidden requiere agregar value');
+
+        if ($params['tipo'] == 'hidden' && empty($params['value'])) {
+            $this->errors = ['tipo' => 'value'];
         }
         
         if (!strpos($params['campo'], ')')) {
@@ -264,30 +271,6 @@ class Krud extends Controller
             }
         }
 
-        //validando si las llaves existen
-        if (!array_key_exists('show', $params)) {
-            $params['show'] = true;
-        }
-
-        if (array_key_exists('tipo', $params)) {
-            if (!in_array($params['tipo'], $tipos)) {
-                dd('tipo: ' . $params['tipo'] . ' no es un tipo valido.');
-            } elseif (in_array($params['tipo'], $tipos) && $params['tipo'] == 'combobox') {
-                $warning = !array_key_exists('collect', $params) ? dd('comobox requiere del campo collect') : null;
-                $collect = $params['collect']->toArray();
-                $options = [];
-                foreach ($collect as $k) {
-                    $option =[];
-                    foreach ($k as $v) {
-                        array_push($option, $v);
-                    }
-                    array_push($options, $option);
-                }
-                $params['options'] = $options;
-            }
-        } else {
-            $params['tipo'] = 'string';
-        }
         array_push($this->campos, $params);
     }
 
@@ -376,7 +359,7 @@ class Krud extends Controller
     public function setBoton($params)
     {
         $allowed = ['nombre', 'url', 'class', 'icon'];
-        $this->allowed($params, $allowed);
+        $this->allowed($params, $allowed, 'badTypeButton');
         array_push($this->botones, $params);
     }
 
@@ -1047,11 +1030,12 @@ class Krud extends Controller
      *
      * @return void
      */
-    private function allowed($params, $allowed)
+    private function allowed($params, $allowed, $badType)
     {
         foreach ($params as $key => $val) { //Validamos que todas las variables del array son permitidas.
             if (!in_array($key, $allowed)) {
-                dd($key . ' no es un parametro permitido ' . implode(', ', $allowed));
+                $this->errors = ['tipo' => $badType, 'bad' => $key, 'permitidos' => $allowed];
+                break;
             }
         }
     }
