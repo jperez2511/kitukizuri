@@ -28,6 +28,7 @@ class Krud extends Controller
     private $id       = '__id__';
 
     // Variales de valor unico
+    private $view     = null;
     private $model    = null;
     private $titulo   = null;
     private $editId   = null;
@@ -170,6 +171,25 @@ class Krud extends Controller
     public function setTitulo($titulo)
     {
         $this->titulo = $titulo;
+    }
+
+    /**
+     * setView
+     * Define el tipo de vista que se quiere utilizar
+     *
+     * @param  mixed $view
+     *
+     * @return void
+     */
+    public function setView($view)
+    {
+        $allowed = ['catalogo', 'calendar'];
+
+        if(!in_array($view, $allowed)){
+            $this->errors = ['tipo' => 'badView', 'bad' => $view, 'permitidos' => $allowed];
+        }
+
+        $this->view = $view;
     }
 
     /**
@@ -653,6 +673,24 @@ class Krud extends Controller
             return view('krud::training', $this->errors);
         }
 
+        if (!empty($this->view) && $this->view == 'calendar') {
+            return $this->setCalendarView();
+        }
+
+        return $this->setTableView();
+    }
+
+    private function setCalendarView()
+    {
+        $view = 'krud.calendar';
+        if ($prefix != null && $prefix == 'kk') {
+            $view = 'krud::calendar';
+        }
+        return view($view, []);
+    }
+
+    private function setTableView()
+    {
         $botones    = json_encode($this->botones);
         $ruta       = $this->getModuloRuta();
         $layout     = $this->getLayout();
