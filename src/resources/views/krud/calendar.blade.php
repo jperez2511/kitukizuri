@@ -106,7 +106,7 @@
     <script src="{{asset('kitukizuri/libs/calendar/tui-code-snippet.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/tui-time-picker.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/tui-date-picker.min.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/moment.js/2.20.1/moment.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/moment.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/chance.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/tui-calendar.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/calendars.js')}}"></script>
