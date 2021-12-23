@@ -1,11 +1,11 @@
 @extends($layout)
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/tui.time-picker/latest/tui-time-picker.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/tui.date-picker/latest/tui-date-picker.css')}}">
-    <link href="{{asset('kitukizuri/libs/calendar/tui-calendar.min.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/default.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/icons.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/tui-time-picker.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/tui-date-picker.css')}}">
+    <link href="{{asset('kitukizuri/libs/calendar/css/tui-calendar.min.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/default.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/icons.css')}}">
 @endsection
 
 @section('content')
@@ -105,14 +105,14 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('kitukizuri/libs/calendar/tui-code-snippet.min.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/tui-time-picker.min.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/tui-date-picker.min.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/moment.min.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/chance.min.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/tui-calendar.min.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/calendars.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/schedules.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/tui-code-snippet.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/tui-time-picker.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/tui-date-picker.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/moment.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/chance.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/tui-calendar.min.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/calendars.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/schedules.js')}}"></script>
     <!-- <script src="./js/theme/dooray.js"></script> -->
-    <script src="{{asset('kitukizuri/libs/calendar/app.js')}}"></script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/app.js')}}"></script>
 @endsection
