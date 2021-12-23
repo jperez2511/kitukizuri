@@ -146,7 +146,6 @@ class Krud extends Controller
         return $kitukizuri->getPermisos($id);
     }
 
-    
     /**
      * setModel
      * Define el modelo donde se obtendran y almacenaran los datos
@@ -673,28 +672,31 @@ class Krud extends Controller
             return view('krud::training', $this->errors);
         }
 
+        $prefix = Route::current()->action['prefix'];
+        $layout = $this->getLayout();
+
         if (!empty($this->view) && $this->view == 'calendar') {
-            return $this->setCalendarView();
+            return $this->setCalendarView($prefix, $layout);
         }
 
-        return $this->setTableView();
+        return $this->setTableView($prefix, $layout);
     }
 
-    private function setCalendarView()
+    private function setCalendarView($prefix, $layout)
     {
         $view = 'krud.calendar';
         if ($prefix != null && $prefix == 'kk') {
             $view = 'krud::calendar';
         }
-        return view($view, []);
+        return view($view, [
+            'layout' => $layout,
+        ]);
     }
 
-    private function setTableView()
+    private function setTableView($prefix, $layout)
     {
         $botones    = json_encode($this->botones);
         $ruta       = $this->getModuloRuta();
-        $layout     = $this->getLayout();
-        $prefix     = Route::current()->action['prefix'];
         $view       = 'krud.index';
         $dtBtnAdd   = config('kitukizuri.dtBtnAdd');
         $dtBtnLiner = config('kitukizuri.dtBtnLiner');
