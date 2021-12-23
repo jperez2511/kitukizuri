@@ -688,8 +688,11 @@ class Krud extends Controller
         if ($prefix != null && $prefix == 'kk') {
             $view = 'krud::calendar';
         }
+
         return view($view, [
-            'layout' => $layout,
+            'layout'   => $layout,
+            'titulo'   => $this->titulo,
+            'permisos' => $this->setPermisos(Auth::id()),
         ]);
     }
 

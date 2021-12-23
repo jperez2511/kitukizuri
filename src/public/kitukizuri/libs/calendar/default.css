@@ -72,21 +72,13 @@ body {
 }
 
 #lnb {
-  position: absolute;
   width: 200px;
-  top: 49px;
-  bottom: 0;
   border-right: 1px solid #d5d5d5;
-  padding: 12px 10px;
-  background: #fafafa;
+  padding: 17px 0;
 }
 
 #right {
-  position: absolute;
-  left: 200px;
-  top: 49px;
-  right: 0;
-  bottom: 0;
+  width: calc(100% - 200px);
 }
 
 #lnb label {
@@ -212,14 +204,6 @@ body {
 
 .schedule-time {
     color: #005aff;
-}
-
-#calendar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 5px;
-    top: 64px;
 }
 
 /** custom fontawesome */
