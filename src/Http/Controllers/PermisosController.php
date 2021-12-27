@@ -35,8 +35,8 @@ class PermisosController extends Controller
 			$permiso = RolModuloPermiso::where('modulopermisoid', $id)->first();
 			if (!empty($permiso)) {
 				return view('kitukizuri::error', [
-					'msg' => 'El modulo a editar ya tiene permisos asignados a los roles. Se recomienda ingresarlos desde los Seeders.',
-					'type' => 'warning',
+					'msg'    => 'El modulo a editar ya tiene permisos asignados a los roles. Se recomienda ingresarlos desde los Seeders.',
+					'type'   => 'warning',
 					'layout' => 'krud.layout',
 					'titulo' => 'Error',
 				]);
@@ -48,9 +48,9 @@ class PermisosController extends Controller
 		return view('kitukizuri::permisos',[
 			'modulo'   => Crypt::encrypt($id),
 			'permisos' => $permisos,
-            'mp'       => $mp, 
-            'layout' => 'krud.layout',
-            'titulo' => 'Permisos'
+			'mp'       => $mp,
+			'layout'   => 'krud.layout',
+			'titulo'   => 'Permisos'
 		]);
 	}
 

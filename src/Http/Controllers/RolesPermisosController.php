@@ -30,7 +30,8 @@ class RolesPermisosController extends Controller
             'modulos' => $modulos,
             'rmp'     => $rmp,
             'layout'  => 'krud.layout',
-            'titulo'  => 'Permisos'
+            'titulo'  => 'Permisos',
+            'dash'    => true
         ]);
     }
 
