@@ -17,22 +17,18 @@
                 </div>  
                 <div class="row">
                     @foreach($modulos as $m)
-                        <div class="col-md-12">
-                            <div class="ribbon-wrapper">
-                                <div class="ribbon {!! $color[rand(0,6)] !!}">{{$m->nombre}}</div>
-                                <div class="row">
-                                    @foreach($m->modulopermiso()->get() as $mp)
-                                        <?php $p = $mp->permisos()->first(); ?>
-                                        <div class="col-3">
-                                            <div class="be-checkbox be-checkbox-color {{$p->color}} inline">
-                                                <input class="check" id="{{$mp->modulopermisoid}}" name="permisos[]" value="{{$mp->modulopermisoid}}" type="checkbox" {{in_array($mp->modulopermisoid, $rmp) ? 'checked' : ''}}>
-                                                <label for="{{$mp->modulopermisoid}}">{{$p->nombre}}</label>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
+                        <div class="col-md-12 mt-4">
+                            <h4>{{$m->nombre}}</h4>
                             <div style="height: 10px;"><hr></div>
+                            <div class="row">
+                                @foreach($m->modulopermiso()->get() as $mp)
+                                    <?php $p = $mp->permisos()->first(); ?>
+                                    <div class="col-3">
+                                        <input class="check" id="{{$mp->modulopermisoid}}" name="permisos[]" value="{{$mp->modulopermisoid}}" type="checkbox" {{in_array($mp->modulopermisoid, $rmp) ? 'checked' : ''}}>
+                                        <label for="{{$mp->modulopermisoid}}">{{$p->nombre}}</label>    
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     @endforeach
                 </div>            
