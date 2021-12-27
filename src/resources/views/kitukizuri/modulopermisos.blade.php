@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <form method="post">
+    <form method="post" style="width: 100%">
         {{csrf_field()}}
         @foreach($modulos as $m)
             <div class="col-12">
@@ -40,7 +40,9 @@
             </div>
         @endforeach          
         <div class="col-md-12 text-center">
-            <input type="submit" class="btn btn-success" value="Guardar">
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Guardar">
+            </div>
         </div>
     </form>
 
