@@ -53,6 +53,9 @@ class Krud extends Controller
         'datatable',
     ];
 
+    // viables unicas para vista calendario
+    private $defaultCalendarView = null;
+
     /**
      * getLayout
      * Defnine el layout predeterminado
@@ -189,6 +192,25 @@ class Krud extends Controller
         }
 
         $this->view = $view;
+    }
+
+    /**
+     * setCalendarDefaultView
+     * Define la vista default que mostrara el calendario
+     *
+     * @param  mixed $view
+     *
+     * @return void
+     */
+    public function setCalendarDefaultView($view)
+    {
+        $allowed = ['day','week', 'month'];
+
+        if(!in_array($view, $allowed)){
+            $this->errors = ['tipo' => 'badCalendarView', 'bad' => $view, 'permitidos' => $allowed];
+        }
+
+        $this->defaultCalendarView = $view;
     }
 
     /**
@@ -690,9 +712,10 @@ class Krud extends Controller
         }
 
         return view($view, [
-            'layout'   => $layout,
-            'titulo'   => $this->titulo,
-            'permisos' => $this->setPermisos(Auth::id()),
+            'layout'      => $layout,
+            'titulo'      => $this->titulo,
+            'permisos'    => $this->setPermisos(Auth::id()),
+            'defaultView' => $this->defultCalendarView
         ]);
     }
 
