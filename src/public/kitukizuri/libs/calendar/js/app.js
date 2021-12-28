@@ -7,16 +7,16 @@
 
 (function(window, Calendar) {
     var cal, resizeThrottled;
-    var useCreationPopup = true;
-    var useDetailPopup = true;
+    var useCreationPopup = false;
+    var useDetailPopup   = false;
     var datePicker, selectedCalendar;
 
     cal = new Calendar('#calendar', {
         defaultView: (defaultView != '' ? defaultView : 'month'),
         useCreationPopup: useCreationPopup,
-        useDetailPopup: useDetailPopup,
-        calendars: CalendarList,
-        template: {
+        useDetailPopup  : useDetailPopup,
+        calendars       : CalendarList,
+        template        : {
             milestone: function(model) {
                 return '<span class="calendar-font-icon ic-milestone-b"></span> <span style="background-color: ' + model.bgColor + '">' + model.title + '</span>';
             },
@@ -35,7 +35,7 @@
             console.log('clickMore', e);
         },
         'clickSchedule': function(e) {
-            console.log('clickSchedule', e);
+            setModal(e.schedule)
         },
         'clickDayname': function(date) {
             console.log('clickDayname', date);
@@ -84,6 +84,10 @@
             return true;
         }
     });
+
+    function setModal() {
+        $('#eventCalendar').modal('show');
+    }
 
     /**
      * Get time template for time and all-day
