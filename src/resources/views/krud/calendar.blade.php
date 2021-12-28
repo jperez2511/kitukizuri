@@ -3,7 +3,7 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/tui-time-picker.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/tui-date-picker.css')}}">
-    <link href="{{asset('kitukizuri/libs/calendar/css/tui-calendar.min.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/tui-calendar.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/default.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('kitukizuri/libs/calendar/css/icons.css')}}">
 @endsection
@@ -113,6 +113,8 @@
     <script src="{{asset('kitukizuri/libs/calendar/js/tui-calendar.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/calendars.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/schedules.js')}}"></script>
-    <!-- <script src="./js/theme/dooray.js"></script> -->
     <script src="{{asset('kitukizuri/libs/calendar/js/app.js')}}"></script>
+    <script>
+        var defaultView = '{{$defaultView}}';
+    </script>
 @endsection

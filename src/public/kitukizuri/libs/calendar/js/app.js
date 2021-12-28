@@ -12,7 +12,7 @@
     var datePicker, selectedCalendar;
 
     cal = new Calendar('#calendar', {
-        defaultView: 'week',
+        defaultView: (defaultView != '' ? defaultView : 'month'),
         useCreationPopup: useCreationPopup,
         useDetailPopup: useDetailPopup,
         calendars: CalendarList,

@@ -52,6 +52,12 @@
                                     @foreach ($permitidos as $permitido)
                                         <code>{{ $permitido }}</code> <br>
                                     @endforeach
+                                @elseif ($tipo == 'badCalendarView')
+                                    <h4 class="mt-4">La vista <code>{{ $bad }}</code> No existe</h4>    
+                                    <p>La vista por defecto (Default View) permite definir como se mostrara el calendario ya sea por mes, semana o un dia en concreto estas son las vistas permitidas:</p>
+                                    @foreach ($permitidos as $permitido)
+                                        <code>{{ $permitido }}</code> <br>
+                                    @endforeach
                                 @elseif ($tipo == 'badTypeButton')
                                     <h4 class="mt-4">El parametro <code>{{ $bad }}</code> No existe</h4>    
                                     <p>Los parametros permitidos para configurar un botón son los siguientes:</p>
@@ -131,7 +137,9 @@
                 } elseif($tipo == 'badTypeButton') {
                     $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setBoton([\\\'nombre\\\'=>\\\'Label del boton\\\', \\\'url\\\'=>\\\'URL\\\', \\\'class\\\'=>\\\'btn btn-success\\\', \\\'icon\\\'=>\\\'fa fa-trash\\\']);\n\t}\n}';
                 } elseif($tipo == 'badView') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\\'calendar\\\']);\n\t}\n}';
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\\'calendar\\\');\n\t}\n}';
+                } elseif($tipo == 'badCalendarView') {
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\\'calendar\\\');\n\t\t$this->setCalendarDefaultView(\\\'month\\\');\n\t}\n}';
                 } elseif($tipo == 'typeCombo') {
                     $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \nuse Icebearsoft\\\\Models\\\\Example; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$collection = Example::select(\\\'id\\\', \\\'value\\\')->get();\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'combobox\\\', \\\'collect\\\'=>$collection]);\n\t}\n}';
                 } elseif($tipo == 'filepath') {
