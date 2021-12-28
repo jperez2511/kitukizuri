@@ -41,8 +41,8 @@
             console.log('clickDayname', date);
         },
         'beforeCreateSchedule': function(e) {
-            console.log('beforeCreateSchedule', e);
-            saveNewSchedule(e);
+            setModal(e)
+            
         },
         'beforeUpdateSchedule': function(e) {
             var schedule = e.schedule;
@@ -401,14 +401,6 @@
         renderRange.innerHTML = html.join('');
     }
 
-    function setSchedules() {
-        cal.clear();
-        generateSchedule(cal.getViewName(), cal.getDateRangeStart(), cal.getDateRangeEnd());
-        cal.createSchedules(ScheduleList);
-
-        refreshScheduleVisibility();
-    }
-
     function setEventListener() {
         $('#menu-navi').on('click', onClickNavi);
         $('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
@@ -434,7 +426,6 @@
 
     setDropdownCalendarType();
     setRenderRangeText();
-    setSchedules();
     setEventListener();
 })(window, tui.Calendar);
 

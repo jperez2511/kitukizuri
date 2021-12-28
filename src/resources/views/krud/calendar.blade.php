@@ -110,8 +110,12 @@
             <div class="modal-body">
                 <form action="{{route($action)}}" method="POST">
                     @csrf
+                    @php $nombreCampos = [] @endphp
                     @foreach($campos as $c)
-                        @php $nombre = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo']; @endphp
+                        @php 
+                            $nombre = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo']; 
+                            $nombreCampos[] = $nombre;
+                        @endphp
                         @if($c['tipo'] != 'password')
                             <div class="{!! !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6' !!}">
                                 <div class="form-group">
@@ -166,6 +170,8 @@
                             </div>
                         @endif
                     @endforeach
+                    <a href="javascript:void(0)" class="btn btn-danger btn-space" onclick="clearInputs()"> Cancelar</a>
+                    <button type="submit" class="btn btn-space btn-success" id="guardar">Guardar</button>
                 </form>
             </div>
         </div>
@@ -182,7 +188,6 @@
     <script src="{{asset('kitukizuri/libs/calendar/js/tui-calendar.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/calendars.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/schedules.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/js/app.js')}}"></script>
     <script>
         var defaultView = '{{$defaultView}}';
         function number_format(amount, decimals) {
@@ -206,5 +211,13 @@
 
 		    return amount_parts.join('.');
 		}
+
+        function clearInputs() {
+            $('#eventCalendar').modal('hide')
+            @foreach($nombreCampos as $campo)
+                $('#{{ $campo }}').val('');
+            @endforeach
+        }
     </script>
+    <script src="{{asset('kitukizuri/libs/calendar/js/app.js')}}"></script>
 @endsection
