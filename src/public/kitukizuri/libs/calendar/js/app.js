@@ -181,7 +181,6 @@
 
         setDropdownCalendarType();
         setRenderRangeText();
-        setSchedules();
     }
 
     function onClickNavi(e) {
@@ -202,7 +201,6 @@
         }
 
         setRenderRangeText();
-        setSchedules();
     }
 
     function onNewSchedule() {

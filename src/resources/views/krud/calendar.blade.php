@@ -184,7 +184,6 @@
     <script src="{{asset('kitukizuri/libs/calendar/js/tui-time-picker.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/tui-date-picker.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/moment.min.js')}}"></script>
-    <script src="{{asset('kitukizuri/libs/calendar/js/chance.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/tui-calendar.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/calendars.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/schedules.js')}}"></script>
