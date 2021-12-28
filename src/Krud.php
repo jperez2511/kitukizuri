@@ -693,6 +693,7 @@ class Krud extends Controller
             'layout'   => $layout,
             'titulo'   => $this->titulo,
             'permisos' => $this->setPermisos(Auth::id()),
+            'action'   => Route::currentRouteName(),
         ]);
     }
 

@@ -148,7 +148,12 @@
                                 <li><a href="{{route('roles.index')}}">Roles</a></li>
                             </ul>
                         </li>
-
+                        <li>
+                            <a href="{{route('help.index')}}" class=" waves-effect">
+                                <i class="mdi mdi-account-supervisor text-warning"></i>
+                                <span>Ayuda</span>
+                            </a>
+                        </li>
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="mdi mdi-database text-primary"></i>
