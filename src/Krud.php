@@ -715,8 +715,8 @@ class Krud extends Controller
             'layout'      => $layout,
             'titulo'      => $this->titulo,
             'permisos'    => $this->setPermisos(Auth::id()),
-            'defaultView' => $this->defultCalendarView,
-            'action'   => Route::currentRouteName(),
+            'defaultView' => $this->defaultCalendarView,
+            'action'      => Route::currentRouteName(),
         ]);
     }
 
