@@ -114,68 +114,70 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
-
             <div data-simplebar class="h-100">
-
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
-                    <ul class="metismenu list-unstyled" id="side-menu">
-                        <li>
-                            <a href="/" class="waves-effect">
-                                <i class="mdi mdi-keyboard-return"></i>
-                                <span>Regresar a la aplicación</span>
-                            </a>
-                        </li>
+                    @if (!empty($kmenu) && $kmenu ==  true)
+                       {{ session('menu')  }}
+                    @else
+                        <ul class="metismenu list-unstyled" id="side-menu">
+                            <li>
+                                <a href="/" class="waves-effect">
+                                    <i class="mdi mdi-keyboard-return"></i>
+                                    <span>Regresar a la aplicación</span>
+                                </a>
+                            </li>
 
-                        <li class="menu-title">Configuraciones</li>
+                            <li class="menu-title">Configuraciones</li>
 
-                        <li>
-                            <a href="{{route('usuarios.index')}}" class=" waves-effect">
-                                <i class="mdi mdi-account-supervisor text-warning"></i>
-                                <span>Usuarios</span>
-                            </a>
-                        </li>
+                            <li>
+                                <a href="{{route('usuarios.index')}}" class=" waves-effect">
+                                    <i class="mdi mdi-account-supervisor text-warning"></i>
+                                    <span>Usuarios</span>
+                                </a>
+                            </li>
 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="mdi mdi-shield text-permission"></i>
-                                <span>Permisos</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{{route('empresas.index')}}">Empresas</a></li>
-                                <li><a href="{{route('modulos.index')}}">Modulos</a></li>
-                                <li><a href="{{route('roles.index')}}">Roles</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="{{route('help.index')}}" class=" waves-effect">
-                                <i class="mdi mdi-account-supervisor text-warning"></i>
-                                <span>Ayuda</span>
-                            </a>
-                        </li>
-                        {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="mdi mdi-database text-primary"></i>
-                                <span>Base de datos</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="email-inbox.html">Crear Conexion</a></li>
-                                <li><a href="email-read.html">Ejecutar Seeder</a></li>
-                                <li><a href="email-compose.html">Ejecutar Migrations</a></li>
-                            </ul>
-                        </li> --}}
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class="mdi mdi-shield text-permission"></i>
+                                    <span>Permisos</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li><a href="{{route('empresas.index')}}">Empresas</a></li>
+                                    <li><a href="{{route('modulos.index')}}">Modulos</a></li>
+                                    <li><a href="{{route('roles.index')}}">Roles</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{route('help.index')}}" class=" waves-effect">
+                                    <i class="mdi mdi-account-supervisor text-warning"></i>
+                                    <span>Ayuda</span>
+                                </a>
+                            </li>
+                            {{-- <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class="mdi mdi-database text-primary"></i>
+                                    <span>Base de datos</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li><a href="email-inbox.html">Crear Conexion</a></li>
+                                    <li><a href="email-read.html">Ejecutar Seeder</a></li>
+                                    <li><a href="email-compose.html">Ejecutar Migrations</a></li>
+                                </ul>
+                            </li> --}}
 
-                        {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="mdi mdi-package-variant-closed text-package"></i>
-                                <span>Paquetes</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="email-inbox.html">Instalar Paquetes</a></li>
-                            </ul>
-                        </li> --}}
-                    </ul>
+                            {{-- <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class="mdi mdi-package-variant-closed text-package"></i>
+                                    <span>Paquetes</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li><a href="email-inbox.html">Instalar Paquetes</a></li>
+                                </ul>
+                            </li> --}}
+                        </ul>
+                    @endif
                 </div>
                 <!-- Sidebar -->
             </div>

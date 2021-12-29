@@ -706,9 +706,12 @@ class Krud extends Controller
 
     private function setCalendarView($prefix, $layout)
     {
-        $view = 'krud.calendar';
+        $view  = 'krud.calendar';
+        $kmenu = false;
+        
         if ($prefix != null && $prefix == 'kk') {
             $view = 'krud::calendar';
+            $kmenu = true;
         }
 
         return view($view, [
@@ -718,6 +721,7 @@ class Krud extends Controller
             'defaultView' => $this->defaultCalendarView,
             'action'      => Route::currentRouteName(),
             'campos'      => $this->campos,
+            'kmenu'       => $kmenu
         ]);
     }
 
@@ -728,12 +732,13 @@ class Krud extends Controller
         $view       = 'krud.index';
         $dtBtnAdd   = config('kitukizuri.dtBtnAdd');
         $dtBtnLiner = config('kitukizuri.dtBtnLiner');
-
+        $kmenu      = false;
 
         if ($prefix != null && $prefix == 'kk') {
             $view       = 'krud::index';
             $dtBtnAdd   = 'btn btn-outline-success';
             $dtBtnLiner = 'btn btn-outline-secondary';
+            $kmenu      = true;
         }
 
         return view($view, [
@@ -746,6 +751,7 @@ class Krud extends Controller
             'layout'     => $layout,
             'dtBtnAdd'   => $dtBtnAdd,
             'dtBtnLiner' => $dtBtnLiner,
+            'kmenu'      => $kmenu,
         ]);
     }
 
@@ -908,15 +914,16 @@ class Krud extends Controller
             $titulo = 'Agregar '.$this->titulo;
         }
 
-        $url = $this->getUrl($request->url());
-
+        $url    = $this->getUrl($request->url());
         $layout = $this->getLayout();
 
         $prefix = Route::current()->action['prefix'];
         $view   = 'krud.edit';
+        $kmenu  = false;
 
         if ($prefix != null && $prefix == 'kk') {
             $view = 'krud::edit';
+            $kmenu = true;
         }
 
         return view($view, [
@@ -929,7 +936,8 @@ class Krud extends Controller
             'parent'   => $this->parentid,
             'parentid' => $parentid,
             'parents'  => $this->parents,
-            'layout'   => $layout            
+            'layout'   => $layout,
+            'kmenu'    => $kmenu,
         ]);
     }
 

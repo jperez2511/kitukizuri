@@ -13,8 +13,6 @@
 
     cal = new Calendar('#calendar', {
         defaultView: (defaultView != '' ? defaultView : 'month'),
-        useCreationPopup: useCreationPopup,
-        useDetailPopup  : useDetailPopup,
         calendars       : CalendarList,
         template        : {
             milestone: function(model) {
@@ -41,21 +39,22 @@
             console.log('clickDayname', date);
         },
         'beforeCreateSchedule': function(e) {
-            setModal(e)
+            setModal(e);
+            e.guide.clearGuideElement();
             
         },
         'beforeUpdateSchedule': function(e) {
-            var schedule = e.schedule;
-            var changes = e.changes;
+            // var schedule = e.schedule;
+            // var changes = e.changes;
 
-            console.log('beforeUpdateSchedule', e);
+            // console.log('beforeUpdateSchedule', e);
 
-            if (changes && !changes.isAllDay && schedule.category === 'allday') {
-                changes.category = 'time';
-            }
+            // if (changes && !changes.isAllDay && schedule.category === 'allday') {
+            //     changes.category = 'time';
+            // }
 
-            cal.updateSchedule(schedule.id, schedule.calendarId, changes);
-            refreshScheduleVisibility();
+            // cal.updateSchedule(schedule.id, schedule.calendarId, changes);
+            // refreshScheduleVisibility();
         },
         'beforeDeleteSchedule': function(e) {
             console.log('beforeDeleteSchedule', e);
