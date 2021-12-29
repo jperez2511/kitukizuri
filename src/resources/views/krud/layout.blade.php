@@ -118,8 +118,8 @@
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
-                    @if (!empty($kmenu) && $kmenu ==  true)
-                       {{ session('menu')  }}
+                    @if (empty($kmenu) || $kmenu ==  false)
+                       {!! session('menu')  !!}
                     @else
                         <ul class="metismenu list-unstyled" id="side-menu">
                             <li>
