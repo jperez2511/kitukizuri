@@ -52,6 +52,12 @@
                                     @foreach ($permitidos as $permitido)
                                         <code>{{ $permitido }}</code> <br>
                                     @endforeach
+                                @elseif ($tipo == 'badOptionsView')
+                                    <h4 class="mt-4">La opcion <code>{{ $bad }}</code> No existe</h4>    
+                                    <p>La vista permite las siguientes opciones:</p>
+                                    @foreach ($permitidos as $permitido)
+                                        <code>{{ $permitido }}</code> <br>
+                                    @endforeach
                                 @elseif ($tipo == 'badCalendarView')
                                     <h4 class="mt-4">La vista <code>{{ $bad }}</code> No existe</h4>    
                                     <p>La vista por defecto (Default View) permite definir como se mostrara el calendario ya sea por mes, semana o un dia en concreto estas son las vistas permitidas:</p>
@@ -132,8 +138,8 @@
                     $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\']);\n\t}\n}';
                 } elseif($tipo == 'badType') {
                     $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'bool\\\']);\n\t}\n}';
-                } elseif($tipo == 'badType') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'bool\\\']);\n\t}\n}';
+                } elseif($tipo == 'badOptionsView') {
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\\'calendar\\\', [\\\'public\\\'=> true]);\n\t}\n}';
                 } elseif($tipo == 'badTypeButton') {
                     $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setBoton([\\\'nombre\\\'=>\\\'Label del boton\\\', \\\'url\\\'=>\\\'URL\\\', \\\'class\\\'=>\\\'btn btn-success\\\', \\\'icon\\\'=>\\\'fa fa-trash\\\']);\n\t}\n}';
                 } elseif($tipo == 'badView') {

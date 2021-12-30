@@ -37,18 +37,19 @@ class Krud extends Controller
     private $storemsg = null;
 
     // variales en array
-    private $rt         = [];
-    private $joins      = [];
-    private $embed      = [];
-    private $wheres     = [];
-    private $campos     = [];
-    private $botones    = [];
-    private $parents    = [];
-    private $orderBy    = [];
-    private $orWheres   = [];
-    private $leftJoins  = [];
-    private $erros      = [];
-    private $whereAndFn = [];
+    private $rt          = [];
+    private $joins       = [];
+    private $embed       = [];
+    private $wheres      = [];
+    private $campos      = [];
+    private $botones     = [];
+    private $parents     = [];
+    private $orderBy     = [];
+    private $orWheres    = [];
+    private $leftJoins   = [];
+    private $erros       = [];
+    private $whereAndFn  = [];
+    private $viewOptions = [];
     private $template  = [
         'datatable',
     ];
@@ -180,15 +181,22 @@ class Krud extends Controller
      * Define el tipo de vista que se quiere utilizar
      *
      * @param  mixed $view
+     * @param  mixed $options
      *
      * @return void
      */
-    public function setView($view)
+    public function setView($view, $options = [])
     {
         $allowed = ['catalogo', 'calendar'];
 
         if(!in_array($view, $allowed)){
             $this->errors = ['tipo' => 'badView', 'bad' => $view, 'permitidos' => $allowed];
+        }
+
+        if ($view == 'calendar' && !empty($options)) {
+            $allowedOptions = ['public'];
+            $this->allowed($options, $allowedOptions, 'badOptionsView');
+            $this->viewOptions = $options;
         }
 
         $this->view = $view;
@@ -714,10 +722,23 @@ class Krud extends Controller
             $kmenu = true;
         }
 
+        $permisos = $this->setPermisos(Auth::id());
+
+        if (!empty($this->viewOptions)) {
+            if (in_array('public', $this->viewOptions) && $this->viewOptions['public'] == true) {
+                $permisos = [
+                    'create',
+                    'show',
+                    'edit',
+                    'destroy'
+                ];
+            }
+        }
+
         return view($view, [
             'layout'      => $layout,
             'titulo'      => $this->titulo,
-            'permisos'    => $this->setPermisos(Auth::id()),
+            'permisos'    => $permisos,
             'defaultView' => $this->defaultCalendarView,
             'action'      => Route::currentRouteName(),
             'campos'      => $this->campos,

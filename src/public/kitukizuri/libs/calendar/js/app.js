@@ -354,19 +354,19 @@
         var iconClassName;
 
         if (type === 'day') {
-            type = 'Daily';
+            type = 'Día';
             iconClassName = 'calendar-icon ic_view_day';
         } else if (type === 'week') {
-            type = 'Weekly';
+            type = 'Semana';
             iconClassName = 'calendar-icon ic_view_week';
         } else if (options.month.visibleWeeksCount === 2) {
-            type = '2 weeks';
+            type = '2 Semanas';
             iconClassName = 'calendar-icon ic_view_week';
         } else if (options.month.visibleWeeksCount === 3) {
-            type = '3 weeks';
+            type = '3 Semanas';
             iconClassName = 'calendar-icon ic_view_week';
         } else {
-            type = 'Monthly';
+            type = 'Mes';
             iconClassName = 'calendar-icon ic_view_month';
         }
 
