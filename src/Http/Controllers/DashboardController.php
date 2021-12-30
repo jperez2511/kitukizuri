@@ -26,13 +26,14 @@ class DashboardController extends Controller
         $empresas = Empresa::count();
 
         return view('kitukizuri::dashboard', [
-            'layout'   => 'krud.layout',
+            'layout'   => 'krud::layout',
             'titulo'   => 'Dashboard',
             'roles'    => $roles,
             'modulos'  => $modulos,
             'usuarios' => $usuarios,
             'empresas' => $empresas,
-            'dash'     => true
+            'dash'     => true,
+            'kmenu'    => true,
         ]);
     }
 }

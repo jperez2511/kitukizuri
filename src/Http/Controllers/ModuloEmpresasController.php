@@ -27,11 +27,12 @@ class ModuloEmpresasController extends Controller
     	$modulos = Modulo::orderBy('nombre')->get();
 
     	return view('kitukizuri::moduloempresas', [
-            'layout'           => 'krud.layout',
-            'titulo'           => 'Modulos asignados a la Empresa',
-            'modulos'          => $modulos,
-            'empresa'          => $request->parent,
-			'moduloEmpresas'   => $select->toArray(),
+            'layout'         => 'krud::layout',
+            'titulo'         => 'Modulos asignados a la Empresa',
+            'modulos'        => $modulos,
+            'empresa'        => $request->parent,
+            'moduloEmpresas' => $select->toArray(),
+            'kmenu'          => true
     	]);
     }
 
