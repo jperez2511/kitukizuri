@@ -110,6 +110,7 @@
             <div class="modal-body">
                 <form action="{{route($action)}}" method="POST">
                     @csrf
+                    <input type="hidden" name="id" id="id">
                     @php $nombreCampos = [] @endphp
                     @foreach($campos as $c)
                         @php 
@@ -188,7 +189,9 @@
     <script src="{{asset('kitukizuri/libs/calendar/js/calendars.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/calendar/js/schedules.js')}}"></script>
     <script>
+        var id          = '{{encrypt(0)}}';
         var defaultView = '{{$defaultView}}';
+
         function number_format(amount, decimals) {
 		    amount += ''; // por si pasan un numero en vez de un string
 		    amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto

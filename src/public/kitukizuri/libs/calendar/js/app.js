@@ -39,6 +39,7 @@
             console.log('clickDayname', date);
         },
         'beforeCreateSchedule': function(e) {
+            $('#id').val(id)
             setModal(e);
             e.guide.clearGuideElement();
             
