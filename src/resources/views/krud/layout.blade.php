@@ -104,7 +104,12 @@
                             <a class="dropdown-item" href="#"><i class="mdi mdi-credit-card-outline font-size-16 align-middle mr-1"></i> Facturación</a>
                             <a class="dropdown-item" href="#"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Configuración</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Cerrar Sesión</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); this.closest('form').submit();">
+                                    <i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Cerrar Sesión
+                                </a>
+                            </form>
                         </div>
                     </div>
         
