@@ -477,6 +477,12 @@ class Krud extends Controller
         foreach ($data as $a) {
             foreach ($a as $k => $v) {
                 foreach ($this->campos as $cn => $cv) {
+                    
+                    if (strrpos($cv['campo'], '.') != false) {
+                        $array = explode('.', $cv['campo']);
+                        $cv['campo'] = $array[count($array) - 1];
+                    }
+
                     if ($k == $cv['campo']) {
                         // agregnado estilo visual a los campos booleanos
                         if ($cv['tipo'] == 'bool') {
