@@ -488,6 +488,9 @@ class Krud extends Controller
                             }
                             $v = '<a href="'.$v.'">'.$v.'</a>';
                             $data[$i][$k] = $v;
+                        } else if($cv['tipo'] == 'date' || $cv['tipo'] == 'datetime') {
+                            $time = strtotime($v);
+                            $v = $cv['format'] != '' ? date($cv['format'], $time) : date('d/m/Y', $time);
                         }
                     }
                 }
