@@ -57,7 +57,9 @@ class MenuController
         
         // recorriendo para hacer las validaciones
         foreach ($nodos as $nodo) {
-            if(in_array($nodo->modulopermisoid, $this->permisos) || $nodo->modulopermisoid == null) {
+            $visibilidad = !empty($nodo->show) ? $nodo->show : true;
+            
+            if((in_array($nodo->modulopermisoid, $this->permisos) || $nodo->modulopermisoid == null) && $visibilidad) {
                 $this->getNodos($nodo);	
             }
         }

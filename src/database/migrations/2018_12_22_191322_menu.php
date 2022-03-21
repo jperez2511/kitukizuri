@@ -21,6 +21,8 @@ class Menu extends Migration
             $table->string('icono');
             $table->string('ruta');
             $table->string('etiqueta');
+            $table->boolean('catalogo')->default(true);
+            $table->boolean('show')->default(true);
             $table->nullableTimestamps();
             //ForeignKeys
             $table->foreign('modulopermisoid')->references('modulopermisoid')->on('moduloPermiso');
