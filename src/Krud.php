@@ -661,7 +661,14 @@ class Krud extends Controller
             unset($url[count($url)-1]);
             unset($url[count($url)-1]);
         }
-        return implode('/', $url);
+
+        $url = implode('/', $url);
+
+        if(!empty(env('APP_FORCE_HTTPS')) && env('APP_FORCE_HTTPS') == true) { 
+            $url =  str_replace('http', 'https', $url);
+        }
+        
+        return $url;
     }
 
     /**
