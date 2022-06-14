@@ -1087,8 +1087,13 @@ class Krud extends Controller
         }
 
         // Retornando mensaje de guardado 
+        $url = $request->url();
 
-        return redirect($request->url().$param);
+        if(!empty(env('APP_FORCE_HTTPS')) && env('APP_FORCE_HTTPS') == true) {
+            $url = str_replace('http', 'https', $request->url());
+        }
+
+        return redirect($url.$param);
     }
 
     /**
