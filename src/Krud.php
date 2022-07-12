@@ -664,9 +664,9 @@ class Krud extends Controller
 
         $url = implode('/', $url);
 
-        if(!empty(env('APP_FORCE_HTTPS')) && env('APP_FORCE_HTTPS') == true) { 
-            $url =  str_replace('http', 'https', $url);
-        }
+        // if(!empty(env('APP_FORCE_HTTPS')) && env('APP_FORCE_HTTPS') == true) { 
+        //     $url =  str_replace('http', 'https', $url);
+        // }
         
         return $url;
     }
