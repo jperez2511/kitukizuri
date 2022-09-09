@@ -35,6 +35,7 @@ class Krud extends Controller
     private $layout   = null;
     private $parentid = null;
     private $storemsg = null;
+    private $viewHelp = null;
 
     // variales en array
     private $rt          = [];
@@ -696,7 +697,7 @@ class Krud extends Controller
      */
     public function help()
     {
-        return view('krud::training', ['tipo' => 'help']);
+        $this->viewHelp = true;
     }
 
     /**
@@ -707,6 +708,10 @@ class Krud extends Controller
      */
     public function index()
     {
+        if($this->viewHelp == true) {
+            return view('krud::training', ['tipo' => 'help']);
+        }
+
         if ($this->model == null) {
             return view('krud::training', ['tipo' => 'setModelo']);
         }
