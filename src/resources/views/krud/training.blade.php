@@ -26,7 +26,60 @@
         <div class="account-pages my-5 pt-5">
             <div class="container">
                 @if ($tipo == 'help')
-
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row justify-content-center mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="border p-3 text-center rounded mb-4">
+                                                        <a href="#">
+                                                            <div class="my-3">
+                                                                <i class="dripicons-question h2 text-primary"></i>
+                                                            </div>
+                                                            <h5 class="font-size-15 mb-3">General Questions</h5>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="border p-3 text-center rounded mb-4">
+                                                        <a href="#">
+                                                            <div class="my-3">
+                                                                <i class="dripicons-tags h2 text-primary"></i>
+                                                            </div>
+                                                            <h5 class="font-size-15 mb-3">Privacy Policy</h5>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="border p-3 text-center rounded mb-4">
+                                                        <a href="#">
+                                                            <div class="my-3">
+                                                                <i class="dripicons-help h2 text-primary"></i>
+                                                            </div>
+                                                            <h5 class="font-size-15 mb-3">Help & Support</h5>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="border p-3 text-center rounded mb-4">
+                                                        <a href="#">
+                                                            <div class="my-3">
+                                                                <i class="dripicons-article h2 text-primary"></i>
+                                                            </div>
+                                                            <h5 class="font-size-15 mb-3">Pricing & Plans</h5>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @else
                     <div class="row justify-content-center">
                         <div class="col-lg-7">
