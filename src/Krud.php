@@ -421,7 +421,7 @@ class Krud extends Controller
 
     /**
      * embedView
-     * Pretende embedir una vista dentro de una vista AUN EN DESARROLLO
+     * Pretende incluir una vista dentro de una vista AUN EN DESARROLLO
      *
      * @param  mixed $view
      * @param  mixed $model
@@ -466,7 +466,7 @@ class Krud extends Controller
     
     /**
      * transformData
-     * Transforma la data segun el estilo visual de boostrap.
+     * Transforma la data según el estilo visual de bootstrap.
      *
      * @param  mixed $data
      *
@@ -485,7 +485,7 @@ class Krud extends Controller
                     }
 
                     if ($k == $cv['campo']) {
-                        // agregnado estilo visual a los campos booleanos
+                        // agregando estilo visual a los campos booleanos
                         if ($cv['tipo'] == 'bool') {
                             $v = '<span class="'.($prefix != null && $prefix == 'kk' ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? 'Si' : 'No').'</span>';
                             $data[$i][$k] = $v;

@@ -211,7 +211,7 @@
                 
             @endphp
             
-            var code = '{!! $code !!}'
+            var code = '{!! $code ?? null !!}'
         </script>
 
         <script>
