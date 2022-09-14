@@ -2,6 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class UsuarioRol extends Model
