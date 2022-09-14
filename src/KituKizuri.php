@@ -18,7 +18,7 @@ class KituKizuri extends Controller
 {
     /**
      * permiso
-     * Valida los premisos segun una ruta
+     * Valida los premisos según una ruta
      *
      * @param  mixed $ruta
      *
@@ -51,7 +51,7 @@ class KituKizuri extends Controller
 
     /**
      * getPermisos
-     * Retorna un array con los permisos segun usuario y/o ruta
+     * Retorna un array con los permisos según usuario y/o ruta
      *
      * @param  mixed $uid
      * @param  mixed $currentRoute
@@ -60,34 +60,17 @@ class KituKizuri extends Controller
      */
     public static function getPermisos($uid=null, $currentRoute = null)
     {
-        // Variables utilitarias
-        $aprobados = [];
+        // Obteniendo datos de ruta
+        $ruta = $currentRoute ?? Route::currentRouteName();
+        $nombreRuta = explode('.', $ruta);
 
-        // Obteneindo datos de ruta
-        $ruta = empty($currentRoute) ? Route::currentRouteName() : $currentRoute;
-        $ruta = explode('.', $ruta);
-        $ruta = $ruta[0];
+        // Obteniendo permisos como array
+        $moduloID = Modulo::where('ruta', $nombreRuta)->value('moduloid');
+        $permisos = UsuarioRol::getPermisosAsignados(Auth::id(), $moduloID)
+            ->pluck('nombreLaravel')
+            ->toArray();
 
-        //Obteniendo informacion del modulo
-        $mi = Modulo::select('moduloid')->where('ruta', $ruta)->value('moduloid'); //modulo id
-        $mp = ModuloPermiso::where('moduloid', $mi)->select('modulopermisoid')->pluck('modulopermisoid')->toArray(); //modulo permiso
-        
-        // obteniendo datos de los reoles
-        $roles = UsuarioRol::select('rolid')->where('usuarioid', $uid != null ? $uid : Auth::id())->pluck('rolid')->toArray();
-        $rmp   = RolModuloPermiso::with('rol', 'modulopermiso', 'modulopermiso.permisos')
-            ->select('modulopermisoid')
-            ->whereIn('rolid', $roles)
-            ->whereIn('modulopermisoid', $mp)
-            ->groupBy('modulopermisoid')->get();
-
-        // Recorriendo permisos
-        foreach ($rmp as $value) {
-            $mp = $value->modulopermiso()->first();
-            $p  = $mp->permisos()->first();
-            array_push($aprobados, $p->nombreLaravel);
-        }
-
-        return $aprobados;
+        return $permisos;
     }
 
     /**
@@ -99,26 +82,19 @@ class KituKizuri extends Controller
      */
     public static function validar($ruta)
     {
-        //== validando si los usuarios tienen empresa id 
-        if (empty(Auth::user()->empresaid)) {
-            return true;
+        $estado = false;
+
+        if (!empty(Auth::user()->empresaid)) {
+            $empresaID = Auth::user()->empresaid;
+            $ruta      = explode('.', $ruta);
+            $moduloID  = Modulo::where('ruta', $ruta[0])->value('moduloid');
+            $estado    = ModuloEmpresas::where('empresaid', $empresaID)
+                ->where('moduloid', $moduloID)
+                ->exists();
+        } else {
+            $estado = true;
         }
 
-        //dividiendo la ruta
-        $ruta = explode('.', $ruta);
-        //obteniendo moduloid
-        $modulo = Modulo::where('ruta', $ruta[0])->first();
-        if (empty($modulo)) {
-            return false;
-        }
-        //obteniendo la empresa id a traves del usuarioid
-        $empresaModulo = ModuloEmpresas::where('empresaid', Auth::user()->empresaid)
-            ->where('moduloid', $modulo->moduloid)->first();
-
-        if (empty($empresaModulo)) {
-            return false;
-        }
-
-        return true;
+        return $estado;
     }
 }

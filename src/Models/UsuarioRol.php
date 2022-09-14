@@ -11,21 +11,27 @@ class UsuarioRol extends Model
     protected $primaryKey = "usuariorolid";
     protected $guarded    = ['usuariorolid'];
 
-    public static function getPermisosAsignados($usuarioId, $moduloId, $permisoId)
+    public static function getPermisosAsignados($usuarioId, $moduloId, $permisoId = null)
     {
-        return DB::table('usuarioRol as uR')
+        $query =  DB::table('usuarioRol as uR')
+            ->select('p.nombreLaravel')
             ->leftJoin('roles as r', 'r.rolid', 'uR.rolid')
             ->leftJoin('rolModuloPermiso as rMP', 'r.rolid', 'rMP.rolid')
             ->leftJoin('moduloPermiso as mP', 'mP.modulopermisoid', 'rMP.modulopermisoid')
             ->leftJoin('permisos as p', 'mP.permisoid', 'p.permisoid')
             ->where('uR.usuarioid', $usuarioId)
             ->where('mP.moduloid', $moduloId)
-            ->whereIn('p.nombreLaravel', $permisoId)
-            ->exists();
+            ->groupBy('mP.moduloid', 'p.nombreLaravel');
+
+        $query = !empty($permisoId) ?  
+            $query->whereIn('p.nombreLaravel', $permisoId)->exists() : 
+            $query->get();
+        
+        return $query;
     }
 
     /**
-     * modulos
+     * módulos
      *
      * @return void
      */
