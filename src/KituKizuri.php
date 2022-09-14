@@ -26,39 +26,27 @@ class KituKizuri extends Controller
      */
     public static function permiso($ruta)
     {
-        $ruta = explode('.', $ruta);
-        $rNombre = $ruta[count($ruta)-1];
-        unset($ruta[count($ruta)-1]);
-        $mNombre = implode('.', $ruta);
-        $roles = UsuarioRol::where('usuarioid', Auth::id())->get();
-        if ($roles->isEmpty()) {
-            return false;
+        $estado = false;
+
+        // Obteniendo nombre de la ruta
+        $ruta         = explode('.', $ruta);
+        $nombreRuta   = $ruta[1];
+        $moduloNombre = $ruta[0];
+
+        $acciones = [
+            'index' => ['show'],
+            'store' => ['create', 'edit'],
+            'update' => ['create', 'edit'],
+        ];
+    
+        $arrayAccion = !empty($acciones[$nombreRuta]) ? $acciones[$nombreRuta] : [$nombreRuta];
+        $moduloID = Modulo::where('ruta', $moduloNombre)->value('moduloid');
+        
+        if(!empty($moduloID)){
+            $estado = UsuarioRol::getPermisosAsignados(Auth::id(), $moduloID, $arrayAccion);
         }
-        $mi = Modulo::where('ruta', $mNombre)->first(); //modulo id
-        if (empty($mi)) {
-            return false;
-        }
-        if ($rNombre == 'index') {
-            $rNombre = ['show'];
-        } elseif ($rNombre == 'store' || $rNombre == 'update') {
-            $rNombre = ['create','edit'];
-        } else {
-            $rNombre = [$rNombre];
-        }
-        foreach ($rNombre as $val) {
-            $p = Permiso::where('nombreLaravel', $val)->first();
-            $mp = ModuloPermiso::where('moduloid', $mi->moduloid)->where('permisoid', $p->permisoid)->first(); //modulo permiso
-            if (empty($mp)) {
-                continue;
-            }
-            foreach ($roles as $r) {
-                $rmp = RolModuloPermiso::where('rolid', $r->rolid)->where('modulopermisoid', $mp->modulopermisoid)->first();
-                if ($rmp != null) {
-                    return true;
-                }
-            }
-        }
-        return false;
+
+        return $estado;
     }
 
     /**
