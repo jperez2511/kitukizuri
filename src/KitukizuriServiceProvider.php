@@ -25,33 +25,18 @@ class KitukizuriServiceProvider extends ServiceProvider
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizurimd');
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\Http\Middleware\Menu');
         
-        $this->publishes([
-            __DIR__.'/database/migrations' => $this->app->databasePath() . '/migrations',
-        ], 'migrations');
+        $publishes = [
+            ['from' => '/database/migrations', 'to' => '/migrations', 'tag' => 'migrations'],
+            ['from' => '/database/seeders', 'to' => '/seeders', 'tag' => 'seeders'],
+            ['from' => '/resources/views/krud', 'to' => '/resources/views/krud', 'tag' => 'vKrud'],
+            ['from' => '/resources/views/errors', 'to' => '/resources/views/errors', 'tag' => 'vError'],
+            ['from' => '/config', 'to' => '/config', 'tag' => 'config'],
+            ['from' => '/public', 'to' => '/public', 'tag' => 'public'],
+        ];
 
-        $this->publishes([
-            __DIR__.'/database/migrations' => $this->app->databasePath() . '/migrations',
-        ], 'migrations');
-        
-        $this->publishes([
-            __DIR__.'/database/seeders' => $this->app->databasePath() . '/seeders',
-        ], 'seeds');
-        
-        $this->publishes([
-             __DIR__.'/resources/views/krud' => $this->app->basePath() . '/resources/views/krud',
-        ]);
-        
-        $this->publishes([
-             __DIR__.'/resources/views/errors' => $this->app->basePath() . '/resources/views/errors',
-        ]);
-
-        $this->publishes([
-             __DIR__.'/config' => $this->app->basePath() . '/config',
-        ]);
-        
-        $this->publishes([
-            __DIR__.'/public' => $this->app->basePath() . '/public',
-       ]);
+        foreach ($publishes as $publish) {
+            $this->publishes([__DIR__. $publish['from'] => $this->app->databasePath() .$publish['to'],], $publish['tag']);    
+        }
 
        Route::group(['prefix' => 'kk','namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard.index');
