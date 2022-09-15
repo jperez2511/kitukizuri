@@ -9,7 +9,7 @@ use Session;
 use Carbon\Carbon;
 use Mockery\Exception;
 
-// librerias del framwork
+// librerías del framwork
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,10 +34,10 @@ class Krud extends Controller
     private $editId   = null;
     private $layout   = null;
     private $parentid = null;
-    private $storemsg = null;
+    private $storeMsg = null;
     private $viewHelp = null;
 
-    // variales en array
+    // variables en array
     private $rt          = [];
     private $joins       = [];
     private $embed       = [];
@@ -48,7 +48,7 @@ class Krud extends Controller
     private $orderBy     = [];
     private $orWheres    = [];
     private $leftJoins   = [];
-    private $erros       = [];
+    private $errors       = [];
     private $whereAndFn  = [];
     private $viewOptions = [];
     private $template  = [
@@ -66,10 +66,7 @@ class Krud extends Controller
      */
     private function getLayout()
     {
-        if (empty($this->layout)) {
-            $this->layout = config('kitukizuri.layout');
-        }
-        return $this->layout;
+        return $this->layout ?? config('kitukizuri.layout');
     }
 
     /**
@@ -79,10 +76,7 @@ class Krud extends Controller
      */
     private function getStoreMSG()
     {
-        if(empty($this->storemsg)) {
-            $this->storemsg = config('kitukizuri.storemsg');
-        }
-        return $this->storemsg;
+        return $this->storeMsg ?? config('kitukizuri.storemsg');
     }
     
     /**
@@ -92,7 +86,7 @@ class Krud extends Controller
      */
     protected function setStoreMSG($msg)
     {
-        $this->storemsg = $msg;
+        $this->storeMsg = $msg;
     }
 
     /**
@@ -110,7 +104,7 @@ class Krud extends Controller
 
     /**
      * setTemplate
-     * Define las librerias a utilizar por ejemplo datatable, fontawesome ,etc.
+     * Define las librerías a utilizar por ejemplo datatable, fontawesome ,etc.
      *
      * @param  mixed $templates
      *
@@ -153,7 +147,7 @@ class Krud extends Controller
 
     /**
      * setModel
-     * Define el modelo donde se obtendran y almacenaran los datos
+     * Define el modelo donde se obtendrán y almacenaran los datos
      *
      * @param  mixed $model
      *
@@ -678,7 +672,7 @@ class Krud extends Controller
         $ruta       = [];
         $nombreRuta = explode('.', Route::currentRouteName())[0];
         $uri        = explode('/', Route::getCurrentRoute()->uri);
-
+        
         foreach ($uri as $v) {
             array_push($ruta, $v);
             if ($v == $nombreRuta) {
@@ -708,26 +702,32 @@ class Krud extends Controller
      */
     public function index()
     {
+        $vista = [];
+
         if($this->viewHelp == true) {
-            return view('krud::training', ['tipo' => 'help']);
+            $vista = view('krud::training', ['tipo' => 'help']);
         }
 
         if ($this->model == null) {
-            return view('krud::training', ['tipo' => 'setModelo']);
+            $vista = view('krud::training', ['tipo' => 'setModelo']);
         }
 
         if (!empty($this->errors)) {
-            return view('krud::training', $this->errors);
+            $vista = view('krud::training', $this->errors);
         }
 
-        $prefix = Route::current()->action['prefix'];
-        $layout = $this->getLayout();
+        if(empty($vista)) {
+            $prefix = Route::current()->action['prefix'];
+            $layout = $this->getLayout();
 
-        if (!empty($this->view) && $this->view == 'calendar') {
-            return $this->setCalendarView($prefix, $layout);
+            if (!empty($this->view) && $this->view == 'calendar') {
+                $vista = $this->setCalendarView($prefix, $layout);
+            } else {
+                $vista = $this->setTableView($prefix, $layout);
+            }
         }
-
-        return $this->setTableView($prefix, $layout);
+        
+        return $vista;
     }
 
     private function setCalendarView($prefix, $layout)

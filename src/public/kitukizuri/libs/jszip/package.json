@@ -1,9 +1,0 @@
-{
-    "private": true,
-    "devDependencies": {
-
-    }, 
-    "dependencies": {
-        "jszip": "^3.10.0"
-      }
-}
