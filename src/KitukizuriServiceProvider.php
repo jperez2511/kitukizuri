@@ -26,16 +26,16 @@ class KitukizuriServiceProvider extends ServiceProvider
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\Http\Middleware\Menu');
         
         $publishes = [
-            ['from' => '/database/migrations', 'to' => '/migrations', 'tag' => 'migrations'],
-            ['from' => '/database/seeders', 'to' => '/seeders', 'tag' => 'seeders'],
-            ['from' => '/resources/views/krud', 'to' => '/resources/views/krud', 'tag' => 'vKrud'],
-            ['from' => '/resources/views/errors', 'to' => '/resources/views/errors', 'tag' => 'vError'],
-            ['from' => '/config', 'to' => '/config', 'tag' => 'config'],
-            ['from' => '/public', 'to' => '/public', 'tag' => 'public'],
+            ['from' => '/database/migrations',      'to' => $this->app->databasePath().'/migrations',           'tag' => 'migrations'],
+            ['from' => '/database/seeders',         'to' => $this->app->databasePath().'/seeders',              'tag' => 'seeders'],
+            ['from' => '/resources/views/krud',     'to' => $this->app->basePath().'/resources/views/krud',     'tag' => 'vKrud'],
+            ['from' => '/resources/views/errors',   'to' => $this->app->basePath().'/resources/views/errors',   'tag' => 'vError'],
+            ['from' => '/config',                   'to' => $this->app->basePath().'/config',                   'tag' => 'config'],
+            ['from' => '/public',                   'to' => $this->app->basePath().'/public',                   'tag' => 'public'],
         ];
 
         foreach ($publishes as $publish) {
-            $this->publishes([__DIR__. $publish['from'] => $this->app->databasePath() .$publish['to'],], $publish['tag']);    
+            $this->publishes([__DIR__. $publish['from'] => $publish['to'],], $publish['tag']);    
         }
 
        Route::group(['prefix' => 'kk','namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
