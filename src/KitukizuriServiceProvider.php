@@ -25,13 +25,16 @@ class KitukizuriServiceProvider extends ServiceProvider
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizurimd');
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\Http\Middleware\Menu');
         
+        $databasePath = $this->app->databasePath();
+        $basePath = $this->app->basePath();
+
         $publishes = [
-            ['from' => '/database/migrations',      'to' => $this->app->databasePath().'/migrations',           'tag' => 'migrations'],
-            ['from' => '/database/seeders',         'to' => $this->app->databasePath().'/seeders',              'tag' => 'seeders'],
-            ['from' => '/resources/views/krud',     'to' => $this->app->basePath().'/resources/views/krud',     'tag' => 'vKrud'],
-            ['from' => '/resources/views/errors',   'to' => $this->app->basePath().'/resources/views/errors',   'tag' => 'vError'],
-            ['from' => '/config',                   'to' => $this->app->basePath().'/config',                   'tag' => 'config'],
-            ['from' => '/public',                   'to' => $this->app->basePath().'/public',                   'tag' => 'public'],
+            ['from' => '/database/migrations',      'to' => $databasePath.'/migrations',           'tag' => 'migrations'],
+            ['from' => '/database/seeders',         'to' => $databasePath.'/seeders',              'tag' => 'seeders'],
+            ['from' => '/resources/views/errors',   'to' => $basePath.'/resources/views/errors',   'tag' => 'vError'],
+            ['from' => '/resources/views/krud',     'to' => $basePath.'/resources/views/krud',     'tag' => 'vKrud'],
+            ['from' => '/config',                   'to' => $basePath.'/config',                   'tag' => 'config'],
+            ['from' => '/public',                   'to' => $basePath.'/public',                   'tag' => 'public'],
         ];
 
         foreach ($publishes as $publish) {
