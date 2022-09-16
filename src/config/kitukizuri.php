@@ -7,8 +7,8 @@ return [
     | Default Layout
     |--------------------------------------------------------------------------
     |
-    | Esta opcion permite agregar un layout por defecto a las vistas del krud
-    | es necesario recordar que tambien se puede definirse en el controller si
+    | Esta opción permite agregar un layout por defecto a las vistas del Krud
+    | es necesario recordar que también se puede definirse en el controller si
     | fuera necesario tener un layout personalizado en especifico
     | 
     */
@@ -20,7 +20,7 @@ return [
     | Bootstrap Version
     |--------------------------------------------------------------------------
     |
-    | Esta opcion permite definir la version de Boostrap que esta utilizando el
+    | Esta opción permite definir la version de Bootstrap que esta utilizando el
     | template
     | 
     */
@@ -32,7 +32,7 @@ return [
     | Iconos y Estilos
     |--------------------------------------------------------------------------
     |
-    | Esta opcion permite definir los iconos que se mostraran en los botones de
+    | Esta opción permite definir los iconos que se mostraran en los botones de
     | la tabla en la vista index, en tal caso que no se quisiera usar los 
     | iconos predeterminados (Font-Awesome, Material icons)
     | 
@@ -54,19 +54,19 @@ return [
     | Default MSG Store
     |--------------------------------------------------------------------------
     |
-    | Esta opcion permite definir un mensaje predeterminado al momento de 
-    | guradar utilizando el KRUD. 
+    | Esta opción permite definir un mensaje predeterminado al momento de 
+    | guardar utilizando el Krud. 
     | 
     */
 
-    'storemsg' => 'Datos guardados exitosamente.',
+    'storeMSG' => 'Datos guardados exitosamente.',
 
     /*
     |--------------------------------------------------------------------------
-    | Clases Bage
+    | Clases Badge
     |--------------------------------------------------------------------------
     |
-    | Esta opcion permite definir las clases para dar estilos a los badges
+    | Esta opción permite definir las clases para dar estilos a los badges
     | o labels
     |
     */
@@ -78,7 +78,7 @@ return [
     | Clases Menu
     |--------------------------------------------------------------------------
     |
-    | Esta opcion permite definir las clases para dar estilos graficos al menu
+    | Esta opción permite definir las clases para dar estilos gráficos al menu
     | 
     */
 

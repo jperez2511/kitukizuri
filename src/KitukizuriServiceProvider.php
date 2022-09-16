@@ -26,7 +26,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\Http\Middleware\Menu');
         
         $databasePath = $this->app->databasePath();
-        $basePath = $this->app->basePath();
+        $basePath     = $this->app->basePath();
 
         $publishes = [
             ['from' => '/database/migrations',      'to' => $databasePath.'/migrations',           'tag' => 'migrations'],

@@ -104,7 +104,7 @@ class Krud extends Controller
 
     /**
      * setTemplate
-     * Define las librerías a utilizar por ejemplo datatable, fontawesome ,etc.
+     * Define las librerías a utilizar por ejemplo DataTable, FontAwesome ,etc.
      *
      * @param  mixed $templates
      *
@@ -772,12 +772,21 @@ class Krud extends Controller
         $dtBtnAdd   = config('kitukizuri.dtBtnAdd');
         $dtBtnLiner = config('kitukizuri.dtBtnLiner');
         $kmenu      = false;
+        $vBootstrap = config('kitukizuri.vBootstrap');
 
         if ($prefix != null && $prefix == 'kk') {
             $view       = 'krud::index';
             $dtBtnAdd   = 'btn btn-outline-success';
             $dtBtnLiner = 'btn btn-outline-secondary';
             $kmenu      = true;
+            $vBootstrap = 5;
+        }
+
+        // Validando versión de bootstrap
+        if(!empty($vBootstrap)) {
+            $vBootstrap = str_contains($vBootstrap, '.') ? explode('.', $vBootstrap)[0] : $vBootstrap;
+        } else {
+            $vBootstrap = 5;
         }
 
         return view($view, [
@@ -791,12 +800,13 @@ class Krud extends Controller
             'dtBtnAdd'   => $dtBtnAdd,
             'dtBtnLiner' => $dtBtnLiner,
             'kmenu'      => $kmenu,
+            'vBootstrap' => $vBootstrap
         ]);
     }
 
     /**
      * show
-     * Obteniene la data que se mostrara en la tabla principal
+     * Obteniendo la data que se mostrara en la tabla principal
      * del catalogo
      *
      * @param  mixed $id

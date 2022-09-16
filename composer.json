@@ -8,6 +8,9 @@
             "email": "jperez.chek@gmail.com"
         }
     ],
+    "require": {
+        "php": "^8.0"
+    },
     "minimum-stability": "stable",
     "autoload": {
 	   "classmap": [
