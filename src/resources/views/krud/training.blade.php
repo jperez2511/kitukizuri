@@ -5,7 +5,7 @@
         <meta charset="utf-8" />
         <title>Kitu Kizuri</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Panel de administración" name="description" />
+        <meta content="Centro de ayuda" name="description" />
         <meta name="author" content="Ice Bear Soft">
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{asset('kitukizuri/images/logo.svg')}}">
@@ -137,7 +137,7 @@
                                     <p>El tipo de campo hidden requiere de la propiedad value, ya que es un valor predeterminado se debe definir, por ejemplo: </p>
                                 @endif
                                 <br>
-                                <p>Para conocer mas puedes mandar a llamar la función <code>$this->help();</code></p>
+                                <p>Para conocer más puedes utilizar la función <code>$this->help();</code></p>
                             </div>
                         </div>
                     </div>
@@ -178,10 +178,10 @@
 
         <script src="{{asset('kitukizuri/js/app.js')}}"></script>
 
-        <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/monaco/min/vs')}}' } };</script>
-        <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/loader.js')}}"></script>
-        <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/editor/editor.main.nls.js')}}"></script>
-        <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco/min/vs/editor/editor.main.js')}}"></script>
+        <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/monaco-editor/min/vs')}}' } };</script>
+        <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/loader.js')}}"></script>
+        <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.nls.js')}}"></script>
+        <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.js')}}"></script>
 
         <script>
             @php

@@ -27,7 +27,7 @@ class Krud extends Controller
     // Variable remplazo id  
     private $id       = '__id__';
 
-    // Variales de valor unico
+    // Variables de valor único
     private $view     = null;
     private $model    = null;
     private $titulo   = null;
@@ -37,7 +37,7 @@ class Krud extends Controller
     private $storeMsg = null;
     private $viewHelp = null;
 
-    // variables en array
+    // Variables en array
     private $rt          = [];
     private $joins       = [];
     private $embed       = [];
@@ -55,12 +55,12 @@ class Krud extends Controller
         'datatable',
     ];
 
-    // viables unicas para vista calendario
+    // viables únicas para vista calendario
     private $defaultCalendarView = null;
 
     /**
      * getLayout
-     * Defnine el layout predeterminado
+     * Define el layout predeterminado
      * 
      * @return void
      */
@@ -182,7 +182,7 @@ class Krud extends Controller
      */
     public function setView($view, $options = [])
     {
-        $allowed = ['catalogo', 'calendar'];
+        $allowed = ['table', 'calendar'];
 
         if(!in_array($view, $allowed)){
             $this->errors = ['tipo' => 'badView', 'bad' => $view, 'permitidos' => $allowed];
