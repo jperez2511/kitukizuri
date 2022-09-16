@@ -219,7 +219,7 @@ class Krud extends Controller
     /**
      * setCampo
      * Define las propiedades de un campo a utilizar en el controller,
-     * Viesta y posteriormente almacenado desde el modelo.
+     * Vista y posteriormente almacenado desde el modelo.
      *
      * @param  mixed $params
      *
@@ -261,7 +261,7 @@ class Krud extends Controller
             return $this->errors = ['tipo' => 'setCampo'];
         }
 
-        $params['nombre']    = (!array_key_exists('nombre', $params) ? str_replace('_', ' ', ucfirst($params['campo'])) : $params['nombre']);
+        $params['nombre']    = $params['nombre'] ?? str_replace('_', ' ', ucfirst($params['campo']));
         $params['edit']      = (!array_key_exists('edit', $params) ? true : $params['edit']);
         $params['show']      = (!array_key_exists('show', $params) ? true : $params['show']);
         $params['tipo']      = (!array_key_exists('tipo', $params) ? 'string' : $params['tipo']);
