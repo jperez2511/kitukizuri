@@ -87,60 +87,9 @@
                                 <div class="mb-5">
                                     <img src="{{asset('kitukizuri/images/logo.svg')}}" width="100px" alt="logo">
                                 </div>
-                                @if ($tipo == 'setModelo')
-                                    <h4 class="mt-4">Debes configrar el <code>Modelo</code></h4>    
-                                    <p>Antes de todo siempre se debe configurar un modelo, puesto que va a ser el encargado de hacer el mapeo de los campos en al base de datos, asi como el encargado de guardar, editar, eliminar los datos.</p>
-                                @elseif ($tipo == 'setCampo')
-                                    <h4 class="mt-4">Debes agregar la propiedad <code>Campo</code></h4>    
-                                    <p>La propiedad Campo debe ser el nombre de la columna de la tabla en base de datos, donde se almacenara el valor ingresado por el usuario, si no se define un tipo de campo por defecto es texto abierto</p>
-                                @elseif ($tipo == 'badType')
-                                    <h4 class="mt-4">El tipo de campo <code>{{ $bad }}</code> No existe</h4>    
-                                    <p>El tipo de campo define si será un texto, un campo numerico, etc. Para ello se han definido los siguientes tipos permitidos:</p>
-                                    @foreach ($permitidos as $permitido)
-                                        <code>{{ $permitido }}</code> <br>
-                                    @endforeach
-                                @elseif ($tipo == 'badView')
-                                    <h4 class="mt-4">La vista <code>{{ $bad }}</code> No existe</h4>    
-                                    <p>La vista permite mostrar en el index si sera una tabla o un calendario:</p>
-                                    @foreach ($permitidos as $permitido)
-                                        <code>{{ $permitido }}</code> <br>
-                                    @endforeach
-                                @elseif ($tipo == 'badOptionsView')
-                                    <h4 class="mt-4">La opcion <code>{{ $bad }}</code> No existe</h4>    
-                                    <p>La vista permite las siguientes opciones:</p>
-                                    @foreach ($permitidos as $permitido)
-                                        <code>{{ $permitido }}</code> <br>
-                                    @endforeach
-                                @elseif ($tipo == 'badCalendarView')
-                                    <h4 class="mt-4">La vista <code>{{ $bad }}</code> No existe</h4>    
-                                    <p>La vista por defecto (Default View) permite definir como se mostrara el calendario ya sea por mes, semana o un dia en concreto estas son las vistas permitidas:</p>
-                                    @foreach ($permitidos as $permitido)
-                                        <code>{{ $permitido }}</code> <br>
-                                    @endforeach
-                                @elseif ($tipo == 'badTypeButton')
-                                    <h4 class="mt-4">El parametro <code>{{ $bad }}</code> No existe</h4>    
-                                    <p>Los parametros permitidos para configurar un botón son los siguientes:</p>
-                                    @foreach ($permitidos as $permitido)
-                                        <code>{{ $permitido }}</code> <br>
-                                    @endforeach
-                                @elseif ($tipo == 'typeCombo')
-                                    <h4 class="mt-4">Falta la propiedad <code>Collect</code></h4>    
-                                    <p>El tipo de campo combobox requiere de la propiedad collect, este puede ser un collection de laravel con dos elementos, tal como se muestra en el ejemplo: </p>
-                                @elseif ($tipo == 'typeCollect')
-                                    <h4 class="mt-4">no se encontró al propiedad <code>id</code> y/o <code>value</code></h4>
-                                    <p>Al definir el collection puede aplicar la siguiente estructa: </p>
-                                @elseif ($tipo == 'filepath')
-                                    <h4 class="mt-4">Falta la propiedad <code>FilePath</code></h4>    
-                                    <p>El tipo de campo file requiere de la propiedad filepath, siendo esta la ruta donde se almacenaran los archivos dentro del servidor, esta puede ser una ruta relativa o absoluta por ejemplo: </p>
-                                @elseif ($tipo == 'enum')
-                                    <h4 class="mt-4">Falta la propiedad <code>EnumArray</code></h4>    
-                                    <p>El tipo de campo enum requiere de la propiedad enumarray, aqui es donde se definen las opciones que estaran dispinbles, es importante recordad que deben ser las mismas que se han definido en la base de datos, por ejemplo: </p>
-                                @elseif ($tipo == 'value')
-                                    <h4 class="mt-4">Falta la propiedad <code>Value</code></h4>    
-                                    <p>El tipo de campo hidden requiere de la propiedad value, ya que es un valor predeterminado se debe definir, por ejemplo: </p>
-                                @elseif ($tipo == 'badOperator')
-                                    <h4 class="mt-4">El operador <code>{{ $bad }}</code> No es un opearador valido</h4>    
-                                    <p>Los parametros permitidos son los siguientes:</p>
+                                <h4 class="mt-4" id="titulo"></h4>    
+                                <p id="comentario"></p>
+                                @if (!empty($permitidos))
                                     @foreach ($permitidos as $permitido)
                                         <code>{{ $permitido }}</code> <br>
                                     @endforeach
@@ -187,67 +136,36 @@
         <script src="{{asset('kitukizuri/libs/simplebar/simplebar.min.js')}}"></script>
         <script src="{{asset('kitukizuri/libs/node-waves/waves.min.js')}}"></script>
 
+        <script src="{{asset('kitukizuri/js/msg.json')}}"></script>
         <script src="{{asset('kitukizuri/js/app.js')}}"></script>
 
         <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/monaco-editor/min/vs')}}' } };</script>
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/loader.js')}}"></script>
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.nls.js')}}"></script>
         <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.js')}}"></script>
-
-        <script>
-            @php
-                if ($tipo == 'setModelo') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; // <- Llamando al modelo \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training); // <- configurando modelo (lo que falta en tu codigo)\n\t}\n}';
-                } elseif($tipo == 'setCampo') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\']);\n\t}\n}';
-                } elseif($tipo == 'badType') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'bool\\\']);\n\t}\n}';
-                } elseif($tipo == 'badOptionsView') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\\'calendar\\\', [\\\'public\\\'=> true]);\n\t}\n}';
-                } elseif($tipo == 'badTypeButton') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setBoton([\\\'nombre\\\'=>\\\'Label del boton\\\', \\\'url\\\'=>\\\'URL\\\', \\\'class\\\'=>\\\'btn btn-success\\\', \\\'icon\\\'=>\\\'fa fa-trash\\\']);\n\t}\n}';
-                } elseif($tipo == 'badView') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\\'calendar\\\');\n\t}\n}';
-                } elseif($tipo == 'badCalendarView') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\\'calendar\\\');\n\t\t$this->setCalendarDefaultView(\\\'month\\\');\n\t}\n}';
-                } elseif($tipo == 'typeCombo') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \nuse Icebearsoft\\\\Models\\\\Example; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$collection = Example::select(\\\'id\\\', \\\'value\\\')->get();\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'combobox\\\', \\\'collect\\\'=>$collection]);\n\t}\n}';
-                } elseif($tipo == 'typeCollect'){
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \nuse Icebearsoft\\\\Models\\\\Example; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$collection = Example::select(\\\'nombreDeColumna as id\\\', \\\'nombreDeColumna as value\\\')->get();\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'combobox\\\', \\\'collect\\\'=>$collection]);\n\t}\n}';
-                } elseif($tipo == 'filepath') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'file\\\', \\\'filepath\\\'=>\\\'/path/de/la/carpeta\\\']);\n\t}\n}';
-                } elseif($tipo == 'enum') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'file\\\', \\\'filepath\\\'=>\\\'/path/de/la/carpeta\\\']);\n\t}\n}';
-                } elseif($tipo == 'value') {
-                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'hidden\\\', \\\'value\\\'=>\\\'valorPredeterminado\\\']);\n\t}\n}';
-                }
-                
-            @endphp
-            
-            var code = '{!! $code ?? null !!}'
-        </script>
-
+        
         <script>
             "use strict";
+            var code = data.{{$tipo}}
+            $('#titulo').append(code.titulo)
+            $('#comentario').append(code.comentario)
+
             var el = document.getElementById('editor');
             el.style.height = '600px';
             el.style.width = '100%';
-    
             // window.editor is accessible. 
             var editor = null;
             var init = function () {
-    
                 require(['vs/editor/editor.main'], function () {
     
                     editor = monaco.editor.create(el, {
                         theme: 'vs-dark',
-                        model: monaco.editor.createModel(code, "php")
+                        model: monaco.editor.createModel(code.codigo, "php")
                     });
     
                     editor.layout();
                 });
-    
-                // no point in keeping this around.
+                
                 window.removeEventListener("load", init);
             };
     

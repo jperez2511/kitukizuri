@@ -75,7 +75,10 @@ class Krud extends Controller
         'filepath', // 9
         'enum', // 10
         'value', // 11
-        'badOperator', // 12
+        'badJoinOperator', // 12
+        'badLeftJoinOperator', // 13
+        'badWhereOperator', // 14
+        'badOrWhereOperator', // 15
     ];
 
     // viables únicas para vista calendario
@@ -400,12 +403,12 @@ class Krud extends Controller
 
         $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
 
-        array_push($this->wheres, [$column, $op, $column2]);
+        $this->wheres[] =  [$column, $op, $column2];
     }
 
     public function setWhereAndFn($conditions)
     {
-        array_push($this->whereAndFn, $conditions);
+        $this->whereAndFn[] = $conditions;
     }
 
     /**
@@ -426,7 +429,7 @@ class Krud extends Controller
 
         $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
 
-        array_push($this->orWheres, [$column, $op, $column2]);
+        $this->orWheres[] = [$column, $op, $column2];
     }
 
     /**
@@ -437,9 +440,9 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setOrderBy($column)
+    public function setOrderBy($column, $orientation)
     {
-        array_push($this->orderBy, $column);
+        $this->orderBy[] = [$column, $orientation];
     }
 
     /**
@@ -453,8 +456,8 @@ class Krud extends Controller
     public function setBoton($params)
     {
         $allowed = ['nombre', 'url', 'class', 'icon'];
-        $this->allowed($params, $allowed, 'badTypeButton');
-        array_push($this->botones, $params);
+        $this->allowed($params, $allowed, $this->typeError[4]);
+        $this->botones[] =  $params;
     }
 
     /**
@@ -594,7 +597,7 @@ class Krud extends Controller
 
         // Agregando el orden para mostrar los datos
         foreach ($this->orderBy as $column) {
-            $data->orderBy($column);
+            $data->orderBy(...$column);
         }
 
         $count = $data->count();
