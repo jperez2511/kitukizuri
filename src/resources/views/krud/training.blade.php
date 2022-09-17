@@ -136,7 +136,7 @@
         <script src="{{asset('kitukizuri/libs/simplebar/simplebar.min.js')}}"></script>
         <script src="{{asset('kitukizuri/libs/node-waves/waves.min.js')}}"></script>
 
-        <script src="{{asset('kitukizuri/js/msg.json')}}"></script>
+        <script src="{{asset('kitukizuri/js/msg.js')}}"></script>
         <script src="{{asset('kitukizuri/js/app.js')}}"></script>
 
         <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/monaco-editor/min/vs')}}' } };</script>
