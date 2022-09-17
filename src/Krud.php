@@ -54,6 +54,29 @@ class Krud extends Controller
     private $template  = [
         'datatable',
     ];
+    private $allowedOperator = [
+        '=', '<', '>', '<=', '>=', '<>', '!=', '<=>',
+        'like', 'like binary', 'not like', 'ilike',
+        '&', '|', '^', '<<', '>>', '&~',
+        'rlike', 'not rlike', 'regexp', 'not regexp',
+        '~', '~*', '!~', '!~*', 'similar to',
+        'not similar to', 'not ilike', '~~*', '!~~*',
+    ];
+    private $typeError = [
+        'setModelo', // 0
+        'setCampo', // 1
+        'badType', // 2
+        'badOptionsView', // 3
+        'badTypeButton', // 4
+        'badView', // 5
+        'badCalendarView', // 6
+        'typeCombo', // 7
+        'typeCollect', // 8
+        'filepath', // 9
+        'enum', // 10
+        'value', // 11
+        'badOperator', // 12
+    ];
 
     // viables únicas para vista calendario
     private $defaultCalendarView = null;
@@ -185,12 +208,12 @@ class Krud extends Controller
         $allowed = ['table', 'calendar'];
 
         if(!in_array($view, $allowed)){
-            $this->errors = ['tipo' => 'badView', 'bad' => $view, 'permitidos' => $allowed];
+            $this->errors = ['tipo' => $this->typeError[5], 'bad' => $view, 'permitidos' => $allowed];
         }
 
         if ($view == 'calendar' && !empty($options)) {
             $allowedOptions = ['public'];
-            $this->allowed($options, $allowedOptions, 'badOptionsView');
+            $this->allowed($options, $allowedOptions, $this->typeError[3]);
             $this->viewOptions = $options;
         }
 
@@ -210,7 +233,7 @@ class Krud extends Controller
         $allowed = ['day','week', 'month'];
 
         if(!in_array($view, $allowed)){
-            $this->errors = ['tipo' => 'badCalendarView', 'bad' => $view, 'permitidos' => $allowed];
+            $this->errors = ['tipo' => $this->typeError[6], 'bad' => $view, 'permitidos' => $allowed];
         }
 
         $this->defaultCalendarView = $view;
@@ -255,68 +278,61 @@ class Krud extends Controller
             'url',
         ];
 
-        $this->allowed($params, $allowed, 'badType');
+        $this->allowed($params, $allowed, $this->typeError[2]);
 
         if (!array_key_exists('campo', $params)) {
-            return $this->errors = ['tipo' => 'setCampo'];
+            return $this->errors = ['tipo' => $this->typeError[1]];
         }
 
         $params['nombre']    = $params['nombre'] ?? str_replace('_', ' ', ucfirst($params['campo']));
-        $params['edit']      = (!array_key_exists('edit', $params) ? true : $params['edit']);
-        $params['show']      = (!array_key_exists('show', $params) ? true : $params['show']);
-        $params['tipo']      = (!array_key_exists('tipo', $params) ? 'string' : $params['tipo']);
-        $params['decimales'] = (!array_key_exists('decimales', $params) ? 0 : $params['decimales']);
-        $params['format']    = (!array_key_exists('format', $params) ? '' : $params['format']);
-        $params['unique']    = (!array_key_exists('unique', $params) ? false : $params['unique']);
+        $params['edit']      = $params['edit'] ?? true;
+        $params['show']      = $params['show'] ?? true;
+        $params['tipo']      = $params['tipo'] ?? 'string';
+        $params['decimales'] = $params['decimales'] ?? 0;
+        $params['format']    = $params['format'] ?? '';
+        $params['unique']    = $params['unique'] ?? false;
 
         if (!in_array($params['tipo'], $tipos)) {
-            $this->errors = ['tipo' => 'badType', 'bad' => $params['tipo'], 'permitidos' => $tipos];
-        }
-
-        if ($params['tipo'] == 'datetime' || $params['tipo'] == 'date') {
-            $this->setTemplate(['datetimepicker']);
-        }
-
-        if ($params['tipo'] == 'icono') {
-            $this->setTemplate(['iconpicker']);
-        }
-
-        if ($params['tipo'] == 'combobox' && empty($params['collect'])) {
-            $this->errors = ['tipo' => 'typeCombo'];
-        } else if ($params['tipo'] == 'combobox' && !empty($params['collect'])) {
-            $collect = $params['collect']->toArray();
-            $options = [];
-            foreach ($collect as $k) {
-                $option =[];
-                foreach ($k as $v) {
-                    array_push($option, $v);
+            $this->errors = ['tipo' => $this->typeError[2], 'bad' => $params['tipo'], 'permitidos' => $tipos];
+        } else {
+            $tipo = $params['tipo'];
+            if ($tipo == 'datetime' || $tipo == 'date') {
+                $this->setTemplate(['datetimepicker']);
+            } else if ($tipo == 'icono') {
+                $this->setTemplate(['iconpicker']);
+            } else if($tipo == 'combobox') {
+                if (empty($params['collect'])) {
+                    $this->errors = ['tipo' => $this->typeError[7]];
+                } else {
+                    $columns = ['id', 'value'];
+                    $hasID    = !empty($params['collect']->first()[$columns[0]]);
+                    $hasValue = !empty($params['collect']->first()[$columns[1]]);
+                    if($hasID && $hasValue){
+                        $params['options'] = $params['collect']->map(function($item){
+                            return array_values($item->toArray());
+                        })->toArray();
+                        $params['show'] = false;
+                    } else {
+                        $this->errors = ['tipo' => $this->typeError[8], 'permitidos' => $columns];
+                    }
                 }
-                array_push($options, $option);
+            } else if ($tipo == 'file' && empty($params['filepath'])) {
+                $this->errors = ['tipo' => $this->typeError[9]];
+            } else if ($tipo == 'enum' && count($params['enumarray']) == 0) {
+                $this->errors = ['tipo' => $this->typeError[10]];
+            } else if ($tipo == 'hidden' && empty($params['value'])) {
+                $this->errors = ['tipo' => $this->typeError[11]];
             }
-            $params['options'] = $options;
-            $params['show']    = false;
-        }
-        
-        if ($params['tipo'] == 'file' && empty($params['filepath'])) {
-            $this->errors = ['tipo' => 'filepath'];
-        }
-        
-        if ($params['tipo'] == 'enum' && count($params['enumarray']) == 0) {
-            $this->errors = ['tipo' => 'enum'];
-        }
-
-        if ($params['tipo'] == 'hidden' && empty($params['value'])) {
-            $this->errors = ['tipo' => 'value'];
         }
         
         if (!strpos($params['campo'], ')')) {
             $arr = explode('.', $params['campo']);
             if (count($arr)>=2) {
-                $params['campoReal'] = $arr[count($arr) - 1];
+                $params['campoReal'] = end($arr);
             }
         }
 
-        array_push($this->campos, $params);
+        $this->campos[] = $params;
     }
 
     /**
@@ -331,9 +347,16 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setJoin($tabla, $v1, $operador, $v2)
+    public function setJoin($tabla, $v1, $operador = null, $v2 = null)
     {
-        array_push($this->joins, ['tabla'=>$tabla,'value1'=>$v1,'operador'=>$operador, 'value2'=>$v2]);
+        if (func_num_args() === 3) {
+            $v2 = $operador;
+            $operador = '=';
+        }
+
+        $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
+
+        $this->joins[] = ['tabla'=>$tabla,'value1'=>$v1,'operador'=>$operador, 'value2'=>$v2];
     }
 
     /**
@@ -346,9 +369,16 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setLeftJoin($tabla, $v1, $operador, $v2)
+    public function setLeftJoin($tabla, $v1, $operador = null, $v2 = null)
     {
-        array_push($this->leftJoins, ['tabla'=>$tabla,'value1'=>$v1,'operador'=>$operador, 'value2'=>$v2]);
+        if (func_num_args() === 3) {
+            $v2 = $operador;
+            $operador = '=';
+        }
+
+        $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
+
+        $this->leftJoins[] = ['tabla'=>$tabla,'value1'=>$v1,'operador'=>$operador, 'value2'=>$v2];
     }
 
     /**
@@ -361,8 +391,15 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setWhere($column, $op, $column2)
+    public function setWhere($column, $op = null, $column2 = null)
     {
+        if (func_num_args() === 2) {
+            $column2 = $op;
+            $op = '=';
+        }
+
+        $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
+
         array_push($this->wheres, [$column, $op, $column2]);
     }
 
@@ -380,8 +417,15 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setOrWhere($column, $op, $column2)
+    public function setOrWhere($column, $op = null, $column2 = null)
     {
+        if (func_num_args() === 2) {
+            $column2 = $op;
+            $op = '=';
+        }
+
+        $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
+
         array_push($this->orWheres, [$column, $op, $column2]);
     }
 
@@ -709,7 +753,7 @@ class Krud extends Controller
         }
 
         if ($this->model == null) {
-            $vista = view('krud::training', ['tipo' => 'setModelo']);
+            $vista = view('krud::training', ['tipo' => $this->typeError[0]]);
         }
 
         if (!empty($this->errors)) {
@@ -1173,11 +1217,18 @@ class Krud extends Controller
      */
     private function allowed($params, $allowed, $badType)
     {
-        foreach ($params as $key => $val) { //Validamos que todas las variables del array son permitidas.
-            if (!in_array($key, $allowed)) {
-                $this->errors = ['tipo' => $badType, 'bad' => $key, 'permitidos' => $allowed];
-                break;
+        if(is_array($params)) {
+            foreach ($params as $key => $val) { //Validamos que todas las variables del array son permitidas.
+                if (!in_array($key, $allowed)) {
+                    $this->errors = ['tipo' => $badType, 'bad' => $key, 'permitidos' => $allowed];
+                    break;
+                }
+            }
+        } else if(is_string($params)) {
+            if (!in_array($params, $allowed)) {
+                $this->errors = ['tipo' => $badType, 'bad' => $params, 'permitidos' => $allowed];
             }
         }
+        
     }
 }

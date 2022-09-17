@@ -125,7 +125,10 @@
                                     @endforeach
                                 @elseif ($tipo == 'typeCombo')
                                     <h4 class="mt-4">Falta la propiedad <code>Collect</code></h4>    
-                                    <p>El tipo de campo combobox requiere de la propiedad collect, este puede ser un collection de laravel con dos elementos asi como se muestra en el ejemplo: </p>
+                                    <p>El tipo de campo combobox requiere de la propiedad collect, este puede ser un collection de laravel con dos elementos, tal como se muestra en el ejemplo: </p>
+                                @elseif ($tipo == 'typeCollect')
+                                    <h4 class="mt-4">no se encontró al propiedad <code>id</code> y/o <code>value</code></h4>
+                                    <p>Al definir el collection puede aplicar la siguiente estructa: </p>
                                 @elseif ($tipo == 'filepath')
                                     <h4 class="mt-4">Falta la propiedad <code>FilePath</code></h4>    
                                     <p>El tipo de campo file requiere de la propiedad filepath, siendo esta la ruta donde se almacenaran los archivos dentro del servidor, esta puede ser una ruta relativa o absoluta por ejemplo: </p>
@@ -135,9 +138,13 @@
                                 @elseif ($tipo == 'value')
                                     <h4 class="mt-4">Falta la propiedad <code>Value</code></h4>    
                                     <p>El tipo de campo hidden requiere de la propiedad value, ya que es un valor predeterminado se debe definir, por ejemplo: </p>
+                                @elseif ($tipo == 'badOperator')
+                                    <h4 class="mt-4">El operador <code>{{ $bad }}</code> No es un opearador valido</h4>    
+                                    <p>Los parametros permitidos son los siguientes:</p>
+                                    @foreach ($permitidos as $permitido)
+                                        <code>{{ $permitido }}</code> <br>
+                                    @endforeach
                                 @endif
-                                <br>
-                                <p>Para conocer más puedes utilizar la función <code>$this->help();</code></p>
                             </div>
                         </div>
                     </div>
@@ -162,6 +169,10 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <br>
+                            <p>Para conocer más puedes utilizar la función <code>$this->help();</code></p>
                         </div>
                     </div>
                 @endif
@@ -201,6 +212,8 @@
                     $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\\'calendar\\\');\n\t\t$this->setCalendarDefaultView(\\\'month\\\');\n\t}\n}';
                 } elseif($tipo == 'typeCombo') {
                     $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \nuse Icebearsoft\\\\Models\\\\Example; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$collection = Example::select(\\\'id\\\', \\\'value\\\')->get();\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'combobox\\\', \\\'collect\\\'=>$collection]);\n\t}\n}';
+                } elseif($tipo == 'typeCollect'){
+                    $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \nuse Icebearsoft\\\\Models\\\\Example; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$collection = Example::select(\\\'nombreDeColumna as id\\\', \\\'nombreDeColumna as value\\\')->get();\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'combobox\\\', \\\'collect\\\'=>$collection]);\n\t}\n}';
                 } elseif($tipo == 'filepath') {
                     $code = '<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\\'nombre\\\'=>\\\'Label del campo\\\', \\\'campo\\\'=>\\\'nombre_columna_base_de_datos\\\', \\\'tipo\\\'=>\\\'file\\\', \\\'filepath\\\'=>\\\'/path/de/la/carpeta\\\']);\n\t}\n}';
                 } elseif($tipo == 'enum') {
@@ -217,7 +230,7 @@
         <script>
             "use strict";
             var el = document.getElementById('editor');
-            el.style.height = '300px';
+            el.style.height = '600px';
             el.style.width = '100%';
     
             // window.editor is accessible. 
