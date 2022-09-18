@@ -80,3 +80,7 @@ var data = {
         "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setOrWhere('valor 1', 'valor 2'); // <- operador = por defecto \n\t\t$this->setOrWhere('valor 1', '!=','valor 2'); // <- diferente operador \n\t}\n}"
     }
 }
+
+var help = {
+    setLayout: {codigo : "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setLeftJoin('tabla as t', 'valor 1', 'valor 2'); // <- operador '=' por defecto \n\t\t$this->setLeftJoin('tabla as t', 'valor 1', '>','valor 2'); // <- diferente operador \n\t}\n}"} 
+}

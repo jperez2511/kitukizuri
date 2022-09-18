@@ -85,6 +85,19 @@ class Krud extends Controller
     private $defaultCalendarView = null;
 
     /**
+     * setLayout
+     * Define el layout a utilizar en el controller
+     * 
+     * @param  mixed $layout
+     *
+     * @return void
+     */
+    protected function setLayout($layout)
+    {
+        $this->layout = $layout;
+    }
+
+    /**
      * getLayout
      * Define el layout predeterminado
      * 
@@ -116,19 +129,6 @@ class Krud extends Controller
     }
 
     /**
-     * setLayout
-     * Define el layout a utilizar en el controller
-     * 
-     * @param  mixed $layout
-     *
-     * @return void
-     */
-    protected function setLayout($layout)
-    {
-        $this->layout = $layout;
-    }
-
-    /**
      * setTemplate
      * Define las librerías a utilizar por ejemplo DataTable, FontAwesome ,etc.
      *
@@ -152,7 +152,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setParents($nombre, $value)
+    protected function setParents($nombre, $value)
     {
         array_push($this->parents, ['nombre' => $nombre, 'value'=>$value]);
     }
@@ -165,7 +165,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setPermisos($id)
+    protected function setPermisos($id)
     {
         $kitukizuri = new KituKizuri;
         return $kitukizuri->getPermisos($id);
@@ -179,7 +179,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setModel($model)
+    protected function setModel($model)
     {
         $this->model = $model;
     }
@@ -192,7 +192,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setTitulo($titulo)
+    protected function setTitulo($titulo)
     {
         $this->titulo = $titulo;
     }
@@ -206,7 +206,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setView($view, $options = [])
+    protected function setView($view, $options = [])
     {
         $allowed = ['table', 'calendar'];
 
