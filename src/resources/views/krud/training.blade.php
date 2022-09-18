@@ -146,7 +146,10 @@
         
         <script>
             "use strict";
-            var code = data.{{$tipo}}
+            var code = data.{{$tipo}}            
+            @if(!empty($bad)))
+                code.titulo = titulo.replace('{bad}', '{{ $bad }}')
+            @endif
             $('#titulo').append(code.titulo)
             $('#comentario').append(code.comentario)
 

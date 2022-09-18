@@ -10,27 +10,27 @@ var data = {
         "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\'nombre\\'=>\\'Label del campo\\', \\'campo\\'=>\\'nombre_columna_base_de_datos\\']);\n\t}\n}"
     },
     "badType" : {
-        "titulo": "El tipo de campo <code>{{bad}}</code> No existe",
+        "titulo": "El tipo de campo <code>{bad}</code> No existe",
         "comentario": "El tipo de campo define si será un texto, un campo numerico, etc. Para ello se han definido los siguientes tipos permitidos:",
         "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\'nombre\\'=>\\'Label del campo\\', \\'campo\\'=>\\'nombre_columna_base_de_datos\\', \\'tipo\\'=>\\'bool\\']);\n\t}\n}"
     },
     "badView" : {
-        "titulo": "La vista <code>{{bad}}</code> No existe",
+        "titulo": "La vista <code>{bad}</code> No existe",
         "comentario": "La vista permite mostrar en el index si sera una tabla o un calendario:",
         "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\'calendar\\');\n\t}\n}"
     },
     "badOptionsView" : {
-        "titulo": "La opción <code>{{bad}}</code> No existe",
+        "titulo": "La opción <code>{bad}</code> No existe",
         "comentario": "La vista permite las siguientes opciones:",
         "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\'calendar\\', [\\'public\\'=> true]);\n\t}\n}"
     },
     "badCalendarView" : {
-        "titulo": "La vista <code>{{bad}}</code> No existe",
+        "titulo": "La vista <code>{bad}</code> No existe",
         "comentario": "La vista por defecto (Default View) permite definir como se mostrara el calendario ya sea por mes, semana o un dia en concreto estas son las vistas permitidas:",
         "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setView(\\'calendar\\');\n\t\t$this->setCalendarDefaultView(\\'month\\');\n\t}\n}"
     },
     "badTypeButton" : {
-        "titulo": "El parámetro <code>{{bad}}</code> No existe",
+        "titulo": "El parámetro <code>{bad}</code> No existe",
         "comentario": "Los parámetros permitidos para configurar un botón son los siguientes:",
         "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setBoton([\\'nombre\\'=>\\'Label del boton\\', \\'url\\'=>\\'URL\\', \\'class\\'=>\\'btn btn-success\\', \\'icon\\'=>\\'fa fa-trash\\']);\n\t}\n}"
     }, 
@@ -59,5 +59,24 @@ var data = {
         "comentario": "El tipo de campo hidden requiere de la propiedad value, ya que es un valor predeterminado se debe definir, por ejemplo: ",
         "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo([\\'nombre\\'=>\\'Label del campo\\', \\'campo\\'=>\\'nombre_columna_base_de_datos\\', \\'tipo\\'=>\\'hidden\\', \\'value\\'=>\\'valorPredeterminado\\']);\n\t}\n}"
     }, 
-
+    "badJoinOperator" : {
+        "titulo": "El operador <code>{bad}</code> No es un operador valido",
+        "comentario": "Los parámetros permitidos son los siguientes:",
+        "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setJoin('tabla as t', 'valor 1', 'valor 2'); // <- operador = por defecto \n\t\t$this->setJoin('tabla as t', 'valor 1', '<>','valor 2'); // <- diferente operador \n\t}\n}"
+    }, 
+    "badLeftJoinOperator" : {
+        "titulo": "El operador <code>{bad}</code> No es un operador valido",
+        "comentario": "Los parámetros permitidos son los siguientes:",
+        "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setLeftJoin('tabla as t', 'valor 1', 'valor 2'); // <- operador '=' por defecto \n\t\t$this->setLeftJoin('tabla as t', 'valor 1', '>','valor 2'); // <- diferente operador \n\t}\n}"
+    }, 
+    "badWhereOperator" : {
+        "titulo": "El operador <code>{bad}</code> No es un operador valido",
+        "comentario": "Los parámetros permitidos son los siguientes:",
+        "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setWhere('valor 1', 'valor 2'); // <- operador = por defecto \n\t\t$this->setWhere('valor 1', '!=','valor 2'); // <- diferente operador \n\t}\n}"
+    }, 
+    "badOrWhereOperator" : {
+        "titulo": "El operador <code>{bad}</code> No es un operador valido",
+        "comentario": "Los parámetros permitidos son los siguientes:",
+        "codigo": "<?php \n\nnamespace kitukizuri\\\\training; \n\nuse Krud; \nuse Icebearsoft\\\\Models\\\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setOrWhere('valor 1', 'valor 2'); // <- operador = por defecto \n\t\t$this->setOrWhere('valor 1', '!=','valor 2'); // <- diferente operador \n\t}\n}"
+    }
 }
