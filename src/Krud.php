@@ -158,14 +158,14 @@ class Krud extends Controller
     }
 
     /**
-     * setPermisos
+     * getPermisos
      * Define los permisos a los que tiene acceso el controller
      *
      * @param  mixed $id
      *
      * @return void
      */
-    protected function setPermisos($id)
+    protected function getPermisos($id)
     {
         $kitukizuri = new KituKizuri;
         return $kitukizuri->getPermisos($id);
@@ -231,7 +231,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setCalendarDefaultView($view)
+    protected function setCalendarDefaultView($view)
     {
         $allowed = ['day','week', 'month'];
 
@@ -251,7 +251,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setCampo($params)
+    protected function setCampo($params)
     {
         $allowed = [
             'campo', 'column', 'columnclass', 'collect',
@@ -457,7 +457,7 @@ class Krud extends Controller
     {
         $allowed = ['nombre', 'url', 'class', 'icon'];
         $this->allowed($params, $allowed, $this->typeError[4]);
-        $this->botones[] =  $params;
+        $this->botones[] = $params;
     }
 
     /**
@@ -787,7 +787,7 @@ class Krud extends Controller
             $kmenu = true;
         }
 
-        $permisos = $this->setPermisos(Auth::id());
+        $permisos = $this->getPermisos(Auth::id());
 
         if (!empty($this->viewOptions)) {
             if (in_array('public', $this->viewOptions) && $this->viewOptions['public'] == true) {
@@ -840,7 +840,7 @@ class Krud extends Controller
             'titulo'     => $this->titulo,
             'columnas'   => $this->getColumnas($this->getSelectShow()),
             'botones'    => $botones,
-            'permisos'   => $this->setPermisos(Auth::id()),
+            'permisos'   => $this->getPermisos(Auth::id()),
             'ruta'       => $ruta,
             'template'   => $this->template,
             'layout'     => $layout,
@@ -882,7 +882,7 @@ class Krud extends Controller
         }
 
         $response = [];
-        $permisos = $this->setPermisos(Auth::id());
+        $permisos = $this->getPermisos(Auth::id());
 
         //Contador de datos a renderizar
         $response['draw'] = intval($request->draw);
@@ -1221,6 +1221,9 @@ class Krud extends Controller
     private function allowed($params, $allowed, $badType)
     {
         if(is_array($params)) {
+            if(empty($params)) {
+                return $this->errors = ['tipo' => $badType, 'bad' => 'Array Vacío', 'permitidos' => $allowed];
+            }
             foreach ($params as $key => $val) { //Validamos que todas las variables del array son permitidas.
                 if (!in_array($key, $allowed)) {
                     $this->errors = ['tipo' => $badType, 'bad' => $key, 'permitidos' => $allowed];

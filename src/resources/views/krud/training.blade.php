@@ -39,7 +39,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="border p-3 text-center rounded mb-4">
-                                                        <a href="#" onclick="showTab(1)">
+                                                        <a href="#" onclick="showTab(1, 'Funciones Generales')">
                                                             <div class="my-3">
                                                                 <i class="mdi mdi-ruler-square-compass h2 text-primary"></i>
                                                             </div>
@@ -49,7 +49,7 @@
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <div class="border p-3 text-center rounded mb-4">
-                                                        <a href="#" onclick="showTab(2)">
+                                                        <a href="#" onclick="showTab(2, 'Configuración de vistas')">
                                                             <div class="my-3">
                                                                 <i class="mdi mdi-view-compact h2 text-primary"></i>
                                                             </div>
@@ -86,49 +86,43 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="col-12" id="help-1">
-                                        <h3>Generales</h3>
+                                    <div class="col-12">
+                                        <h3 id="tituloGeneral"></h3>
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <div class="form-group">
+                                                <div class="form-group help-1">
                                                     <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('setLayout')">
                                                         <code>setLayout()</code>
                                                     </button>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp(2)">
+                                                <div class="form-group help-1">
+                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('setParents')">
                                                         <code>setParents()</code>
                                                     </button>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp(3)">
-                                                        <code>setStoreMSG()</code>
-                                                    </button>
-                                                </div>
-                                                <div class="form-group">
-                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp(4)">
+                                                <div class="form-group help-1">
+                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('getPermisos')">
                                                         <code>setPermisos()</code>
                                                     </button>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp(5)">
+                                                <div class="form-group help-2">
+                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('storeMSG')">
+                                                        <code>setStoreMSG()</code>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group help-2">
+                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('setTitulo')">
                                                         <code>setTitulo()</code>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="col-md-10">
+                                                <h3 id="tituloHelp"></h3>
+                                                <p id="comentarioHelp"></p>
                                                 <div id="editor" style="width: 100%; height:600px;"></div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 text-center" id="help-2">
-                                        <br>
-                                        <h3>Configuración de vistas</h3>
-                                        <hr>
-                                    </div>
-                                    <div class="col-12" id="help-3">
-                                        <h3>Componentes</h3>
                                     </div>
                                 </div>
                             </div>
@@ -202,20 +196,40 @@
                 var code = data.{{$tipo}}            
                 $('#titulo').append(code.titulo.replace('{bad}', '{{ $bad ?? '' }}'))
                 $('#comentario').append(code.comentario)
-
-                initEditor(code)
             </script>
+            <script>
+                "use strict";
+                var el = document.getElementById('editor');
+                var editor = null;
+                var init = function () {
+                    require(['vs/editor/editor.main'], function () {
+                        editor = monaco.editor.create(el, {
+                            theme: 'vs-dark',
+                            model: monaco.editor.createModel(code, "php")
+                        });
+                        editor.layout();
+                    });
+                    window.removeEventListener("load", init);
+                };
+                window.addEventListener("load", init);
+            </script> 
         @else
             <script>
                 let contents = Array.from({length: 3}, (_, i) => i + 1);
 
-                function showTab(id = null, fn = null) {
+                function showTab(id = null, title = null) {
                     contents.forEach(id => {
-                        $('#help-'+id).hide();
+                        $('.help-'+id).hide();
                     });
 
+                    $('#editor').empty();
+                    $("#tituloHelp").empty()
+                    $("#comentarioHelp").empty()
+                    $('#tituloGeneral').empty();
+                    $('#tituloGeneral').append(title);
+
                     if(id != null) {
-                        $('#help-'+id).show();
+                        $('.help-'+id).show();
                     }
                 }
 
@@ -225,17 +239,21 @@
                 
                 showTab()
 
+                function initEditor(code) {
+                    $("#tituloHelp").empty()
+                    $("#comentarioHelp").empty()
+                    if($("#tituloHelp").length > 0) {
+                        $("#tituloHelp").append(code.titulo)
+                        $("#comentarioHelp").append(code.comentario)
+                    }
+
+                    $('#editor').empty();
+                    monaco.editor.create(document.getElementById('editor'), {
+                        theme: 'vs-dark',
+                        model: monaco.editor.createModel(code.codigo, "php")
+                    });
+                };
             </script>
         @endif
-
-        <script>
-            function initEditor(code) {
-                monaco.editor.create(document.getElementById('editor'), {
-                    theme: 'vs-dark',
-                    model: monaco.editor.createModel(code.codigo, "php")
-                });
-            };
-        </script>
-
     </body>
 </html>
