@@ -59,11 +59,11 @@
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <div class="border p-3 text-center rounded mb-4">
-                                                        <a href="#">
+                                                        <a href="#" onclick="showTab(3, 'Configuración de consulta')">
                                                             <div class="my-3">
-                                                                <i class="dripicons-help h2 text-primary"></i>
+                                                                <i class="mdi mdi-database h2 text-primary"></i>
                                                             </div>
-                                                            <h5 class="font-size-15 mb-3">Help & Support</h5>
+                                                            <h5 class="font-size-15 mb-3">Configuración de consulta</h5>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -114,6 +114,26 @@
                                                 <div class="form-group help-2">
                                                     <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('setTitulo')">
                                                         <code>setTitulo()</code>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group help-2">
+                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('setView')">
+                                                        <code>setView()</code>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group help-2">
+                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('setCalendarDefaultView')">
+                                                        <code>setCalendarDefaultView()</code>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group help-2">
+                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('setCampo')">
+                                                        <code>setCampo()</code>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group help-3">
+                                                    <button class="btn btn-outline-secondary btn-block" onclick="viewHelp('setCampo')">
+                                                        <code>setCampo()</code>
                                                     </button>
                                                 </div>
                                             </div>

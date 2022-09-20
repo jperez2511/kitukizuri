@@ -96,6 +96,29 @@ var help = {
         titulo: 'getPermisos()',
         comentario: 'Obtiene la lista de permisos del modulo, recibe como argumento un valor <code>Integer</code> el cual hace referencia al identificador (<code>id</code>) del usuario ',
         codigo: "<?php \n\nnamespace kitukizuri\\training; \n\nuse Krud; \nuse Icebearsoft\\Models\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->getPermiosos($id); \n\t}\n}"
+    },
+    storeMSG: {
+        titulo: 'storeMSG()',
+        comentario: 'Esta función permite establecer un mensaje personalizado que se mostrará cuando se guarde un dato de forma exitosa, recibe como argumento un <code>String</code>',
+        codigo: "<?php \n\nnamespace kitukizuri\\training; \n\nuse Krud; \nuse Icebearsoft\\Models\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setMSG('Mensaje a mostrar'); \n\t}\n}"
+    },
+    setTitulo: {
+        titulo: 'setTitulo()',
+        comentario: 'Permite establecer un titulo el cual se mostrará en la parte superior de la ventana, la función recibe como argumento un <code>String</code>',
+        codigo: "<?php \n\nnamespace kitukizuri\\training; \n\nuse Krud; \nuse Icebearsoft\\Models\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setTitulo('Titulo de la pagina'); \n\t}\n}"
+    },
+    setView: {
+        titulo: 'setView()',
+        comentario: 'el Krud permite tener dos vistas ya sea en forma de tabla la cual es la mas utilizada y en forma de calendario, la cual es menos utilizada, para utilizar la vista de calendario es importante agregar la columna fecha de tipo <code>Date</code>',
+        codigo: "<?php \n\nnamespace kitukizuri\\training; \n\nuse Krud; \nuse Icebearsoft\\Models\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->getView('table');\n\t\t$this->getView('calendar'); \n\t}\n}"
+    }, 
+    setCalendarDefaultView:{ 
+        titulo: 'setCalendarDefaultView()',
+        comentario: 'Es importante mencionar que esta función solamente se puede aplciar unicamente cuando se establece una vista de calendario (calendar)',
+    },
+    setCampo:{ 
+        titulo: 'setCampo()',
+        comentario: 'Es el la función mas importante tanto para la vista tabla como para la vista calendario, pues es la encargada de generar los campos que estarán disponibles en la vista. se pueden aplicar varios tipos de campos. recibe como argumento un <code>Array Asociativo</code>',
+        codigo: data.setCampo.codigo
     }
-
 }

@@ -62,7 +62,6 @@
     <script src="{{asset('kitukizuri/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('kitukizuri/libs/datatables.net-responsive-bs'.$vBootstrap.'/js/responsive.bootstrap'.$vBootstrap.'.min.js')}}"></script>
     <script>
-        $('[data-toggle="tooltip"]').tooltip()
         $('#table1').DataTable({
             "language": {
                 "url": "{{asset('kitukizuri/libs/datatables.net/lang/es_es.json')}}"
