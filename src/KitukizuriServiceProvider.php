@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
+use Icebearsoft\Kitukizuri\Console\Command\MakeModule;
+
 class KitukizuriServiceProvider extends ServiceProvider
 {
     /**
@@ -41,7 +43,13 @@ class KitukizuriServiceProvider extends ServiceProvider
             $this->publishes([__DIR__. $publish['from'] => $publish['to'],], $publish['tag']);    
         }
 
-       Route::group(['prefix' => 'kk','namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
+        if($this->app->runningInConsole()) {
+            $this->commands([
+                MakeModule::class
+            ]);
+        }
+
+        Route::group(['prefix' => 'kk','namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard.index');
             Route::resource('roles', 'RolesController');
             Route::resource('modulos', 'ModulosController');
@@ -51,7 +59,7 @@ class KitukizuriServiceProvider extends ServiceProvider
             Route::resource('rolpermisos', 'RolesPermisosController', ['only'=>['index', 'store']]);
             Route::resource('empresas', 'EmpresasController');
             Route::resource('moduloempresas', 'ModuloEmpresasController'); 
-       });
+        });
     }
 
     /**
