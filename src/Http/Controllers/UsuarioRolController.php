@@ -21,7 +21,7 @@ class UsuarioRolController extends Krud
      */
     public function __construct(Request $request)
     {
-        $collect = Rol::select('rolid', 'nombre')->get();
+        $collect = Rol::select('rolid as id', 'nombre as value')->get();
         
         $this->setModel(new UsuarioRol);
         $this->setTitulo('Roles');
