@@ -1047,8 +1047,6 @@ class Krud extends Controller
      */
     public function store(Request $request)
     {
-        $param = null;
-
         try {
             $id = Crypt::decrypt($request->input('id'));
         } catch (Exception $e) {
@@ -1058,80 +1056,73 @@ class Krud extends Controller
         if ($id != 0) {
             $this->model = $this->model->find($id);
         }
-        
-        // inputs 
-        $in = $request->all();
 
-        // validando los campos que vienen
-        foreach ($in as $k => $v) {
-            if ($k != '_token' && $k != 'id') {
-                
-                foreach ($this->campos as $c) {
-                    if ($c['campo'] == $k && $c['unique'] == true && $c['edit'] == true && $id == 0) {
-                        $validate = $this->model->where($c['campo'], $v)->first();
-                        if($validate != null) {
-                            Session::flash('type', 'danger');
-                            Session::flash('msg', 'El valor del campo '.$c['nombre'].' ya se encuentra registrado en la base de datos.');
-                            return redirect()->back();
-                        }
-                    }
+        // obteniendo valores enviados por el usuario
+        $requestData     = $request->all();
+        $camposDefinidos = collect($this->campos);
 
-                    if ($c['campo'] == $k && $c['tipo'] == 'date') {
-                        $v = $this->toDateMysql($v);
-                    }
-                    if ($c['campo'] == $k && $c['tipo'] == 'numeric') {
-                        $v = str_replace(',', '', $v);
-                    }
-                    if ($c['campo'] == $k && $c['tipo'] == 'password') {
-                        if (!empty($v)) {
-                            $v = bcrypt($v);
-                        } else {
-                            $v = $this->model->{$k};
-                        }
-                    }
-                    if ($c['campo'] == $k && ($c['tipo'] == 'image' || $c['tipo'] == 'file64')) {
-                        if ($request->hasFile($c['campo'])) {
-                            $file = $request->file($c['campo']);
-                            $file = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
-                            $v    = $file;
-                        } else {
-                            $v = $this->model->{$k};
-                        }
-                    }
-                    if ($c['campo'] == $k && $c['tipo'] == 'file') {
-                        if ($request->hasFile($c['campo'])) {
-                            $file     = $request->file($c['campo']);
-                            $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
-                            $path     = public_path() . $c['filepath'];
-                            if (!file_exists($path)) {
-                                mkdir($path, 0777, true);
-                            }
-                            $file->move($path, $filename);
-                            $v = $file;
-                        } else {
-                            $v = $this->model->{$k};
-                        }
-                    }
-                    if ($c['campo'] == $k && $c['tipo'] == 'bool') {
-                        $v = $v == 'on' ?  true : false;
-                    }    
+        foreach ($requestData as $nombreCampo => $valor) {
+            // Excluyendo campos de control
+            if($nombreCampo == '_token' || $nombreCampo == 'id') {
+                continue;
+            }
+
+            $campo = $camposDefinidos->filter(function($item) use($nombreCampo) {
+                if((!empty($item['campoReal']) && $item['campoReal'] == $nombreCampo) || $item['campo'] == $nombreCampo) {
+                    return $item;
                 }
-                $this->model->{$k} = $v;
+            })->first();
+            
+            // validando el campo segun el tipo de dato
+            if ($campo['unique'] == true && $campo['edit'] == true && $id == 0) {
+                $validate = $this->model->where($nombreCampo, $valor)->exists();
+                if($validate) {
+                    Session::flash('type', 'danger');
+                    Session::flash('msg', 'El valor del campo '.$c['nombre'].' ya se encuentra registrado en la base de datos.');
+                    return redirect()->back();
+                } 
+            } else if ($campo['tipo'] == 'date') {
+                $valor = $this->toDateMysql($valor);
+            } else if ($campo['tipo'] == 'numeric') {
+                $valor = str_replace(',', '', $valor);
+            } else if ($campo['tipo'] == 'password') {
+                $valor = !empty($valor) ? bcrypt($valor) : $this->model->{$nombreCampo};
+            } else if ($campo['tipo'] == 'image' || $campo['tipo'] == 'file64') {
+                if ($request->hasFile($nombreCampo)) {
+                    $file  = $request->file($nombreCampo);
+                    $file  = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
+                    $valor = $file;
+                } else {
+                    $valor = $this->model->{$k};
+                }
+            } else if ($campo['tipo'] == 'file') {
+                if ($request->hasFile($nombreCampo)) {
+                    $file     = $request->file($nombreCampo);
+                    $filename = date('Ymdhis') . mt_rand(1, 1000) . '.' . strtolower($file->getClientOriginalExtension());
+                    $path     = public_path() . $c['filepath'];
+                    if (!file_exists($path)) {
+                        mkdir($path, 0777, true);
+                    }
+                    $file->move($path, $filename);
+                    $valor = $file;
+                } else {
+                    $valor = $this->model->{$k};
+                }
+            } else if ($campo['tipo'] == 'bool') {
+                $valor = $valor == 'on';
+            } else if ($campo['tipo'] == 'hidden') {
+                $this->model->{$nombreCampo} = $valor == 'userid' ? Auth::id() : $valor;
             }
-            if ($this->parentid == $k) {
-                $param = '?parent='.$v;
-            }
+            $this->model->{$nombreCampo} = $valor;
         }
 
-        foreach ($this->campos as $c) {
-            if (!array_key_exists($c['campo'], $in)) {
-                if ($c['tipo'] == 'bool') {
-                    $this->model->{$c['campo']} = false;
+        // validando campos sin valor 
+        foreach ($this->campos as $campo) {
+            $campoReal = !empty($campo['campoReal']) ? $campo['campoReal'] : $campo['campo'];
+            if (!array_key_exists($campoReal, $requestData)) {
+                if ($campo['tipo'] == 'bool') {
+                    $this->model->{$campoReal} = false;
                 }
-            }
-
-            if ($c['tipo'] == 'hidden') {
-                $this->model->{$c['campo']} = $c['value'] == 'userid' ? Auth::id() : $c['value'];
             }
         }
 
@@ -1147,7 +1138,7 @@ class Krud extends Controller
         // Retornando mensaje de guardado 
         $url = $request->url();
 
-        return redirect($url.$param);
+        return redirect($url);
     }
 
     /**
