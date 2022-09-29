@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 
 use Icebearsoft\Kitukizuri\Models\Modulo;
 use Icebearsoft\Kitukizuri\Models\Permiso;
+use Icebearsoft\Kitukizuri\Models\ModuloPermiso;
 
 class MakeModule extends Command
 {    
@@ -78,26 +79,64 @@ class MakeModule extends Command
                     $this->error('-> El nombre de ruta ya existe.');
                     break;
                 }
-                // Asignando valor default para los permisos
-                $permiso = ['0 - Todos'];
-                // Obteniendo los permisos para el módulo
-                $permisos = Permiso::select(DB::raw('concat(\' - \', permisoid, nombre)'))->pluck()->toArray();
-                $permisos = array_merge($permiso, $permisos);
 
-                dd($permisos);
+                if(empty($permisos)){
+                    // Asignando valor default para los permisos
+                    $permiso = ['0 - Todos'];
+                    // Obteniendo los permisos para el módulo
+                    $permisos = Permiso::select(DB::raw('concat_ws(\' - \', permisoid, nombre) as permiso'))
+                        ->pluck('permiso')
+                        ->toArray();
+    
+                    $permisos = array_merge($permiso, $permisos);
+                }
+                continue;
             }
 
-            
-            
+            $permisoSeleccionado = $this->choice(
+                '¿ Seleccioné los permisos disponibles para el módulo ?',
+                $permisos, 0, 2, true
+            );
+
+            $allPermisos = $permisoSeleccionado;
+            foreach ($permisoSeleccionado as $permiso) {
+                $permiso = explode('-', $permiso);
+                $id = trim($permiso[0]);
+                if($id == 0) {
+                    $allPermisos = $permisos;
+                    break;
+                }
+            }
 
             // Guardando el modulo en todas las bases de datos
             foreach ($configuraciones as $db) {
                 $this->setConnectionDB($db);
-                $modulo         = new Modulo;
-                $modulo->nombre = $nombreModulo;
-                $modulo->ruta   = $nombreRuta;
-                $modulo->save();
+                DB::beginTransaction();
+                
+                try {
+                    $modulo         = new Modulo;
+                    $modulo->nombre = $nombreModulo;
+                    $modulo->ruta   = $nombreRuta;
+                    $modulo->save();
 
+                    foreach ($allPermisos as $permiso) {
+                        $permiso = explode('-', $permiso);
+                        $id = trim($permiso[0]);
+
+                        if($id == 0) {
+                            continue;
+                        }
+                        
+                        $moduloPermiso = new ModuloPermiso;
+                        $moduloPermiso->moduloid = $modulo->moduloid;
+                        $moduloPermiso->permisoid = $id;
+                        $moduloPermiso->save();
+                    }
+                    DB::commit();
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    $this->error($e->getMessage());
+                }
             }
         } else {
             // Validando si existe el la ruta 
@@ -105,6 +144,13 @@ class MakeModule extends Command
             if($existe) {
                 $this->error('-> El nombre de ruta ya existe.');
             }
+            // Obteniendo los permisos
+            $permiso  = ['0 - Todos'];
+            $permisos = Permiso::select(DB::raw('concat_ws(\' - \', permisoid, nombre) as permiso'))
+                ->pluck('permiso')
+                ->toArray();
+            
+                $permisos = array_merge($permiso, $permisos);
         }
 
         
