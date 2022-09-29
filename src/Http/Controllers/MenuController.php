@@ -16,7 +16,7 @@ class MenuController
     // String para conocer la version de bootstrap
     private $vBootstrap = null;
     
-    // Array para los modulos que tiene acceso el usuario
+    // Array para los módulos que tiene acceso el usuario
     private $permisos = [];
 
     /**
@@ -39,18 +39,9 @@ class MenuController
     public function construirMenu()
     {
         // Obteniendo los permisos del rol
-        $rolModulo = usuarioRol::with('modulos')
-            ->where('usuarioid', Auth::id())
-            ->get();
-        
-        // poblando array permisos
-        foreach ($rolModulo as $rol) {
-            foreach ($rol->modulos as $modulo) {
-                if (!in_array($modulo->modulopermisoid, $this->permisos)) {
-                    $this->permisos[] = $modulo->modulopermisoid;
-                }
-            }
-        }
+        $this->permisos = usuarioRol::getModuloPermisoID(Auth::id(), 'show')
+            ->pluck('modulopermisoid')
+            ->toArray();        
 
         // obteniendo los elementos del menu que no tienen padreid
         $nodos = Menu::getPapas();
@@ -73,7 +64,7 @@ class MenuController
     
     /**
      * getNodos
-     * Metodo que construye el menu con el estilo predeterminado
+     * Método que construye el menu con el estilo predeterminado
      * 
      * @return void
      */
@@ -102,7 +93,7 @@ class MenuController
             $formato = str_replace('{{icono}}', $nodo->icono, $formato );
 
             // remplazando label
-            $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
+            $formato = str_replace('{{label}}', __($nodo->etiqueta), $formato);
 
             $formato = str_replace('{{target}}', $nodo->menuid, $formato);
 
@@ -191,7 +182,7 @@ class MenuController
             $formato = str_replace('{{icono}}', $nodo->icono, $formato );
 
             // remplazando label
-            $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
+            $formato = str_replace('{{label}}', __($nodo->etiqueta), $formato);
 
             if ($this->vBootstrap == '4.1') {
                 $this->tree .= $formato;    
@@ -199,8 +190,6 @@ class MenuController
                 $this->tree .= '<li class="'.config('kitukizuri.menu.li-jr.class').'">'.$formato;
                 $this->tree .= '</li>';    
             }
-
-            
         }
     }
     
@@ -217,7 +206,7 @@ class MenuController
 
         $hijos = Menu::getHijos($nodo->menuid);
         
-        // recorrido y validacion de permisos de los hijos 
+        // recorrido y validación de permisos de los hijos 
         foreach ($hijos as $hijo) {
             if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
                 $permiso = 1;

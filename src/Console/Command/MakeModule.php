@@ -78,8 +78,12 @@ class MakeModule extends Command
                     $this->error('-> El nombre de ruta ya existe.');
                     break;
                 }
+                // Asignando valor default para los permisos
+                $permiso = ['0 - Todos'];
                 // Obteniendo los permisos para el módulo
-                $permisos = Permiso::select(DB::raw('concat(\'-\', permisoid, nombre)'))->pluck()->toArray();
+                $permisos = Permiso::select(DB::raw('concat(\' - \', permisoid, nombre)'))->pluck()->toArray();
+                $permisos = array_merge($permiso, $permisos);
+
                 dd($permisos);
             }
 

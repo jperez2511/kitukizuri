@@ -31,7 +31,7 @@
 <![endif]-->
 </head>
 
-<body data-sidebar="dark" class="sidebar-enable vertical-collpsed">
+<body data-sidebar="dark" class="sidebar-enable">
     <!-- Begin page -->
     <div id="layout-wrapper">
         <header id="page-topbar">

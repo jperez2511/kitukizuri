@@ -30,6 +30,21 @@ class UsuarioRol extends Model
         return $query;
     }
 
+    public static function getModuloPermisoID($usuarioId, $nombreLaravel) 
+    {
+        return DB::table('usuarioRol as uR')
+            ->select('mP.modulopermisoid')
+            ->leftJoin('roles as r', 'r.rolid', 'uR.rolid')
+            ->leftJoin('rolModuloPermiso as rMP', 'r.rolid', 'rMP.rolid')
+            ->leftJoin('moduloPermiso as mP', 'mP.modulopermisoid', 'rMP.modulopermisoid')
+            ->leftJoin('permisos as p', 'mP.permisoid', 'p.permisoid')
+            ->where('uR.usuarioid', $usuarioId)
+            ->where('p.nombreLaravel', $nombreLaravel)
+            ->orderBy('mP.modulopermisoid')
+            ->groupBy('mP.modulopermisoid')
+            ->get();        
+    }
+
     /**
      * módulos
      *
