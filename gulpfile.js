@@ -1,6 +1,6 @@
-const gulp = require('gulp');
+const gulp    = require('gulp');
 const npmdist = require('gulp-npm-dist');
-const rename = require('gulp-rename');
+const rename  = require('gulp-rename');
 
 gulp.task('copy:libs', function() {
     return gulp

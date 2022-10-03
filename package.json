@@ -49,6 +49,6 @@
     "monaco-editor": "^0.34.0",
     "node-waves": "^0.7.6",
     "pdfmake": "^0.2.5",
-    "simplebar": "^5.3.8"
+    "simplebar": "^5.3.9"
   }
 }
