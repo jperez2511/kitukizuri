@@ -9,7 +9,7 @@ use Session;
 use Carbon\Carbon;
 use Mockery\Exception;
 
-// librerías del framwork
+// librerías del framework
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
