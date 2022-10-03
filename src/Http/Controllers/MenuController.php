@@ -163,7 +163,7 @@ class MenuController
              $formato = str_replace('{{icono}}', $nodo->icono, $formato );
  
              // remplazando label
-             $formato = str_replace('{{label}}', $nodo->etiqueta, $formato);
+             $formato = str_replace('{{label}}', __($nodo->etiqueta), $formato);
  
              $formato = str_replace('{{target}}', $nodo->menuid, $formato);
  
