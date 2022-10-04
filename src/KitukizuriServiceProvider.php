@@ -29,19 +29,8 @@ class KitukizuriServiceProvider extends ServiceProvider
         
         $databasePath = $this->app->databasePath();
         $basePath     = $this->app->basePath();
-
-        $publishes = [
-            ['from' => '/database/migrations',      'to' => $databasePath.'/migrations',           'tag' => 'migrations'],
-            ['from' => '/database/seeders',         'to' => $databasePath.'/seeders',              'tag' => 'seeders'],
-            ['from' => '/resources/views/errors',   'to' => $basePath.'/resources/views/errors',   'tag' => 'vError'],
-            ['from' => '/resources/views/krud',     'to' => $basePath.'/resources/views/krud',     'tag' => 'vKrud'],
-            ['from' => '/config',                   'to' => $basePath.'/config',                   'tag' => 'config'],
-            ['from' => '/public',                   'to' => $basePath.'/public',                   'tag' => 'public'],
-        ];
-
-        foreach ($publishes as $publish) {
-            $this->publishes([__DIR__. $publish['from'] => $publish['to'],], $publish['tag']);    
-        }
+        
+        $this->registerComponent('input');
 
         if($this->app->runningInConsole()) {
             $this->commands([
@@ -60,6 +49,38 @@ class KitukizuriServiceProvider extends ServiceProvider
             Route::resource('empresas', 'EmpresasController');
             Route::resource('moduloempresas', 'ModuloEmpresasController'); 
         });
+    }
+    
+    /**
+     * configurePublishing
+     *
+     * @return void
+     */
+    protected function configurePublishing()
+    {
+        $publishes = [
+            ['from' => '/database/migrations',      'to' => $databasePath.'/migrations',           'tag' => 'migrations'],
+            ['from' => '/database/seeders',         'to' => $databasePath.'/seeders',              'tag' => 'seeders'],
+            ['from' => '/resources/views/errors',   'to' => $basePath.'/resources/views/errors',   'tag' => 'vError'],
+            ['from' => '/resources/views/krud',     'to' => $basePath.'/resources/views/krud',     'tag' => 'vKrud'],
+            ['from' => '/config',                   'to' => $basePath.'/config',                   'tag' => 'config'],
+            ['from' => '/public',                   'to' => $basePath.'/public',                   'tag' => 'public'],
+        ];
+
+        foreach ($publishes as $publish) {
+            $this->publishes([__DIR__. $publish['from'] => $publish['to'],], $publish['tag']);    
+        }
+    }
+    
+    /**
+     * registerComponent
+     *
+     * @param  mixed $component
+     * @return void
+     */
+    protected function registerComponent($component)
+    {
+        Blade::component('krud::components.'.$component, 'krud-'.$component);
     }
 
     /**

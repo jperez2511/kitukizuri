@@ -29,6 +29,7 @@
                             @endif
                             
                             @if((($c['tipo'] == 'string' || $c['tipo'] == 'date') && $c['edit'] == true))
+                                <>
                                 <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control {!! !empty($c['inputclass']) ? $c['inputclass'] : null !!}">
                             @elseif($c['tipo'] == 'numeric')
                                 <input type="text" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? number_format($c['value'])  : null}}" onfocusout="$(this).val(number_format($(this).val(), 2))" class="form-control">
