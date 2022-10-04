@@ -440,9 +440,9 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setOrderBy($column, $orientation)
+    public function setOrderBy($column, $orientation = null)
     {
-        $this->orderBy[] = [$column, $orientation];
+        $this->orderBy[] = [$column, $orientation ?? 'asc'];
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 use Icebearsoft\Kitukizuri\Console\Command\MakeModule;
 
@@ -31,7 +32,9 @@ class KitukizuriServiceProvider extends ServiceProvider
         $databasePath = $this->app->databasePath();
         $basePath     = $this->app->basePath();
         
-        $this->registerComponent('input');
+        $this->callAfterResolving(BladeCompiler::class, function () {
+            $this->registerComponent('input');
+        });
 
         if($this->app->runningInConsole()) {
             $this->commands([
