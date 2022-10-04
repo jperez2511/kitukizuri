@@ -1,5 +1,5 @@
 /**
- * SimpleBar.js - v5.3.8
+ * SimpleBar.js - v5.3.9
  * Scrollbars, simpler.
  * https://grsmto.github.io/simplebar/
  *
@@ -516,11 +516,15 @@ var SimpleBar = /*#__PURE__*/function () {
     elWindow.addEventListener('resize', this.onWindowResize); // Hack for https://github.com/WICG/ResizeObserver/issues/38
 
     var resizeObserverStarted = false;
+    var resizeAnimationFrameId = null;
     var resizeObserver = elWindow.ResizeObserver || ResizeObserver;
     this.resizeObserver = new resizeObserver(function () {
-      if (!resizeObserverStarted) return;
+      if (!resizeObserverStarted || resizeAnimationFrameId !== null) return;
+      resizeAnimationFrameId = elWindow.requestAnimationFrame(function () {
+        _this3.recalculate();
 
-      _this3.recalculate();
+        resizeAnimationFrameId = null;
+      });
     });
     this.resizeObserver.observe(this.el);
     this.resizeObserver.observe(this.contentEl);
