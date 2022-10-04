@@ -3,6 +3,7 @@
 namespace Icebearsoft\Kitukizuri;
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
