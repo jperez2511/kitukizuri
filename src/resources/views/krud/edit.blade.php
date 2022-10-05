@@ -6,21 +6,32 @@
             display: none;
         }
     </style>
-     @if (!empty(Session::get('type')) && !empty(Session::get('msg')))
+    @if (!empty(Session::get('type')) && !empty(Session::get('msg')))
         <div class="alert alert-{{Session::get('type')}}" role="alert">
             {{Session::get('msg')}}
         </div>    
     @endif
+    
     <form action="{{$action}}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
+        @csrf
         <input type="hidden" name="id" id="id" value="{{$id}}">
         <input type="hidden" name="{{$parent}}" id="{{$parent}}" value="{{$parentid}}">
         @foreach($parents as $p)
             <input type="hidden" name="{{$p['nombre']}}" id="{{$p['nombre']}}">
         @endforeach
         <div class="row">
-            @foreach($campos as $c)
-                <?php $nombre = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo']; ?>
+            @foreach($campos as $campo)
+                @php $nombre = array_key_exists('campoReal', $campo) ? $c['campoReal'] : $campo['campo']; @endphp
+
+                
+
+
+
+
+
+
+
+                
                 @if($c['tipo'] != 'password')
                     <div class="{!! !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6' !!}">
                         <div class="form-group">
@@ -29,7 +40,6 @@
                             @endif
                             
                             @if((($c['tipo'] == 'string' || $c['tipo'] == 'date') && $c['edit'] == true))
-                                <>
                                 <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control {!! !empty($c['inputclass']) ? $c['inputclass'] : null !!}">
                             @elseif($c['tipo'] == 'numeric')
                                 <input type="text" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? number_format($c['value'])  : null}}" onfocusout="$(this).val(number_format($(this).val(), 2))" class="form-control">
@@ -77,6 +87,25 @@
                 @endif
             @endforeach
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        
+        
+       
+        
         @if(empty($embed))
             <div class="col-md-12 text-right">
                 <p id="msgError" class="hide" align="justify" style="color: darkred;">

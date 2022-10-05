@@ -1,3 +1,3 @@
 @props(['type' => 'text'])
 
-<input type="{{ $type }}" class="{!! $attributes->merge(['class' => 'form-control']) !!}">
+<input type="{{ $type }}" {!! $attributes->merge(['class' => 'form-control']) !!}>
