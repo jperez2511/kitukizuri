@@ -126,25 +126,21 @@ class MenuController
                     $this->tree .= '</div>';
                     $this->tree .= '</div>';
                 } else {
-                    if ($this->vBootstrap == '4.1') {
-                        
-                    } else {
-                        // Agregando ul para los hijos
-                        $this->tree .= '<ul ';
-                        foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
-                            $this->tree .= $key.'="'.$value.'"';
-                        }
-                        $this->tree .= '>';
-                        
-                        foreach ($hijos as $hijo) {
-                            if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
-                                $this->getNodos($hijo);
-                            }
-                        }
-                        
-                        // Cerrando las etiquetas
-                        $this->tree .= '</ul>';
+                    // Agregando ul para los hijos
+                    $this->tree .= '<ul ';
+                    foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
+                        $this->tree .= $key.'="'.$value.'"';
                     }
+                    $this->tree .= '>';
+                    
+                    foreach ($hijos as $hijo) {
+                        if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
+                            $this->getNodos($hijo);
+                        }
+                    }
+                    
+                    // Cerrando las etiquetas
+                    $this->tree .= '</ul>';
                 }
             }
             

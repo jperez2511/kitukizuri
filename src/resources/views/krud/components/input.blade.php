@@ -1,3 +1,7 @@
-@props(['type' => 'text'])
+@props(['type' => 'text', 'name'])
 
-<input type="{{ $type }}" {!! $attributes->merge(['class' => 'form-control']) !!}>
+<div class="form-group">
+    <label>{{ $name }}</label>
+    <input type="{{ $type }}" {!! $attributes->merge(['class' => 'form-control']) !!}>
+</div>
+
