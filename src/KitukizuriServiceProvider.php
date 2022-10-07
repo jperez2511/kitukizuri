@@ -20,30 +20,58 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $this->loadViewsFrom(__DIR__.'/resources/views/krud', 'krud');
-        $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri', 'kitukizuri');
-        
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');
         
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizurimd');
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\Http\Middleware\Menu');
-        
-        $databasePath = $this->app->databasePath();
-        $basePath     = $this->app->basePath();
+
+        $this->configureViewsBladeComponents();            
+        $this->configureCommands();
+        $this->configurePublishing();
+        $this->configureRoutes();
+    }
+            
+    /**
+     * configureBladeComponents
+     *
+     * @return void
+     */
+    protected function configureViewsBladeComponents()
+    {
+        $this->loadViewsFrom(__DIR__.'/resources/views/krud', 'krud');
+        $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri', 'kitukizuri');
         
         $this->callAfterResolving(BladeCompiler::class, function () {
             $this->registerComponent('input');
             $this->registerComponent('select');
             $this->registerComponent('password');
         });
+    }
 
+
+    /**
+     * configureCommands
+     *
+     * @return void
+     */
+    protected function configureCommands()
+    {
         if($this->app->runningInConsole()) {
             $this->commands([
                 MakeModule::class
             ]);
         }
+    }
 
+
+    /**
+     * configureRoutes
+     *
+     * @return void
+     */
+    protected function configureRoutes()
+    {
         Route::group(['prefix' => 'kk','namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard.index');
             Route::resource('roles', 'RolesController');
@@ -64,6 +92,9 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     protected function configurePublishing()
     {
+        $databasePath = $this->app->databasePath();
+        $basePath     = $this->app->basePath();
+
         $publishes = [
             ['from' => '/database/migrations',      'to' => $databasePath.'/migrations',           'tag' => 'migrations'],
             ['from' => '/database/seeders',         'to' => $databasePath.'/seeders',              'tag' => 'seeders'],
