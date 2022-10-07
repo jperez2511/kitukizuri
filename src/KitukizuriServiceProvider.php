@@ -34,6 +34,8 @@ class KitukizuriServiceProvider extends ServiceProvider
         
         $this->callAfterResolving(BladeCompiler::class, function () {
             $this->registerComponent('input');
+            $this->registerComponent('select');
+            $this->registerComponent('password');
         });
 
         if($this->app->runningInConsole()) {

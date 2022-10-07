@@ -1,0 +1,22 @@
+@props([
+    'columnClass' => 'col-md-6',
+    'inputClass'  => '',
+    'collection'  => [],
+    'label',
+])
+
+@php
+    $collection = json_decode($collection);
+@endphp
+
+<div class="{{$columnClass}}">
+    <div class="form-group">
+        <label>{{ $label }}</label>
+        <select {!! $attributes->merge(['class' => 'form-control']) !!}>
+            @foreach ($collection as $item)
+                <option value="{{$item->id}}">{{$item->value}}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+

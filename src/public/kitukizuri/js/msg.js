@@ -78,6 +78,11 @@ var data = {
         "titulo": "El operador <code>{bad}</code> No es un operador valido",
         "comentario": "Los parámetros permitidos son los siguientes:",
         "codigo": "<?php \n\nnamespace kitukizuri\\training; \n\nuse Krud; \nuse Icebearsoft\\Models\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setOrWhere('valor 1', 'valor 2'); // <- operador = por defecto \n\t\t$this->setOrWhere('valor 1', '!=','valor 2'); // <- diferente operador \n\t}\n}"
+    },
+    "badColumnDefinition": {
+        "titulo": "El parámetro column no tiene un formato válido",
+        "comentario": "El formato permitido es el siguiente:",
+        "codigo": "<?php \n\nnamespace kitukizuri\\training; \n\nuse Krud; \nuse Icebearsoft\\Models\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$collect = Trainig::select('columnaA', 'columnaB', 'columnaC')->get();\n\t\t$this->setCampo(['nombre'=>'Label del campo', 'campo'=>'nombre_columna_base_de_datos', 'tipo'=>'combobox', 'collect' => $collect, 'column'=>['ColumnaA', 'ColumnaB']]); \n\t}\n}"
     }
 }
 

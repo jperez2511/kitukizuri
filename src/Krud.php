@@ -63,22 +63,23 @@ class Krud extends Controller
         'not similar to', 'not ilike', '~~*', '!~~*',
     ];
     private $typeError = [
-        'setModelo', // 0
-        'setCampo', // 1
-        'badType', // 2
-        'badOptionsView', // 3
-        'badTypeButton', // 4
-        'badView', // 5
-        'badCalendarView', // 6
-        'typeCombo', // 7
-        'typeCollect', // 8
-        'filepath', // 9
-        'enum', // 10
-        'value', // 11
-        'badJoinOperator', // 12
-        'badLeftJoinOperator', // 13
-        'badWhereOperator', // 14
-        'badOrWhereOperator', // 15
+        'setModelo',            // 0
+        'setCampo',             // 1
+        'badType',              // 2
+        'badOptionsView',       // 3
+        'badTypeButton',        // 4
+        'badView',              // 5
+        'badCalendarView',      // 6
+        'typeCombo',            // 7
+        'typeCollect',          // 8
+        'filepath',             // 9
+        'enum',                 // 10
+        'value',                // 11
+        'badJoinOperator',      // 12
+        'badLeftJoinOperator',  // 13
+        'badWhereOperator',     // 14
+        'badOrWhereOperator',   // 15
+        'badColumnDefinition'   // 16
     ];
 
     // viables únicas para vista calendario
@@ -254,16 +255,21 @@ class Krud extends Controller
     protected function setCampo($params)
     {
         $allowed = [
-            'campo', 'column', 'columnclass', 'collect',
-            'default', 'decimales',
-            'edit', 'enumarray',
-            'filepath', 'filewidth', 'fileheight', 'format',
-            'inputclass',
-            'nombre',
-            'reglas', 'reglasmensaje', 
-            'show',
+            'campo', // Campo de la base de datos  
+            'column', // Para el tipo combobox permite seleccionar las columnas a utilizar
+            'columnClass', // clase para columnas en html (bootstrap)
+            'collect', // Colección de datos para el campo combobox
+            'default', 
+            'decimales',
+            'edit', 'enumArray', 
+            'filepath', 'fileWidth', 'fileHeight', 'format',
+            'htmlType', 'htmlAttr',
+            'inputClass', 
+            'nombre', 
+            'reglas', 'reglasMensaje', 
+            'show', 
             'tipo', 'target', 
-            'unique',
+            'unique', 
             'value', 
         ];
         $tipos = [
@@ -276,15 +282,39 @@ class Krud extends Controller
             'icono', 'image', 
             'numeric', 
             'password',
-            'string', 'summernote', 
+            'string',
+            'text',
             'textarea',
             'url',
+        ];
+        $component = [
+            'bool'     => 'bool',
+            'combobox' => 'select',
+            'numeric'  => 'input',
+        ];
+        $htmlType = [
+            'string'  => 'text',
+            'bool'    => 'checkbox',
+            'date'    => 'date',
+            'numeric' => 'number',
+            
         ];
 
         $this->allowed($params, $allowed, $this->typeError[2]);
 
         if (!array_key_exists('campo', $params)) {
             return $this->errors = ['tipo' => $this->typeError[1]];
+        }
+
+        // validando tipo y longitud de columns 
+        if ($params['tipo'] == 'combobox' && !empty($params['column'])) {
+            $tipo = \is_array($params['column']);
+            $longitud = count($params['column']) == 2;
+
+            if(!$tipo || !$longitud) {
+                return $this->errors = ['tipo' => $this->typeError[1]];
+            }
+            
         }
 
         $params['nombre']    = $params['nombre'] ?? str_replace('_', ' ', ucfirst($params['campo']));
@@ -294,6 +324,16 @@ class Krud extends Controller
         $params['decimales'] = $params['decimales'] ?? 0;
         $params['format']    = $params['format'] ?? '';
         $params['unique']    = $params['unique'] ?? false;
+        $params['input']     = $component[$params['tipo']] ?? 'input';
+        $params['htmlType']  = $htmlType[$params['tipo']] ?? 'text';
+        $params['htmlAttr']  = $params['htmlAttr'] ?? null;
+        
+        
+
+
+
+
+
 
         if (!in_array($params['tipo'], $tipos)) {
             $this->errors = ['tipo' => $this->typeError[2], 'bad' => $params['tipo'], 'permitidos' => $tipos];

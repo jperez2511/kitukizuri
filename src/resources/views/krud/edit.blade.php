@@ -6,106 +6,50 @@
             display: none;
         }
     </style>
-    @if (!empty(Session::get('type')) && !empty(Session::get('msg')))
+     @if (!empty(Session::get('type')) && !empty(Session::get('msg')))
         <div class="alert alert-{{Session::get('type')}}" role="alert">
             {{Session::get('msg')}}
         </div>    
     @endif
-    
     <form action="{{$action}}" method="post" enctype="multipart/form-data">
-        @csrf
+        <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
         <input type="hidden" name="id" id="id" value="{{$id}}">
         <input type="hidden" name="{{$parent}}" id="{{$parent}}" value="{{$parentid}}">
         @foreach($parents as $p)
             <input type="hidden" name="{{$p['nombre']}}" id="{{$p['nombre']}}">
         @endforeach
         <div class="row">
-            @foreach($campos as $campo)
-                @php $nombre = array_key_exists('campoReal', $campo) ? $c['campoReal'] : $campo['campo']; @endphp
-
+            @foreach($campos as $c)
+                @php 
+                    $nombre        = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo'];
+                    $componentName = "krud-".$c['input'];
+                    $columnClass   = !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6';
+                    $inputClass    = !empty($c['inputClass']) ? $c['inputClass'] : null ;
+                    $editClass     = $c['edit'] == false ? 'hide' : '';
+                    $collection    = json_encode(!empty($c['collect']) ? $c['collect'] : []);
+                    $value         = !empty($c['value']) ? $c['value'] : null;
+                @endphp
                 
-
-
-
-
-
-
-
-                
-                @if($c['tipo'] != 'password')
-                    <div class="{!! !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6' !!}">
-                        <div class="form-group">
-                            @if($c['tipo'] != 'bool' && $c['tipo'] != 'hidden' && $c['edit'] != false)
-                                <label for="{{$nombre}}">{{$c['nombre']}}</label>
-                            @endif
-                            
-                            @if((($c['tipo'] == 'string' || $c['tipo'] == 'date') && $c['edit'] == true))
-                                <input type="{{$c['tipo'] == 'date' ? 'date' : 'text'}}" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? $c['value'] : null}}" class="form-control {!! !empty($c['inputclass']) ? $c['inputclass'] : null !!}">
-                            @elseif($c['tipo'] == 'numeric')
-                                <input type="text" name="{{$nombre}}" id="{{$nombre}}" value="{{!empty($c['value']) ? number_format($c['value'])  : null}}" onfocusout="$(this).val(number_format($(this).val(), 2))" class="form-control">
-                            @elseif($c['tipo'] == 'combobox')
-                                <select name="{{$nombre}}" id="{{$nombre}}" class="form-control">
-                                    @foreach($c['options'] as $op)
-                                        <option value="{{$op[0]}}" {{!empty($c['value']) && $op[0] == $c['value'] ? 'selected' : ''}}>{{$op[1]}}</option>
-                                    @endforeach
-                                </select>    
-                            @elseif($c['tipo'] == 'icono')
-                                <button class="btn btn-default form-control" name="{{$nombre}}" data-iconset="glyphicon" {{!empty($c['value']) ? 'data-icon='.$c['value'] : null}} role="iconpicker"></button>
-                            @elseif($c['tipo'] == 'textarea')
-                                <textarea name="{{$nombre}}" class="form-control" id="{{$nombre}}" cols="30" rows="10">{{!empty($c['value']) ? $c['value'] : null}}</textarea>
-                            @elseif($c['tipo'] == 'enum')
-                                <select name="{{$nombre}}" class="form-control">
-                                    @foreach($c['enumarray'] as $v)
-                                        <option value="{{$v}}">{{$v}}</option>
-                                    @endforeach
-                                </select>
-                            @elseif($c['tipo'] == 'image' || $c['tipo'] == 'file' || $c['tipo'] == 'file64')
-                                <input type="file" name="{{$nombre}}" class="form-control" id="{{$nombre}}">
-                            @elseif($c['tipo'] == 'bool')
-                                <input type="checkbox" name="{{$nombre}}" id="{{$nombre}}" {{!empty($c['value']) ? 'checked' : null}}>
-                                <label for="{{$nombre}}">{{$c['nombre']}}</label>
-                            @endif 
-                        </div>
-                    </div>
+                @if($c['tipo'] != 'password' && $c['edit'] == true)
+                    <x-dynamic-component 
+                        :component="$componentName" 
+                        columnClass="{{$columnClass}} {{$editClass}}" 
+                        inputClass="{{$inputClass}}"
+                        label="{{$c['nombre']}}"
+                        name="{{$nombre}}"
+                        id="{{$nombre}}"
+                        collection="{!! $collection !!}"
+                        type="{{$c['htmlType']}}"
+                        value="{{$value}}"
+                    />
                 @else
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{$c['nombre']}}</label>
-                                    <input type="password" name="{{$nombre}}" id="{{$nombre}}" onkeyup="comparar('{{$nombre}}')" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Confirmar {{$c['nombre']}}</label>
-                                    <input type="password" name="" id="{{$nombre}}_2" onkeyup="comparar('{{$nombre}}')" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-dynamic-component 
+                        :component="$componentName" 
+                        nombre="{{$nombre}}"
+                    />
                 @endif
             @endforeach
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-        
-        
-       
-        
         @if(empty($embed))
             <div class="col-md-12 text-right">
                 <p id="msgError" class="hide" align="justify" style="color: darkred;">
