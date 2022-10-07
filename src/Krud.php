@@ -255,45 +255,50 @@ class Krud extends Controller
     protected function setCampo($params)
     {
         $allowed = [
-            'campo', // Campo de la base de datos  
-            'column', // Para el tipo combobox permite seleccionar las columnas a utilizar
-            'columnClass', // clase para columnas en html (bootstrap)
-            'collect', // Colección de datos para el campo combobox
-            'default', 
-            'decimales',
-            'edit', 'enumArray', 
-            'filepath', 'fileWidth', 'fileHeight', 'format',
-            'htmlType', 'htmlAttr',
-            'inputClass', 
-            'nombre', 
-            'reglas', 'reglasMensaje', 
-            'show', 
-            'tipo', 'target', 
-            'unique', 
-            'value', 
+            'campo',        // Campo de la base de datos  
+            'column',       // Para el tipo combobox permite seleccionar las columnas a utilizar
+            'columnClass',  // clase para columnas en html (bootstrap)
+            'collect',      // Colección de datos para el campo combobox
+            'edit',         // Valor boolean, muestra o no el input en el edit
+            'enumArray',    // array de datos para el tipo de dato enum
+            'filepath',     // dirección donde se almacenaran los archivos
+            'format',       // establece el formato para diferentes tipos de campos
+            'htmlType',     // establece el tipo de dato a utilizar en un input siempre que aplique
+            'htmlAttr',     // Agrega atributos HTML a los campos definidos para editar
+            'inputClass',   // añade clases CSS a campo a agregar. 
+            'nombre',       // es el label del campo que queremos que se muestre en la pantalla 
+            'show',         // visibilidad del campo en la tabla de la vista index 
+            'tipo',         // Define el tipo de campo a utilizar 
+            'target',       // Para los campos URL establece el target
+            'unique',       // valida que el valor ingresado se único
+            'value',        // Valor definido o predeterminado. 
         ];
         $tipos = [
-            'bool',
-            'combobox', 
-            'date', 'datetime', 
-            'enum',
-            'file', 'file64',
-            'hidden', 
-            'icono', 'image', 
-            'numeric', 
-            'password',
-            'string',
-            'text',
-            'textarea',
-            'url',
+            'bool',         // Muestra un checkbox en el edit y un si o no en el index
+            'combobox',     // Muestra un select simple 
+            'date',         // Input con formato tipo fecha
+            'datetime',     // Input en formato fecha y hora
+            'enum',         // Select con valores determinados
+            'file',         // Guarda un archivo en una ubicación definida
+            'file64',       // Guarda un archivo codificado en base64
+            'hidden',       // Muestra un campo hidden en el formulario edit.
+            'icono',        // Muestra un campo para seleccionar un icono
+            'image',        // Guarda una imagen en formato Base64
+            'numeric',      // Muestra un campo de tipo number en HTML y le da formato en el index
+            'password',     // Muestra dos campos contraseña y confirmar contraseña
+            'string',       // Tipo por defecto muestra un input tipo text
+            'text',         // La misma definición de string
+            'textarea',     // Muestra un campo textArea en el formulario edit
+            'url',          // Establece  una url con parámetros personalizados. 
         ];
-        $component = [
-            'combobox' => 'select',
+        $component = [      // Nombre del componente a utilizar
+            'combobox' => 'select', 
             'enum'     => 'select',
-            'password' => 'password'
+            'password' => 'password',
+            'textarea' => 'textarea',
         ];
-        $htmlType = [
-            'string'   => 'text',
+        $htmlType = [       // relación entre tipos de datos HTML y locales
+            'string'   => 'text', 
             'bool'     => 'checkbox',
             'date'     => 'date',
             'numeric'  => 'number',
@@ -344,7 +349,6 @@ class Krud extends Controller
             if(!$tipo || !$longitud) {
                 return $this->errors = ['tipo' => $this->typeError[1]];
             }
-            
         }
 
         if (!in_array($params['tipo'], $tipos)) {
@@ -387,7 +391,7 @@ class Krud extends Controller
 
     /**
      * setJoin
-     * Define las relaciones a utilizar entre las tablas y que estaran disponbles para mostrar 
+     * Define las relaciones a utilizar entre las tablas y que estarán disponibles para mostrar 
      * en la tabla de la vista index.
      *
      * @param  mixed $tabla
@@ -931,10 +935,10 @@ class Krud extends Controller
         $response = [];
         $permisos = $this->getPermisos(Auth::id());
 
-        //Contador de datos a renderizar
+        //Contador de datos para el render
         $response['draw'] = intval($request->draw);
         
-        // Datos para paginacion
+        // Datos para paginado de datos
         $limit   = $request->length != '' ? $request->length : 10;
         $offset  = $request->start ? $request->start : 0;
         $columns = $this->getColumnas($this->getSelectShow(), true);

@@ -5,10 +5,13 @@
     'label'
 ])
 
-
 @php
-    if($type != 'checkbox'){
+    if($type != 'checkbox') {
         $inputClass = 'form-control';
+    }
+    
+    if($type == 'hidden') {
+        $columnClass = 'hide';
     }
 @endphp
 

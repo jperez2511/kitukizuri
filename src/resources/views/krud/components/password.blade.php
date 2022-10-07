@@ -16,7 +16,7 @@
 </div>
 <div class="col-md-6">
     <div class="form-group">
-        <label>Confirmar {{$nombre}}</label>
+        <label>Confirmar {{$label}}</label>
         <input 
             type="password"
             name="{{$nombre}}"
@@ -25,7 +25,6 @@
             class="form-control">
     </div>
 </div>
-
 
 @push('scripts')
     <script>
