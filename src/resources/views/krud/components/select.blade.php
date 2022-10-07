@@ -12,7 +12,7 @@
 <div class="{{$columnClass}}">
     <div class="form-group">
         <label>{{ $label }}</label>
-        <select {!! $attributes->merge(['class' => 'form-control']) !!}>
+        <select {!! $attributes->merge(['class' => $inputClass]) !!}>
             @foreach ($collection as $item)
                 <option value="{{$item->id}}">{{$item->value}}</option>
             @endforeach

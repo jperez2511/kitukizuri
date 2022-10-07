@@ -41,7 +41,7 @@ class KitukizuriServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/resources/views/krud', 'krud');
         $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri', 'kitukizuri');
-        
+
         $this->callAfterResolving(BladeCompiler::class, function () {
             $this->registerComponent('input');
             $this->registerComponent('select');

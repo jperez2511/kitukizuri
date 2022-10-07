@@ -46,6 +46,7 @@
                     <x-dynamic-component 
                         :component="$componentName" 
                         nombre="{{$nombre}}"
+                        label="{{$c['nombre']}}"
                     />
                 @endif
             @endforeach
@@ -106,20 +107,6 @@
                 $('#municipioid').append(muni);
             });
         });
-
-        // --------------------------------
-        // Compara dos valores se utiliza
-        // para validar las contraseñas
-        // ---------------------------------
-        function comparar(nombre){
-            if($('#'+nombre).val() != $('#'+nombre+'_2').val()){
-                $('#msgError').removeClass('hide');
-                $('#guardar').hide();
-            }else{
-                $('#msgError').addClass('hide');
-                $('#guardar').show();
-            }
-        }
 
         // --------------------------------
         // Establece el formato numerico

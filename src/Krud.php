@@ -288,33 +288,26 @@ class Krud extends Controller
             'url',
         ];
         $component = [
-            'bool'     => 'bool',
             'combobox' => 'select',
-            'numeric'  => 'input',
+            'enum'     => 'select',
+            'password' => 'password'
         ];
         $htmlType = [
-            'string'  => 'text',
-            'bool'    => 'checkbox',
-            'date'    => 'date',
-            'numeric' => 'number',
-            
+            'string'   => 'text',
+            'bool'     => 'checkbox',
+            'date'     => 'date',
+            'numeric'  => 'number',
+            'image'    => 'file',
+            'file'     => 'file',
+            'file64'   => 'file',
+            'hidden'   => 'hidden',
+            'password' => 'password'
         ];
 
         $this->allowed($params, $allowed, $this->typeError[2]);
 
         if (!array_key_exists('campo', $params)) {
             return $this->errors = ['tipo' => $this->typeError[1]];
-        }
-
-        // validando tipo y longitud de columns 
-        if ($params['tipo'] == 'combobox' && !empty($params['column'])) {
-            $tipo = \is_array($params['column']);
-            $longitud = count($params['column']) == 2;
-
-            if(!$tipo || !$longitud) {
-                return $this->errors = ['tipo' => $this->typeError[1]];
-            }
-            
         }
 
         $params['nombre']    = $params['nombre'] ?? str_replace('_', ' ', ucfirst($params['campo']));
@@ -328,12 +321,16 @@ class Krud extends Controller
         $params['htmlType']  = $htmlType[$params['tipo']] ?? 'text';
         $params['htmlAttr']  = $params['htmlAttr'] ?? null;
         
-        
+        // validando tipo y longitud de columns 
+        if ($params['tipo'] == 'combobox' && !empty($params['column'])) {
+            $tipo = \is_array($params['column']);
+            $longitud = count($params['column']) == 2;
 
-
-
-
-
+            if(!$tipo || !$longitud) {
+                return $this->errors = ['tipo' => $this->typeError[1]];
+            }
+            
+        }
 
         if (!in_array($params['tipo'], $tipos)) {
             $this->errors = ['tipo' => $this->typeError[2], 'bad' => $params['tipo'], 'permitidos' => $tipos];
@@ -1133,7 +1130,7 @@ class Krud extends Controller
                     $file  = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
                     $valor = $file;
                 } else {
-                    $valor = $this->model->{$k};
+                    $valor = $this->model->{$nombreCampo};
                 }
             } else if ($campo['tipo'] == 'file') {
                 if ($request->hasFile($nombreCampo)) {
@@ -1146,7 +1143,7 @@ class Krud extends Controller
                     $file->move($path, $filename);
                     $valor = $file;
                 } else {
-                    $valor = $this->model->{$k};
+                    $valor = $this->model->{$nombreCampo};
                 }
             } else if ($campo['tipo'] == 'bool') {
                 $valor = $valor == 'on';
