@@ -20,32 +20,22 @@
         @endforeach
         <div class="row">
             @foreach($campos as $c)
-                @php 
-                    $nombre        = array_key_exists('campoReal', $c) ? $c['campoReal'] : $c['campo'];
-                    $componentName = "krud-".$c['input'];
-                    $columnClass   = !empty($c['columnclass']) ? $c['columnclass'] : 'col-md-6';
-                    $inputClass    = !empty($c['inputClass']) ? $c['inputClass'] : null ;
-                    $editClass     = $c['edit'] == false ? 'hide' : '';
-                    $collection    = json_encode(!empty($c['collect']) ? $c['collect'] : []);
-                    $value         = !empty($c['value']) ? $c['value'] : null;
-                @endphp
-                
                 @if($c['tipo'] != 'password' && $c['edit'] == true)
                     <x-dynamic-component 
-                        :component="$componentName" 
-                        columnClass="{{$columnClass}} {{$editClass}}" 
-                        inputClass="{{$inputClass}}"
+                        :component="$c['component']" 
+                        columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
+                        inputClass="{{$c['inputClass']}}"
                         label="{{$c['nombre']}}"
-                        name="{{$nombre}}"
-                        id="{{$nombre}}"
-                        collection="{!! $collection !!}"
+                        name="{{$c['inputName']}}"
+                        id="{{$c['inputName']}}"
+                        collection="{!! $c['collect'] !!}"
                         type="{{$c['htmlType']}}"
-                        value="{{$value}}"
+                        value="{{$c['value']}}"
                     />
                 @else
                     <x-dynamic-component 
-                        :component="$componentName" 
-                        nombre="{{$nombre}}"
+                        :component="$c['component']" 
+                        nombre="{{$c['inputName']}}"
                         label="{{$c['nombre']}}"
                     />
                 @endif

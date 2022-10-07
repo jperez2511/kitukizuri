@@ -304,23 +304,38 @@ class Krud extends Controller
             'password' => 'password'
         ];
 
+        // validando datos permitidos
         $this->allowed($params, $allowed, $this->typeError[2]);
-
         if (!array_key_exists('campo', $params)) {
             return $this->errors = ['tipo' => $this->typeError[1]];
         }
 
-        $params['nombre']    = $params['nombre'] ?? str_replace('_', ' ', ucfirst($params['campo']));
-        $params['edit']      = $params['edit'] ?? true;
-        $params['show']      = $params['show'] ?? true;
-        $params['tipo']      = $params['tipo'] ?? 'string';
-        $params['decimales'] = $params['decimales'] ?? 0;
-        $params['format']    = $params['format'] ?? '';
-        $params['unique']    = $params['unique'] ?? false;
-        $params['input']     = $component[$params['tipo']] ?? 'input';
-        $params['htmlType']  = $htmlType[$params['tipo']] ?? 'text';
-        $params['htmlAttr']  = $params['htmlAttr'] ?? null;
-        
+         // capturando el nombre real del campo
+         if (!strpos($params['campo'], ')')) {
+            $arr = explode('.', $params['campo']);
+            if (count($arr)>=2) {
+                $params['campoReal'] = end($arr);
+            }
+        }
+
+        $params['nombre']      = $params['nombre'] ?? str_replace('_', ' ', ucfirst($params['campo']));
+        $params['edit']        = $params['edit'] ?? true;
+        $params['show']        = $params['show'] ?? true;
+        $params['tipo']        = $params['tipo'] ?? 'string';
+        $params['decimales']   = $params['decimales'] ?? 0;
+        $params['format']      = $params['format'] ?? '';
+        $params['unique']      = $params['unique'] ?? false;
+        $params['input']       = $component[$params['tipo']] ?? 'input';
+        $params['htmlType']    = $htmlType[$params['tipo']] ?? 'text';
+        $params['htmlAttr']    = $params['htmlAttr'] ?? null;
+        $params['inputName']   = $params['campoReal'] ?? $params['campo'];
+        $params['component']   = "krud-".$params['input'];
+        $params['columnClass'] = $params['columnClass'] ?? 'col-md-6';
+        $params['inputClass']  = $params['inputClass'] ?? null ;
+        $params['editClass']   = $params['edit'] == false ? 'hide' : '';
+        $params['collect']     = $params['collect'] ?? null;
+        $params['value']       = $params['value'] ?? null;
+
         // validando tipo y longitud de columns 
         if ($params['tipo'] == 'combobox' && !empty($params['column'])) {
             $tipo = \is_array($params['column']);
@@ -365,12 +380,7 @@ class Krud extends Controller
             }
         }
         
-        if (!strpos($params['campo'], ')')) {
-            $arr = explode('.', $params['campo']);
-            if (count($arr)>=2) {
-                $params['campoReal'] = end($arr);
-            }
-        }
+        
 
         $this->campos[] = $params;
     }
