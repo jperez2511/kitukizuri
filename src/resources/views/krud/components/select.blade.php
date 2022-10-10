@@ -1,6 +1,7 @@
 @props([
     'columnClass' => 'col-md-6',
-    'inputClass'  => '',
+    'inputClass'  => 'form-control',
+    'type' => '',
     'collection'  => [],
     'label',
 ])

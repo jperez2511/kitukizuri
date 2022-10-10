@@ -1124,6 +1124,10 @@ class Krud extends Controller
                     return $item;
                 }
             })->first();
+
+            if(empty($campo)) {
+                continue;
+            }
             
             // validando el campo segun el tipo de dato
             if ($campo['unique'] == true && $campo['edit'] == true && $id == 0) {
