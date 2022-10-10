@@ -1186,7 +1186,7 @@ class Krud extends Controller
         $uriQuery = '?';
         $uriItems = [];
         foreach($this->parents as $parent) {
-            if($parent['editable' === true]) {
+            if($parent['editable'] === true) {
                 $this->model->{$parent['nombre']} = $parent['value'];
             } else {
                 $uriItems[] = $parent['nombre'].'='.$parent['value'];
