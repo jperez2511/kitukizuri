@@ -153,9 +153,10 @@ class Krud extends Controller
      *
      * @return void
      */
-    protected function setParents($nombre, $value)
+    protected function setParents($nombre, $value, $editable = null)
     {
-        array_push($this->parents, ['nombre' => $nombre, 'value'=>$value]);
+        $editable = $editable === true;
+        $this->parents[] = ['nombre' => $nombre, 'value'=>$value, 'editable' => $editable];
     }
 
     /**
@@ -1177,6 +1178,19 @@ class Krud extends Controller
             }
         }
 
+        // recorriendo parents para agregar a la base de datos
+        $uriQuery = '?';
+        $uriItems = [];
+        foreach($this->parents as $parent) {
+            if($parent['editable' === true]) {
+                $this->model->{$parent['nombre']} = $parent['value'];
+            } else {
+                $uriItems[] = $parent['nombre'].'='.$parent['value'];
+            }
+        }
+
+        $uriQuery .= implode('&', $uriItems);
+
         try {
             $this->model->save();
             Session::flash('type', 'success');
@@ -1188,6 +1202,9 @@ class Krud extends Controller
 
         // Retornando mensaje de guardado 
         $url = $request->url();
+        if(!empty($uriItems)) {
+            $url.$uriQuery;
+        }
 
         return redirect($url);
     }
