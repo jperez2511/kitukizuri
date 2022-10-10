@@ -50,7 +50,6 @@ class KitukizuriServiceProvider extends ServiceProvider
         });
     }
 
-
     /**
      * configureCommands
      *
