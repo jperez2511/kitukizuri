@@ -31,6 +31,6 @@ class EmpresasController extends Krud
             'class'  => 'outline-success',
             'icon'   => 'mdi mdi-group'
         ]);
-        $this->setLayout('krud.layout');
+        $this->setLayout('krud::layout');
     }
 }

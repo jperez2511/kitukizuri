@@ -29,7 +29,7 @@ class RolesPermisosController extends Controller
         return view('kitukizuri::modulopermisos', [
             'modulos' => $modulos,
             'rmp'     => $rmp,
-            'layout'  => 'krud.layout',
+            'layout'  => 'krud::layout',
             'titulo'  => 'Permisos',
             'dash'    => true,
             'kmenu'   => true,

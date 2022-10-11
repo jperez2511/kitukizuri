@@ -10,12 +10,16 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{asset('kitukizuri/images/logo.svg')}}">
 
+        @php 
+            $isDark = !empty(config('kitukizuri.dark')) ? '-dark' : null;
+        @endphp
+
         <!-- Bootstrap Css -->
-        <link href="{{asset('/kitukizuri/css/bootstrap-dark.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('/kitukizuri/css/bootstrap'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
         <link href="{{asset('/kitukizuri/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="{{asset('/kitukizuri/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('/kitukizuri/css/app'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
 
     </head>
 

@@ -50,7 +50,7 @@ class PermisosController extends Controller
 			'modulo'   => Crypt::encrypt($id),
 			'permisos' => $permisos,
 			'mp'       => $mp,
-			'layout'   => 'krud.layout',
+			'layout'   => 'krud::layout',
 			'titulo'   => 'Permisos'
 		]);
 	}
