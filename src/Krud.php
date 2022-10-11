@@ -364,16 +364,19 @@ class Krud extends Controller
                 if (empty($params['collect'])) {
                     $this->errors = ['tipo' => $this->typeError[7]];
                 } else {
-                    $columns = ['id', 'value'];
-                    $hasID    = !empty($params['collect']->first()[$columns[0]]);
-                    $hasValue = !empty($params['collect']->first()[$columns[1]]);
-                    if($hasID && $hasValue){
-                        $params['options'] = $params['collect']->map(function($item){
-                            return array_values($item->toArray());
-                        })->toArray();
-                        $params['show'] = false;
-                    } else {
-                        $this->errors = ['tipo' => $this->typeError[8], 'permitidos' => $columns];
+                    $columns = !empty($params['column']) ? $params['column'] : ['id', 'value'];
+                    
+                    if($params['collect']->isNotEmpty()){
+                        $hasID    = !empty($params['collect']->first()[$columns[0]]);
+                        $hasValue = !empty($params['collect']->first()[$columns[1]]);
+                        if($hasID && $hasValue){
+                            $params['options'] = $params['collect']->map(function($item){
+                                return array_values($item->toArray());
+                            })->toArray();
+                            $params['show'] = false;
+                        } else {
+                            $this->errors = ['tipo' => $this->typeError[8], 'permitidos' => $columns];
+                        }
                     }
                 }
             } else if ($tipo == 'file' && empty($params['filepath'])) {
@@ -1165,7 +1168,7 @@ class Krud extends Controller
                     $valor = $this->model->{$nombreCampo};
                 }
             } else if ($campo['tipo'] == 'bool') {
-                $valor = $valor == 'on';
+                $valor = $valor == 'on' || $valor == 0;
             } else if ($campo['tipo'] == 'hidden') {
                 $this->model->{$nombreCampo} = $valor == 'userid' ? Auth::id() : $valor;
             }
@@ -1189,7 +1192,7 @@ class Krud extends Controller
             if($parent['editable'] === true) {
                 $this->model->{$parent['nombre']} = $request->{$parent['value']};
             } else {
-                $uriItems[] = $parent['nombre'].'='.$request->{$parent['value']};
+                $uriItems[] = $parent['nombre'].'='.$request->{$parent['value']};;
             }
         }
 
