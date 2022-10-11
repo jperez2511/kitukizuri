@@ -982,7 +982,6 @@ class Krud extends Controller
                     </a>';
             } else {
                 foreach($this->botones as $boton) {
-                    //dd($boton);
                     $boton['url'] = str_replace('{id}', $item['__id__'], $boton['url']);
                     $btns .= '<a 
                         data-toggle="tooltip" data-placement="left" title="'.$boton['nombre'].'" 
@@ -997,7 +996,7 @@ class Krud extends Controller
             if(in_array('edit', $permisos)) {
                 $btns .= '<a 
                     href="javascript:void(0)"
-                    data-toggle="tooltip" data-placement="left" title="Editar" 
+                    data-toggle="tooltip" data-placement="left" title="'.__('Editar').'" 
                     onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" 
                     class="btn btn-xs btn-sm '.$classBtnEdit.'">
                         <span class="'.$icnEdit.'"></span>
@@ -1007,7 +1006,7 @@ class Krud extends Controller
             if(in_array('destroy', $permisos)) {
                 $btns .= '<a 
                     href="javascript:void(0)"
-                    data-toggle="tooltip" data-placement="left" title="Eliminar" 
+                    data-toggle="tooltip" data-placement="left" title="'.__('Eliminar').'" 
                     onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" 
                     class="btn btn-xs btn-sm '.$classBtnDelete.'">
                         <span class="'.$icnDelete.'"></span>
