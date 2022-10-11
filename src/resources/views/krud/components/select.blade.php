@@ -1,8 +1,9 @@
 @props([
     'columnClass' => 'col-md-6',
     'inputClass'  => 'form-control',
-    'type' => '',
+    'type'        => '',
     'collection'  => [],
+    'value'       => ''
     'label',
 ])
 
@@ -15,7 +16,7 @@
         <label>{{ $label }}</label>
         <select {!! $attributes->merge(['class' => $inputClass]) !!}>
             @foreach ($collection as $item)
-                <option value="{{$item->id}}">{{$item->value}}</option>
+                <option value="{{$item->id}}" {{$value == $item->id ? 'selected' : null}}>{{$item->value}}</option>
             @endforeach
         </select>
     </div>
