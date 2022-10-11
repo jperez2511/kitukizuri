@@ -10,18 +10,23 @@
     <meta name="author" content="Ice Bear Soft">
     <!-- Favicon icon -->
     <link rel="icon" type="image/svg" sizes="16x16" href="{{asset('kitukizuri/images/logo.svg')}}">
-    <title>Kitu Kizuri</title>
+    <title>{{ $titulo ?? 'Kitu Kizuri'}}</title>
     
     @yield('styles')
     
     @stack('css')
 
+    @php 
+        $isDark = !empty(config('kitukizuri.dark')) ? '-dark' : null;
+        $sideBar = (!empty($isDark) || !empty(config('kitukizuri.darkSideBar')) ? 'dark' : null); 
+    @endphp
+
     <!-- Bootstrap -->
-    <link href="{{asset('/kitukizuri/css/bootstrap'.(!empty(config('kitukizuri.dark')) && config('kitukizuri.dark') == true ? '-dark' : null).'.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('/kitukizuri/css/bootstrap'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{asset('/kitukizuri/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
      <!-- App Css-->
-     <link href="{{asset('/kitukizuri/css/app.(!empty(config('kitukizuri.dark')) && config('kitukizuri.dark') == true ? '-dark' : null)..min.css')}}" rel="stylesheet" type="text/css" />
+     <link href="{{asset('/kitukizuri/css/app'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
 
      <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
 
@@ -33,7 +38,7 @@
 <![endif]-->
 </head>
 
-<body data-sidebar="{{(!empty(config('kitukizuri.dark')) && config('kitukizuri.dark') == true ? 'dark' : null)}}" class="sidebar-enable">
+<body data-sidebar="{{$sideBar}}" class="sidebar-enable">
     <!-- Begin page -->
     <div id="layout-wrapper">
         <header id="page-topbar">
