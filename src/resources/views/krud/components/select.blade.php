@@ -3,12 +3,15 @@
     'inputClass'  => 'form-control',
     'type'        => '',
     'collection'  => [],
-    'value'       => ''
+    'value'       => '',
     'label',
 ])
 
 @php
     $collection = json_decode($collection);
+    if(empty($inputClass)) {
+        $inputClass = 'form-control';
+    }
 @endphp
 
 <div class="{{$columnClass}}">
