@@ -13,13 +13,15 @@
     <title>Kitu Kizuri</title>
     
     @yield('styles')
+    
+    @stack('css')
 
     <!-- Bootstrap -->
-    <link href="{{asset('/kitukizuri/css/bootstrap-dark.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('/kitukizuri/css/bootstrap'.(!empty(config('kitukizuri.dark')) && config('kitukizuri.dark') == true ? '-dark' : null).'.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{asset('/kitukizuri/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
      <!-- App Css-->
-     <link href="{{asset('/kitukizuri/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" />
+     <link href="{{asset('/kitukizuri/css/app.(!empty(config('kitukizuri.dark')) && config('kitukizuri.dark') == true ? '-dark' : null)..min.css')}}" rel="stylesheet" type="text/css" />
 
      <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
 
@@ -31,7 +33,7 @@
 <![endif]-->
 </head>
 
-<body data-sidebar="dark" class="sidebar-enable">
+<body data-sidebar="{{(!empty(config('kitukizuri.dark')) && config('kitukizuri.dark') == true ? 'dark' : null)}}" class="sidebar-enable">
     <!-- Begin page -->
     <div id="layout-wrapper">
         <header id="page-topbar">
@@ -370,6 +372,8 @@
 
     <script src="{{asset('kitukizuri/js/app.js')}}"></script>
     
+    @stack('js')
+
     @yield('scripts')
 
     <script>
