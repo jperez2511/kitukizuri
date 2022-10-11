@@ -1187,9 +1187,9 @@ class Krud extends Controller
         $uriItems = [];
         foreach($this->parents as $parent) {
             if($parent['editable'] === true) {
-                $this->model->{$parent['nombre']} = $parent['value'];
+                $this->model->{$parent['nombre']} = $request->{$parent['value']};
             } else {
-                $uriItems[] = $parent['nombre'].'='.$parent['value'];
+                $uriItems[] = $parent['nombre'].'='.$request->{$parent['value']};
             }
         }
 
@@ -1207,7 +1207,7 @@ class Krud extends Controller
         // Retornando mensaje de guardado 
         $url = $request->url();
         if(!empty($uriItems)) {
-            $url.$uriQuery;
+            $url .= $uriQuery;
         }
 
         return redirect($url);
