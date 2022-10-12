@@ -1176,6 +1176,10 @@ class Krud extends Controller
 
         // validando campos sin valor 
         foreach ($this->campos as $campo) {
+            if (!is_string($campo['campo'])) {
+                continue;
+            }
+
             $campoReal = !empty($campo['campoReal']) ? $campo['campoReal'] : $campo['campo'];
             if (!array_key_exists($campoReal, $requestData)) {
                 if ($campo['tipo'] == 'bool') {
