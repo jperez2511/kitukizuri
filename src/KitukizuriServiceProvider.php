@@ -73,7 +73,9 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     protected function configureRoutes()
     {
-        Route::group(['prefix' => 'kk','namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
+        $prefix = config('kitukizuri.routePrefix') ?? 'krud';
+
+        Route::group(['prefix' => $prefix,'namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard.index');
             Route::resource('roles', 'RolesController');
             Route::resource('modulos', 'ModulosController');
