@@ -30,6 +30,7 @@
                         id="{{$c['inputName']}}"
                         collection="{!! $c['collect'] !!}"
                         type="{{$c['htmlType']}}"
+                        attr="{{$c['htmlAttr']}}"
                         value="{{$c['value']}}"
                     />
                 @else

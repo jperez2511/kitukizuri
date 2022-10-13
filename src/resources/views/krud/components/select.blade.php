@@ -4,6 +4,7 @@
     'type'        => '',
     'collection'  => [],
     'value'       => '',
+    'attr'        => [],
     'label',
 ])
 
@@ -11,6 +12,10 @@
     $collection = json_decode($collection);
     if(empty($inputClass)) {
         $inputClass = 'form-control';
+    }
+
+    if(!empty($attr)) {
+        $attributes = $attributes->merge($attr);
     }
 @endphp
 

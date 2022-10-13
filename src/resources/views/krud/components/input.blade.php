@@ -2,6 +2,7 @@
     'columnClass' => 'col-md-6',
     'inputClass'  => '',
     'type'        => 'text',
+    'attr'        => [],
     'label'
 ])
 
@@ -17,6 +18,10 @@
     
     if($type == 'hidden') {
         $columnClass = 'hide';
+    }
+
+    if(!empty($attr)) {
+        $attributes = $attributes->merge($attr);
     }
 
 @endphp

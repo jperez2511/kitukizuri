@@ -1,6 +1,7 @@
 @props([
     'columnClass' => 'col-md-6',
     'inputClass'  => '',
+    'attr'        => [],
     'label',
     'value' => ''
 ])
@@ -8,6 +9,10 @@
 @php
     if(empty($inputClass)) {
         $inputClass = 'form-control';
+    }
+
+    if(!empty($attr)) {
+        $attributes = $attributes->merge($attr);
     }
 @endphp
 
