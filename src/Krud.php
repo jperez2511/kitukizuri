@@ -332,7 +332,6 @@ class Krud extends Controller
         $params['format']      = $params['format'] ?? '';
         $params['unique']      = $params['unique'] ?? false;
         $params['input']       = $component[$params['tipo']] ?? 'input';
-        $params['htmlAttr']    = $params['htmlAttr'] ?? null;
         $params['inputName']   = $params['campoReal'] ?? $params['campo'];
         $params['component']   = "krud-".$params['input'];
         $params['columnClass'] = $params['columnClass'] ?? 'col-md-6';
@@ -345,6 +344,16 @@ class Krud extends Controller
             $params['htmlType'] = $htmlType[$params['tipo']] ?? 'text'; 
         }
 
+        if(!empty($params['htmlAttr'])){
+            if(is_array($params['htmlAttr'])){
+                $params['htmlAttr'] = collect($params['htmlAttr']);
+            } else if(is_string($params['htmlAttr'])) {
+                $params['htmlAttr'] = collect([$params['htmlAttr'] => true]);
+            }
+        } else {
+            $params['htmlAttr'] = null;
+        }
+        
         // validando tipo y longitud de columns 
         if ($params['tipo'] == 'combobox' && !empty($params['column'])) {
             $tipo = \is_array($params['column']);

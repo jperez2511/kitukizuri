@@ -21,6 +21,7 @@
     }
 
     if(!empty($attr)) {
+        $attr = (array) json_decode($attr);
         $attributes = $attributes->merge($attr);
     }
 
