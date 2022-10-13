@@ -561,8 +561,18 @@ class Krud extends Controller
         $municipios = Municipio::select('municipioid', 'nombre')->where('departamentoid', $departamentoid)->get();
         return $municipios;
     }
-
     
+    /**
+     * getDefaultPrefix
+     *
+     * @return void
+     */
+    public function getDefaultPrefix()
+    {
+        return config('kitukizuri.routePrefix') ?? 'krud';
+    }
+
+
     /**
      * transformData
      * Transforma la data según el estilo visual de bootstrap.
@@ -574,6 +584,8 @@ class Krud extends Controller
     private function transformData($data, $prefix = null)
     {
         $i = 0;
+        $prefixDefault = $this->getDefaultPrefix();
+
         foreach ($data as $a) {
             foreach ($a as $k => $v) {
                 foreach ($this->campos as $cn => $cv) {
@@ -586,7 +598,8 @@ class Krud extends Controller
                     if ($k == $cv['campo']) {
                         // agregando estilo visual a los campos booleanos
                         if ($cv['tipo'] == 'bool') {
-                            $v = '<span class="'.($prefix != null && $prefix == 'kk' ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? 'Si' : 'No').'</span>';
+                            
+                            $v = '<span class="'.($prefix != null && $prefix == $prefixDefault ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? __('Si') : 'No').'</span>';
                             $data[$i][$k] = $v;
                         } else if ($cv['tipo'] == 'url') {
                             if($cv['format'] != '') {
@@ -839,8 +852,9 @@ class Krud extends Controller
     {
         $view  = 'krud.calendar';
         $kmenu = false;
-        
-        if ($prefix != null && $prefix == 'kk') {
+        $prefixDefault = $this->getDefaultPrefix();
+
+        if ($prefix != null && $prefix == $prefixDefault) {
             $view = 'krud::calendar';
             $kmenu = true;
         }
@@ -871,15 +885,16 @@ class Krud extends Controller
 
     private function setTableView($prefix, $layout)
     {
-        $botones    = json_encode($this->botones);
-        $ruta       = $this->getModuloRuta();
-        $view       = 'krud.index';
-        $dtBtnAdd   = config('kitukizuri.dtBtnAdd');
-        $dtBtnLiner = config('kitukizuri.dtBtnLiner');
-        $kmenu      = false;
-        $vBootstrap = config('kitukizuri.vBootstrap');
+        $botones       = json_encode($this->botones);
+        $ruta          = $this->getModuloRuta();
+        $view          = 'krud.index';
+        $dtBtnAdd      = config('kitukizuri.dtBtnAdd');
+        $dtBtnLiner    = config('kitukizuri.dtBtnLiner');
+        $kmenu         = false;
+        $vBootstrap    = config('kitukizuri.vBootstrap');
+        $prefixDefault = $this->getDefaultPrefix();
 
-        if ($prefix != null && $prefix == 'kk') {
+        if ($prefix != null && $prefix == $prefixDefault) {
             $view       = 'krud::index';
             $dtBtnAdd   = 'btn btn-outline-success';
             $dtBtnLiner = 'btn btn-outline-secondary';
@@ -928,9 +943,10 @@ class Krud extends Controller
         $classBtnDelete  = config('kitukizuri.classBtnDelete');
         $classBtnOptions = config('kitukizuri.classBtnOptions');
         
-        $prefix = Route::current()->action['prefix'];
+        $prefix        = Route::current()->action['prefix'];
+        $prefixDefault = $this->getDefaultPrefix();
 
-        if ($prefix != null && $prefix == 'kk') {
+        if ($prefix != null && $prefix == $prefixDefault) {
             $icnEdit         = 'mdi mdi-pencil-outline';
             $icnDelete       = 'mdi mdi-trash-can-outline';
             $icnOptions      = 'mdi mdi-plus';
@@ -1070,11 +1086,12 @@ class Krud extends Controller
         $url    = $this->getUrl($request->url());
         $layout = $this->getLayout();
 
-        $prefix = Route::current()->action['prefix'];
-        $view   = 'krud.edit';
-        $kmenu  = false;
+        $prefix        = Route::current()->action['prefix'];
+        $view          = 'krud.edit';
+        $kmenu         = false;
+        $prefixDefault = $this->getDefaultPrefix();
 
-        if ($prefix != null && $prefix == 'kk') {
+        if ($prefix != null && $prefix == $prefixDefault) {
             $view = 'krud::edit';
             $kmenu = true;
         }
@@ -1179,6 +1196,10 @@ class Krud extends Controller
 
         // validando campos sin valor 
         foreach ($this->campos as $campo) {
+            if (!is_string($campo['campo'])) {
+                continue;
+            }
+
             $campoReal = !empty($campo['campoReal']) ? $campo['campoReal'] : $campo['campo'];
             if (!array_key_exists($campoReal, $requestData)) {
                 if ($campo['tipo'] == 'bool') {

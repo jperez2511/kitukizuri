@@ -29,7 +29,12 @@ class KituKizuri extends Controller
         $estado = false;
 
         // Obteniendo nombre de la ruta
-        $ruta         = explode('.', $ruta);
+        $ruta = explode('.', $ruta);
+
+        if(count($ruta) != 2) {
+            dd('falta agregar un nombre a la ruta');   
+        }
+
         $nombreRuta   = $ruta[1];
         $moduloNombre = $ruta[0];
 
