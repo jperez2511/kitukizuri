@@ -32,54 +32,67 @@ class ModulosSeeder extends Seeder
 
 	private function saveData()
 	{
-		foreach($this->modulos as $modulo)	{
-			// validando si existe el modulo
-			$moduloid = DB::table('modulos')
-				->where('ruta',$modulo['ruta'])
-				->value('moduloid');
+		DB::beginTransaction();
 
-			if(empty($moduloid)) {
-				$moduloid = DB::table('modulos')->insertGetId([
-					'nombre' => $modulo['nombre'], 
-					'ruta' => $modulo['ruta']
-				]);
-			}
-
-			// validando permisos
-			$permisosActuales = DB::table('moduloPermiso')
-				->select('modulopermisoid', 'permisoid')
-				->where('moduloid', $moduloid)
-				->get();
+		try {
+			DB::statement('SET FOREIGN_KEY_CHECKS=0');
+			DB::table('modulos')->truncate();
 			
-			// eliminando permisos si ya no existen
-			foreach($permisosActuales as $permisoActual) {
-				if(!in_array($permisoActual->permisoid, $modulo['permisos'])) {
-					
-					DB::table('moduloPermiso')
-						->where('moduloid', $moduloid)
-						->where('permisoid', $permisoActual->permisoid)
-						->delete();
-					
-					// quitando asignación de permiso al rol
-					DB::table('rolModuloPermiso')
-						->where('modulopermisoid', $permisoActual->modulopermisoid)
-						->delete();
-				}
-			}
-
-			// agregando nuevos permisos
-			$actuales = $permisosActuales->pluck('permisoid')->toArray();
-			foreach($modulo['permisos'] as  $permiso) {
-				if(!in_array($permiso, $actuales)) {
-					DB::table('moduloPermiso')->insert([
-						'moduloid' => $moduloid,
-						'permisoid' => $permiso
+			foreach($this->modulos as $modulo)	{
+				// validando si existe el modulo
+				$moduloid = DB::table('modulos')
+					->where('ruta',$modulo['ruta'])
+					->value('moduloid');
+	
+				if(empty($moduloid)) {
+					$moduloid = DB::table('modulos')->insertGetId([
+						'nombre' => $modulo['nombre'],
+						'ruta'   => $modulo['ruta']
 					]);
+				} 
+	
+				// validando permisos
+				$permisosActuales = DB::table('moduloPermiso')
+					->select('modulopermisoid', 'permisoid')
+					->where('moduloid', $moduloid)
+					->get();
+				
+				// eliminando permisos si ya no existen
+				foreach($permisosActuales as $permisoActual) {
+					if(!in_array($permisoActual->permisoid, $modulo['permisos'])) {
+						
+						DB::table('moduloPermiso')
+							->where('moduloid', $moduloid)
+							->where('permisoid', $permisoActual->permisoid)
+							->delete();
+						
+						// quitando asignación de permiso al rol
+						DB::table('rolModuloPermiso')
+							->where('modulopermisoid', $permisoActual->modulopermisoid)
+							->delete();
+					}
+				}
+	
+				// agregando nuevos permisos
+				$actuales = $permisosActuales->pluck('permisoid')->toArray();
+				foreach($modulo['permisos'] as  $permiso) {
+					if(!in_array($permiso, $actuales)) {
+						DB::table('moduloPermiso')->insert([
+							'moduloid' => $moduloid,
+							'permisoid' => $permiso
+						]);
+					}
 				}
 			}
+	
+			DB::statement('UPDATE modulos SET created_at=NOW(), updated_at=NOW()');
+			DB::statement('UPDATE moduloPermiso SET created_at=NOW(), updated_at=NOW()');
+			DB::statement('SET FOREIGN_KEY_CHECKS=1');
+			
+			DB::commit();
+		} catch (\Exception $e) {
+			DB::rollback();
+			dd($e->getMessage());
 		}
-
-		DB::statement('UPDATE modulos SET created_at=NOW(), updated_at=NOW()');
-		DB::statement('UPDATE moduloPermiso SET created_at=NOW(), updated_at=NOW()');
 	}
 }
