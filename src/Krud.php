@@ -1159,7 +1159,7 @@ class Krud extends Controller
             if(empty($campo)) {
                 continue;
             }
-            
+
             // validando el campo segun el tipo de dato
             if ($campo['unique'] == true && $campo['edit'] == true && $id == 0) {
                 $validate = $this->model->where($nombreCampo, $valor)->exists();
@@ -1196,7 +1196,7 @@ class Krud extends Controller
                     $valor = $this->model->{$nombreCampo};
                 }
             } else if ($campo['tipo'] == 'bool') {
-                $valor = $valor == 'on' || $valor == 0;
+                $valor = $valor == 'on' || $valor == 0 || $valor == 1 ;
             } else if ($campo['tipo'] == 'hidden') {
                 $this->model->{$nombreCampo} = $valor == 'userid' ? Auth::id() : $valor;
             }
