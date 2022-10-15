@@ -182,7 +182,7 @@
                                                 <p>para hacer una configuración correcta seguir el siguiente ejemplo:</p>
                                             </div>
                                         </div>
-                                        <div id="editor"> </div>
+                                        <div id="editor" style="width: 100%; height:600px;"> </div>
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                     require(['vs/editor/editor.main'], function () {
                         editor = monaco.editor.create(el, {
                             theme: 'vs-dark',
-                            model: monaco.editor.createModel(code, "php")
+                            model: monaco.editor.createModel(code.codigo, "php")
                         });
                         editor.layout();
                     });
