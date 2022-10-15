@@ -20,25 +20,27 @@
         @endforeach
         <div class="row">
             @foreach($campos as $c)
-                @if($c['tipo'] != 'password' && $c['edit'] == true)
-                    <x-dynamic-component 
-                        :component="$c['component']" 
-                        columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
-                        inputClass="{{$c['inputClass']}}"
-                        label="{{$c['nombre']}}"
-                        name="{{$c['inputName']}}"
-                        id="{{$c['inputName']}}"
-                        collection="{!! $c['collect'] !!}"
-                        type="{{$c['htmlType']}}"
-                        attr="{!! $c['htmlAttr'] !!}"
-                        value="{{$c['value']}}"
-                    />
-                @else
-                    <x-dynamic-component 
-                        :component="$c['component']" 
-                        nombre="{{$c['inputName']}}"
-                        label="{{$c['nombre']}}"
-                    />
+                @if ($c['edit'] == true)
+                    @if($c['tipo'] != 'password')
+                        <x-dynamic-component 
+                            :component="$c['component']" 
+                            columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
+                            inputClass="{{$c['inputClass']}}"
+                            label="{{$c['nombre']}}"
+                            name="{{$c['inputName']}}"
+                            id="{{$c['inputName']}}"
+                            collection="{!! $c['collect'] !!}"
+                            type="{{$c['htmlType']}}"
+                            attr="{!! $c['htmlAttr'] !!}"
+                            value="{{$c['value']}}"
+                        />
+                    @else
+                        <x-dynamic-component 
+                            :component="$c['component']" 
+                            nombre="{{$c['inputName']}}"
+                            label="{{$c['nombre']}}"
+                        />
+                    @endif
                 @endif
             @endforeach
         </div>
