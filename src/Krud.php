@@ -416,12 +416,12 @@ class Krud extends Controller
      * Define las reglas que debe cumplir el input que se está validando
      *
      * @param  string $name
-     * @param  string $rule
+     * @param  string|array $rule
      * @return void
      */
     private function setValidationItem($name, $rule) 
     {
-        $this->validations[] = [$name => $rule];
+        $this->validations[$name] = $rule;
     }
 
     /**

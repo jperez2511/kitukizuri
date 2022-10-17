@@ -31,6 +31,9 @@
     <div class="form-group">
         <label>{{ $label }}</label>
         <input type="{{ $type }}" {!! $attributes->merge(['class' => $inputClass]) !!} />
+        @error($attributes['name'])
+            <small class="text-danger">{{$message}}</small>
+        @enderror
     </div>
 </div>
 
