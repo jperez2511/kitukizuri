@@ -51,6 +51,7 @@ class Krud extends Controller
     private $errors       = [];
     private $whereAndFn  = [];
     private $viewOptions = [];
+    private $validations = [];
     private $template  = [
         'datatable',
     ];
@@ -339,6 +340,7 @@ class Krud extends Controller
         $params['editClass']   = $params['edit'] == false ? 'hide' : '';
         $params['collect']     = $params['collect'] ?? null;
         $params['value']       = $params['value'] ?? null;
+        $params['validation']  = $params['validation'] ?? null;
 
         if(empty($params['htmlType'])){
             $params['htmlType'] = $htmlType[$params['tipo']] ?? 'text'; 
@@ -401,8 +403,25 @@ class Krud extends Controller
         }
         
         
+        if(!empty($params['validation'])) {
+            $this->setValidationItem($params['inputName'], $params['validation']);
+        }
 
+        
         $this->campos[] = $params;
+    }
+    
+    /**
+     * setValidationItem
+     * Define las reglas que debe cumplir el input que se está validando
+     *
+     * @param  string $name
+     * @param  string $rule
+     * @return void
+     */
+    private function setValidationItem($name, $rule) 
+    {
+        $this->validations[] = [$name => $rule];
     }
 
     /**
@@ -417,7 +436,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function setJoin($tabla, $v1, $operador = null, $v2 = null)
+    protected function setJoin($tabla, $v1, $operador = null, $v2 = null)
     {
         if (func_num_args() === 3) {
             $v2 = $operador;
@@ -1130,20 +1149,14 @@ class Krud extends Controller
      */
     public function store(Request $request)
     {
-
-        dd($request->all());
-
-
-
-
-
-
-
         try {
             $id = Crypt::decrypt($request->input('id'));
         } catch (Exception $e) {
             dd($e);
         }
+
+        // validando campos 
+        $request->validate($this->validations);
 
         if ($id != 0) {
             $this->model = $this->model->find($id);
