@@ -206,6 +206,7 @@ animals:
     - locust
     - monkey
     - mosquito
+    - mouse-field
     - narwhal
     - otter
     - paw
@@ -811,7 +812,7 @@ business:
     - scale-balanced
     - scale-unbalanced
     - scale-unbalanced-flip
-    - scanner
+    - scanner-image
     - scissors
     - shredder
     - signature
@@ -827,6 +828,7 @@ business:
     - square-phone-flip
     - square-poll-horizontal
     - square-poll-vertical
+    - stapler
     - table
     - table-columns
     - table-layout
@@ -871,6 +873,8 @@ camping:
     - fishing-rod
     - flashlight
     - frog
+    - grill
+    - grill-fire
     - kit-medical
     - map
     - map-location
@@ -1089,6 +1093,8 @@ clothing-fashion:
     - sunglasses
     - uniform-martial-arts
     - user-tie
+    - vest
+    - vest-patches
   label: Clothing + Fashion
 coding:
   icons:
@@ -1419,6 +1425,7 @@ design:
     - crop
     - crop-simple
     - crosshairs
+    - crosshairs-simple
     - cube
     - cubes
     - distribute-spacing-horizontal
@@ -1491,7 +1498,7 @@ design:
     - ruler-combined
     - ruler-horizontal
     - ruler-vertical
-    - scanner
+    - scanner-image
     - scissors
     - scribble
     - send-back
@@ -1500,6 +1507,7 @@ design:
     - spray-can
     - square-dashed
     - stamp
+    - stapler
     - swatchbook
     - symbols
     - vector-circle
@@ -1579,7 +1587,7 @@ devices-hardware:
     - router
     - satellite
     - satellite-dish
-    - scanner
+    - scanner-image
     - sd-card
     - sd-cards
     - server
@@ -1976,6 +1984,7 @@ energy:
     - lamp-street
     - leaf
     - lightbulb
+    - lightbulb-cfl
     - manhole
     - meter
     - meter-bolt
@@ -2458,9 +2467,9 @@ gaming:
     - spade
     - sparkles
     - square-full
+    - square-steam
     - staff
     - steam
-    - steam-square
     - steam-symbol
     - sword
     - swords
@@ -2623,6 +2632,8 @@ holidays:
     - party-bell
     - party-horn
     - pinata
+    - ring-diamond
+    - rings-wedding
     - rv
     - sleigh
     - snowman
@@ -2688,6 +2699,8 @@ household:
     - garage
     - garage-car
     - garage-open
+    - grill
+    - grill-fire
     - heat
     - hose
     - hose-reel
@@ -2708,6 +2721,8 @@ household:
     - jar-wheat
     - jug-detergent
     - kitchen-set
+    - knife
+    - knife-kitchen
     - lamp
     - lamp-desk
     - lamp-floor
@@ -2716,11 +2731,14 @@ household:
     - light-switch-off
     - light-switch-on
     - lightbulb
+    - lightbulb-cfl
+    - lightbulb-cfl-on
     - lightbulb-on
     - loveseat
     - mailbox
     - mattress-pillow
     - microwave
+    - mouse-field
     - mug-saucer
     - outlet
     - oven
@@ -2766,6 +2784,7 @@ household:
     - toilet-paper-slash
     - toilet-paper-under
     - toilet-paper-under-slash
+    - toilet-paper-xmark
     - tv
     - tv-retro
     - utensils
@@ -2961,7 +2980,7 @@ humanitarian:
     - mountain-sun
     - oil-well
     - parachute-box
-    - people-arrows-left-right
+    - people-arrows
     - people-group
     - people-line
     - people-pulling
@@ -3056,7 +3075,7 @@ humanitarian:
     - square-nfi
     - square-person-confined
     - square-virus
-    - staff-aesculapius
+    - staff-snake
     - stethoscope
     - suitcase-medical
     - sun-plant-wilt
@@ -3242,6 +3261,7 @@ maps:
     - circle-parking
     - compass-slash
     - crosshairs
+    - crosshairs-simple
     - diamond-turn-right
     - do-not-enter
     - dollar-sign
@@ -3447,6 +3467,8 @@ marketing:
     - group-arrows-rotate
     - hundred-points
     - lightbulb
+    - lightbulb-cfl
+    - lightbulb-cfl-on
     - lightbulb-dollar
     - lightbulb-exclamation
     - lightbulb-on
@@ -3698,7 +3720,7 @@ medical-health:
     - square-h
     - square-plus
     - square-virus
-    - staff-aesculapius
+    - staff-snake
     - star-of-life
     - stethoscope
     - stomach
@@ -3981,6 +4003,7 @@ nature:
     - binoculars
     - bug
     - bugs
+    - cactus
     - cannabis
     - chestnut
     - cloud-sun
@@ -4242,6 +4265,8 @@ religion:
     - star-and-crescent
     - star-of-david
     - synagogue
+    - tombstone
+    - tombstone-blank
     - torii-gate
     - vihara
     - yin-yang
@@ -4320,6 +4345,7 @@ science-fiction:
     - robot-astromech
     - rocket
     - rocket-launch
+    - space-awesome
     - space-station-moon
     - space-station-moon-construction
     - starfighter
@@ -4927,8 +4953,8 @@ time:
     - flux-capacitor
     - hourglass
     - hourglass-clock
-    - hourglass-empty
     - hourglass-end
+    - hourglass-half
     - hourglass-start
     - house-day
     - house-night
@@ -4985,6 +5011,8 @@ toggle:
     - star
     - star-half
     - star-half-stroke
+    - toggle-large-off
+    - toggle-large-on
     - toggle-off
     - toggle-on
     - wifi
@@ -5177,6 +5205,7 @@ travel-hotel:
     - plate-utensils
     - refrigerator
     - restroom-simple
+    - ring-diamond
     - rings-wedding
     - rv
     - seat-airline
@@ -5194,9 +5223,12 @@ travel-hotel:
     - ticket-airline
     - tickets-airline
     - toilet
+    - toilet-paper
     - toilet-paper-blank-under
+    - toilet-paper-check
     - toilet-paper-under
     - toilet-paper-under-slash
+    - toilet-paper-xmark
     - tower-control
     - train-subway-tunnel
     - train-tram
@@ -5273,7 +5305,7 @@ users-people:
     - images-user
     - mars-and-venus-burst
     - people
-    - people-arrows-left-right
+    - people-arrows
     - people-carry-box
     - people-dress
     - people-dress-simple

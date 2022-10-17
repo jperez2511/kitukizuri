@@ -350,7 +350,6 @@ hire-a-helper:
     - box-taped
     - container-storage
     - couch
-    - dolly
     - dolly-empty
     - lamp
     - loveseat
@@ -694,6 +693,11 @@ red-river:
     - red-river
   label: red river
   url: 'https://river.red'
+rep-toolkit:
+  icons:
+    - mouse-field
+  label: Rep Toolkit LLC
+  url: 'https://www.reptoolkit.com'
 replyd:
   icons:
     - replyd
@@ -847,7 +851,6 @@ stay-linked:
     - conveyor-belt
     - conveyor-belt-boxes
     - dolly
-    - dolly-empty
     - forklift
     - hand-holding-box
     - hands-holding-diamond
@@ -937,7 +940,6 @@ the-us-sunnah-foundation:
     - handshake
     - handshake-angle
     - handshake-simple
-    - heart
     - house-heart
     - leaf
     - leaf-heart
@@ -1057,7 +1059,6 @@ un-ocha:
     - house-flood-water
     - house-flood-water-circle-arrow-right
     - house-lock
-    - house-medical
     - house-medical-circle-check
     - house-medical-circle-exclamation
     - house-medical-circle-xmark
@@ -1156,11 +1157,10 @@ un-ocha:
     - shield-dog
     - shield-heart
     - shop-lock
-    - skull-crossbones
     - square-nfi
     - square-person-confined
     - square-virus
-    - staff-aesculapius
+    - staff-snake
     - sun-plant-wilt
     - tarp
     - tarp-droplet

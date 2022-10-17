@@ -1987,6 +1987,7 @@ arrow-pointer:
     - 5.0.0
     - 5.0.3
     - 6.0.0-beta1
+    - 6.1.2
   label: Arrow pointer
   search:
     terms: []
@@ -4053,6 +4054,8 @@ baguette:
   voted: false
 bahai:
   aliases:
+    names:
+      - haykal
     unicodes:
       secondary:
         - 10f666
@@ -4652,6 +4655,7 @@ bat:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Bat
   search:
     terms: []
@@ -4902,6 +4906,7 @@ bed:
     - 5.0.0
     - 5.1.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Bed
   search:
     terms: []
@@ -4921,6 +4926,7 @@ bed-bunk:
   changes:
     - 5.12.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Bunkbed
   search:
     terms: []
@@ -4942,6 +4948,7 @@ bed-empty:
   changes:
     - 5.12.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Bed Empty
   search:
     terms: []
@@ -4963,6 +4970,7 @@ bed-front:
   changes:
     - 5.12.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Bed front
   search:
     terms: []
@@ -4984,6 +4992,7 @@ bed-pulse:
   changes:
     - 5.0.7
     - 6.0.0-beta1
+    - 6.1.2
   label: Bed pulse
   search:
     terms: []
@@ -5058,18 +5067,6 @@ behance:
   styles:
     - brands
   unicode: f1b4
-  voted: false
-behance-square:
-  changes:
-    - 4.1.0
-    - 5.0.0
-    - 5.0.3
-  label: Behance Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f1b5
   voted: false
 bell:
   aliases:
@@ -5937,6 +5934,7 @@ bomb:
     - 5.0.0
     - 6.0.0-beta1
     - 6.0.0
+    - 6.1.2
   label: Bomb
   search:
     terms: []
@@ -6452,6 +6450,7 @@ bookmark:
     - 5.0.0
     - 5.10.2
     - 6.0.0-beta1
+    - 6.1.2
   label: bookmark
   search:
     terms: []
@@ -6466,6 +6465,7 @@ bookmark:
 bookmark-slash:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Bookmark Slash
   search:
     terms: []
@@ -6928,6 +6928,7 @@ bow-arrow:
 bowl-chopsticks:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Bowl Chopsticks
   search:
     terms: []
@@ -6956,6 +6957,7 @@ bowl-chopsticks-noodles:
 bowl-food:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Bowl Food
   search:
     terms: []
@@ -6977,6 +6979,7 @@ bowl-hot:
   changes:
     - 5.7.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Bowl hot
   search:
     terms: []
@@ -6992,6 +6995,7 @@ bowl-rice:
   changes:
     - 6.0.0-beta1
     - 6.1.0
+    - 6.1.2
   label: Bowl Rice
   search:
     terms: []
@@ -7062,6 +7066,7 @@ bowl-spoon:
         - 1f963
   changes:
     - 6.0.0-beta2
+    - 6.1.2
   label: Bowl Spoon
   search:
     terms: []
@@ -8840,10 +8845,20 @@ cabinet-filing:
   unicode: f64b
   voted: false
 cable-car:
+  aliases:
+    names:
+      - tram
+    unicodes:
+      composite:
+        - 1f6a1
+        - e0cf
+      secondary:
+        - 10f7da
   changes:
     - 6.0.0-beta1
     - 6.0.0-beta2
     - 6.0.0-beta3
+    - 6.1.2
   label: Cable Car
   search:
     terms: []
@@ -8853,7 +8868,7 @@ cable-car:
     - light
     - thin
     - duotone
-  unicode: e0cf
+  unicode: f7da
   voted: false
 cactus:
   aliases:
@@ -10987,6 +11002,7 @@ cc-amex:
     - 4.2.0
     - 5.0.0
     - 5.7.0
+    - 6.1.2
   label: American Express Credit Card
   search:
     terms: []
@@ -12490,6 +12506,7 @@ chrome:
   changes:
     - 4.4.0
     - 5.0.0
+    - 6.1.2
   label: Chrome
   search:
     terms: []
@@ -14640,6 +14657,7 @@ claw-marks:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Claw Marks
   search:
     terms: []
@@ -16004,6 +16022,7 @@ cloudversify:
 clover:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Clover
   search:
     terms: []
@@ -17571,6 +17590,7 @@ cowbell:
   changes:
     - 5.11.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Cowbell
   search:
     terms: []
@@ -17592,6 +17612,7 @@ cowbell-circle-plus:
   changes:
     - 5.11.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Cowbell circle plus
   search:
     terms: []
@@ -18018,6 +18039,20 @@ crosshairs:
     - thin
     - duotone
   unicode: f05b
+  voted: false
+crosshairs-simple:
+  changes:
+    - 6.1.2
+  label: Crosshairs Simple
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e59f
   voted: false
 crow:
   aliases:
@@ -18474,6 +18509,7 @@ deer:
   changes:
     - 5.6.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Deer
   search:
     terms: []
@@ -18493,6 +18529,7 @@ deer-rudolph:
   changes:
     - 5.6.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Deer Rudolph
   search:
     terms: []
@@ -20194,16 +20231,6 @@ dribbble:
     - brands
   unicode: f17d
   voted: false
-dribbble-square:
-  changes:
-    - 5.0.0
-  label: Dribbble Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f397
-  voted: false
 drone:
   aliases:
     unicodes:
@@ -20495,6 +20522,7 @@ duck:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Duck
   search:
     terms: []
@@ -20863,6 +20891,7 @@ edge:
     - 4.5.0
     - 5.0.0
     - 5.12.1
+    - 6.1.2
   label: Edge Browser
   search:
     terms: []
@@ -20979,6 +21008,7 @@ elephant:
     - 5.4.0
     - 5.10.1
     - 6.0.0-beta1
+    - 6.1.2
   label: Elephant
   search:
     terms: []
@@ -21584,6 +21614,7 @@ expeditedssl:
 explosion:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Explosion
   search:
     terms: []
@@ -21863,6 +21894,7 @@ face-awesome:
   changes:
     - 6.0.0-beta2
     - 6.0.0-beta3
+    - 6.1.2
   label: Face Awesome
   search:
     terms: []
@@ -23918,18 +23950,6 @@ facebook-messenger:
     - brands
   unicode: f39f
   voted: false
-facebook-square:
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.8.2
-  label: Facebook Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f082
-  voted: false
 falafel:
   aliases:
     unicodes:
@@ -24471,6 +24491,7 @@ file-circle-check:
   changes:
     - 6.0.0
     - 6.1.0
+    - 6.1.2
   label: File Circle-Check
   search:
     terms: []
@@ -24480,7 +24501,7 @@ file-circle-check:
     - light
     - thin
     - duotone
-  unicode: e493
+  unicode: e5a0
   voted: false
 file-circle-exclamation:
   changes:
@@ -24497,8 +24518,13 @@ file-circle-exclamation:
   unicode: e4eb
   voted: false
 file-circle-info:
+  aliases:
+    unicodes:
+      composite:
+        - e4ec
   changes:
     - 6.0.0
+    - 6.1.2
   label: File Circle-Info
   search:
     terms: []
@@ -24508,7 +24534,7 @@ file-circle-info:
     - light
     - thin
     - duotone
-  unicode: e4ec
+  unicode: e493
   voted: false
 file-circle-minus:
   changes:
@@ -24525,9 +24551,14 @@ file-circle-minus:
   unicode: e4ed
   voted: false
 file-circle-plus:
+  aliases:
+    unicodes:
+      composite:
+        - e4ee
   changes:
     - 6.0.0
     - 6.1.0
+    - 6.1.2
   label: File Circle-plus
   search:
     terms: []
@@ -24537,7 +24568,7 @@ file-circle-plus:
     - light
     - thin
     - duotone
-  unicode: e4ee
+  unicode: e494
   voted: false
 file-circle-question:
   changes:
@@ -24556,6 +24587,7 @@ file-circle-question:
 file-circle-xmark:
   changes:
     - 6.1.0
+    - 6.1.2
   label: File Circle-xmark
   search:
     terms: []
@@ -24565,7 +24597,7 @@ file-circle-xmark:
     - light
     - thin
     - duotone
-  unicode: e494
+  unicode: e5a1
   voted: false
 file-code:
   aliases:
@@ -24639,6 +24671,7 @@ file-dashed-line:
   changes:
     - 5.9.0
     - 6.0.0-beta1
+    - 6.1.2
   label: File dashed line
   search:
     terms: []
@@ -25359,6 +25392,8 @@ film:
   voted: false
 film-canister:
   aliases:
+    names:
+      - film-cannister
     unicodes:
       secondary:
         - 10f8b7
@@ -25579,6 +25614,7 @@ fire:
 fire-burner:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Fire Burner
   search:
     terms: []
@@ -26763,6 +26799,7 @@ font-awesome:
     unicodes:
       composite:
         - f4e6
+        - f425
       primary:
         - f4e6
       secondary:
@@ -26773,6 +26810,7 @@ font-awesome:
     - 5.0.0
     - 5.15.4
     - 6.0.0-beta1
+    - 6.1.2
   label: Font Awesome
   ligatures:
     - Font Awesome
@@ -27374,12 +27412,16 @@ gamepad-modern:
       - gamepad-alt
     unicodes:
       composite:
+        - f8bc
         - 1f3ae
+      primary:
+        - f8bc
       secondary:
         - 10f8bc
   changes:
     - 5.11.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Gamepad modern
   search:
     terms: []
@@ -27389,7 +27431,7 @@ gamepad-modern:
     - light
     - thin
     - duotone
-  unicode: f8bc
+  unicode: e5a2
   voted: false
 garage:
   aliases:
@@ -28090,18 +28132,6 @@ git-alt:
     - brands
   unicode: f841
   voted: false
-git-square:
-  changes:
-    - 4.1.0
-    - 5.0.0
-    - 5.8.2
-  label: Git Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f1d2
-  voted: false
 github:
   changes:
     - 2.0.0
@@ -28124,17 +28154,6 @@ github-alt:
     - brands
   unicode: f113
   voted: false
-github-square:
-  changes:
-    - 1.0.0
-    - 5.0.0
-  label: GitHub Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f092
-  voted: false
 gitkraken:
   changes:
     - 5.0.0
@@ -28151,6 +28170,7 @@ gitlab:
     - 5.0.0
     - 5.7.0
     - 6.0.0-beta1
+    - 6.1.2
   label: GitLab
   search:
     terms: []
@@ -28179,6 +28199,7 @@ glass:
     - 5.7.0
     - 6.0.0-beta1
     - 6.0.0-beta2
+    - 6.1.2
   label: Glass
   search:
     terms: []
@@ -28213,6 +28234,7 @@ glass-empty:
   changes:
     - 6.0.0-beta1
     - 6.0.0-beta2
+    - 6.1.2
   label: Glass Empty
   search:
     terms: []
@@ -28232,6 +28254,7 @@ glass-half:
   changes:
     - 6.0.0-beta1
     - 6.0.0-beta2
+    - 6.1.2
   label: Glass Half
   search:
     terms: []
@@ -28246,6 +28269,7 @@ glass-half:
 glass-water:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Glass Water
   search:
     terms: []
@@ -28260,6 +28284,7 @@ glass-water:
 glass-water-droplet:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Glass Water-droplet
   search:
     terms: []
@@ -28574,17 +28599,6 @@ google-plus-g:
     - brands
   unicode: f0d5
   voted: false
-google-plus-square:
-  changes:
-    - 2.0.0
-    - 5.0.0
-  label: Google Plus Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f0d4
-  voted: false
 google-wallet:
   changes:
     - 4.2.0
@@ -28877,6 +28891,48 @@ grid-horizontal:
     - thin
     - duotone
   unicode: e307
+  voted: false
+grill:
+  changes:
+    - 6.1.2
+  label: Grill
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5a3
+  voted: false
+grill-fire:
+  changes:
+    - 6.1.2
+  label: Grill Fire
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5a4
+  voted: false
+grill-hot:
+  changes:
+    - 6.1.2
+  label: Grill Hot
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5a5
   voted: false
 grip:
   aliases:
@@ -29298,16 +29354,6 @@ hacker-news:
   styles:
     - brands
   unicode: f1d4
-  voted: false
-hacker-news-square:
-  changes:
-    - 5.0.0
-  label: Hacker News Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f3af
   voted: false
 hackerrank:
   changes:
@@ -30182,6 +30228,7 @@ hands-holding:
   changes:
     - 5.0.9
     - 6.0.0-beta1
+    - 6.1.2
   label: Hands holding
   search:
     terms: []
@@ -30196,6 +30243,7 @@ hands-holding:
 hands-holding-child:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Hands Holding-child
   search:
     terms: []
@@ -30210,6 +30258,7 @@ hands-holding-child:
 hands-holding-circle:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Hands Holding-circle
   search:
     terms: []
@@ -30232,6 +30281,7 @@ hands-holding-diamond:
     - 5.0.7
     - 5.0.9
     - 6.0.0-beta1
+    - 6.1.2
   label: Hands holding diamond
   search:
     terms: []
@@ -30253,6 +30303,7 @@ hands-holding-dollar:
   changes:
     - 5.0.9
     - 6.0.0-beta1
+    - 6.1.2
   label: Hands holding dollar
   search:
     terms: []
@@ -30274,6 +30325,7 @@ hands-holding-heart:
   changes:
     - 5.0.9
     - 6.0.0-beta1
+    - 6.1.2
   label: Hands holding heart
   search:
     terms: []
@@ -30337,6 +30389,7 @@ handshake-angle:
   changes:
     - 5.0.9
     - 6.0.0-beta1
+    - 6.1.2
   label: Handshake angle
   search:
     terms: []
@@ -31224,6 +31277,7 @@ helmet-safety:
 helmet-un:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Helmet Un
   search:
     terms: []
@@ -31508,6 +31562,7 @@ hippo:
     - 5.4.0
     - 5.10.1
     - 6.0.0-beta1
+    - 6.1.2
   label: Hippo
   search:
     terms: []
@@ -31957,8 +32012,7 @@ hotjar:
 hourglass:
   aliases:
     names:
-      - hourglass-2
-      - hourglass-half
+      - hourglass-empty
     unicodes:
       composite:
         - f250
@@ -31972,6 +32026,7 @@ hourglass:
     - 6.0.0-beta1
     - 6.0.0-beta2
     - 6.0.0-beta3
+    - 6.1.2
   label: Hourglass
   search:
     terms: []
@@ -31997,29 +32052,6 @@ hourglass-clock:
     - thin
     - duotone
   unicode: e41b
-  voted: false
-hourglass-empty:
-  aliases:
-    unicodes:
-      secondary:
-        - 10f252
-  changes:
-    - 4.4.0
-    - 5.0.0
-    - 5.10.1
-    - 6.0.0-beta1
-    - 6.0.0-beta2
-    - 6.0.0-beta3
-  label: Hourglass empty
-  search:
-    terms: []
-  styles:
-    - solid
-    - regular
-    - light
-    - thin
-    - duotone
-  unicode: f252
   voted: false
 hourglass-end:
   aliases:
@@ -32047,6 +32079,32 @@ hourglass-end:
     - thin
     - duotone
   unicode: f253
+  voted: false
+hourglass-half:
+  aliases:
+    names:
+      - hourglass-2
+    unicodes:
+      secondary:
+        - 10f252
+  changes:
+    - 4.4.0
+    - 5.0.0
+    - 5.10.1
+    - 6.0.0-beta1
+    - 6.0.0-beta2
+    - 6.0.0-beta3
+    - 6.1.2
+  label: Hourglass Half
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: f252
   voted: false
 hourglass-start:
   aliases:
@@ -33252,6 +33310,7 @@ imdb:
   changes:
     - 4.7.0
     - 5.0.0
+    - 6.1.2
   label: IMDB
   search:
     terms: []
@@ -33563,17 +33622,6 @@ instagram:
     - brands
   unicode: f16d
   voted: false
-instagram-square:
-  changes:
-    - 5.12.1
-    - 5.14.0
-  label: Instagram Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: e055
-  voted: true
 instalod:
   changes:
     - 5.15.0
@@ -33980,17 +34028,6 @@ js:
     - brands
   unicode: f3b8
   voted: false
-js-square:
-  changes:
-    - 5.0.0
-    - 5.0.3
-  label: JavaScript (JS) Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f3b9
-  voted: false
 jsfiddle:
   changes:
     - 4.1.0
@@ -34064,6 +34101,7 @@ kaaba:
     - 5.3.0
     - 6.0.0-beta1
     - 6.0.0-beta3
+    - 6.1.2
   label: Kaaba
   search:
     terms: []
@@ -34962,18 +35000,6 @@ lastfm:
     - brands
   unicode: f202
   voted: false
-lastfm-square:
-  changes:
-    - 4.2.0
-    - 5.0.0
-    - 5.0.11
-  label: last.fm Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f203
-  voted: false
 layer-group:
   aliases:
     unicodes:
@@ -35088,6 +35114,7 @@ leaf-maple:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Maple Leaf
   search:
     terms: []
@@ -35107,6 +35134,7 @@ leaf-oak:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Oak Leaf
   search:
     terms: []
@@ -35495,6 +35523,34 @@ lightbulb:
     - thin
     - duotone
   unicode: f0eb
+  voted: false
+lightbulb-cfl:
+  changes:
+    - 6.1.2
+  label: Lightbulb CFL
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5a6
+  voted: false
+lightbulb-cfl-on:
+  changes:
+    - 6.1.2
+  label: Lightbulb CFL On
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5a7
   voted: false
 lightbulb-dollar:
   aliases:
@@ -38385,6 +38441,7 @@ messages-question:
 meta:
   changes:
     - 6.0.0
+    - 6.1.2
   label: Meta
   search:
     terms: []
@@ -38417,6 +38474,7 @@ meteor:
 meter:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Meter
   search:
     terms: []
@@ -38431,6 +38489,7 @@ meter:
 meter-bolt:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Meter Bolt
   search:
     terms: []
@@ -38445,6 +38504,7 @@ meter-bolt:
 meter-droplet:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Meter Droplet
   search:
     terms: []
@@ -38459,6 +38519,7 @@ meter-droplet:
 meter-fire:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Meter Fire
   search:
     terms: []
@@ -38790,6 +38851,7 @@ mixcloud:
   changes:
     - 4.5.0
     - 5.0.0
+    - 6.1.2
   label: Mixcloud
   search:
     terms: []
@@ -39636,6 +39698,20 @@ mountains:
     - thin
     - duotone
   unicode: f6fd
+  voted: false
+mouse-field:
+  changes:
+    - 6.1.2
+  label: Mouse
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5a8
   voted: false
 mp3-player:
   aliases:
@@ -40597,6 +40673,7 @@ octagon-check:
   changes:
     - 6.0.0-beta2
     - 6.0.0
+    - 6.1.2
   label: Octagon Check
   search:
     terms: []
@@ -40725,17 +40802,6 @@ odnoklassniki:
   styles:
     - brands
   unicode: f263
-  voted: false
-odnoklassniki-square:
-  changes:
-    - 4.4.0
-    - 5.0.0
-  label: Odnoklassniki Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f264
   voted: false
 oil-can:
   aliases:
@@ -41476,6 +41542,7 @@ panel-ews:
 panel-fire:
   changes:
     - 6.0.0-beta2
+    - 6.1.2
   label: Panel Fire
   search:
     terms: []
@@ -41755,6 +41822,7 @@ paw:
     - 4.1.0
     - 5.0.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Paw
   search:
     terms: []
@@ -41774,6 +41842,7 @@ paw-claws:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Paw Claws
   search:
     terms: []
@@ -41795,6 +41864,7 @@ paw-simple:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Paw simple
   search:
     terms: []
@@ -42285,10 +42355,10 @@ people:
     - duotone
   unicode: e216
   voted: false
-people-arrows-left-right:
+people-arrows:
   aliases:
     names:
-      - people-arrows
+      - people-arrows-left-right
     unicodes:
       secondary:
         - '10e068'
@@ -42296,6 +42366,7 @@ people-arrows-left-right:
     - 5.13.0
     - 5.14.0
     - 6.0.0-beta1
+    - 6.1.2
   label: People arrows left right
   search:
     terms: []
@@ -43530,11 +43601,16 @@ person-through-window:
     - light
     - thin
     - duotone
-  unicode: e433
+  unicode: e5a9
   voted: false
 person-to-door:
+  aliases:
+    unicodes:
+      composite:
+        - e550
   changes:
     - 6.0.0-beta2
+    - 6.1.2
   label: Person To-door
   search:
     terms: []
@@ -43544,7 +43620,7 @@ person-to-door:
     - light
     - thin
     - duotone
-  unicode: e550
+  unicode: e433
   voted: false
 person-to-portal:
   aliases:
@@ -44165,17 +44241,6 @@ pied-piper-pp:
     - brands
   unicode: f1a7
   voted: false
-pied-piper-square:
-  changes:
-    - 5.12.0
-    - 5.14.0
-  label: Pied Piper Square Logo (Old)
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: e01e
-  voted: false
 pig:
   aliases:
     unicodes:
@@ -44187,6 +44252,7 @@ pig:
     - 5.4.0
     - 5.10.2
     - 6.0.0-beta1
+    - 6.1.2
   label: Pig
   search:
     terms: []
@@ -44301,17 +44367,6 @@ pinterest-p:
   styles:
     - brands
   unicode: f231
-  voted: false
-pinterest-square:
-  changes:
-    - 2.0.0
-    - 5.0.0
-  label: Pinterest Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f0d3
   voted: false
 pipe:
   changes:
@@ -44752,7 +44807,27 @@ planet-ringed:
 plant-wilt:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Plant Wilt
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5aa
+  voted: false
+plate-utensils:
+  aliases:
+    unicodes:
+      composite:
+        - e559
+  changes:
+    - 6.0.0-beta2
+    - 6.1.2
+  label: Plate Utensils
   search:
     terms: []
   styles:
@@ -44763,23 +44838,10 @@ plant-wilt:
     - duotone
   unicode: e43b
   voted: false
-plate-utensils:
-  changes:
-    - 6.0.0-beta2
-  label: Plate Utensils
-  search:
-    terms: []
-  styles:
-    - solid
-    - regular
-    - light
-    - thin
-    - duotone
-  unicode: e559
-  voted: false
 plate-wheat:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Plate Wheat
   search:
     terms: []
@@ -45836,6 +45898,7 @@ rabbit:
     - 5.4.0
     - 5.10.2
     - 6.0.0-beta1
+    - 6.1.2
   label: Rabbit
   search:
     terms: []
@@ -45858,6 +45921,7 @@ rabbit-running:
     - 5.4.0
     - 5.10.2
     - 6.0.0-beta1
+    - 6.1.2
   label: Rabbit running
   search:
     terms: []
@@ -46539,17 +46603,6 @@ reddit-alien:
     - brands
   unicode: f281
   voted: false
-reddit-square:
-  changes:
-    - 4.1.0
-    - 5.0.0
-  label: reddit Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f1a2
-  voted: false
 redhat:
   changes:
     - 5.6.0
@@ -47067,6 +47120,20 @@ ring:
     - duotone
   unicode: f70b
   voted: false
+ring-diamond:
+  changes:
+    - 6.1.2
+  label: Ring Diamond
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5ab
+  voted: false
 rings-wedding:
   aliases:
     unicodes:
@@ -47198,6 +47265,7 @@ road-lock:
 road-spikes:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Road Spikes
   search:
     terms: []
@@ -48153,30 +48221,10 @@ scalpel-line-dashed:
     - duotone
   unicode: f61e
   voted: false
-scanner:
-  aliases:
-    names:
-      - scanner-image
-    unicodes:
-      secondary:
-        - 10f8f3
-  changes:
-    - 5.11.0
-    - 5.11.2
-    - 6.0.0-beta1
-  label: Scanner
-  search:
-    terms: []
-  styles:
-    - solid
-    - regular
-    - light
-    - thin
-    - duotone
-  unicode: f8f3
-  voted: false
 scanner-gun:
   aliases:
+    names:
+      - scanner
     unicodes:
       secondary:
         - 10f488
@@ -48186,7 +48234,7 @@ scanner-gun:
     - 5.11.2
     - 6.0.0-beta1
     - 6.0.0-beta3
-  label: Scanner gun
+  label: Scanner Gun
   search:
     terms: []
   styles:
@@ -48196,6 +48244,26 @@ scanner-gun:
     - thin
     - duotone
   unicode: f488
+  voted: false
+scanner-image:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f8f3
+  changes:
+    - 5.11.0
+    - 5.11.2
+    - 6.0.0-beta1
+  label: Image Scanner
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: f8f3
   voted: false
 scanner-keyboard:
   aliases:
@@ -48504,6 +48572,7 @@ scribble:
   changes:
     - 6.0.0-beta1
     - 6.0.0
+    - 6.1.2
   label: Scribble
   search:
     terms: []
@@ -48863,6 +48932,7 @@ sensor:
     - 5.12.0
     - 5.14.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Sensor
   search:
     terms: []
@@ -48885,6 +48955,7 @@ sensor-cloud:
     - 5.12.0
     - 5.14.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Sensor cloud
   search:
     terms: []
@@ -48905,6 +48976,7 @@ sensor-fire:
     - 5.12.0
     - 5.14.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Sensor Fire
   search:
     terms: []
@@ -48925,6 +48997,7 @@ sensor-on:
     - 5.12.0
     - 5.14.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Sensor On
   search:
     terms: []
@@ -48947,6 +49020,7 @@ sensor-triangle-exclamation:
     - 5.12.0
     - 5.14.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Sensor triangle exclamation
   search:
     terms: []
@@ -49089,6 +49163,7 @@ share-nodes:
     - 5.0.0
     - 6.0.0-beta1
     - 6.0.0
+    - 6.1.2
   label: Share nodes
   search:
     terms: []
@@ -49125,6 +49200,7 @@ sheep:
 sheet-plastic:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Sheet Plastic
   search:
     terms: []
@@ -50567,6 +50643,7 @@ skull-cow:
     - 5.11.0
     - 5.11.1
     - 6.0.0-beta1
+    - 6.1.2
   label: Cow Skull
   search:
     terms: []
@@ -50913,18 +50990,6 @@ snapchat:
   styles:
     - brands
   unicode: f2ab
-  voted: false
-snapchat-square:
-  changes:
-    - 4.6.0
-    - 5.0.0
-    - 6.0.0-beta1
-  label: Snapchat Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f2ad
   voted: false
 snooze:
   aliases:
@@ -51291,6 +51356,16 @@ spa:
     - duotone
   unicode: f5bb
   voted: false
+space-awesome:
+  changes:
+    - 6.1.2
+  label: Space Awesome
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: e5ac
+  voted: false
 space-station-moon:
   aliases:
     unicodes:
@@ -51530,6 +51605,7 @@ spider-web:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Spider Web
   search:
     terms: []
@@ -52117,6 +52193,22 @@ square-b:
     - duotone
   unicode: e264
   voted: false
+square-behance:
+  aliases:
+    names:
+      - behance-square
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 5.0.3
+    - 6.1.2
+  label: Behance Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f1b5
+  voted: false
 square-bolt:
   changes:
     - 6.0.0-beta1
@@ -52479,6 +52571,20 @@ square-down-right:
     - duotone
   unicode: e26c
   voted: false
+square-dribbble:
+  aliases:
+    names:
+      - dribbble-square
+  changes:
+    - 5.0.0
+    - 6.1.2
+  label: Dribbble Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f397
+  voted: false
 square-e:
   changes:
     - 6.0.0-beta1
@@ -52580,17 +52686,34 @@ square-f:
     - duotone
   unicode: e270
   voted: false
+square-facebook:
+  aliases:
+    names:
+      - facebook-square
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.8.2
+    - 6.1.2
+  label: Facebook Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f082
+  voted: false
 square-font-awesome:
   changes:
     - 5.0.0
     - 5.0.1
     - 6.0.0-beta1
+    - 6.1.2
   label: Font Awesome in Square
   search:
     terms: []
   styles:
     - brands
-  unicode: f425
+  unicode: e5ad
   voted: false
 square-font-awesome-stroke:
   aliases:
@@ -52675,6 +52798,65 @@ square-g:
     - duotone
   unicode: e271
   voted: false
+square-git:
+  aliases:
+    names:
+      - git-square
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 5.8.2
+    - 6.1.2
+  label: Git Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f1d2
+  voted: false
+square-github:
+  aliases:
+    names:
+      - github-square
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.1.2
+  label: GitHub Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f092
+  voted: false
+square-gitlab:
+  aliases:
+    names:
+      - gitlab-square
+  changes:
+    - 6.1.2
+  label: Square Gitlab
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: e5ae
+  voted: false
+square-google-plus:
+  aliases:
+    names:
+      - google-plus-square
+  changes:
+    - 2.0.0
+    - 5.0.0
+    - 6.1.2
+  label: Google Plus Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f0d4
+  voted: false
 square-h:
   aliases:
     names:
@@ -52696,6 +52878,20 @@ square-h:
     - thin
     - duotone
   unicode: f0fd
+  voted: false
+square-hacker-news:
+  aliases:
+    names:
+      - hacker-news-square
+  changes:
+    - 5.0.0
+    - 6.1.2
+  label: Hacker News Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f3af
   voted: false
 square-heart:
   aliases:
@@ -52758,6 +52954,21 @@ square-info:
     - duotone
   unicode: f30f
   voted: false
+square-instagram:
+  aliases:
+    names:
+      - instagram-square
+  changes:
+    - 5.12.1
+    - 5.14.0
+    - 6.1.2
+  label: Instagram Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: e055
+  voted: true
 square-j:
   changes:
     - 6.0.0-beta1
@@ -52771,6 +52982,21 @@ square-j:
     - thin
     - duotone
   unicode: e273
+  voted: false
+square-js:
+  aliases:
+    names:
+      - js-square
+  changes:
+    - 5.0.0
+    - 5.0.3
+    - 6.1.2
+  label: JavaScript (JS) Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f3b9
   voted: false
 square-k:
   changes:
@@ -52813,6 +53039,22 @@ square-l:
     - thin
     - duotone
   unicode: e275
+  voted: false
+square-lastfm:
+  aliases:
+    names:
+      - lastfm-square
+  changes:
+    - 4.2.0
+    - 5.0.0
+    - 5.0.11
+    - 6.1.2
+  label: last.fm Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f203
   voted: false
 square-left:
   aliases:
@@ -52907,6 +53149,7 @@ square-n:
 square-nfi:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Square Nfi
   search:
     terms: []
@@ -52931,6 +53174,21 @@ square-o:
     - thin
     - duotone
   unicode: e278
+  voted: false
+square-odnoklassniki:
+  aliases:
+    names:
+      - odnoklassniki-square
+  changes:
+    - 4.4.0
+    - 5.0.0
+    - 6.1.2
+  label: Odnoklassniki Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f264
   voted: false
 square-p:
   changes:
@@ -53091,6 +53349,36 @@ square-phone-hangup:
     - duotone
   unicode: e27a
   voted: false
+square-pied-piper:
+  aliases:
+    names:
+      - pied-piper-square
+  changes:
+    - 5.12.0
+    - 5.14.0
+    - 6.1.2
+  label: Pied Piper Square Logo (Old)
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: e01e
+  voted: false
+square-pinterest:
+  aliases:
+    names:
+      - pinterest-square
+  changes:
+    - 2.0.0
+    - 5.0.0
+    - 6.1.2
+  label: Pinterest Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f0d3
+  voted: false
 square-plus:
   aliases:
     names:
@@ -53238,6 +53526,21 @@ square-r:
     - thin
     - duotone
   unicode: e27c
+  voted: false
+square-reddit:
+  aliases:
+    names:
+      - reddit-square
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 6.1.2
+  label: reddit Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f1a2
   voted: false
 square-right:
   aliases:
@@ -53436,6 +53739,22 @@ square-small:
     - duotone
   unicode: e27e
   voted: false
+square-snapchat:
+  aliases:
+    names:
+      - snapchat-square
+  changes:
+    - 4.6.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.1.2
+  label: Snapchat Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f2ad
+  voted: false
 square-star:
   changes:
     - 6.0.0-beta1
@@ -53451,6 +53770,21 @@ square-star:
     - thin
     - duotone
   unicode: e27f
+  voted: false
+square-steam:
+  aliases:
+    names:
+      - steam-square
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 6.1.2
+  label: Steam Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f1b7
   voted: false
 square-t:
   changes:
@@ -53502,6 +53836,36 @@ square-this-way-up:
     - thin
     - duotone
   unicode: f49f
+  voted: false
+square-tumblr:
+  aliases:
+    names:
+      - tumblr-square
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 6.1.2
+  label: Tumblr Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f174
+  voted: false
+square-twitter:
+  aliases:
+    names:
+      - twitter-square
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.1.2
+  label: Twitter Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f081
   voted: false
 square-u:
   changes:
@@ -53605,6 +53969,37 @@ square-v:
     - duotone
   unicode: e284
   voted: false
+square-viadeo:
+  aliases:
+    names:
+      - viadeo-square
+  changes:
+    - 4.6.0
+    - 5.0.0
+    - 5.7.0
+    - 6.1.2
+  label: Viadeo Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f2aa
+  voted: false
+square-vimeo:
+  aliases:
+    names:
+      - vimeo-square
+  changes:
+    - 4.0.0
+    - 5.0.0
+    - 6.1.2
+  label: Vimeo Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f194
+  voted: false
 square-virus:
   changes:
     - 6.1.0
@@ -53633,6 +54028,20 @@ square-w:
     - duotone
   unicode: e285
   voted: false
+square-whatsapp:
+  aliases:
+    names:
+      - whatsapp-square
+  changes:
+    - 5.0.0
+    - 6.1.2
+  label: What's App Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f40c
+  voted: false
 square-x:
   changes:
     - 6.0.0-beta1
@@ -53646,6 +54055,21 @@ square-x:
     - thin
     - duotone
   unicode: e286
+  voted: false
+square-xing:
+  aliases:
+    names:
+      - xing-square
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 6.1.2
+  label: Xing Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f169
   voted: false
 square-xmark:
   aliases:
@@ -53686,6 +54110,23 @@ square-y:
     - thin
     - duotone
   unicode: e287
+  voted: false
+square-youtube:
+  aliases:
+    names:
+      - youtube-square
+    unicodes:
+      composite:
+        - f166
+  changes:
+    - 5.0.3
+    - 6.1.2
+  label: YouTube Square
+  search:
+    terms: []
+  styles:
+    - brands
+  unicode: f431
   voted: false
 square-z:
   changes:
@@ -53737,6 +54178,7 @@ squirrel:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Squirrel
   search:
     terms: []
@@ -53800,14 +54242,15 @@ staff:
     - duotone
   unicode: f71b
   voted: false
-staff-aesculapius:
+staff-snake:
   aliases:
     names:
       - rod-asclepius
       - rod-snake
-      - staff-snake
+      - staff-aesculapius
   changes:
     - 6.1.0
+    - 6.1.2
   label: Staff Aesculapius
   search:
     terms: []
@@ -53870,6 +54313,20 @@ standard-definition:
     - thin
     - duotone
   unicode: e28a
+  voted: false
+stapler:
+  changes:
+    - 6.1.2
+  label: Stapler
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5af
   voted: false
 star:
   aliases:
@@ -54282,17 +54739,6 @@ steam:
   styles:
     - brands
   unicode: f1b6
-  voted: false
-steam-square:
-  changes:
-    - 4.1.0
-    - 5.0.0
-  label: Steam Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f1b7
   voted: false
 steam-symbol:
   changes:
@@ -54747,6 +55193,7 @@ suitcase:
     - 5.0.0
     - 5.0.9
     - 6.0.0-beta1
+    - 6.1.2
   label: Suitcase
   search:
     terms: []
@@ -55858,6 +56305,7 @@ tape:
 tarp:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Tarp
   search:
     terms: []
@@ -55872,6 +56320,7 @@ tarp:
 tarp-droplet:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Tarp Droplet
   search:
     terms: []
@@ -56993,6 +57442,34 @@ tire-rugged:
     - duotone
   unicode: f634
   voted: false
+toggle-large-off:
+  changes:
+    - 6.1.2
+  label: Toggle Large Off
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5b0
+  voted: false
+toggle-large-on:
+  changes:
+    - 6.1.2
+  label: Toggle Large On
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5b1
+  voted: false
 toggle-off:
   aliases:
     unicodes:
@@ -57003,6 +57480,7 @@ toggle-off:
     - 5.0.0
     - 6.0.0-beta1
     - 6.0.0
+    - 6.1.2
   label: Toggle Off
   search:
     terms: []
@@ -57024,6 +57502,7 @@ toggle-on:
     - 5.0.0
     - 6.0.0-beta1
     - 6.0.0
+    - 6.1.2
   label: Toggle On
   search:
     terms: []
@@ -57117,6 +57596,20 @@ toilet-paper-blank-under:
     - duotone
   unicode: e29f
   voted: false
+toilet-paper-check:
+  changes:
+    - 6.1.2
+  label: Toilet Paper Check
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5b2
+  voted: false
 toilet-paper-slash:
   aliases:
     unicodes:
@@ -57170,6 +57663,20 @@ toilet-paper-under-slash:
     - thin
     - duotone
   unicode: e2a1
+  voted: false
+toilet-paper-xmark:
+  changes:
+    - 6.1.2
+  label: Toilet Paper Xmark
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - light
+    - thin
+    - duotone
+  unicode: e5b3
   voted: false
 toilet-portable:
   changes:
@@ -57691,18 +58198,15 @@ train-track:
   voted: false
 train-tram:
   aliases:
-    names:
-      - tram
     unicodes:
       composite:
         - 1f68a
-      secondary:
-        - 10f7da
   changes:
     - 5.6.0
     - 6.0.0-beta1
     - 6.0.0-beta2
     - 6.0.0-beta3
+    - 6.1.2
   label: Train tram
   search:
     terms: []
@@ -57712,7 +58216,7 @@ train-tram:
     - light
     - thin
     - duotone
-  unicode: f7da
+  unicode: e5b4
   voted: false
 train-tunnel:
   changes:
@@ -59131,17 +59635,6 @@ tumblr:
     - brands
   unicode: f173
   voted: false
-tumblr-square:
-  changes:
-    - 3.2.0
-    - 5.0.0
-  label: Tumblr Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f174
-  voted: false
 turkey:
   aliases:
     unicodes:
@@ -59285,6 +59778,7 @@ turtle:
     - 5.4.0
     - 6.0.0-beta1
     - 6.0.0-beta3
+    - 6.1.2
   label: Turtle
   search:
     terms: []
@@ -59387,17 +59881,6 @@ twitter:
   styles:
     - brands
   unicode: f099
-  voted: false
-twitter-square:
-  changes:
-    - 1.0.0
-    - 5.0.0
-  label: Twitter Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f081
   voted: false
 typewriter:
   aliases:
@@ -60280,6 +60763,7 @@ user-doctor:
     - 5.0.11
     - 6.0.0-beta1
     - 6.0.0-beta2
+    - 6.1.2
   label: User doctor
   search:
     terms: []
@@ -60294,6 +60778,7 @@ user-doctor:
 user-doctor-hair:
   changes:
     - 6.0.0-beta2
+    - 6.1.2
   label: User Doctor-hair
   search:
     terms: []
@@ -60308,6 +60793,7 @@ user-doctor-hair:
 user-doctor-hair-long:
   changes:
     - 6.0.0-beta2
+    - 6.1.2
   label: User Doctor-hair-long
   search:
     terms: []
@@ -60330,6 +60816,7 @@ user-doctor-message:
     - 5.7.0
     - 6.0.0-beta1
     - 6.0.0-beta2
+    - 6.1.2
   label: User doctor message
   search:
     terms: []
@@ -61663,18 +62150,6 @@ viadeo:
     - brands
   unicode: f2a9
   voted: false
-viadeo-square:
-  changes:
-    - 4.6.0
-    - 5.0.0
-    - 5.7.0
-  label: Viadeo Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f2aa
-  voted: false
 vial:
   aliases:
     unicodes:
@@ -61873,17 +62348,6 @@ vimeo:
     - brands
   unicode: f40a
   voted: false
-vimeo-square:
-  changes:
-    - 4.0.0
-    - 5.0.0
-  label: Vimeo Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f194
-  voted: false
 vimeo-v:
   changes:
     - 4.4.0
@@ -61937,6 +62401,7 @@ virus:
     - 5.14.0
     - 6.0.0-beta1
     - 6.1.0
+    - 6.1.2
   label: Virus
   search:
     terms: []
@@ -61986,6 +62451,7 @@ virus-slash:
     - 5.13.0
     - 5.14.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Virus Slash
   search:
     terms: []
@@ -62978,16 +63444,6 @@ whatsapp:
     - brands
   unicode: f232
   voted: false
-whatsapp-square:
-  changes:
-    - 5.0.0
-  label: What's App Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f40c
-  voted: false
 wheat:
   aliases:
     unicodes:
@@ -62996,6 +63452,7 @@ wheat:
   changes:
     - 5.4.0
     - 6.0.0-beta1
+    - 6.1.2
   label: Wheat
   search:
     terms: []
@@ -63014,6 +63471,7 @@ wheat-awn:
   changes:
     - 6.0.0-beta1
     - 6.1.0
+    - 6.1.2
   label: Wheat awn
   search:
     terms: []
@@ -63028,6 +63486,7 @@ wheat-awn:
 wheat-awn-circle-exclamation:
   changes:
     - 6.1.0
+    - 6.1.2
   label: Wheat Awn-circle-exclamation
   search:
     terms: []
@@ -63042,6 +63501,7 @@ wheat-awn-circle-exclamation:
 wheat-awn-slash:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Wheat Awn Slash
   search:
     terms: []
@@ -63056,6 +63516,7 @@ wheat-awn-slash:
 wheat-slash:
   changes:
     - 6.0.0-beta1
+    - 6.1.2
   label: Wheat Slash
   search:
     terms: []
@@ -63778,6 +64239,9 @@ wpforms:
   unicode: f298
   voted: false
 wpressr:
+  aliases:
+    names:
+      - rendact
   changes:
     - 5.4.2
   label: wpressr
@@ -63901,17 +64365,6 @@ xing:
   styles:
     - brands
   unicode: f168
-  voted: false
-xing-square:
-  changes:
-    - 3.2.0
-    - 5.0.0
-  label: Xing Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f169
   voted: false
 xmark:
   aliases:
@@ -64171,20 +64624,6 @@ youtube:
   styles:
     - brands
   unicode: f167
-  voted: false
-youtube-square:
-  aliases:
-    unicodes:
-      composite:
-        - f166
-  changes:
-    - 5.0.3
-  label: YouTube Square
-  search:
-    terms: []
-  styles:
-    - brands
-  unicode: f431
   voted: false
 z:
   aliases:
