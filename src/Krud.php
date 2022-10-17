@@ -1130,6 +1130,15 @@ class Krud extends Controller
      */
     public function store(Request $request)
     {
+
+        dd($request->all());
+
+
+
+
+
+
+
         try {
             $id = Crypt::decrypt($request->input('id'));
         } catch (Exception $e) {
