@@ -1125,6 +1125,21 @@ class Krud extends Controller
             $kmenu = true;
         }
 
+        $uriQuery = '?';
+        $uriItems = [];
+        foreach($this->parents as $parent) {
+            if($parent['editable'] !== true) {
+                $uriItems[] = $parent['nombre'].'='.$request->{$parent['value']};;
+            }
+        }
+
+        $uriQuery .= implode('&', $uriItems);
+
+        $urlBack = $url;
+        if(!empty($uriItems)) {
+            $urlBack .= $uriQuery;
+        }
+
         return view($view, [
             'titulo'   => $titulo,
             'campos'   => $this->campos,
@@ -1137,6 +1152,7 @@ class Krud extends Controller
             'parents'  => $this->parents,
             'layout'   => $layout,
             'kmenu'    => $kmenu,
+            'urlBack'  => $urlBack,
         ]);
     }
 
