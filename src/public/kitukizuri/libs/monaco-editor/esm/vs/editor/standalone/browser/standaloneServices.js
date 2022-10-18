@@ -30,7 +30,7 @@ import * as dom from '../../../base/browser/dom.js';
 import { StandardKeyboardEvent } from '../../../base/browser/keyboardEvent.js';
 import { Emitter } from '../../../base/common/event.js';
 import { SimpleKeybinding, createKeybinding } from '../../../base/common/keybindings.js';
-import { ImmortalReference, toDisposable, DisposableStore, Disposable } from '../../../base/common/lifecycle.js';
+import { ImmortalReference, toDisposable, DisposableStore, Disposable, combinedDisposable } from '../../../base/common/lifecycle.js';
 import { OS, isLinux, isMacintosh } from '../../../base/common/platform.js';
 import Severity from '../../../base/common/severity.js';
 import { URI } from '../../../base/common/uri.js';
@@ -288,33 +288,40 @@ let StandaloneKeybindingService = class StandaloneKeybindingService extends Abst
         this._register(codeEditorService.onDiffEditorRemove(removeDiffEditor));
         codeEditorService.listDiffEditors().forEach(addDiffEditor);
     }
-    addDynamicKeybinding(commandId, _keybinding, handler, when) {
-        const keybinding = createKeybinding(_keybinding, OS);
-        const toDispose = new DisposableStore();
-        if (keybinding) {
-            this._dynamicKeybindings.push({
-                keybinding: keybinding.parts,
-                command: commandId,
-                when: when,
+    addDynamicKeybinding(command, keybinding, handler, when) {
+        return combinedDisposable(CommandsRegistry.registerCommand(command, handler), this.addDynamicKeybindings([{
+                keybinding,
+                command,
+                when
+            }]));
+    }
+    addDynamicKeybindings(rules) {
+        const entries = rules.map((rule) => {
+            var _a, _b;
+            const keybinding = createKeybinding(rule.keybinding, OS);
+            return {
+                keybinding: (_a = keybinding === null || keybinding === void 0 ? void 0 : keybinding.parts) !== null && _a !== void 0 ? _a : null,
+                command: (_b = rule.command) !== null && _b !== void 0 ? _b : null,
+                commandArgs: rule.commandArgs,
+                when: rule.when,
                 weight1: 1000,
                 weight2: 0,
                 extensionId: null,
                 isBuiltinExtension: false
-            });
-            toDispose.add(toDisposable(() => {
-                for (let i = 0; i < this._dynamicKeybindings.length; i++) {
-                    const kb = this._dynamicKeybindings[i];
-                    if (kb.command === commandId) {
-                        this._dynamicKeybindings.splice(i, 1);
-                        this.updateResolver();
-                        return;
-                    }
-                }
-            }));
-        }
-        toDispose.add(CommandsRegistry.registerCommand(commandId, handler));
+            };
+        });
+        this._dynamicKeybindings = this._dynamicKeybindings.concat(entries);
         this.updateResolver();
-        return toDispose;
+        return toDisposable(() => {
+            // Search the first entry and remove them all since they will be contiguous
+            for (let i = 0; i < this._dynamicKeybindings.length; i++) {
+                if (this._dynamicKeybindings[i] === entries[0]) {
+                    this._dynamicKeybindings.splice(i, entries.length);
+                    this.updateResolver();
+                    return;
+                }
+            }
+        });
     }
     updateResolver() {
         this._cachedResolver = null;

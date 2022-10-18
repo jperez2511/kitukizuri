@@ -119,11 +119,13 @@ function sorter(a, b) {
     if (a.weight1 !== b.weight1) {
         return a.weight1 - b.weight1;
     }
-    if (a.command < b.command) {
-        return -1;
-    }
-    if (a.command > b.command) {
-        return 1;
+    if (a.command && b.command) {
+        if (a.command < b.command) {
+            return -1;
+        }
+        if (a.command > b.command) {
+            return 1;
+        }
     }
     return a.weight2 - b.weight2;
 }

@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.34.0(4b8a47f3570a4a05ace9d00ae0df044b55befcd5)
+ * Version: 0.34.1(0316a754aa4c25208bef91937efbce2ab1e3ce37)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -148,9 +148,9 @@ define("vs/editor/editor.main.nls.es", {
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"Editor",
-		"El número de espacios a los que equivale una tabulación. Este valor se invalida en función del contenido del archivo cuando \"#editor.detectIndentation#\" está activado.",
-		"Insertar espacios al presionar \"TAB\". Este valor se invalida en función del contenido del archivo cuando \"#editor.detectIndentation#\" está activado. ",
-		"Controla si \"#editor.tabSize#\" y \"#editor.insertSpaces#\" se detectarán automáticamente al abrir un archivo en función del contenido de este.",
+		"El número de espacios a los que equivale una tabulación. Este valor se invalida en función del contenido del archivo cuando {0} está activado.",
+		"Insertar espacios al presionar \"TAB\". Este valor se invalida en función del contenido del archivo cuando {0} está activado.",
+		"Controla si {0} y {1} se detectan automáticamente al abrir un archivo en función del contenido de este.",
 		"Quitar el espacio en blanco final autoinsertado.",
 		"Manejo especial para archivos grandes para desactivar ciertas funciones de memoria intensiva.",
 		"Habilita sugerencias basadas en palabras.",
@@ -179,7 +179,7 @@ define("vs/editor/editor.main.nls.es", {
 		"Controla si el editor muestra CodeLens.",
 		"Las líneas no se ajustarán nunca.",
 		"Las líneas se ajustarán en el ancho de la ventanilla.",
-		"Las líneas se ajustarán en función de la configuración de \"#editor.wordWrap#\".",
+		"Las líneas se ajustarán en función de la configuración de {0}.",
 	],
 	"vs/editor/common/config/editorOptions": [
 		"El editor usará API de plataforma para detectar cuándo está conectado un lector de pantalla.",
@@ -229,8 +229,8 @@ define("vs/editor/editor.main.nls.es", {
 		"Shows the nested current scopes during the scroll at the top of the editor.",
 		"Habilita las sugerencias de incrustación en el editor.",
 		"Las sugerencias de incrustación están habilitadas",
-		"Las sugerencias de incrustación se muestran de forma predeterminada y se ocultan cuando se mantiene presionado `Ctrl+Alt`.",
-		"Las sugerencias de incrustación están ocultas de forma predeterminada y se muestran al mantener presionada la tecla `Ctrl+Alt`.",
+		"Las sugerencias de incrustación se muestran de forma predeterminada y se ocultan cuando se mantiene presionado {0}",
+		"Las sugerencias de incrustación están ocultas de forma predeterminada y se muestran al mantener presionado {0}",
 		"Las sugerencias de incrustación están deshabilitadas",
 		"Controla el tamaño de fuente de las sugerencias de incrustación en el editor. Como valor predeterminado, se usa {0} cuando el valor configurado es menor que {1} o mayor que el tamaño de fuente del editor.",
 		"Controla la familia de fuentes de sugerencias de incrustación en el editor. Cuando se establece en vacío, se usa el {0}.",
@@ -344,7 +344,7 @@ define("vs/editor/editor.main.nls.es", {
 		"Cuando está habilitado, IntelliSense muestra sugerencias del usuario.",
 		"Cuando está habilitado IntelliSense muestra sugerencias para problemas.",
 		"Indica si los espacios en blanco iniciales y finales deben seleccionarse siempre.",
-		"Controls whether you can drag and drop a file into a text editor by holding down `shift` (instead of opening the file in an editor).",
+		"Controla si puede arrastrar y colocar un archivo en un editor de texto manteniendo presionada la tecla `mayús` (en lugar de abrir el archivo en un editor).",
 		"Controla si las sugerencias deben aceptarse con caracteres de confirmación. Por ejemplo, en JavaScript, el punto y coma (`; `) puede ser un carácter de confirmación que acepta una sugerencia y escribe ese carácter.",
 		"Aceptar solo una sugerencia con \"Entrar\" cuando realiza un cambio textual.",
 		"Controla si las sugerencias deben aceptarse con \"Entrar\", además de \"TAB\". Ayuda a evitar la ambigüedad entre insertar nuevas líneas o aceptar sugerencias.",
@@ -502,7 +502,7 @@ define("vs/editor/editor.main.nls.es", {
 		"Color de fondo tras corchetes coincidentes",
 		"Color de bloques con corchetes coincidentes",
 		"Color del borde de la regla de visión general.",
-		"Color de fondo de la regla de información general del editor. Solo se usa cuando el minimapa está habilitado y está ubicado en el lado derecho del editor.",
+		"Color de fondo de la regla de información general del editor.",
 		"Color de fondo del margen del editor. Este espacio contiene los márgenes de glifos y los números de línea.",
 		"Color del borde de código fuente innecesario (sin usar) en el editor.",
 		"Opacidad de código fuente innecesario (sin usar) en el editor. Por ejemplo, \"#000000c0\" representará el código con un 75 % de opacidad. Para temas de alto contraste, utilice el color del tema \'editorUnnecessaryCode.border\' para resaltar el código innecesario en vez de atenuarlo.",
@@ -681,11 +681,11 @@ define("vs/editor/editor.main.nls.es", {
 		"No hay autocorrecciones disponibles",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
-		"Si el widget de lista de acciones de código está visible",
+		"Whether the code action list widget is visible",
 		"{0} to Refactor, {1} to Preview",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"Si habilita esta opción, se ajusta la forma en que se representa el menú de acción de código.",
+		"Enabling this adjusts how the code action menu is rendered.",
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"Mostrar acciones de código. Corrección rápida preferida disponible ({0})",
@@ -707,7 +707,7 @@ define("vs/editor/editor.main.nls.es", {
 		"Alternar &&bloque de comentario",
 	],
 	"vs/editor/contrib/contextmenu/browser/contextmenu": [
-		"Minimap",
+		"Minimapa",
 		"Representar caracteres",
 		"Tamaño vertical",
 		"Proporcional",
@@ -792,8 +792,8 @@ define("vs/editor/editor.main.nls.es", {
 		"Ir al plegado primario",
 		"Ir al rango de plegado anterior",
 		"Ir al rango de plegado siguiente",
-		"Create Manual Folding Range from Selection",
-		"Remove Manual Folding Ranges",
+		"Crear un rango de plegado manual a partir de la selección",
+		"Quitar rangos de plegado manuales",
 		"Nivel de plegamiento {0}",
 		"Color de fondo detrás de los rangos plegados. El color no debe ser opaco para no ocultar las decoraciones subyacentes.",
 		"Color del control plegable en el medianil del editor.",
@@ -801,8 +801,8 @@ define("vs/editor/editor.main.nls.es", {
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"Icono de rangos expandidos en el margen de glifo del editor.",
 		"Icono de rangos contraídos en el margen de glifo del editor.",
-		"Icon for manually collapsed ranges in the editor glyph margin.",
-		"Icon for manually expanded ranges in the editor glyph margin.",
+		"Icono de intervalos contraídos manualmente en el margen del glifo del editor.",
+		"Icono de intervalos expandidos manualmente en el margen del glifo del editor.",
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"Acercarse a la tipografía del editor",
@@ -1478,8 +1478,8 @@ define("vs/editor/editor.main.nls.es", {
 		"Color de borde de los marcos activos.",
 		"Color de fondo del editor.",
 		"Color de primer plano predeterminado del editor.",
-		"Sticky scroll background color for the editor",
-		"Sticky scroll on hover background color for the editor",
+		"Color de fondo de desplazamiento permanente para el editor",
+		"Desplazamiento permanente al mantener el mouse sobre el color de fondo del editor",
 		"Color de fondo del editor de widgets como buscar/reemplazar",
 		"Color de primer plano de los widgets del editor, como buscar y reemplazar.",
 		"Color de borde de los widgets del editor. El color solo se usa si el widget elige tener un borde y no invalida el color.",

@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import './standalone-tokens.css';
+import { Disposable, DisposableStore } from '../../../base/common/lifecycle.js';
 import { splitLines } from '../../../base/common/strings.js';
 import { FontMeasurements } from '../../browser/config/fontMeasurements.js';
 import { ICodeEditorService } from '../../browser/services/codeEditorService.js';
@@ -20,10 +21,14 @@ import { createWebWorker as actualCreateWebWorker } from '../../browser/services
 import * as standaloneEnums from '../../common/standalone/standaloneEnums.js';
 import { Colorizer } from './colorizer.js';
 import { createTextModel, StandaloneDiffEditor, StandaloneEditor } from './standaloneCodeEditor.js';
-import { StandaloneServices } from './standaloneServices.js';
+import { StandaloneKeybindingService, StandaloneServices } from './standaloneServices.js';
 import { IStandaloneThemeService } from '../common/standaloneTheme.js';
 import { CommandsRegistry } from '../../../platform/commands/common/commands.js';
 import { IMarkerService } from '../../../platform/markers/common/markers.js';
+import { IKeybindingService } from '../../../platform/keybinding/common/keybinding.js';
+import { EditorCommand } from '../../browser/editorExtensions.js';
+import { MenuRegistry, MenuId } from '../../../platform/actions/common/actions.js';
+import { ContextKeyExpr } from '../../../platform/contextkey/common/contextkey.js';
 /**
  * Create a new editor under `domElement`.
  * `domElement` should be empty (not contain other dom nodes).
@@ -79,6 +84,85 @@ export function createDiffEditor(domElement, options, override) {
 }
 export function createDiffNavigator(diffEditor, opts) {
     return new DiffNavigator(diffEditor, opts);
+}
+/**
+ * Add a command.
+ */
+export function addCommand(descriptor) {
+    if ((typeof descriptor.id !== 'string') || (typeof descriptor.run !== 'function')) {
+        throw new Error('Invalid command descriptor, `id` and `run` are required properties!');
+    }
+    return CommandsRegistry.registerCommand(descriptor.id, descriptor.run);
+}
+/**
+ * Add an action to all editors.
+ */
+export function addEditorAction(descriptor) {
+    if ((typeof descriptor.id !== 'string') || (typeof descriptor.label !== 'string') || (typeof descriptor.run !== 'function')) {
+        throw new Error('Invalid action descriptor, `id`, `label` and `run` are required properties!');
+    }
+    const precondition = ContextKeyExpr.deserialize(descriptor.precondition);
+    const run = (accessor, ...args) => {
+        return EditorCommand.runEditorCommand(accessor, args, precondition, (accessor, editor, args) => Promise.resolve(descriptor.run(editor, ...args)));
+    };
+    const toDispose = new DisposableStore();
+    // Register the command
+    toDispose.add(CommandsRegistry.registerCommand(descriptor.id, run));
+    // Register the context menu item
+    if (descriptor.contextMenuGroupId) {
+        const menuItem = {
+            command: {
+                id: descriptor.id,
+                title: descriptor.label
+            },
+            when: precondition,
+            group: descriptor.contextMenuGroupId,
+            order: descriptor.contextMenuOrder || 0
+        };
+        toDispose.add(MenuRegistry.appendMenuItem(MenuId.EditorContext, menuItem));
+    }
+    // Register the keybindings
+    if (Array.isArray(descriptor.keybindings)) {
+        const keybindingService = StandaloneServices.get(IKeybindingService);
+        if (!(keybindingService instanceof StandaloneKeybindingService)) {
+            console.warn('Cannot add keybinding because the editor is configured with an unrecognized KeybindingService');
+        }
+        else {
+            const keybindingsWhen = ContextKeyExpr.and(precondition, ContextKeyExpr.deserialize(descriptor.keybindingContext));
+            toDispose.add(keybindingService.addDynamicKeybindings(descriptor.keybindings.map((keybinding) => {
+                return {
+                    keybinding,
+                    command: descriptor.id,
+                    when: keybindingsWhen
+                };
+            })));
+        }
+    }
+    return toDispose;
+}
+/**
+ * Add a keybinding rule.
+ */
+export function addKeybindingRule(rule) {
+    return addKeybindingRules([rule]);
+}
+/**
+ * Add keybinding rules.
+ */
+export function addKeybindingRules(rules) {
+    const keybindingService = StandaloneServices.get(IKeybindingService);
+    if (!(keybindingService instanceof StandaloneKeybindingService)) {
+        console.warn('Cannot add keybinding because the editor is configured with an unrecognized KeybindingService');
+        return Disposable.None;
+    }
+    return keybindingService.addDynamicKeybindings(rules.map((rule) => {
+        return {
+            keybinding: rule.keybinding,
+            command: rule.command,
+            commandArgs: rule.commandArgs,
+            when: ContextKeyExpr.deserialize(rule.when),
+        };
+    }));
 }
 /**
  * Create a new editor model.
@@ -276,6 +360,10 @@ export function createMonacoEditorAPI() {
         onDidCreateDiffEditor: onDidCreateDiffEditor,
         createDiffEditor: createDiffEditor,
         createDiffNavigator: createDiffNavigator,
+        addCommand: addCommand,
+        addEditorAction: addEditorAction,
+        addKeybindingRule: addKeybindingRule,
+        addKeybindingRules: addKeybindingRules,
         createModel: createModel,
         setModelLanguage: setModelLanguage,
         setModelMarkers: setModelMarkers,

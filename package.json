@@ -44,11 +44,12 @@
     "datatables.net-select-bs4": "^1.4.0",
     "datatables.net-select-bs5": "^1.4.0",
     "jquery": "^3.6.1",
+    "jstree": "^3.3.12",
     "jszip": "^3.10.1",
     "metismenu": "^3.0.7",
-    "monaco-editor": "^0.34.0",
+    "monaco-editor": "^0.34.1",
     "node-waves": "^0.7.6",
-    "pdfmake": "^0.2.5",
+    "pdfmake": "^0.2.6",
     "select2": "^4.1.0-rc.0",
     "simplebar": "^5.3.9"
   }

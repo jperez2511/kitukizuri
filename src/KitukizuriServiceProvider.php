@@ -48,6 +48,7 @@ class KitukizuriServiceProvider extends ServiceProvider
             $this->registerComponent('password');
             $this->registerComponent('textarea');
             $this->registerComponent('table');
+            $this->registerComponent('index-tree');
         });
     }
 

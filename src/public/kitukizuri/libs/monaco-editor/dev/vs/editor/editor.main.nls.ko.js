@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.34.0(4b8a47f3570a4a05ace9d00ae0df044b55befcd5)
+ * Version: 0.34.1(0316a754aa4c25208bef91937efbce2ab1e3ce37)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -148,9 +148,9 @@ define("vs/editor/editor.main.nls.ko", {
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"편집기",
-		"탭 한 개에 해당하는 공백 수입니다. `#editor.detectIndentation#`이 켜져 있는 경우 이 설정은 파일 콘텐츠에 따라 재정의됩니다.",
-		"\'탭\' 키를 누를 때 공백을 삽입합니다. `#editor.detectIndentation#`이 켜져 있는 경우 이 설정은 파일 콘텐츠에 따라 재정의됩니다.",
-		"파일을 열 때 파일 콘텐츠를 기반으로 `#editor.tabSize#`와 `#editor.insertSpaces#`가 자동으로 검색되는지 여부를 제어합니다.",
+		"탭이 같은 공백의 수입니다. 이 설정은 {0}이(가) 켜져 있을 때 파일 내용을 기반으로 재정의됩니다.",
+		"`Tab`을 누를 때 공백을 삽입하세요. 이 설정은 {0}이(가) 켜져 있을 때 파일 내용을 기반으로 재정의됩니다.",
+		"파일 내용을 기반으로 파일을 열 때 {0} 및 {1}을(를) 자동으로 감지할지 여부를 제어합니다.",
 		"끝에 자동 삽입된 공백을 제거합니다.",
 		"큰 파일에 대한 특수 처리로, 메모리를 많이 사용하는 특정 기능을 사용하지 않도록 설정합니다.",
 		"문서 내 단어를 기반으로 완성을 계산할지 여부를 제어합니다.",
@@ -179,7 +179,7 @@ define("vs/editor/editor.main.nls.ko", {
 		"편집기에서 CodeLens를 표시할 것인지 여부를 제어합니다.",
 		"줄이 바뀌지 않습니다.",
 		"뷰포트 너비에서 줄이 바뀝니다.",
-		"`#editor.wordWrap#` 설정에 따라 줄이 바뀝니다.",
+		"줄은 {0} 설정에 따라 줄 바꿈됩니다.",
 	],
 	"vs/editor/common/config/editorOptions": [
 		"편집기가 스크린 리더가 연결되면 플랫폼 API를 사용하여 감지합니다.",
@@ -229,8 +229,8 @@ define("vs/editor/editor.main.nls.ko", {
 		"Shows the nested current scopes during the scroll at the top of the editor.",
 		"편집기에서 인레이 힌트를 사용하도록 설정합니다.",
 		"인레이 힌트를 사용할 수 있음",
-		"`Ctrl+Alt`를 누를 때 인레이 힌트가 기본적으로 표시되고 숨겨집니다.",
-		"인레이 힌트는 기본값으로 숨겨져 있으며 `Ctrl+Alt`를 누르면 표시됩니다.",
+		"인레이 힌트는 기본적으로 표시되고 {0}을(를) 길게 누를 때 숨겨집니다.",
+		"인레이 힌트는 기본값으로 숨겨져 있으며 {0}을(를) 길게 누르면 표시됩니다.",
 		"인레이 힌트는 사용할 수 없음",
 		"편집기에서 인레이 힌트의 글꼴 크기를 제어합니다. 기본적으로 {0}은(는) 구성된 값이 {1}보다 작거나 편집기 글꼴 크기보다 큰 경우에 사용됩니다.",
 		"편집기에서 인레이 힌트의 글꼴 패밀리를 제어합니다. 비워 두면 {0}이(가) 사용됩니다.",
@@ -344,7 +344,7 @@ define("vs/editor/editor.main.nls.ko", {
 		"IntelliSense를 사용하도록 설정하면 `user`-제안이 표시됩니다.",
 		"IntelliSense를 사용하도록 설정한 경우 `issues`-제안을 표시합니다.",
 		"선행 및 후행 공백을 항상 선택해야 하는지 여부입니다.",
-		"Controls whether you can drag and drop a file into a text editor by holding down `shift` (instead of opening the file in an editor).",
+		"편집기에서 파일을 여는 대신 `shift`를 누른 채 파일을 텍스트 편집기로 끌어서 놓을 수 있는지 여부를 제어합니다.",
 		"커밋 문자에 대한 제안을 허용할지를 제어합니다. 예를 들어 JavaScript에서는 세미콜론(\';\')이 제안을 허용하고 해당 문자를 입력하는 커밋 문자일 수 있습니다.",
 		"텍스트를 변경할 때 `Enter` 키를 사용한 제안만 허용합니다.",
 		"\'Tab\' 키 외에 \'Enter\' 키에 대한 제안도 허용할지를 제어합니다. 새 줄을 삽입하는 동작과 제안을 허용하는 동작 간의 모호함을 없앨 수 있습니다.",
@@ -502,7 +502,7 @@ define("vs/editor/editor.main.nls.ko", {
 		"일치하는 괄호 뒤의 배경색",
 		"일치하는 브래킷 박스의 색상",
 		"개요 눈금 경계의 색상입니다.",
-		"편집기 개요 눈금자의 배경색입니다. 미니맵이 사용하도록 설정되어 편집기의 오른쪽에 배치된 경우에만 사용됩니다.",
+		"편집기 개요 눈금자의 배경색입니다.",
 		"편집기 거터의 배경색입니다. 거터에는 글리프 여백과 행 수가 있습니다.",
 		"편집기의 불필요한(사용하지 않는) 소스 코드 테두리 색입니다.",
 		"편집기의 불필요한(사용하지 않는) 소스 코드 불투명도입니다. 예를 들어 \"#000000c0\"은 75% 불투명도로 코드를 렌더링합니다. 고대비 테마의 경우 페이드 아웃하지 않고 \'editorUnnecessaryCode.border\' 테마 색을 사용하여 불필요한 코드에 밑줄을 그으세요.",
@@ -681,11 +681,11 @@ define("vs/editor/editor.main.nls.ko", {
 		"사용할 수 있는 자동 수정 없음",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
-		"코드 작업 목록 위젯이 표시되는지 여부",
+		"Whether the code action list widget is visible",
 		"{0} to Refactor, {1} to Preview",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"활성화하면 코드 작업 메뉴가 렌더링되는 방식이 조정됩니다.",
+		"Enabling this adjusts how the code action menu is rendered.",
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"코드 작업 표시. 기본 설정 빠른 수정 사용 가능({0})",
@@ -707,7 +707,7 @@ define("vs/editor/editor.main.nls.ko", {
 		"블록 주석 설정/해제(&&B)",
 	],
 	"vs/editor/contrib/contextmenu/browser/contextmenu": [
-		"Minimap",
+		"미니맵",
 		"문자 렌더링",
 		"세로 크기",
 		"비례",
@@ -792,8 +792,8 @@ define("vs/editor/editor.main.nls.ko", {
 		"부모 폴딩으로 이동",
 		"이전 접기 범위로 이동",
 		"다음 접기 범위로 이동",
-		"Create Manual Folding Range from Selection",
-		"Remove Manual Folding Ranges",
+		"선택 영역에서 수동 접기 범위 만들기",
+		"수동 폴딩 범위 제거",
 		"수준 {0} 접기",
 		"접힌 범위의 배경색입니다. 색은 기본 장식을 숨기지 않기 위해 불투명해서는 안 됩니다.",
 		"편집기 여백의 접기 컨트롤 색입니다.",
@@ -801,8 +801,8 @@ define("vs/editor/editor.main.nls.ko", {
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"편집기 문자 모양 여백에서 확장된 범위의 아이콘입니다.",
 		"편집기 문자 모양 여백에서 축소된 범위의 아이콘입니다.",
-		"Icon for manually collapsed ranges in the editor glyph margin.",
-		"Icon for manually expanded ranges in the editor glyph margin.",
+		"편집기 문자 모양 여백에서 수동으로 축소된 범위에 대한 아이콘입니다.",
+		"편집기 문자 모양 여백에서 수동으로 확장된 범위에 대한 아이콘입니다.",
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"편집기 글꼴 확대",
@@ -1478,8 +1478,8 @@ define("vs/editor/editor.main.nls.ko", {
 		"활성 섀시의 테두리 색입니다.",
 		"편집기 배경색입니다.",
 		"편집기 기본 전경색입니다.",
-		"Sticky scroll background color for the editor",
-		"Sticky scroll on hover background color for the editor",
+		"편집기의 고정 스크롤 배경색",
+		"편집기의 가리킨 항목 배경색에 고정 스크롤",
 		"찾기/바꾸기 같은 편집기 위젯의 배경색입니다.",
 		"찾기/바꾸기와 같은 편집기 위젯의 전경색입니다.",
 		"편집기 위젯의 테두리 색입니다. 위젯에 테두리가 있고 위젯이 색상을 무시하지 않을 때만 사용됩니다.",

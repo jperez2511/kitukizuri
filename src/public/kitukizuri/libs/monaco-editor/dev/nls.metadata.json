@@ -439,6 +439,10 @@
 				]
 			}
 		],
+		"vs/editor/contrib/cursorUndo/browser/cursorUndo": [
+			"cursor.undo",
+			"cursor.redo"
+		],
 		"vs/editor/contrib/contextmenu/browser/contextmenu": [
 			"context.minimap.minimap",
 			"context.minimap.renderCharacters",
@@ -450,10 +454,6 @@
 			"context.minimap.slider.mouseover",
 			"context.minimap.slider.always",
 			"action.showContextMenu.label"
-		],
-		"vs/editor/contrib/cursorUndo/browser/cursorUndo": [
-			"cursor.undo",
-			"cursor.redo"
 		],
 		"vs/editor/contrib/dropIntoEditor/browser/dropIntoEditorContribution": [
 			"dropProgressTitle"
@@ -821,16 +821,6 @@
 		"vs/editor/contrib/tokenization/browser/tokenization": [
 			"forceRetokenize"
 		],
-		"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
-			{
-				"key": "toggle.tabMovesFocus",
-				"comment": [
-					"Turn on/off use of tab key for moving focus around VS Code"
-				]
-			},
-			"toggle.tabMovesFocus.on",
-			"toggle.tabMovesFocus.off"
-		],
 		"vs/editor/contrib/unicodeHighlighter/browser/unicodeHighlighter": [
 			"warningIcon",
 			"unicodeHighlighting.thisDocumentHasManyNonBasicAsciiUnicodeCharacters",
@@ -856,12 +846,25 @@
 			"unicodeHighlight.allowCommonCharactersInLanguage",
 			"unicodeHighlight.configureUnicodeHighlightOptions"
 		],
+		"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
+			{
+				"key": "toggle.tabMovesFocus",
+				"comment": [
+					"Turn on/off use of tab key for moving focus around VS Code"
+				]
+			},
+			"toggle.tabMovesFocus.on",
+			"toggle.tabMovesFocus.off"
+		],
 		"vs/editor/contrib/unusualLineTerminators/browser/unusualLineTerminators": [
 			"unusualLineTerminators.title",
 			"unusualLineTerminators.message",
 			"unusualLineTerminators.detail",
 			"unusualLineTerminators.fix",
 			"unusualLineTerminators.ignore"
+		],
+		"vs/editor/contrib/wordOperations/browser/wordOperations": [
+			"deleteInsideWord"
 		],
 		"vs/editor/contrib/wordHighlighter/browser/wordHighlighter": [
 			"wordHighlight",
@@ -873,9 +876,6 @@
 			"wordHighlight.next.label",
 			"wordHighlight.previous.label",
 			"wordHighlight.trigger.label"
-		],
-		"vs/editor/contrib/wordOperations/browser/wordOperations": [
-			"deleteInsideWord"
 		],
 		"vs/editor/contrib/readOnlyMessage/browser/contribution": [
 			"editor.simple.readonly",
@@ -2471,6 +2471,10 @@
 			"Toggle Block Comment",
 			"Toggle &&Block Comment"
 		],
+		"vs/editor/contrib/cursorUndo/browser/cursorUndo": [
+			"Cursor Undo",
+			"Cursor Redo"
+		],
 		"vs/editor/contrib/contextmenu/browser/contextmenu": [
 			"Minimap",
 			"Render Characters",
@@ -2482,10 +2486,6 @@
 			"Mouse Over",
 			"Always",
 			"Show Editor Context Menu"
-		],
-		"vs/editor/contrib/cursorUndo/browser/cursorUndo": [
-			"Cursor Undo",
-			"Cursor Redo"
 		],
 		"vs/editor/contrib/dropIntoEditor/browser/dropIntoEditorContribution": [
 			"Running drop handlers..."
@@ -2726,11 +2726,6 @@
 		"vs/editor/contrib/tokenization/browser/tokenization": [
 			"Developer: Force Retokenize"
 		],
-		"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
-			"Toggle Tab Key Moves Focus",
-			"Pressing Tab will now move focus to the next focusable element",
-			"Pressing Tab will now insert the tab character"
-		],
 		"vs/editor/contrib/unicodeHighlighter/browser/unicodeHighlighter": [
 			"Icon shown with a warning message in the extensions editor.",
 			"This document contains many non-basic ASCII unicode characters",
@@ -2756,12 +2751,20 @@
 			"Allow unicode characters that are more common in the language \"{0}\".",
 			"Configure Unicode Highlight Options"
 		],
+		"vs/editor/contrib/toggleTabFocusMode/browser/toggleTabFocusMode": [
+			"Toggle Tab Key Moves Focus",
+			"Pressing Tab will now move focus to the next focusable element",
+			"Pressing Tab will now insert the tab character"
+		],
 		"vs/editor/contrib/unusualLineTerminators/browser/unusualLineTerminators": [
 			"Unusual Line Terminators",
 			"Detected unusual line terminators",
 			"The file '{0}' contains one or more unusual line terminator characters, like Line Separator (LS) or Paragraph Separator (PS).\n\nIt is recommended to remove them from the file. This can be configured via `editor.unusualLineTerminators`.",
 			"Remove Unusual Line Terminators",
 			"Ignore"
+		],
+		"vs/editor/contrib/wordOperations/browser/wordOperations": [
+			"Delete Word"
 		],
 		"vs/editor/contrib/wordHighlighter/browser/wordHighlighter": [
 			"Background color of a symbol during read-access, like reading a variable. The color must not be opaque so as not to hide underlying decorations.",
@@ -2773,9 +2776,6 @@
 			"Go to Next Symbol Highlight",
 			"Go to Previous Symbol Highlight",
 			"Trigger Symbol Highlight"
-		],
-		"vs/editor/contrib/wordOperations/browser/wordOperations": [
-			"Delete Word"
 		],
 		"vs/editor/contrib/readOnlyMessage/browser/contribution": [
 			"Cannot edit in read-only input",

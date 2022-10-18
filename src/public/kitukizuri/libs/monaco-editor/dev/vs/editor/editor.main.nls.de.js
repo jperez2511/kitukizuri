@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.34.0(4b8a47f3570a4a05ace9d00ae0df044b55befcd5)
+ * Version: 0.34.1(0316a754aa4c25208bef91937efbce2ab1e3ce37)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -148,9 +148,9 @@ define("vs/editor/editor.main.nls.de", {
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"Editor",
-		"Die Anzahl der Leerzeichen, denen ein Tabstopp entspricht. Diese Einstellung wird basierend auf dem Inhalt der Datei überschrieben, wenn \"#editor.detectIndentation#\" aktiviert ist.",
-		"Fügt beim Drücken der TAB-Taste Leerzeichen ein. Diese Einstellung wird basierend auf dem Inhalt der Datei überschrieben, wenn \"#editor.detectIndentation#\" aktiviert ist.",
-		"Steuert, ob \"#editor.tabSize#\" und \"#editor.insertSpaces#\" automatisch erkannt werden, wenn eine Datei basierend auf dem Dateiinhalt geöffnet wird.",
+		"Die Anzahl der Leerzeichen, denen ein Tabstopp entspricht. Diese Einstellung wird basierend auf dem Inhalt der Datei überschrieben, wenn {0} aktiviert ist.",
+		"Fügt beim Drücken der TAB-Taste Leerzeichen ein. Diese Einstellung wird basierend auf dem Inhalt der Datei überschrieben, wenn {0} aktiviert ist.",
+		"Steuert, ob {0} und {1} automatisch erkannt werden, wenn eine Datei basierend auf dem Dateiinhalt geöffnet wird.",
 		"Nachfolgende automatisch eingefügte Leerzeichen entfernen",
 		"Spezielle Behandlung für große Dateien zum Deaktivieren bestimmter speicherintensiver Funktionen.",
 		"Steuert, ob Vervollständigungen auf Grundlage der Wörter im Dokument berechnet werden sollen.",
@@ -179,7 +179,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Steuert, ob der Editor CodeLens anzeigt.",
 		"Zeilenumbrüche erfolgen nie.",
 		"Der Zeilenumbruch erfolgt an der Breite des Anzeigebereichs.",
-		"Zeilen werden entsprechend der Einstellung \"#editor.wordWrap#\" umbrochen.",
+		"Zeilen werden gemäß der Einstellung „{0}“ umbrochen.",
 	],
 	"vs/editor/common/config/editorOptions": [
 		"Der Editor verwendet Plattform-APIs, um zu erkennen, wenn eine Sprachausgabe angefügt wird.",
@@ -229,8 +229,8 @@ define("vs/editor/editor.main.nls.de", {
 		"Shows the nested current scopes during the scroll at the top of the editor.",
 		"Aktiviert die Inlay-Hinweise im Editor.",
 		"Inlay-Hinweise sind aktiviert",
-		"Inlay-Hinweise werden standardmäßig angezeigt und ausgeblendet, wenn Sie `Strg+Alt` gedrückt halten",
-		"Inlayhinweise sind standardmäßig ausgeblendet. Sie werden angezeigt, wenn `STRG+ALT` gedrückt gehalten wird.",
+		"Inlay-Hinweise werden standardmäßig angezeigt und ausgeblendet, wenn Sie {0} gedrückt halten",
+		"Inlayhinweise sind standardmäßig ausgeblendet. Sie werden angezeigt, wenn {0} gedrückt gehalten wird.",
 		"Inlay-Hinweise sind deaktiviert",
 		"Steuert den Schriftgrad von Einlapphinweisen im Editor. Standardmäßig wird die {0} verwendet, wenn der konfigurierte Wert kleiner als {1} oder größer als der Schriftgrad des Editors ist.",
 		"Steuert die Schriftartfamilie von Einlapphinweisen im Editor. Bei Festlegung auf \"leer\" wird die {0} verwendet.",
@@ -344,7 +344,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Wenn aktiviert, zeigt IntelliSense user-Vorschläge an.",
 		"Wenn aktiviert, zeigt IntelliSense issues-Vorschläge an.",
 		"Gibt an, ob führende und nachstehende Leerzeichen immer ausgewählt werden sollen.",
-		"Controls whether you can drag and drop a file into a text editor by holding down `shift` (instead of opening the file in an editor).",
+		"Steuert, ob Sie eine Datei in einen Editor ziehen und ablegen können, indem Sie die UMSCHALTTASTE gedrückt halten (anstatt die Datei in einem Editor zu öffnen).",
 		"Steuert, ob Vorschläge für Commitzeichen akzeptiert werden sollen. In JavaScript zum Beispiel kann das Semikolon (`; `) ein Commitzeichen sein, das einen Vorschlag annimmt und dieses Zeichen eingibt.",
 		"Einen Vorschlag nur mit der EINGABETASTE akzeptieren, wenn dieser eine Änderung am Text vornimmt.",
 		"Steuert, ob Vorschläge mit der EINGABETASTE (zusätzlich zur TAB-Taste) akzeptiert werden sollen. Vermeidet Mehrdeutigkeit zwischen dem Einfügen neuer Zeilen oder dem Annehmen von Vorschlägen.",
@@ -502,7 +502,7 @@ define("vs/editor/editor.main.nls.de", {
 		"Hintergrundfarbe für zusammengehörige Klammern",
 		"Farbe für zusammengehörige Klammern",
 		"Farbe des Rahmens für das Übersicht-Lineal.",
-		"Hintergrundfarbe des Übersichtslineals im Editor. Wird nur verwendet, wenn die Minimap aktiviert ist und auf der rechten Seite des Editors platziert wird.",
+		"Hintergrundfarbe des Editor-Übersichtslineals.",
 		"Hintergrundfarbe der Editorleiste. Die Leiste enthält die Glyphenränder und die Zeilennummern.",
 		"Rahmenfarbe unnötigen (nicht genutzten) Quellcodes im Editor.",
 		"Deckkraft des unnötigen (nicht genutzten) Quellcodes im Editor. \"#000000c0\" rendert z.B. den Code mit einer Deckkraft von 75%. Verwenden Sie für Designs mit hohem Kontrast das Farbdesign \"editorUnnecessaryCode.border\", um unnötigen Code zu unterstreichen statt ihn abzublenden.",
@@ -681,11 +681,11 @@ define("vs/editor/editor.main.nls.de", {
 		"Keine automatischen Korrekturen verfügbar",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
-		"Gibt an, ob das Widget für die Codeaktionsliste sichtbar ist.",
+		"Whether the code action list widget is visible",
 		"{0} to Refactor, {1} to Preview",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"Durch Aktivieren dieser Option wird die Darstellung des Codeaktionsmenüs angepasst.",
+		"Enabling this adjusts how the code action menu is rendered.",
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"Zeigt Codeaktionen an. Bevorzugte Schnellkorrektur verfügbar ({0})",
@@ -792,8 +792,8 @@ define("vs/editor/editor.main.nls.de", {
 		"Zur übergeordneten Reduzierung wechseln",
 		"Zum vorherigen Faltbereich wechseln",
 		"Zum nächsten Faltbereich wechseln",
-		"Create Manual Folding Range from Selection",
-		"Remove Manual Folding Ranges",
+		"Manuellen Faltbereich aus Auswahl erstellen",
+		"Manuelle Faltbereiche entfernen",
 		"Faltebene {0}",
 		"Hintergrundfarbe hinter gefalteten Bereichen. Die Farbe darf nicht deckend sein, sodass zugrunde liegende Dekorationen nicht ausgeblendet werden.",
 		"Farbe des Faltsteuerelements im Editor-Bundsteg.",
@@ -801,8 +801,8 @@ define("vs/editor/editor.main.nls.de", {
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"Symbol für aufgeklappte Bereiche im Editor-Glyphenrand.",
 		"Symbol für zugeklappte Bereiche im Editor-Glyphenrand.",
-		"Icon for manually collapsed ranges in the editor glyph margin.",
-		"Icon for manually expanded ranges in the editor glyph margin.",
+		"Symbol für manuell reduzierte Bereiche im Glyphenrand des Editors.",
+		"Symbol für manuell erweiterte Bereiche im Glyphenrand des Editors.",
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"Editorschriftart vergrößern",
@@ -1478,8 +1478,8 @@ define("vs/editor/editor.main.nls.de", {
 		"Rahmenfarbe aktiver Trennleisten.",
 		"Hintergrundfarbe des Editors.",
 		"Standardvordergrundfarbe des Editors.",
-		"Sticky scroll background color for the editor",
-		"Sticky scroll on hover background color for the editor",
+		"Einrastfunktion der Hintergrundfarbe für den Editor",
+		"Einrastfunktion beim Daraufzeigen der Hintergrundfarbe für den Editor",
 		"Hintergrundfarbe von Editor-Widgets wie zum Beispiel Suchen/Ersetzen.",
 		"Vordergrundfarbe für Editorwidgets wie Suchen/Ersetzen.",
 		"Rahmenfarbe von Editorwigdets. Die Farbe wird nur verwendet, wenn für das Widget ein Rahmen verwendet wird und die Farbe nicht von einem Widget überschrieben wird.",

@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.34.0(4b8a47f3570a4a05ace9d00ae0df044b55befcd5)
+ * Version: 0.34.1(0316a754aa4c25208bef91937efbce2ab1e3ce37)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -148,9 +148,9 @@ define("vs/editor/editor.main.nls.zh-cn", {
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"编辑器",
-		"一个制表符等于的空格数。在 `#editor.detectIndentation#` 启用时，根据文件内容，该设置可能会被覆盖。",
-		"按 `Tab` 键时插入空格。该设置在 `#editor.detectIndentation#` 启用时根据文件内容可能会被覆盖。",
-		"控制是否在打开文件时，基于文件内容自动检测 `#editor.tabSize#` 和 `#editor.insertSpaces#`。",
+		"一个制表符等于的空格数。当 {0} 打开时，将根据文件内容替代此设置。",
+		"按 `Tab` 时插入空格。当 {0} 打开时，将根据文件内容替代此设置。",
+		"控制在基于文件内容打开文件时是否自动检测 {0} 和 {1}。",
 		"删除自动插入的尾随空白符号。",
 		"对大型文件进行特殊处理，禁用某些内存密集型功能。",
 		"控制是否根据文档中的文字计算自动完成列表。",
@@ -179,7 +179,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"控制是否在编辑器中显示 CodeLens。",
 		"永不换行。",
 		"将在视区宽度处换行。",
-		"将根据 `#editor.wordWrap#` 设置换行。",
+		"行将根据 {0} 设置进行换行。",
 	],
 	"vs/editor/common/config/editorOptions": [
 		"编辑器将使用平台 API 以检测是否附加了屏幕阅读器。",
@@ -229,8 +229,8 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"Shows the nested current scopes during the scroll at the top of the editor.",
 		"在编辑器中启用内联提示。",
 		"已启用内嵌提示",
-		"默认情况下显示内嵌提示，并在按住 `Ctrl+Alt` 时隐藏",
-		"默认情况下隐藏内嵌提示，并在按住 `Ctrl+Alt` 时显示",
+		"默认情况下显示内嵌提示，并在按住 {0} 时隐藏",
+		"默认情况下隐藏内嵌提示，并在按住 {0} 时显示",
 		"已禁用内嵌提示",
 		"控制编辑器中嵌入提示的字号。默认情况下，当配置的值小于 {1} 或大于编辑器字号时，将使用 {0}。",
 		"控制编辑器中嵌入提示的字体系列。设置为空时，将使用 {0}。",
@@ -344,7 +344,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"启用后，IntelliSense 将显示\"用户\"建议。",
 		"启用后，IntelliSense 将显示\"问题\"建议。",
 		"是否应始终选择前导和尾随空格。",
-		"Controls whether you can drag and drop a file into a text editor by holding down `shift` (instead of opening the file in an editor).",
+		"控制是否可以通过按住 `Shift` (而不是在编辑器中打开文件)将文件拖放到编辑器中。",
 		"控制是否应在提交字符时接受建议。例如，在 JavaScript 中，半角分号(`;`)可以为提交字符，能够接受建议并键入该字符。",
 		"仅当建议包含文本改动时才可使用 `Enter` 键进行接受。",
 		"控制除了 `Tab` 键以外， `Enter` 键是否同样可以接受建议。这能减少“插入新行”和“接受建议”命令之间的歧义。",
@@ -502,7 +502,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"匹配括号的背景色",
 		"匹配括号外框的颜色",
 		"概览标尺边框的颜色。",
-		"编辑器概述标尺的背景色。仅当缩略图已启用且置于编辑器右侧时才使用。",
+		"编辑器概述标尺的背景色。",
 		"编辑器导航线的背景色。导航线包括边缘符号和行号。",
 		"编辑器中不必要(未使用)的源代码的边框颜色。",
 		"非必须(未使用)代码的在编辑器中显示的不透明度。例如，\"#000000c0\" 将以 75% 的不透明度显示代码。对于高对比度主题，请使用 ”editorUnnecessaryCode.border“ 主题来为非必须代码添加下划线，以避免颜色淡化。",
@@ -681,11 +681,11 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"没有可用的自动修复程序",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
-		"代码操作列表小组件是否可见",
+		"Whether the code action list widget is visible",
 		"{0} to Refactor, {1} to Preview",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"启用此选项可调整代码操作菜单的呈现方式。",
+		"Enabling this adjusts how the code action menu is rendered.",
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"显示代码操作。首选可用的快速修复({0})",
@@ -707,7 +707,7 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"切换块注释(&&B)",
 	],
 	"vs/editor/contrib/contextmenu/browser/contextmenu": [
-		"Minimap",
+		"缩略图",
 		"呈现字符",
 		"垂直大小",
 		"成比例",
@@ -792,8 +792,8 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"跳转到父级折叠",
 		"转到上一个折叠范围",
 		"转到下一个折叠范围",
-		"Create Manual Folding Range from Selection",
-		"Remove Manual Folding Ranges",
+		"根据所选内容创建手动折叠范围",
+		"删除手动折叠范围",
 		"折叠级别 {0}",
 		"折叠范围后面的背景颜色。颜色必须设为透明，以免隐藏底层装饰。",
 		"编辑器装订线中折叠控件的颜色。",
@@ -801,8 +801,8 @@ define("vs/editor/editor.main.nls.zh-cn", {
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"编辑器字形边距中已展开的范围的图标。",
 		"编辑器字形边距中已折叠的范围的图标。",
-		"Icon for manually collapsed ranges in the editor glyph margin.",
-		"Icon for manually expanded ranges in the editor glyph margin.",
+		"编辑器字形边距中手动折叠的范围的图标。",
+		"编辑器字形边距中手动展开的范围的图标。",
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"放大编辑器字体",
@@ -1478,8 +1478,8 @@ define("vs/editor/editor.main.nls.zh-cn", {
 		"活动框格的边框颜色。",
 		"编辑器背景色。",
 		"编辑器默认前景色。",
-		"Sticky scroll background color for the editor",
-		"Sticky scroll on hover background color for the editor",
+		"编辑器的粘滞滚动背景色",
+		"编辑器悬停背景色上的粘滞滚动",
 		"编辑器组件(如查找/替换)背景颜色。",
 		"编辑器小部件的前景色，如查找/替换。",
 		"编辑器小部件的边框颜色。此颜色仅在小部件有边框且不被小部件重写时适用。",

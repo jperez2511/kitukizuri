@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.34.0(4b8a47f3570a4a05ace9d00ae0df044b55befcd5)
+ * Version: 0.34.1(0316a754aa4c25208bef91937efbce2ab1e3ce37)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -148,9 +148,9 @@ define("vs/editor/editor.main.nls.fr", {
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"Éditeur",
-		"Le nombre d\'espaces auxquels une tabulation est égale. Ce paramètre est substitué basé sur le contenu du fichier lorsque `#editor.detectIndentation#` est à \'on\'.",
-		"Espaces insérés quand vous appuyez sur la touche Tab. Ce paramètre est remplacé en fonction du contenu du fichier quand \'#editor.detectIndentation#\' est activé.",
-		"Contrôle si \'#editor.tabSize#\' et \'#editor.insertSpaces#\' sont automatiquement détectés lors de l’ouverture d’un fichier en fonction de son contenu.",
+		"Le nombre d’espaces auxquels une tabulation est égale. Ce paramètre est substitué basé sur le contenu du fichier lorsque {0} est activé.",
+		"Espaces insérés quand vous appuyez sur la touche Tab. Ce paramètre est remplacé en fonction du contenu du fichier quand {0} est activé.",
+		"Contrôle si {0} et {1} sont automatiquement détectés lors de l’ouverture d’un fichier en fonction de son contenu.",
 		"Supprimer l\'espace blanc de fin inséré automatiquement.",
 		"Traitement spécial des fichiers volumineux pour désactiver certaines fonctionnalités utilisant beaucoup de mémoire.",
 		"Contrôle si la saisie semi-automatique doit être calculée en fonction des mots présents dans le document.",
@@ -179,7 +179,7 @@ define("vs/editor/editor.main.nls.fr", {
 		"Contrôle si l\'éditeur affiche CodeLens.",
 		"Le retour automatique à la ligne n\'est jamais effectué.",
 		"Le retour automatique à la ligne s\'effectue en fonction de la largeur de la fenêtre d\'affichage.",
-		"Le retour automatique à la ligne dépend du paramètre \'#editor.wordWrap#\'.",
+		"Le retour automatique à la ligne dépend du paramètre {0}.",
 	],
 	"vs/editor/common/config/editorOptions": [
 		"L\'éditeur utilise les API de la plateforme pour détecter si un lecteur d\'écran est attaché.",
@@ -229,8 +229,8 @@ define("vs/editor/editor.main.nls.fr", {
 		"Shows the nested current scopes during the scroll at the top of the editor.",
 		"Active les indicateurs inlay dans l’éditeur.",
 		"Les indicateurs d’inlay sont activés.",
-		"Les indicateurs d’inlay sont affichés par défaut et masqués lorsque vous maintenez la touche « Ctrl+Alt » enfoncée",
-		"Les indicateurs d’inlay sont masqués par défaut et s’affichent lorsque vous maintenez la touche `Ctrl+Alt` enfoncée.",
+		"Les indicateurs d’inlay sont affichés par défaut et masqués lors de la conservation {0}",
+		"Les indicateurs d’inlay sont masqués par défaut et s’affichent lorsque vous maintenez {0}",
 		"Les indicateurs d’inlay sont désactivés.",
 		"Contrôle la taille de police des indicateurs d’inlay dans l’éditeur. Par défaut, le {0} est utilisé lorsque la valeur configurée est inférieure à {1} ou supérieure à la taille de police de l’éditeur.",
 		"Contrôle la famille de polices des indicateurs d’inlay dans l’éditeur. Lorsqu’il est défini sur vide, le {0} est utilisé.",
@@ -344,7 +344,7 @@ define("vs/editor/editor.main.nls.fr", {
 		"Si activé, IntelliSense montre des suggestions de type \'utilisateur\'.",
 		"Si activé, IntelliSense montre des suggestions de type \'problèmes\'.",
 		"Indique si les espaces blancs de début et de fin doivent toujours être sélectionnés.",
-		"Controls whether you can drag and drop a file into a text editor by holding down `shift` (instead of opening the file in an editor).",
+		"Contrôle si vous pouvez faire glisser et déposer un fichier dans un éditeur de texte en maintenant la touche Maj enfoncée (au lieu d’ouvrir le fichier dans un éditeur).",
 		"Contrôle si les suggestions doivent être acceptées sur les caractères de validation, et entre ce caractère. Par exemple, en JavaScript, le point-virgule (\'; \') peut être un caractère de validation qui accepte une suggestion.",
 		"Accepter uniquement une suggestion avec \'Entrée\' quand elle effectue une modification textuelle.",
 		"Contrôle si les suggestions sont acceptées après appui sur \'Entrée\', en plus de \'Tab\'. Permet d’éviter toute ambiguïté entre l’insertion de nouvelles lignes et l\'acceptation de suggestions.",
@@ -502,7 +502,7 @@ define("vs/editor/editor.main.nls.fr", {
 		"Couleur d\'arrière-plan pour les accolades associées",
 		"Couleur pour le contour des accolades associées",
 		"Couleur de la bordure de la règle d\'aperçu.",
-		"Couleur d\'arrière-plan de la règle d\'aperçu de l\'éditeur. Utilisée uniquement quand la minimap est activée et placée sur le côté droit de l\'éditeur.",
+		"Couleur d’arrière-plan de la règle de vue d’ensemble de l’éditeur.",
 		"Couleur de fond pour la bordure de l\'éditeur. La bordure contient les marges pour les symboles et les numéros de ligne.",
 		"Couleur de bordure du code source inutile (non utilisé) dans l\'éditeur.",
 		"Opacité du code source inutile (non utilisé) dans l\'éditeur. Par exemple, \'#000000c0\' affiche le code avec une opacité de 75 %. Pour les thèmes à fort contraste, utilisez la couleur de thème \'editorUnnecessaryCode.border\' pour souligner le code inutile au lieu d\'utiliser la transparence.",
@@ -681,11 +681,11 @@ define("vs/editor/editor.main.nls.fr", {
 		"Aucun correctif automatique disponible",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
-		"Indique si le widget de liste d’actions de code est visible",
+		"Whether the code action list widget is visible",
 		"{0} to Refactor, {1} to Preview",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"L’activation de cette option ajuste le mode de rendu du menu d’action du code.",
+		"Enabling this adjusts how the code action menu is rendered.",
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"Afficher les actions de code. Correctif rapide disponible par défaut ({0})",
@@ -792,8 +792,8 @@ define("vs/editor/editor.main.nls.fr", {
 		"Atteindre le pli parent",
 		"Accéder à la plage de pliage précédente",
 		"Accéder à la plage de pliage suivante",
-		"Create Manual Folding Range from Selection",
-		"Remove Manual Folding Ranges",
+		"Créer une plage de pliage manuel à partir de la sélection",
+		"Supprimer les plages de pliage manuelles",
 		"Niveau de pliage {0}",
 		"Couleur d\'arrière-plan des gammes pliées. La couleur ne doit pas être opaque pour ne pas cacher les décorations sous-jacentes.",
 		"Couleur du contrôle de pliage dans la marge de l\'éditeur.",
@@ -801,8 +801,8 @@ define("vs/editor/editor.main.nls.fr", {
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"Icône des plages développées dans la marge de glyphes de l\'éditeur.",
 		"Icône des plages réduites dans la marge de glyphes de l\'éditeur.",
-		"Icon for manually collapsed ranges in the editor glyph margin.",
-		"Icon for manually expanded ranges in the editor glyph margin.",
+		"Icône pour les plages réduites manuellement dans la marge de glyphe de l’éditeur.",
+		"Icône pour les plages développées manuellement dans la marge de glyphe de l’éditeur.",
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"Agrandissement de l\'éditeur de polices de caractères",
@@ -1004,7 +1004,7 @@ define("vs/editor/editor.main.nls.fr", {
 		"Transformer en minuscule",
 		"Appliquer la casse \"1re lettre des mots en majuscule\"",
 		"Transformer en snake case",
-		"Transformer en affaire de kebab",
+		"Transformer en kebab case",
 	],
 	"vs/editor/contrib/linkedEditing/browser/linkedEditing": [
 		"Démarrer la modification liée",
@@ -1478,8 +1478,8 @@ define("vs/editor/editor.main.nls.fr", {
 		"Couleur de bordure des fenêtres coulissantes.",
 		"Couleur d\'arrière-plan de l\'éditeur.",
 		"Couleur de premier plan par défaut de l\'éditeur.",
-		"Sticky scroll background color for the editor",
-		"Sticky scroll on hover background color for the editor",
+		"Couleur d’arrière-plan du défilement pense-bête pour l’éditeur",
+		"Faire défiler l’écran sur la couleur d’arrière-plan du pointage pour l’éditeur",
 		"Couleur d\'arrière-plan des gadgets de l\'éditeur tels que rechercher/remplacer.",
 		"Couleur de premier plan des widgets de l\'éditeur, notamment Rechercher/remplacer.",
 		"Couleur de bordure des widgets de l\'éditeur. La couleur est utilisée uniquement si le widget choisit d\'avoir une bordure et si la couleur n\'est pas remplacée par un widget.",

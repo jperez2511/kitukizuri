@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.34.0(4b8a47f3570a4a05ace9d00ae0df044b55befcd5)
+ * Version: 0.34.1(0316a754aa4c25208bef91937efbce2ab1e3ce37)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -148,9 +148,9 @@ define("vs/editor/editor.main.nls.zh-tw", {
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"編輯器",
-		"與 Tab 相等的空格數量。當 `#editor.detectIndentation#` 已開啟時，會根據檔案內容覆寫此設定。",
-		"在按 `Tab` 時插入空格。當 `#editor.detectIndentation#` 開啟時，會根據檔案內容覆寫此設定。",
-		"根據檔案內容，控制當檔案開啟時，是否自動偵測 `#editor.tabSize#` 和 `#editor.insertSpaces#`。",
+		"與 Tab 相等的空格數量。當 {0} 已開啟時，會根據檔案內容覆寫此設定。",
+		"在按 `Tab` 時插入空格。當 {0} 開啟時，會根據檔案內容覆寫此設定。",
+		"根據檔案內容，控制當檔案開啟時，是否自動偵測 {0} 和 {1}。",
 		"移除尾端自動插入的空白字元。",
 		"針對大型檔案停用部分高記憶體需求功能的特殊處理方式。",
 		"控制是否應根據文件中的單字計算自動完成。",
@@ -179,7 +179,7 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"控制編輯器是否顯示 codelens。",
 		"一律不換行。",
 		"依檢視區寬度換行。",
-		"將依據 `#editor.wordWrap#` 設定自動換行。",
+		"將依據 {0} 設定自動換行。",
 	],
 	"vs/editor/common/config/editorOptions": [
 		"編輯器將使用平台 API 以偵測螢幕助讀程式附加。",
@@ -229,8 +229,8 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"Shows the nested current scopes during the scroll at the top of the editor.",
 		"啟用編輯器中的內嵌提示。",
 		"已啟用內嵌提示",
-		"預設會顯示內嵌提示，並在按住 \'Ctrl+Alt\' 時隱藏",
-		"預設會隱藏內嵌提示，並在按住 \'Ctrl+Alt\' 時顯示",
+		"預設會顯示內嵌提示，並在按住 {0} 時隱藏",
+		"預設會隱藏內嵌提示，並在按住 {0} 時顯示",
 		"已停用內嵌提示",
 		"控制編輯器中內嵌提示的字型大小。當設定的值小於 {1} 或大於編輯器字型大小時，則會使用{0} 預設值。",
 		"控制編輯器中，內嵌提示的字型家族。設定為空白時，則會使用 {0}。",
@@ -344,7 +344,7 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"啟用之後，IntelliSense 會顯示 `user`-suggestions。",
 		"啟用時，IntelliSense 會顯示 `issues`-suggestions。",
 		"是否應一律選取前置和後置的空白字元。",
-		"Controls whether you can drag and drop a file into a text editor by holding down `shift` (instead of opening the file in an editor).",
+		"控制您是否可以按住 `shift` 鍵 (而非在編輯器中開啟檔案)，將檔案拖放到文字編輯器中。",
 		"控制是否透過提交字元接受建議。例如在 JavaScript 中，分號 (`; `) 可以是接受建議並鍵入該字元的提交字元。",
 		"在建議進行文字變更時，僅透過 `Enter` 接受建議。",
 		"控制除了 \'Tab\' 外，是否也透過 \'Enter\' 接受建議。這有助於避免混淆要插入新行或接受建議。",
@@ -502,7 +502,7 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"成對括號背景色彩",
 		"成對括號邊框色彩",
 		"預覽檢視編輯器尺規的邊框色彩.",
-		"編輯器概觀尺規的背景色彩。僅在啟用縮圖並將其置於編輯器右側時使用。",
+		"編輯器概觀尺規的背景色彩。",
 		"編輯器邊框的背景顏色,包含行號與字形圖示的邊框.",
 		"編輯器中不必要 (未使用) 原始程式碼的框線色彩。",
 		"編輯器中不必要 (未使用) 原始程式碼的不透明度。例如 \"#000000c0” 會以 75% 的不透明度轉譯程式碼。針對高對比主題，使用 \'editorUnnecessaryCode.border\' 主題色彩可為不必要的程式碼加上底線，而不是將其變淡。",
@@ -681,11 +681,11 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"沒有可用的自動修正",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
-		"是否顯示程式碼動作清單小工具",
+		"Whether the code action list widget is visible",
 		"{0} to Refactor, {1} to Preview",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"啟用此選項可調整程式碼動作功能表的轉譯方式。",
+		"Enabling this adjusts how the code action menu is rendered.",
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"顯示程式碼動作。偏好的快速修正可用 ({0})",
@@ -707,7 +707,7 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"切換區塊註解(&&B)",
 	],
 	"vs/editor/contrib/contextmenu/browser/contextmenu": [
-		"Minimap",
+		"縮圖",
 		"轉譯字元",
 		"垂直大小",
 		"按比例",
@@ -792,8 +792,8 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"移至父代摺疊",
 		"移至上一個摺疊範圍",
 		"移至下一個摺疊範圍",
-		"Create Manual Folding Range from Selection",
-		"Remove Manual Folding Ranges",
+		"從選取範圍建立手動摺疊範圍",
+		"移除手動折疊範圍",
 		"摺疊層級 {0}",
 		"已摺疊範圍後的背景色彩。色彩不得處於不透明狀態，以免隱藏底層裝飾。",
 		"編輯器裝訂邊的摺疊控制項色彩。",
@@ -801,8 +801,8 @@ define("vs/editor/editor.main.nls.zh-tw", {
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"編輯器字符邊界中 [展開的範圍] 的圖示。",
 		"編輯器字符邊界中 [摺疊的範圍] 的圖示。",
-		"Icon for manually collapsed ranges in the editor glyph margin.",
-		"Icon for manually expanded ranges in the editor glyph margin.",
+		"編輯器字符邊界中手動摺疊範圍的圖示。",
+		"編輯器字符邊界中手動展開範圍的圖示。",
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"編輯器字體放大",
@@ -1478,8 +1478,8 @@ define("vs/editor/editor.main.nls.zh-tw", {
 		"使用中飾帶的框線色彩。",
 		"編輯器的背景色彩。",
 		"編輯器的預設前景色彩。",
-		"Sticky scroll background color for the editor",
-		"Sticky scroll on hover background color for the editor",
+		"編輯器的黏滯卷軸背景色彩",
+		"編輯器的游標背景色彩上的黏滯卷軸",
 		"編輯器小工具的背景色彩，例如尋找/取代。",
 		"編輯器小工具 (例如尋找/取代) 的前景色彩。",
 		"編輯器小工具的邊界色彩。小工具選擇擁有邊界或色彩未被小工具覆寫時，才會使用色彩。",

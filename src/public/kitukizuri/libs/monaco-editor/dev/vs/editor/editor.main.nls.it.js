@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Version: 0.34.0(4b8a47f3570a4a05ace9d00ae0df044b55befcd5)
+ * Version: 0.34.1(0316a754aa4c25208bef91937efbce2ab1e3ce37)
  * Released under the MIT license
  * https://github.com/microsoft/vscode/blob/main/LICENSE.txt
  *-----------------------------------------------------------*/
@@ -148,9 +148,9 @@ define("vs/editor/editor.main.nls.it", {
 	],
 	"vs/editor/common/config/editorConfigurationSchema": [
 		"Editor",
-		"Numero di spazi a cui equivale una tabulazione. Quando `#editor.detectIndentation#` è attivo, questa impostazione viene sostituita in base al contenuto del file.",
-		"Inserisce spazi quando viene premuto TAB. Quando `#editor.detectIndentation#` è attivo, questa impostazione viene sostituita in base al contenuto del file.",
-		"Controlla se `#editor.tabSize#` e `#editor.insertSpaces#` verranno rilevati automaticamente quando un file viene aperto in base al contenuto del file.",
+		"Numero di spazi a cui è uguale una scheda. Questa impostazione viene sottoposta a override in base al contenuto del file quando {0} è attivo.",
+		"Inserire spazi quando si preme \'TAB\'. Questa impostazione viene sottoposta a override in base al contenuto del file quando {0} è attivo.",
+		"Controlla se {0} e {1} verranno rilevati automaticamente quando un file viene aperto in base al contenuto del file.",
 		"Rimuovi gli spazi finali inseriti automaticamente.",
 		"Gestione speciale dei file di grandi dimensioni per disabilitare alcune funzionalità che fanno un uso intensivo della memoria.",
 		"Controlla se calcolare i completamenti in base alle parole presenti nel documento.",
@@ -179,7 +179,7 @@ define("vs/editor/editor.main.nls.it", {
 		"Controlla se l\'editor visualizza CodeLens.",
 		"Il ritorno a capo automatico delle righe non viene mai applicato.",
 		"Il ritorno a capo automatico delle righe viene applicato in corrispondenza della larghezza del viewport.",
-		"Il ritorno a capo automatico delle righe viene applicato in base all\'impostazione `#editor.wordWrap#`.",
+		"Le righe andranno a capo in base all\'impostazione {0}.",
 	],
 	"vs/editor/common/config/editorOptions": [
 		"L\'editor userà le API della piattaforma per rilevare quando viene collegata un\'utilità per la lettura dello schermo.",
@@ -229,8 +229,8 @@ define("vs/editor/editor.main.nls.it", {
 		"Shows the nested current scopes during the scroll at the top of the editor.",
 		"Abilita i suggerimenti incorporati nell\'Editor.",
 		"Gli hint di inlay sono abilitati",
-		"I suggerimenti di inlay vengono visualizzati per impostazione predefinita e vengono nascosti quando si tiene premuto \'CTRL+ALT\'",
-		"Gli hint di inlay sono nascosti per impostazione predefinita e vengono visualizzati solo quando si tiene premuto \'CTRL+ALT\'",
+		"Gli hint di inlay vengono visualizzati per impostazione predefinita e vengono nascosti quando si tiene premuto {0}",
+		"Gli hint di inlay sono nascosti per impostazione predefinita e vengono visualizzati solo quando si tiene premuto {0}",
 		"Gli hint di inlay sono disabilitati",
 		"Controlla le dimensioni del carattere dei suggerimenti di inlay nell\'editor. Per impostazione predefinita, {0} viene usato quando il valore configurato è minore di {1} o maggiore delle dimensioni del carattere dell\'editor.",
 		"Controlla la famiglia di caratteri dei suggerimenti inlay nell\'editor. Se impostato su vuoto, viene usato {0}.",
@@ -344,7 +344,7 @@ define("vs/editor/editor.main.nls.it", {
 		"Se è abilitata, IntelliSense mostra i suggerimenti relativi a `user`.",
 		"Se è abilitata, IntelliSense mostra i suggerimenti relativi a `issues`.",
 		"Indica se gli spazi vuoti iniziali e finali devono essere sempre selezionati.",
-		"Controls whether you can drag and drop a file into a text editor by holding down `shift` (instead of opening the file in an editor).",
+		"Controlla se è possibile trascinare un file in un editor di testo tenendo premuto MAIUSC (invece di aprire il file in un editor).",
 		"Controlla se accettare i suggerimenti con i caratteri di commit. Ad esempio, in JavaScript il punto e virgola (`; `) può essere un carattere di commit che accetta un suggerimento e digita tale carattere.",
 		"Accetta un suggerimento con \'Invio\' solo quando si apporta una modifica al testo.",
 		"Controlla se i suggerimenti devono essere accettati con \'INVIO\' in aggiunta a \'TAB\'. In questo modo è possibile evitare ambiguità tra l\'inserimento di nuove righe e l\'accettazione di suggerimenti.",
@@ -502,7 +502,7 @@ define("vs/editor/editor.main.nls.it", {
 		"Colore di sfondo delle parentesi corrispondenti",
 		"Colore delle caselle di parentesi corrispondenti",
 		"Colore del bordo del righello delle annotazioni.",
-		"Colore di sfondo del righello delle annotazioni dell\'editor. Viene usato solo quando la minimappa è abilitata e posizionata sul lato destro dell\'editor.",
+		"Colore di sfondo del righello delle annotazioni dell\'editor.",
 		"Colore di sfondo della barra di navigazione dell\'editor. La barra contiene i margini di glifo e i numeri di riga.",
 		"Colore del bordo del codice sorgente non necessario (non usato) nell\'editor.",
 		"Opacità del codice sorgente non necessario (non usato) nell\'editor. Ad esempio, con \"#000000c0\" il rendering del codice verrà eseguito con il 75% di opacità. Per i temi a contrasto elevato, usare il colore del tema \'editorUnnecessaryCode.border\' per sottolineare il codice non necessario invece di opacizzarlo.",
@@ -681,11 +681,11 @@ define("vs/editor/editor.main.nls.it", {
 		"Non sono disponibili correzioni automatiche",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionMenu": [
-		"Indica se il widget dell\'elenco azioni codice è visibile",
+		"Whether the code action list widget is visible",
 		"{0} to Refactor, {1} to Preview",
 	],
 	"vs/editor/contrib/codeAction/browser/codeActionWidgetContribution": [
-		"L\'abilitazione di questa opzione consente di regolare la modalità di rendering del menu azione codice.",
+		"Enabling this adjusts how the code action menu is rendered.",
 	],
 	"vs/editor/contrib/codeAction/browser/lightBulbWidget": [
 		"Mostra azioni codice. Correzione rapida preferita disponibile ({0})",
@@ -707,7 +707,7 @@ define("vs/editor/editor.main.nls.it", {
 		"Attiva/Disattiva commento per il &&blocco",
 	],
 	"vs/editor/contrib/contextmenu/browser/contextmenu": [
-		"Minimap",
+		"Minimappa",
 		"Esegui rendering dei caratteri",
 		"Dimensioni verticali",
 		"Proporzionale",
@@ -792,8 +792,8 @@ define("vs/editor/editor.main.nls.it", {
 		"Vai alla cartella principale",
 		"Passa all\'intervallo di riduzione precedente",
 		"Passa all\'intervallo di riduzione successivo",
-		"Create Manual Folding Range from Selection",
-		"Remove Manual Folding Ranges",
+		"Crea intervallo di riduzione manuale dalla selezione",
+		"Rimuovi intervalli di riduzione manuale",
 		"Livello riduzione {0}",
 		"Colore di sfondo degli intervalli con riduzione. Il colore non deve essere opaco per evitare di nascondere le decorazioni sottostanti.",
 		"Colore del controllo di riduzione nella barra di navigazione dell\'editor.",
@@ -801,8 +801,8 @@ define("vs/editor/editor.main.nls.it", {
 	"vs/editor/contrib/folding/browser/foldingDecorations": [
 		"Icona per gli intervalli espansi nel margine del glifo dell\'editor.",
 		"Icona per gli intervalli compressi nel margine del glifo dell\'editor.",
-		"Icon for manually collapsed ranges in the editor glyph margin.",
-		"Icon for manually expanded ranges in the editor glyph margin.",
+		"Icona per gli intervalli compressi nel margine del glifo dell\'editor.",
+		"Icona per gli intervalli espansi manualmente nel margine del glifo dell\'editor.",
 	],
 	"vs/editor/contrib/fontZoom/browser/fontZoom": [
 		"Zoom avanti tipo di carattere editor",
@@ -1478,8 +1478,8 @@ define("vs/editor/editor.main.nls.it", {
 		"Colore dei bordi di ridimensionamento attivi.",
 		"Colore di sfondo dell\'editor.",
 		"Colore primo piano predefinito dell\'editor.",
-		"Sticky scroll background color for the editor",
-		"Sticky scroll on hover background color for the editor",
+		"Colore di sfondo dello scorrimento permanente per l\'editor",
+		"Colore di sfondo dello scorrimento permanente al passaggio del mouse per l\'editor",
 		"Colore di sfondo dei widget dell\'editor, ad esempio Trova/Sostituisci.",
 		"Colore primo piano dei widget dell\'editor, ad esempio Trova/Sostituisci.",
 		"Colore del bordo dei widget dell\'editor. Il colore viene usato solo se il widget sceglie di avere un bordo e se il colore non è sottoposto a override da un widget.",
