@@ -49,7 +49,7 @@
                 <p id="msgError" class="hide" align="justify" style="color: darkred;">
                     Las contraseñas no coinciden
                 </p>
-                <a href="#" class="btn btn-space btn-danger" onclick="history.back()"> Cancelar</a>
+                <a href="{!! $urlBack !!}" class="btn btn-space btn-danger"> Cancelar</a>
                 <button type="submit" class="btn btn-space btn-success" id="guardar">Guardar</button>
             </div>
         @endif

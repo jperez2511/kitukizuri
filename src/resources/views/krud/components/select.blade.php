@@ -13,8 +13,9 @@
     if(empty($inputClass)) {
         $inputClass = 'form-control';
     }
-
+    
     if(!empty($attr)) {
+        $attr = (array) json_decode($attr);
         $attributes = $attributes->merge($attr);
     }
 @endphp
