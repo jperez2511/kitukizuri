@@ -73,7 +73,7 @@ class MenuController
         // obteniendo los hijos del elemento actual
         $hijos = Menu::getHijos($nodo->menuid);
 
-        if ($hijos->count() > 0 && $nodo->padreid == null) {
+        if ($hijos->count() > 0) {
             
             if ($nodo->modulopermisoid == null) {
                 // valida si alguno de los hijos tiene permisos
@@ -117,7 +117,7 @@ class MenuController
                     $this->tree .= '>';
                     
                     foreach ($hijos as $hijo) {
-                        if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
+                        if ($hijo->modulopermisoid == null || in_array($hijo->modulopermisoid, $this->permisos)) {
                             $this->getNodos($hijo);
                         }
                     }
@@ -134,7 +134,7 @@ class MenuController
                     $this->tree .= '>';
                     
                     foreach ($hijos as $hijo) {
-                        if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
+                        if ($hijo->modulopermisoid == null || in_array($hijo->modulopermisoid, $this->permisos)) {
                             $this->getNodos($hijo);
                         }
                     }
@@ -201,13 +201,15 @@ class MenuController
         $permiso = 0;
 
         $hijos = Menu::getHijos($nodo->menuid);
-        
+
         // recorrido y validación de permisos de los hijos 
         foreach ($hijos as $hijo) {
             if ($hijo->modulopermisoid != null && in_array($hijo->modulopermisoid, $this->permisos)) {
                 $permiso = 1;
                 break;
             }
+
+            $permiso = $this->hijosPermisos($hijo);
         }
 
         return $permiso;
