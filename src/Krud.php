@@ -274,6 +274,7 @@ class Krud extends Controller
             'target',       // Para los campos URL establece el target
             'unique',       // valida que el valor ingresado se único
             'value',        // Valor definido o predeterminado. 
+            'validation',   // Valida los campos según la nomenclatura de laravel
         ];
         $tipos = [
             'bool',         // Muestra un checkbox en el edit y un si o no en el index
