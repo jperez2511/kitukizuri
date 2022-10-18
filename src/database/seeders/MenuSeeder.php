@@ -67,10 +67,10 @@ class MenuSeeder extends Seeder
 				'catalogo'        => $item['catalogo'],
 				'show'            => $item['show'],
 			]);
-		}
 
-		if(!empty($item['menu'])){
-			$this->saveData($item['menu'], $menuID);
+			if(!empty($item['menu'])){
+				$this->saveData($item['menu'], $menuID);
+			}
 		}
 
 		if (empty($menu)) {
