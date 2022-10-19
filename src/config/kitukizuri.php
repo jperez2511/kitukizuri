@@ -121,6 +121,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Formato de ícono
+    |--------------------------------------------------------------------------
+    |
+    | Esta opción permite definir las clases para dar estilos gráficos al menu
+    | 
+    */
+
+    'iconFormat' => '<span class="has-icon"><i class="{{icono}}"></i></span>',
+
+    /*
+    |--------------------------------------------------------------------------
     | Clases Menu
     |--------------------------------------------------------------------------
     |
@@ -137,16 +148,12 @@ return [
             'class' => '',
             'layout' => 
                 '<a href="{{url}}" aria-expanded="false">
-                    <span class="has-icon">
-                        <i class="{{icono}}"></i>
-                    </span>
+                    {{iconFormat}}
                     <span class="nav-title">{{label}}</span>
                 </a>',
             'layout-without-son' => 
                 '<a href="{{url}}">
-                    <span class="has-icon">
-                        <i class="{{icono}}"></i>
-                    </span>
+                    {{iconFormat}}
                     <span class="nav-title">{{label}}</span>
                 </a>',
         ],
