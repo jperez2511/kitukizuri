@@ -171,7 +171,22 @@ class MenuController
              $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : route($nodo->ruta.'.index')), $formato);
                 
              // remplazando icono
-             $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+             if(!empty($nodo->icono)){
+                if(!empty(config('kitukizuri.iconFormat'))){
+                    $iconFormat = config('kitukizuri.iconFormat');
+                    $iconFormat = str_replace('{{icono}}', $nodo->icono, $iconFormat);
+                    $formato    = str_replace('{{iconFormat}}', $iconFormat, $formato );
+                } else {
+                    $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+                }
+            } else {
+                if(!empty(config('kitukizuri.iconFormat'))){
+                    $formato    = str_replace('{{iconFormat}}', '', $formato );
+                } else {
+                    $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+                }
+                $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+            }
  
              // remplazando label
              $formato = str_replace('{{label}}', __($nodo->etiqueta), $formato);
@@ -190,7 +205,22 @@ class MenuController
             $formato = str_replace('{{url}}', $nodo->ruta == '/' ? $nodo->ruta : route($nodo->ruta.'.index'), $formato);
 
             // remplazando icono
-            $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+            if(!empty($nodo->icono)){
+                if(!empty(config('kitukizuri.iconFormat'))){
+                    $iconFormat = config('kitukizuri.iconFormat');
+                    $iconFormat = str_replace('{{icono}}', $nodo->icono, $iconFormat);
+                    $formato    = str_replace('{{iconFormat}}', $iconFormat, $formato );
+                } else {
+                    $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+                }
+            } else {
+                if(!empty(config('kitukizuri.iconFormat'))){
+                    $formato    = str_replace('{{iconFormat}}', '', $formato );
+                } else {
+                    $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+                }
+                $formato = str_replace('{{icono}}', $nodo->icono, $formato );
+            }
 
             // remplazando label
             $formato = str_replace('{{label}}', __($nodo->etiqueta), $formato);

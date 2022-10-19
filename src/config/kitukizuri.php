@@ -124,7 +124,7 @@ return [
     | Formato de ícono
     |--------------------------------------------------------------------------
     |
-    | Esta opción permite definir las clases para dar estilos gráficos al menu
+    | Esta opción permite definir el formato del menu
     | 
     */
 
