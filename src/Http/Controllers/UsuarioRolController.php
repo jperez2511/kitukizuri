@@ -25,12 +25,12 @@ class UsuarioRolController extends Krud
         
         $this->setModel(new UsuarioRol);
         $this->setTitulo('Roles');
-        $this->setCampo(['nombre'=>'Rol', 'campo'=>'r.nombre', 'edit'=>false]);
+        $this->setCampo(['nombre'=>'Rol', 'campo'=>'r.nombre', 'edit' => false]);
         $this->setCampo(['nombre'=>'Descripcion', 'campo'=>'r.descripcion', 'edit'=>false]);
         $this->setCampo(['nombre'=>'Rol', 'campo'=>'usuarioRol.rolid', 'tipo'=>'combobox', 'collect'=>$collect, 'show'=>false]);
         $this->setJoin('roles as r', 'r.rolid', '=', 'usuarioRol.rolid');
         $this->setWhere('usuarioid', '=', $request->get('parent'));
-        $this->setParentId('usuarioid');
+        $this->setParents('usuarioid', 'parent', true);
         $this->setLayout('krud::layout');
     }
 }

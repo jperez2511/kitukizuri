@@ -101,13 +101,15 @@
             "sDom": '<"row" <"col-sm-6" B><"col-sm-6" f>>rt <"row" <"col-sm-6" i><"col-sm-6" p>>'
         })
         function edit(id){
-            var url = '{{$ruta}}';
-            var id2 = null;
-            if(url.includes('?')){
-                var result = url.split('?');
+            var url     = '{{$ruta}}';
+            var urlBase = String(window.location);
+            var id2     = null;
+            if(urlBase.includes('?')){
+                var result = urlBase.split('?');
                 url = result[0];
                 id2 = '?'+result[1];
             }
+
             window.location.assign(url+'/'+id+'/edit'+(id2 != null ? id2 : ''));
         }
         function destroy(id){

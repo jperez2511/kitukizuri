@@ -20,7 +20,7 @@
         @endforeach
         <div class="row">
             @foreach($campos as $c)
-                @if ($c['edit'] == true)
+                @if ($c['edit'] === true)
                     @if($c['tipo'] != 'password')
                         <x-dynamic-component 
                             :component="$c['component']" 

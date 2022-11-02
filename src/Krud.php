@@ -1259,12 +1259,13 @@ class Krud extends Controller
         // recorriendo parents para agregar a la base de datos
         $uriQuery = '?';
         $uriItems = [];
+
         foreach($this->parents as $parent) {
             if($parent['editable'] === true) {
-                $this->model->{$parent['nombre']} = $request->{$parent['value']};
-            } else {
-                $uriItems[] = $parent['nombre'].'='.$request->{$parent['value']};;
+                $this->model->{$parent['nombre']} = $request->{$parent['nombre']};
             }
+            
+            $uriItems[] = $parent['value'].'='.$request->{$parent['nombre']};;
         }
 
         $uriQuery .= implode('&', $uriItems);
