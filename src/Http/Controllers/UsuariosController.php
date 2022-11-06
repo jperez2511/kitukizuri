@@ -34,5 +34,13 @@ class UsuariosController extends Krud
             }
             return $next($request);
         });
+
+        // agregando campos custom
+        $camposCustom = config('kitukizuri.userCustomField') ?? null;
+        if($camposCustom != null) {
+            foreach($camposCustom as $campo) {
+                $this->setCampo($campo);
+            }
+        }
     }
 }
