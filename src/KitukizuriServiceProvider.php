@@ -85,6 +85,7 @@ class KitukizuriServiceProvider extends ServiceProvider
             Route::resource('permisos', 'PermisosController', ['only'=>['index', 'store']]);
             Route::resource('rolpermisos', 'RolesPermisosController', ['only'=>['index', 'store']]);
             Route::resource('empresas', 'EmpresasController');
+            Route::resource('sucursales', 'SucursalesController');
             Route::resource('moduloempresas', 'ModuloEmpresasController'); 
         });
     }

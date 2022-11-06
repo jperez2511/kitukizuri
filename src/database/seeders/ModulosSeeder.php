@@ -26,6 +26,7 @@ class ModulosSeeder extends Seeder
 		$this->modulos[] = ['nombre' => 'Empresas', 			'ruta' => 'empresas', 			'permisos' => [1,2,3,4]];
 		$this->modulos[] = ['nombre' => 'Empresas - Módulos', 	'ruta' => 'moduloempresas', 	'permisos' => [1,2,3,4]];
 		$this->modulos[] = ['nombre' => 'Dashboard', 			'ruta' => 'dashboard', 			'permisos' => [2]];
+		$this->modulos[] = ['nombre' => 'Sucursales', 			'ruta' => 'sucursales', 		'permisos' => [1,2,3,4]];
 
 		$this->saveData();
 	}
