@@ -202,7 +202,21 @@ return [
     // 'userCustomField' => [
     //     ['nombre' => 'nit', 'campo' => 'nit']
     // ], 
-        
+
+    /*
+    |
+    |--------------------------------------------------------------------------
+    | Agregar campos custom para sucursalesController 
+    |--------------------------------------------------------------------------
+    |
+    | Esta opción permite definir valores custom para el controlador de sucursales
+    | 
+    */
+
+    // 'sucursalesCustomField' => [
+    //     ['nombre' => 'nit', 'campo' => 'nit']
+    // ], 
+
 
 
 ];
