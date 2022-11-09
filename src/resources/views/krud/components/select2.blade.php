@@ -9,6 +9,9 @@
     'label',
 ])
 
+@push('css')
+    <link href="{{asset('/kitukizuri/libs/select2/css/selec2.min.css')}}" rel="stylesheet" type="text/css" />
+@endpush
 
 @php
     if(!empty()$collection)) {
@@ -38,5 +41,5 @@
 
 
 @push('js')
-    
+    <script src="{{asset('kitukizuri/libs/select2/select2.min.js')}}"></script>
 @endpush

@@ -279,6 +279,7 @@ class Krud extends Controller
         $tipos = [
             'bool',         // Muestra un checkbox en el edit y un si o no en el index
             'combobox',     // Muestra un select simple 
+            'select2',
             'date',         // Input con formato tipo fecha
             'datetime',     // Input en formato fecha y hora
             'enum',         // Select con valores determinados
@@ -295,8 +296,9 @@ class Krud extends Controller
             'url',          // Establece  una url con parámetros personalizados. 
         ];
         $component = [      // Nombre del componente a utilizar
-            'combobox' => 'select', 
+            'combobox' => 'select',
             'enum'     => 'select',
+            'select2'  => 'select2',
             'password' => 'password',
             'textarea' => 'textarea',
         ];
