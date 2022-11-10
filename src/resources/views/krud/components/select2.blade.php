@@ -42,4 +42,7 @@
 
 @push('js')
     <script src="{{asset('kitukizuri/libs/select2/select2.min.js')}}"></script>
+    <script>
+        
+    </script>
 @endpush
