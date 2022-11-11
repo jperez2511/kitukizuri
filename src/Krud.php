@@ -560,9 +560,9 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function embedView($view, $model, $idRelation, $campos)
+    public function embedView($controller, $relation, $request)
     {
-        array_push($this->embed, [view($view, ['id' => Crypt::encrypt($this->editId)]), $model, $idRelation, $campos]);
+       $this->embed[] = [$controller, $relation, $request];
     }
 
     /**
@@ -1105,10 +1105,18 @@ class Krud extends Controller
         
         $this->editId = $id;
 
+        $eViews = [];
         if ($id != 0) {
             $data = $this->model->find($id);
             $titulo = 'Editar '.$this->titulo;
             $this->makeArrayData($data);
+
+            foreach ($this->embed as $eView) {
+                $eView[2]->query->add([$eView[1] => $id]);
+                $render = new $eView[0]($eView[2]);
+                $eViews[] = $render->index()->render;
+            }
+            
         } else {
             $data = null;
             $titulo = 'Agregar '.$this->titulo;
@@ -1148,7 +1156,7 @@ class Krud extends Controller
             'action'   => $url,
             'id'       => Crypt::encrypt($id),
             'rt'       => $this->rt,
-            'embed'    => $this->embed,
+            'embed'    => $eViews,
             'parent'   => $this->parentid,
             'parentid' => $parentid,
             'parents'  => $this->parents,
