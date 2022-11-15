@@ -47,8 +47,9 @@ class Krud extends Controller
     private $parents     = [];
     private $orderBy     = [];
     private $orWheres    = [];
+    private $whereIn     = [];
     private $leftJoins   = [];
-    private $errors       = [];
+    private $errors      = [];
     private $whereAndFn  = [];
     private $viewOptions = [];
     private $validations = [];
@@ -494,7 +495,25 @@ class Krud extends Controller
 
         $this->wheres[] =  [$column, $op, $column2];
     }
-
+    
+    /**
+     * setWhereIn
+     *
+     * @param  mixed $column
+     * @param  mixed $data
+     * @return void
+     */
+    public function setWhereIn($column, $data)
+    {
+        $this->whereIn[] = [$column, $data];
+    }
+    
+    /**
+     * setWhereAndFn
+     *
+     * @param  mixed $conditions
+     * @return void
+     */
     public function setWhereAndFn($conditions)
     {
         $this->whereAndFn[] = $conditions;
@@ -695,6 +714,11 @@ class Krud extends Controller
                     $q->orWhere(...$where);
                 }
             });
+        }
+
+        // generando filtro por whereIn
+        foreach($this->whereIn as $whereIn) {
+            $data->whereIn($whereIn[0], $whereIn[1]);
         }
 
         // Agregando el orden para mostrar los datos
