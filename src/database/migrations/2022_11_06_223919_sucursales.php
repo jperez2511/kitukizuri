@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sucursal', function (Blueprint $table) {
+        Schema::create('sucursales', function (Blueprint $table) {
             $table->bigIncrements('sucursalid');
             $table->bigInteger('empresaid')->unsigned();
             $table->string('nombre');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sucursal');
+        Schema::dropIfExists('sucursales');
     }
 };
