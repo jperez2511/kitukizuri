@@ -52,6 +52,10 @@ class ModulosSeeder extends Seeder
 						'nombre' => $modulo['nombre'],
 						'ruta'   => $modulo['ruta']
 					]);
+				} else {
+					DB::table('modulos')
+						->where('moduloid',$moduloid)
+						->update(['nombre' => $modulo['nombre'], 'ruta' => $modulo['ruta']]);
 				} 
 	
 				// validando permisos
