@@ -4,7 +4,7 @@ namespace Icebearsoft\Kitukizuri\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tenant extends Model
+class Tenants extends Model
 {
     protected $connection = 'tenants';
     protected $table      = "tenants";
