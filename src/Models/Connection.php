@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Icebearsoft\Kitukizuri\Models;
 
 use DB;
 use Config;
