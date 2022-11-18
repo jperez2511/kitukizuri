@@ -31,7 +31,7 @@
 
      <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
 
-     <link href="{{asset('/kitukizuri/fonts/fontawesome/all.css')}}" rel="stylesheet" type="text/css" />
+     <link href="{{asset('/kitukizuri/fonts/fontawesome/css/all.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

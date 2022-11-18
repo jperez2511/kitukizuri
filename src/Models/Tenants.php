@@ -8,6 +8,6 @@ class Tenants extends Model
 {
     protected $connection = 'tenants';
     protected $table      = "tenants";
-	protected $primaryKey = "tenants_id";
-	protected $guarded    = ['tenants_id'];
+	protected $primaryKey = "tenant_id";
+	protected $guarded    = ['tenant_id'];
 }
