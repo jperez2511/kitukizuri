@@ -5,6 +5,7 @@ namespace Icebearsoft\Kitukizuri\Http\Controllers;
 use Crypt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Icebearsoft\Kitukizuri\Models\Mysql;
 use Icebearsoft\Kitukizuri\Models\Tenants;
 use Icebearsoft\Kitukizuri\Models\Connection;
 
@@ -63,7 +64,11 @@ class DataBaseController extends Controller
         $tables = Mysql::getTables($connectionData->db);
         
         return view('kitukizuri::database.info', [
-            'tables' => $tables
+            'tables' => $tables,
+            'layout' => 'krud::layout',
+            'titulo' => 'Gestior de base de datos',
+            'dash'   => true,
+            'kmenu'  => true,
         ]);
     }
 
