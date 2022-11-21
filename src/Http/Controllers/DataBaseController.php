@@ -6,6 +6,7 @@ use Crypt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Icebearsoft\Kitukizuri\Models\Tenants;
+use Icebearsoft\Kitukizuri\Models\Connection;
 
 class DataBaseController extends Controller
 {
@@ -30,6 +31,8 @@ class DataBaseController extends Controller
             dd($e);
         }   
 
+        Connection::setConnection();
+
         dd($connection);
     }
 
@@ -44,7 +47,24 @@ class DataBaseController extends Controller
 
         $connectionData = Tenants::find($tenantID);
 
-        dd($connectionData);
+        if($driver == 'mysql'){
+            $connection = [
+                'driver'   => $driver,
+                'database' => $connectionData->db,
+                'host'     => $connectionData->db_host,
+                'username' => $connectionData->db_username,
+                'password' => $connectionData->db_password,
+            ];
+        }
+
+
+        Connection::setConnection($connection);
+
+        $tables = Mysql::getTables($connectionData->db);
+        
+        return view('kitukizuri::database.info', [
+            'tables' => $tables
+        ]);
     }
 
     private function getConnections()
