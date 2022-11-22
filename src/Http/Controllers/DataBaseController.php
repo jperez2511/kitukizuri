@@ -11,6 +11,15 @@ use Icebearsoft\Kitukizuri\Models\Connection;
 
 class DataBaseController extends Controller
 {
+
+    private $colors = [
+        'mysql'  => ['color' => 'primary',   'icono' => 'fa-duotone fa-dolphin'],
+        'sqlite' => ['color' => 'secondary', 'icono' => 'fa-duotone fa-feather'],
+        'pgsql'  => ['color' => 'info',      'icono' => 'fa-duotone fa-elephant'],
+        'mongo'  => ['color' => 'success',   'icono' => 'fa-duotone fa-leaf'],
+        'sqlsrv' => ['color' => 'secondary', 'icono' => 'fa-brands fa-microsoft'],
+    ];
+
     public function index(Request $request) 
     {
         if($request->has('c')) {
@@ -30,15 +39,32 @@ class DataBaseController extends Controller
             'getTableData'
         ];
 
-        if(!$request->has('option') || !is_int($request->option)){
-            abort('404');
+        if(!$request->has('opcion')){
+            abort(404);
         }
 
-        return $this->{$function[$request->option -1]}();
+        return $this->{$function[(int) $request->opcion-1]}($request);
     }
 
     private function getTableData($request)
     {
+        try {
+            $database = Crypt::decrypt($request->database);
+        } catch (Exception $e) {
+            dd($e);
+        }
+
+        $tableName = $request->table;
+
+        if($request->driver == 'mysql') {
+            $tableInformation = Mysql::getTableProperties($database, $tableName);
+            $tableColumns     = Mysql::getColumns($database, $tableName);
+        }
+
+        return response()->json([
+            'information' => $tableInformation,
+            'columns'     => $tableColumns
+        ]);
 
     }
 
@@ -59,11 +85,14 @@ class DataBaseController extends Controller
         }
 
         return view('kitukizuri::database.info', [
-            'tables' => $tables,
-            'layout' => 'krud::layout',
-            'titulo' => 'Gestior de base de datos',
-            'dash'   => true,
-            'kmenu'  => true,
+            'tables'   => $tables,
+            'driver'   => $connection['driver'],
+            'database' => encrypt($connection['database']),
+            'layout'   => 'krud::layout',
+            'titulo'   => 'Gestior de base de datos',
+            'dash'     => true,
+            'kmenu'    => true,
+            'colors'   => $this->colors,
         ]);
 
     }
@@ -89,30 +118,24 @@ class DataBaseController extends Controller
             ];
         }
 
-
         Connection::setConnection($connection);
 
         $tables = Mysql::getTables($connectionData->db);
         
         return view('kitukizuri::database.info', [
-            'tables' => $tables,
-            'layout' => 'krud::layout',
-            'titulo' => 'Gestior de base de datos',
-            'dash'   => true,
-            'kmenu'  => true,
+            'tables'   => $tables,
+            'driver'   => $connection['driver'],
+            'database' => encrypt($connection['database']),
+            'layout'   => 'krud::layout',
+            'titulo'   => 'Gestior de base de datos',
+            'dash'     => true,
+            'kmenu'    => true,
         ]);
     }
 
     private function getConnections()
     {
         $tenants = config('kitukizuri.multiTenants');
-        $colors = [
-            'mysql'  => 'primary',
-            'sqlite' => 'secondary',
-            'pgsql'  => 'info',
-            'mongo'  => 'success',
-            'sqlsrv' => 'secondary'
-        ];
 
         if($tenants == true) {
             $tenantsConnections = Tenants::all();
@@ -126,7 +149,7 @@ class DataBaseController extends Controller
             'layout'      => 'krud::layout',
             'titulo'      => 'Gestión de base de datos',
             'kmenu'       => true,
-            'colors'      => $colors
+            'colors'      => $this->colors
         ]);
     }
 }

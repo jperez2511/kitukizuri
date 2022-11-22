@@ -9,8 +9,8 @@
         @foreach ($connections as $dbName => $connection)
             <div class="col-4">
                 <div class="form-group">
-                    <a href="javascript:void(0)" class="btn btn-block btn-{{ $colors[$connection['driver']] }}" onclick="goConnection('{{ encrypt($dbName) }}')">
-                        <i class="fa-duotone fa-database fa-xl"></i> <br>
+                    <a href="javascript:void(0)" class="btn btn-block btn-{{ $colors[$connection['driver']]['color'] }}" onclick="goConnection('{{ encrypt($dbName) }}')">
+                        <i class="{{ $colors[$connection['driver']]['icono'] }} fa-xl"></i> <br>
                         {{ $dbName }}
                     </a>
                 </div>

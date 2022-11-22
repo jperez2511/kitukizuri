@@ -23,6 +23,41 @@
 <div class="col-xl-9">
     <div class="row">
         <div class="col-12">
+            <a href="btn btn-{{$colors[$driver]['color']}} btn-block">
+                <i class="{!! $colors[$driver]['icono'] !!} fa-xl"></i> <br>
+                {{ $database }}
+            </a>
+        </div>
+    </div>
+    <div class="row hide" id="loader">
+        <div class="col-12 text-center">
+            <i class="fa-duotone fa-loader fa-spin-pulse"></i> <strong>Cargando datos...</strong>
+        </div>
+    </div>
+    <div class="row hide" id="infoTable">
+        <div class="col-3">
+            <strong>Tabla:</strong>
+            <span id="tituloTabla"></span> 
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <div class="col-6 text-center">
+                    <div class="form-group">
+                        <strong>Collation:</strong>
+                        <span id="collation"></span>
+                    </div>
+                </div>
+                <div class="col-6 text-center">
+                    <div class="form-group">
+                        <strong>Charset:</strong>
+                        <span id="charset"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <div id="editor" style="width: 100%; height:300px;"></div>
         </div>
         <div class="col-12 text-center">
@@ -72,11 +107,26 @@
             let data = {
                 _token: '{!! csrf_token() !!}',
                 table: table, 
-                option: 1
+                opcion: 1,
+                driver  : '{!! $driver !!}',
+                database: '{!! $database !!}'
             }
             
+            $('#loader').removeClass('hide');
+
             $.post("{{route('database.store')}}", data).done(response => {
-                console.log(response) 
+                
+                $('#loader').addClass('hide');
+                
+                $('#infoTable').removeClass('hide');
+                $('#tituloTabla').empty();
+                $('#collation').empty();
+                $('#charset').empty();
+                $('#tituloTabla').append(table);
+
+                $('#collation').append(response.information[0].collation);
+                $('#charset').append(response.information[0].charset);
+
             }).fail(error => console.log(error.responseText));
         }
 
