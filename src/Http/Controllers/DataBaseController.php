@@ -24,6 +24,24 @@ class DataBaseController extends Controller
         return $this->{$function}($request);
     }
 
+    public function store(Request $request)
+    {
+        $function = [
+            'getTableData'
+        ];
+
+        if(!$request->has('option') || !is_int($request->option)){
+            abort('404');
+        }
+
+        return $this->{$function[$request->option -1]}();
+    }
+
+    private function getTableData($request)
+    {
+
+    }
+
     private function viewConnection($request)
     {
         try {
@@ -32,9 +50,22 @@ class DataBaseController extends Controller
             dd($e);
         }   
 
-        Connection::setConnection();
+        $connection = config('database.connections.'.$connectionName);
 
-        dd($connection);
+        Connection::setConnection($connection);
+
+        if($connection['driver'] == 'mysql') {
+            $tables = Mysql::getTables($connection['database']);
+        }
+
+        return view('kitukizuri::database.info', [
+            'tables' => $tables,
+            'layout' => 'krud::layout',
+            'titulo' => 'Gestior de base de datos',
+            'dash'   => true,
+            'kmenu'  => true,
+        ]);
+
     }
 
     private function viewTenantConnection($request)
@@ -76,10 +107,10 @@ class DataBaseController extends Controller
     {
         $tenants = config('kitukizuri.multiTenants');
         $colors = [
-            'mysql' => 'primary',
+            'mysql'  => 'primary',
             'sqlite' => 'secondary',
-            'pgsql' => 'info',
-            'mongo' => 'success',
+            'pgsql'  => 'info',
+            'mongo'  => 'success',
             'sqlsrv' => 'secondary'
         ];
 

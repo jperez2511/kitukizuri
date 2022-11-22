@@ -50,7 +50,7 @@
         var url = '{{ route('database.index') }}'
         
         function goConnection(idConnection) {
-            window.location.assign(url+'?c='+idConneciton);
+            window.location.assign(url+'?c='+idConnection);
         }
 
         function goTenants(idTenants, driver) {

@@ -7,7 +7,6 @@
         <div id="sidebar-menu" class="card-body email-leftbar">
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title text-center text-primary">Lista de tablas</li>
-
                 @foreach ($tables as $table)
                     <li>
                         <a href="#" class=" waves-effect" onclick="viewTableInfo('{{ $table->name }}')">
@@ -16,10 +15,7 @@
                         </a>
                     </li>
                 @endforeach
-
-                
             </ul>
-
         </div>
     </div>
 </div>
@@ -27,12 +23,17 @@
 <div class="col-xl-9">
     <div class="row">
         <div class="col-12">
-            <div id="editor" style="width: 100%; height:600px;"></div>
+            <div id="editor" style="width: 100%; height:300px;"></div>
         </div>
         <div class="col-12 text-center">
             <div class="form-group">
                 <br>
-                <button class="btn btn-success" onclick="getValueEditor()">Generar resultados</button>
+                <a href="javascript:void(0)" class="btn btn-success btn-icon-split mr-2" onclick="getValueEditor()">
+                    <span class="icon">
+                        <i class="fa-duotone fa-rocket-launch"></i>
+                    </span>
+                    <span class="text">Generar resultados</span>
+                </a>                
             </div>
         </div>
     </div>
@@ -68,7 +69,15 @@
         }
 
         function viewTableInfo(table){
-            console.log(table)
+            let data = {
+                _token: '{!! csrf_token() !!}',
+                table: table, 
+                option: 1
+            }
+            
+            $.post("{{route('database.store')}}", data).done(response => {
+                console.log(response) 
+            }).fail(error => console.log(error.responseText));
         }
 
     </script> 
