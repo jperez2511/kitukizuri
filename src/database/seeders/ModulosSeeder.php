@@ -27,6 +27,8 @@ class ModulosSeeder extends Seeder
 		$this->modulos[] = ['nombre' => 'Empresas - Módulos', 	'ruta' => 'moduloempresas', 	'permisos' => [1,2,3,4]];
 		$this->modulos[] = ['nombre' => 'Dashboard', 			'ruta' => 'dashboard', 			'permisos' => [2]];
 		$this->modulos[] = ['nombre' => 'Sucursales', 			'ruta' => 'sucursales', 		'permisos' => [1,2,3,4]];
+		$this->modulos[] = ['nombre' => 'Base de datos', 		'ruta' => 'database', 			'permisos' => [1,2,3,4]];
+		$this->modulos[] = ['nombre' => 'Logs', 				'ruta' => 'logs', 				'permisos' => [1,2]];
 
 		$this->saveData();
 	}
@@ -50,6 +52,10 @@ class ModulosSeeder extends Seeder
 						'nombre' => $modulo['nombre'],
 						'ruta'   => $modulo['ruta']
 					]);
+				} else {
+					DB::table('modulos')
+						->where('moduloid',$moduloid)
+						->update(['nombre' => $modulo['nombre'], 'ruta' => $modulo['ruta']]);
 				} 
 	
 				// validando permisos

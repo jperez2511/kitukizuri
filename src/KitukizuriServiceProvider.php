@@ -67,7 +67,6 @@ class KitukizuriServiceProvider extends ServiceProvider
         }
     }
 
-
     /**
      * configureRoutes
      *
@@ -88,6 +87,8 @@ class KitukizuriServiceProvider extends ServiceProvider
             Route::resource('empresas', 'EmpresasController');
             Route::resource('sucursales', 'SucursalesController');
             Route::resource('moduloempresas', 'ModuloEmpresasController'); 
+            Route::resource('database', 'DataBaseController'); 
+            Route::resource('logs', 'LogController'); 
         });
     }
     

@@ -21,6 +21,7 @@
         $sideBar = (!empty($isDark) || !empty(config('kitukizuri.darkSideBar')) ? 'dark' : null); 
     @endphp
 
+
     <!-- Bootstrap -->
     <link href="{{asset('/kitukizuri/css/bootstrap'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -30,7 +31,7 @@
 
      <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
 
-     <link href="{{asset('/kitukizuri/fonts/fontawesome/all.css')}}" rel="stylesheet" type="text/css" />
+     <link href="{{asset('/kitukizuri/fonts/fontawesome/css/all.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -75,7 +76,7 @@
 
                     <div class="dropdown d-inline-block d-lg-none ml-2">
                         <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-magnify"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
@@ -102,7 +103,7 @@
 
                     <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-incognito"></i>  
                             <span class="d-none d-sm-inline-block ml-1">{{Auth::user()->name}}</span>
                             <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
@@ -110,8 +111,6 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- item-->
                             <a class="dropdown-item" href="#"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Perfil</a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-credit-card-outline font-size-16 align-middle mr-1"></i> Facturación</a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Configuración</a>
                             <div class="dropdown-divider"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -143,47 +142,53 @@
                                 </a>
                             </li>
 
-                            <li class="menu-title">Configuraciones</li>
+                            <li class="menu-title">Organización</li>
+
+                            <li>
+                                <a href="{{route('empresas.index')}}" class=" waves-effect">
+                                    <i class="mdi mdi-office-building"></i>
+                                    <span>Empresas</span>
+                                </a>
+                            </li>
 
                             <li>
                                 <a href="{{route('usuarios.index')}}" class=" waves-effect">
-                                    <i class="mdi mdi-account-supervisor text-warning"></i>
+                                    <i class="mdi mdi-account-supervisor"></i>
                                     <span>Usuarios</span>
                                 </a>
                             </li>
 
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="mdi mdi-shield text-permission"></i>
-                                    <span>Permisos</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="{{route('empresas.index')}}">Empresas</a></li>
-                                    <li><a href="{{route('modulos.index')}}">Modulos</a></li>
-                                    <li><a href="{{route('roles.index')}}">Roles</a></li>
-                                </ul>
-                            </li>
-                            {{-- <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="mdi mdi-database text-primary"></i>
-                                    <span>Base de datos</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="email-inbox.html">Crear Conexion</a></li>
-                                    <li><a href="email-read.html">Ejecutar Seeder</a></li>
-                                    <li><a href="email-compose.html">Ejecutar Migrations</a></li>
-                                </ul>
-                            </li> --}}
+                            <li class="menu-title">Configuraciones</li>
 
-                            {{-- <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="mdi mdi-package-variant-closed text-package"></i>
-                                    <span>Paquetes</span>
+                            <li>
+                                <a href="{{route('modulos.index')}}" class=" waves-effect">
+                                    <i class="mdi mdi-view-module"></i>
+                                    <span>Modulos de la aplicación</span>
                                 </a>
-                                <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="email-inbox.html">Instalar Paquetes</a></li>
-                                </ul>
-                            </li> --}}
+                            </li>
+
+                            <li>
+                                <a href="{{route('roles.index')}}" class=" waves-effect">
+                                    <i class="mdi mdi-shield-account"></i>
+                                    <span>Roles de usuario</span>
+                                </a>
+                            </li>
+
+                            <li class="menu-title">Administración de datos</li>
+
+                            <li>
+                                <a href="{{route('database.index')}}" class=" waves-effect">
+                                    <i class="mdi mdi-database"></i>
+                                    <span>Gestión de base de datos</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{route('logs.index')}}" class=" waves-effect">
+                                    <i class="mdi mdi-file-document-box-multiple"></i>
+                                    <span>Ver Logs</span>
+                                </a>
+                            </li>
                         </ul>
                     @endif
                 </div>
