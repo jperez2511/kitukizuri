@@ -87,9 +87,9 @@ class DataBaseController extends Controller
         return view('kitukizuri::database.info', [
             'tables'   => $tables,
             'driver'   => $connection['driver'],
-            'database' => encrypt($connection['database']),
+            'database' => $connection['database'],
             'layout'   => 'krud::layout',
-            'titulo'   => 'Gestior de base de datos',
+            'titulo'   => 'Gestor de base de datos',
             'dash'     => true,
             'kmenu'    => true,
             'colors'   => $this->colors,
@@ -125,9 +125,9 @@ class DataBaseController extends Controller
         return view('kitukizuri::database.info', [
             'tables'   => $tables,
             'driver'   => $connection['driver'],
-            'database' => encrypt($connection['database']),
+            'database' => $connection['database'],
             'layout'   => 'krud::layout',
-            'titulo'   => 'Gestior de base de datos',
+            'titulo'   => 'Gestor de base de datos',
             'dash'     => true,
             'kmenu'    => true,
         ]);

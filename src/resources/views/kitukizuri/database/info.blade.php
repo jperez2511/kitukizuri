@@ -22,38 +22,33 @@
 
 <div class="col-xl-9">
     <div class="row">
-        <div class="col-12">
-            <a href="btn btn-{{$colors[$driver]['color']}} btn-block">
-                <i class="{!! $colors[$driver]['icono'] !!} fa-xl"></i> <br>
-                {{ $database }}
-            </a>
-        </div>
-    </div>
-    <div class="row hide" id="loader">
-        <div class="col-12 text-center">
-            <i class="fa-duotone fa-loader fa-spin-pulse"></i> <strong>Cargando datos...</strong>
+        <div class="col-12 text-center text-primary">   
+            <div class="form-group">
+                <i class="{!! $colors[$driver]['icono'] !!} fa-xl" id="databaseIcon"></i> <br>
+                <strong>Base de datos:</strong> {{ $database }}
+                <hr>
+            </div> 
         </div>
     </div>
     <div class="row hide" id="infoTable">
-        <div class="col-3">
+        <div class="col-4">
             <strong>Tabla:</strong>
             <span id="tituloTabla"></span> 
         </div>
-        <div class="col-9">
-            <div class="row">
-                <div class="col-6 text-center">
-                    <div class="form-group">
-                        <strong>Collation:</strong>
-                        <span id="collation"></span>
-                    </div>
-                </div>
-                <div class="col-6 text-center">
-                    <div class="form-group">
-                        <strong>Charset:</strong>
-                        <span id="charset"></span>
-                    </div>
-                </div>
-            </div>
+        <div class="col-4 text-center">
+            <strong>Collation:</strong>
+            <span id="collation"></span>
+        </div>
+        <div class="col-4 text-center">
+            <strong>Charset:</strong>
+            <span id="charset"></span>
+        </div>
+        <div class="col-12">
+            <hr>
+            <strong>Columnas:</strong>
+            <table class="table table-bordered" id="tableColumns">
+
+            </table>
         </div>
     </div>
     <div class="row">
@@ -109,14 +104,16 @@
                 table: table, 
                 opcion: 1,
                 driver  : '{!! $driver !!}',
-                database: '{!! $database !!}'
+                database: '{!! encrypt($database) !!}'
             }
             
-            $('#loader').removeClass('hide');
+            $('#databaseIcon').removeClass('{!! $colors[$driver]['icono'] !!}');
+            $('#databaseIcon').addClass('fa-duotone fa-loader fa-spin-pulse');
 
             $.post("{{route('database.store')}}", data).done(response => {
                 
-                $('#loader').addClass('hide');
+                $('#databaseIcon').removeClass('fa-duotone fa-loader fa-spin-pulse');
+                $('#databaseIcon').addClass('{!! $colors[$driver]['icono'] !!}');
                 
                 $('#infoTable').removeClass('hide');
                 $('#tituloTabla').empty();
@@ -126,6 +123,25 @@
 
                 $('#collation').append(response.information[0].collation);
                 $('#charset').append(response.information[0].charset);
+                $('#tableColumns').empty()
+
+                $('#tableColumns').append(`
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Permite valor Nulo</th>
+                        </tr>
+                    `);
+
+                response.columns.forEach(element => {
+                    $('#tableColumns').append(`
+                        <tr>
+                            <td>`+element.name+`</td>
+                            <td>`+element.type+`</td>
+                            <td>`+element.IS_NULLABLE+`</td>
+                        </tr>
+                    `);
+                });
 
             }).fail(error => console.log(error.responseText));
         }
