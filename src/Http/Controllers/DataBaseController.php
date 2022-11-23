@@ -130,6 +130,7 @@ class DataBaseController extends Controller
             'titulo'   => 'Gestor de base de datos',
             'dash'     => true,
             'kmenu'    => true,
+            'colors'   => $this->colors,
         ]);
     }
 
