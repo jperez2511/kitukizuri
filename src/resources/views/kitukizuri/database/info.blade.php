@@ -31,39 +31,63 @@
         </div>
     </div>
     <div class="row hide" id="infoTable">
-        <div class="col-4">
-            <strong>Tabla:</strong>
-            <span id="tituloTabla"></span> 
-        </div>
-        <div class="col-4 text-center">
-            <strong>Collation:</strong>
-            <span id="collation"></span>
-        </div>
-        <div class="col-4 text-center">
-            <strong>Charset:</strong>
-            <span id="charset"></span>
+        <div class="col-12">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="pills-propiedades-tab" data-bs-toggle="pill" data-bs-target="#pills-propiedades" role="tab" aria-controls="pills-propiedades" aria-selected="true">
+                        <i class="fa-thin fa-info"></i> <span class="d-none d-md-inline-block">Propiedades</span> 
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-data-tab" data-bs-toggle="pill" data-bs-target="#pills-data" role="tab" aria-controls="pills-data" aria-selected="true" onclick="initEditor()">
+                        <i class="fa-thin fa-table"></i> <span class="d-none d-md-inline-block">Datos</span> 
+                    </a>
+                </li>
+            </ul>
         </div>
         <div class="col-12">
-            <hr>
-            <strong>Columnas:</strong>
-            <table class="table table-bordered" id="tableColumns">
-
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div id="editor" style="width: 100%; height:300px;"></div>
-        </div>
-        <div class="col-12 text-center">
-            <div class="form-group">
-                <br>
-                <a href="javascript:void(0)" class="btn btn-success btn-icon-split mr-2" onclick="getValueEditor()">
-                    <span class="icon">
-                        <i class="fa-duotone fa-rocket-launch"></i>
-                    </span>
-                    <span class="text">Generar resultados</span>
-                </a>                
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-propiedades" role="tabpanel" aria-labelledby="pills-propiedades-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-4">
+                            <strong>Tabla:</strong>
+                            <span id="tituloTabla"></span> 
+                        </div>
+                        <div class="col-4 text-center">
+                            <strong>Collation:</strong>
+                            <span id="collation"></span>
+                        </div>
+                        <div class="col-4 text-center">
+                            <strong>Charset:</strong>
+                            <span id="charset"></span>
+                        </div>
+                        <div class="col-12">
+                            <hr>
+                            <strong>Columnas:</strong>
+                            <table class="table table-bordered" id="tableColumns">
+                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="editor" style="width: 100%; height:300px;"></div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <div class="form-group">
+                                <br>
+                                <a href="javascript:void(0)" class="btn btn-success btn-icon-split mr-2" onclick="getValueEditor()">
+                                    <span class="icon">
+                                        <i class="fa-duotone fa-rocket-launch"></i>
+                                    </span>
+                                    <span class="text">Generar resultados</span>
+                                </a>                
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -81,17 +105,14 @@
         "use strict";
         var el = document.getElementById('editor');
         var editor = null;
-        var init = function () {
-            require(['vs/editor/editor.main'], function () {
-                editor = monaco.editor.create(el, {
-                    theme: 'vs-{{ config('kitukizuri.dark') ? 'dark' : 'light' }}',
-                    model: monaco.editor.createModel('select * from tabla', "sql")
-                });
-                editor.layout();
+        
+        function initEditor(){
+            $('#editor').empty();
+            monaco.editor.create(document.getElementById('editor'), {
+                theme: 'vs-{{ config('kitukizuri.dark') ? 'dark' : 'light' }}',
+                model: monaco.editor.createModel('', "sql")
             });
-            window.removeEventListener("load", init);
-        };
-        window.addEventListener("load", init);
+        }
 
         function getValueEditor(){
             var value = window.editor.getValue()    
@@ -143,7 +164,7 @@
                     `);
                 });
 
-            }).fail(error => console.log(error.responseText));
+            }).fail(error => alert(error.responseText));
         }
 
     </script> 
