@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
 use Icebearsoft\Kitukizuri\Console\Command\MakeModule;
+use Icebearsoft\Kitukizuri\Console\Command\KrudInsatll;
 
 class KitukizuriServiceProvider extends ServiceProvider
 {

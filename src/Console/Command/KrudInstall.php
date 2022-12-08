@@ -43,7 +43,7 @@ class KrudInstall extends Command
      */
     public function handle() 
     {
-
+        $this->composerInstall('laravel/jetstream');
     }
 
     protected function composerInstall($package)
