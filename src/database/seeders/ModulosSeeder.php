@@ -35,8 +35,6 @@ class ModulosSeeder extends Seeder
 
 	private function saveData()
 	{
-		DB::beginTransaction();
-
 		try {
 			DB::statement('SET FOREIGN_KEY_CHECKS=0');
 			DB::table('modulos')->truncate();
@@ -95,10 +93,7 @@ class ModulosSeeder extends Seeder
 			DB::statement('UPDATE modulos SET created_at=NOW(), updated_at=NOW()');
 			DB::statement('UPDATE moduloPermiso SET created_at=NOW(), updated_at=NOW()');
 			DB::statement('SET FOREIGN_KEY_CHECKS=1');
-			
-			DB::commit();
 		} catch (\Exception $e) {
-			DB::rollback();
 			dd($e->getMessage());
 		}
 	}

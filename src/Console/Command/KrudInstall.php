@@ -43,14 +43,47 @@ class KrudInstall extends Command
      */
     public function handle() 
     {
+        // instalación de jetstream
         $this->composerInstall('laravel/jetstream');
+        $this->artisanCommand('jetstream:install', 'livewire');
+        
+        // publicación de krud
+        $this->artisanCommand('vendor:publish','--tag=krud-migrations');
+        $this->artisanCommand('vendor:publish','--tag=krud-seeders');
+        $this->artisanCommand('vendor:publish','--tag=krud-error');
+        $this->artisanCommand('vendor:publish','--tag=krud-views');
+        $this->artisanCommand('vendor:publish','--tag=krud-config');
+        $this->artisanCommand('vendor:publish','--tag=krud-public');        
+        $this->artisanCommand('migrate');
+        
+        // datos default de configuración
+        $this->artisanCommand('db:seed', '--class=PermisosSeeder');
+        $this->artisanCommand('db:seed', '--class=ModulosSeeder');
+        $this->artisanCommand('db:seed', '--class=InicialSeeder');
     }
 
     protected function composerInstall($package)
-    {   
-        $command = [$this->phpBinary(), $package, 'require'];
+    {
+        $command = ['composer', 'require', $package];
         
         $process = new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']);
+        $process->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            });
+    }
+
+    protected function artisanCommand($action, $option = null)
+    {
+        $command = [$this->phpBinary(), 'artisan', $action];
+        
+        if (!empty($option) && is_array($option)) {
+            $command = \array_merge($command, $option);
+        } else if (!empty($option)){
+            $command[] = $option;
+        }
+
+        $process = new Process($command, base_path());
         $process->setTimeout(null)
             ->run(function ($type, $output) {
                 $this->output->write($output);
