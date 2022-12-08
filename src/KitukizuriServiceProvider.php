@@ -62,7 +62,8 @@ class KitukizuriServiceProvider extends ServiceProvider
     {
         if($this->app->runningInConsole()) {
             $this->commands([
-                MakeModule::class
+                MakeModule::class,
+                KrudInsatll::class,
             ]);
         }
     }
@@ -103,12 +104,12 @@ class KitukizuriServiceProvider extends ServiceProvider
         $basePath     = $this->app->basePath();
 
         $publishes = [
-            ['from' => '/database/migrations',      'to' => $databasePath.'/migrations',           'tag' => 'migrations'],
-            ['from' => '/database/seeders',         'to' => $databasePath.'/seeders',              'tag' => 'seeders'],
-            ['from' => '/resources/views/errors',   'to' => $basePath.'/resources/views/errors',   'tag' => 'vError'],
-            ['from' => '/resources/views/krud',     'to' => $basePath.'/resources/views/krud',     'tag' => 'vKrud'],
-            ['from' => '/config',                   'to' => $basePath.'/config',                   'tag' => 'config'],
-            ['from' => '/public',                   'to' => $basePath.'/public',                   'tag' => 'public'],
+            ['from' => '/database/migrations',      'to' => $databasePath.'/migrations',           'tag' => 'krud-migrations'],
+            ['from' => '/database/seeders',         'to' => $databasePath.'/seeders',              'tag' => 'krud-seeders'],
+            ['from' => '/resources/views/errors',   'to' => $basePath.'/resources/views/errors',   'tag' => 'krud-error'],
+            ['from' => '/resources/views/krud',     'to' => $basePath.'/resources/views/krud',     'tag' => 'krud-views'],
+            ['from' => '/config',                   'to' => $basePath.'/config',                   'tag' => 'krud-config'],
+            ['from' => '/public',                   'to' => $basePath.'/public',                   'tag' => 'krud-public'],
         ];
 
         foreach ($publishes as $publish) {

@@ -18,7 +18,7 @@ class MakeModule extends Command
      *
      * @var string
      */
-    protected $signature = "make:krud";
+    protected $signature = "krud:make";
         
     /**
      * The console command description.
