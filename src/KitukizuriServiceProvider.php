@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
 use Icebearsoft\Kitukizuri\Console\Command\MakeModule;
-use Icebearsoft\Kitukizuri\Console\Command\KrudInsatll;
+use Icebearsoft\Kitukizuri\Console\Command\KrudInstall;
 
 class KitukizuriServiceProvider extends ServiceProvider
 {
@@ -64,7 +64,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         if($this->app->runningInConsole()) {
             $this->commands([
                 MakeModule::class,
-                KrudInsatll::class,
+                KrudInstall::class,
             ]);
         }
     }
