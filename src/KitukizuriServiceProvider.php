@@ -11,6 +11,7 @@ use Illuminate\View\Compilers\BladeCompiler;
 
 use Icebearsoft\Kitukizuri\Console\Command\MakeModule;
 use Icebearsoft\Kitukizuri\Console\Command\KrudInstall;
+use Icebearsoft\Kitukizuri\Console\Command\DefaultData;
 
 class KitukizuriServiceProvider extends ServiceProvider
 {
@@ -65,6 +66,7 @@ class KitukizuriServiceProvider extends ServiceProvider
             $this->commands([
                 MakeModule::class,
                 KrudInstall::class,
+                DefaultData::class,
             ]);
         }
     }

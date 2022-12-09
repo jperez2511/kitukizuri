@@ -10,21 +10,21 @@ use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
-class KrudInstall extends Command
+class DefaultData extends Command
 {    
     /**
      * The name and signature of the console command. 
      *
      * @var string
      */
-    protected $signature = "krud:install";
+    protected $signature = "krud:default-data";
         
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "Genera los datos necesarios para inicializar un proyecto basado en KRUD";
+    protected $description = "Crea al estructura de base de datos y establce los datos iniciales";
     
     /**
      * Create a new command instance.
@@ -43,18 +43,6 @@ class KrudInstall extends Command
      */
     public function handle() 
     {
-        // instalación de jetstream
-        $this->composerInstall('laravel/jetstream');
-        $this->artisanCommand('jetstream:install', 'livewire');
-        
-        // publicación de krud
-        $this->artisanCommand('vendor:publish','--tag=krud-migrations');
-        $this->artisanCommand('vendor:publish','--tag=krud-seeders');
-        $this->artisanCommand('vendor:publish','--tag=krud-error');
-        $this->artisanCommand('vendor:publish','--tag=krud-views');
-        $this->artisanCommand('vendor:publish','--tag=krud-config');
-        $this->artisanCommand('vendor:publish','--tag=krud-public');    
-
         // validando conexion a base de datos
         try {
             DB::connection()->getPDO();
@@ -74,17 +62,6 @@ class KrudInstall extends Command
                 php artisan krud:default-data
             ');
         }
-    }
-
-    protected function composerInstall($package)
-    {
-        $command = ['composer', 'require', $package];
-        
-        $process = new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']);
-        $process->setTimeout(null)
-            ->run(function ($type, $output) {
-                $this->output->write($output);
-            });
     }
 
     protected function artisanCommand($action, $option = null)
