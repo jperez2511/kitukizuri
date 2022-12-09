@@ -57,7 +57,8 @@ class DefaultData extends Command
             
         } catch (\Exception $e) {
             $this->error('
-                La base de datos no es encuntra configurada correctamente.
+                La base de datos no está configurada correctamente.
+
                 Una vez que la base de datos funcione correctamente ejecute el comando
                 php artisan krud:default-data
             ');
