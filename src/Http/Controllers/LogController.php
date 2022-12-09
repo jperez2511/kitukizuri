@@ -12,8 +12,9 @@ class LogController extends Controller
         $log->get(); 
 
         return view('kitukizuri::log', [
-            'log' => $log,
-            'titulo' => 'Logs'
+            'log'    => $log,
+            'titulo' => 'Logs',
+            'kmenu'  => true,
         ]);
     }
 }
