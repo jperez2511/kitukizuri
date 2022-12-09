@@ -257,6 +257,10 @@ class Krud extends Controller
      */
     protected function setCampo($params)
     {
+        if(!is_array($params)) {
+            return $this->errors = ['tipo' => $this->typeError[1]];
+        }
+
         $allowed = [
             'campo',        // Campo de la base de datos  
             'column',       // Para el tipo combobox permite seleccionar las columnas a utilizar
