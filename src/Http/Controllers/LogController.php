@@ -13,7 +13,7 @@ class LogController extends Controller
 
         return view('kitukizuri::log', [
             'log' => $log,
-            'ttulo' => 'Logs'
+            'titulo' => 'Logs'
         ]);
     }
 }
