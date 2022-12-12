@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="col-xl-9">
+<div class="col-9">
     <div class="row">
         <div class="col-12 text-center text-primary">   
             <div class="form-group">
@@ -64,16 +64,21 @@
                         <div class="col-12">
                             <hr>
                             <strong>Columnas:</strong>
-                            <table class="table table-bordered" id="tableColumns">
-                
-                            </table>
+                            <table class="table table-bordered" id="tableColumns"></table>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab" tabindex="0">
                     <div class="row">
                         <div class="col-12">
-                            <div id="editor" style="width: 100%; height:300px;"></div>
+                            <table class="table table-bordered">
+                                <thead id="queryThead"></thead>
+                                <tbody id="queryTbody"></tbody>
+                            </table>
+                        </div>
+                        <div class="col-12 text-center">
+                            <strong>Consulta:</strong>
+                            <div id="editor" style="width: 100%; height:100px;"></div>
                         </div>
                         <div class="col-12 text-center">
                             <div class="form-group">
@@ -103,30 +108,51 @@
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.js')}}"></script>
     <script>
         "use strict";
-        var el = document.getElementById('editor');
         var editor = null;
+        var token = '{{ csrf_token() }}';
+        var gTable = ''
+
+        function getAllData(limit) {
+            let data = {
+                _token: token,
+                opcion: 2,
+                limit: limit
+                table: gTable
+            }
+
+            $.post("{{route('database.store')}}", data)
+                .done(response => {
+                    resposne.thead.forEach(head => {
+                        $('queryThead').append('<th>'+head+'</th>');
+                    });
+                    initEditor(response.query)
+                })
+                .fail(error => alert(error.responseText));
+        }
         
-        function initEditor(){
+        function initEditor(query) { 
             $('#editor').empty();
-            monaco.editor.create(document.getElementById('editor'), {
+            editor = monaco.editor.create(document.getElementById('editor'), {
                 theme: 'vs-{{ config('kitukizuri.dark') ? 'dark' : 'light' }}',
-                model: monaco.editor.createModel('', "sql")
+                model: monaco.editor.createModel(query, "sql")
             });
         }
 
         function getValueEditor(){
-            var value = window.editor.getValue()    
+            var value = editor.getValue()    
             console.log(value)
         }
 
         function viewTableInfo(table){
             let data = {
-                _token: '{!! csrf_token() !!}',
-                table: table, 
-                opcion: 1,
+                _token  : token,
+                table   : table,
+                opcion  : 1,
                 driver  : '{!! $driver !!}',
                 database: '{!! encrypt($database) !!}'
             }
+
+            gTable = table
             
             $('#databaseIcon').removeClass('{!! $colors[$driver]['icono'] !!}');
             $('#databaseIcon').addClass('fa-duotone fa-loader fa-spin-pulse');

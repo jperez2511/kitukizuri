@@ -15,6 +15,7 @@ class LogController extends Controller
             'log'    => $log,
             'titulo' => 'Logs',
             'kmenu'  => true,
+            'layout' => 'krud::layout'
         ]);
     }
 }
