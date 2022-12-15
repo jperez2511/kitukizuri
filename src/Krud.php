@@ -821,6 +821,8 @@ class Krud extends Controller
             // validando si es un select
             if($isSelect2 == true || $isSelect == true) {
                 // validando si tiene multiple o no
+
+                $this->campos[$i]['inputName'] .= '[]';
                 if($this->campos[$i]['htmlAttr'] !== null && $this->campos[$i]['htmlAttr']->has('multiple')) {
                     // validando el formato de los valores
                     if($this->campos[$i]['format'] == 'json') {
