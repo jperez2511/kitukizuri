@@ -19,7 +19,7 @@
     }
 
     if(empty($inputClass)) {
-        $inputClass = 'form-control';
+        $inputClass = 'form-control input-select2';
     }
     
     if(!empty($attr)) {
@@ -63,4 +63,7 @@
 
 @push('js')
     <script src="{{asset('kitukizuri/libs/select2/js/select2.min.js')}}"></script>
+    <script>
+        $('.input-select2').select2();
+    </script>
 @endpush
