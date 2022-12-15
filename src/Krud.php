@@ -50,7 +50,6 @@ class Krud extends Controller
     private $whereIn     = [];
     private $leftJoins   = [];
     private $errors      = [];
-    private $whereOrFn   = [];
     private $whereAndFn  = [];
     private $viewOptions = [];
     private $validations = [];
@@ -416,7 +415,6 @@ class Krud extends Controller
         if(!empty($params['validation'])) {
             $this->setValidationItem($params['inputName'], $params['validation']);
         }
-
         
         $this->campos[] = $params;
     }
@@ -523,17 +521,6 @@ class Krud extends Controller
     public function setWhereAndFn($conditions)
     {
         $this->whereAndFn[] = $conditions;
-    }
-
-    /**
-     * setWhereOrFn
-     *
-     * @param  mixed $conditions
-     * @return void
-     */
-    public function setWhereOrFn($conditions)
-    {
-        $this->whereOrFn[] = $conditions;
     }
 
     /**
@@ -733,15 +720,6 @@ class Krud extends Controller
             });
         }
 
-        // Agrguando And en Or como funcion
-        if(!empty($this->whereOrFn)){
-            $data->orWhere(function($q){
-                foreach($this->whereOrFn as $where){
-                    $q->where(...$where);
-                }
-            });
-        }
-
         // generando filtro por whereIn
         foreach($this->whereIn as $whereIn) {
             $data->whereIn($whereIn[0], $whereIn[1]);
@@ -835,7 +813,31 @@ class Krud extends Controller
     private function makeArrayData($data)
     {
         for ($i = 0; $i< count($this->campos); $i++) {
-            $this->campos[$i]['value'] = $data->{(array_key_exists('campoReal', $this->campos[$i]) ? $this->campos[$i]['campoReal'] : $this->campos[$i]['campo'])};
+            
+            $isSelect2 = $this->campos[$i]['tipo'] !== 'select2';
+            $isSelect  = $this->campos[$i]['tipo'] !== 'select';
+            $campoReal = array_key_exists('campoReal', $this->campos[$i]) ? $this->campos[$i]['campoReal'] : $this->campos[$i]['campo'];
+            
+            // validando si es un select
+            if($isSelect2 == true || $isSelect == true) {
+                // validando si tiene multiple o no
+                if($this->campos[$i]['htmlAttr'] !== null && $this->campos[$i]['htmlAttr']->has('multiple')) {
+                    // validando el formato de los valores
+                    if($this->campos[$i]['format'] == 'json') {
+                        $value = $data->{$campoReal};
+                        $this->campos[$i]['value'] =  json_encode($value);    
+                    } else if ($this->campos[$i]['format'] == 'table') {
+                        $table = $this->campos[$i]['destination'];
+                    }
+                }
+            } else {
+                $value = $data->{$campoReal};
+                if(is_array($value)) {
+                    $this->campos[$i]['value'] =  json_encode($value);
+                } else {
+                    $this->campos[$i]['value'] =  $value;
+                }
+            }
         }
     }
 
@@ -1189,7 +1191,7 @@ class Krud extends Controller
         $uriItems = [];
         foreach($this->parents as $parent) {
             if($parent['editable'] !== true) {
-                $uriItems[] = $parent['nombre'].'='.$request->{$parent['value']};;
+                $uriItems[] = $parent['nombre'].'='.$request->{$parent['value']};
             }
         }
 
