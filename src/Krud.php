@@ -50,6 +50,7 @@ class Krud extends Controller
     private $whereIn     = [];
     private $leftJoins   = [];
     private $errors      = [];
+    private $whereOrFn   = [];
     private $whereAndFn  = [];
     private $viewOptions = [];
     private $validations = [];
@@ -525,6 +526,17 @@ class Krud extends Controller
     }
 
     /**
+     * setWhereOrFn
+     *
+     * @param  mixed $conditions
+     * @return void
+     */
+    public function setWhereOrFn($conditions)
+    {
+        $this->whereOrFn[] = $conditions;
+    }
+
+    /**
      * setOrWhere
      *
      * @param  mixed $column
@@ -717,6 +729,15 @@ class Krud extends Controller
             $data->where(function($q){
                 foreach ($this->whereAndFn as $where) {
                     $q->orWhere(...$where);
+                }
+            });
+        }
+
+        // Agrguando And en Or como funcion
+        if(!empty($this->whereOrFn)){
+            $data->orWhere(function($q){
+                foreach($this->whereOrFn as $where){
+                    $q->where(...$where);
                 }
             });
         }
