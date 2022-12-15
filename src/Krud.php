@@ -1148,6 +1148,10 @@ class Krud extends Controller
      */
     public function edit($id, Request $request)
     {
+        if (!empty($this->errors)) {
+            return view('krud::training', $this->errors);
+        }
+
         try {
             $id = Crypt::decrypt($id);
             $parentid= $request->get('parent');
