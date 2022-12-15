@@ -50,6 +50,7 @@ class Krud extends Controller
     private $whereIn     = [];
     private $leftJoins   = [];
     private $errors      = [];
+    private $whereFn     = [];
     private $whereOrFn   = [];
     private $whereAndFn  = [];
     private $viewOptions = [];
@@ -524,6 +525,11 @@ class Krud extends Controller
         $this->whereAndFn[] = $conditions;
     }
 
+    public function setWhereFn($whereAndOr, $conditions)
+    {
+        $this->whereFn[] = [$whereAndOr, $conditions];
+    }
+
     /**
      * setWhereAndFn
      *
@@ -741,6 +747,20 @@ class Krud extends Controller
             });
         }
 
+        // Agrupando funcion
+        if (!empty($this->whereFn)) {
+            foreach ($this->whereFn as $args) {
+                $conditions = $args[1];
+                $data->{$args[0]}(function($q) use($conditions) {
+                    foreach($conditions as $condition) {
+                        $q->{$condition[0]}(...($condition[1]));
+                    }
+                });
+            }
+        }
+
+
+
         // generando filtro por whereIn
         foreach($this->whereIn as $whereIn) {
             $data->whereIn($whereIn[0], $whereIn[1]);
@@ -841,9 +861,9 @@ class Krud extends Controller
             
             // validando si es un select
             if($isSelect2 == true || $isSelect == true) {
-                // validando si tiene multiple o no
-
                 $this->campos[$i]['inputName'] .= '[]';
+
+                // validando si tiene multiple o no
                 if($this->campos[$i]['htmlAttr'] !== null && $this->campos[$i]['htmlAttr']->has('multiple')) {
                     // validando el formato de los valores
                     if($this->campos[$i]['format'] == 'json') {

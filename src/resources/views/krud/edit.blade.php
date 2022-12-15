@@ -27,7 +27,7 @@
                             columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
                             inputClass="{{$c['inputClass']}}"
                             label="{{$c['nombre']}}"
-                            name="{{$c['inputName']}}"
+                            name="{!!$c['inputName']!!}"
                             id="{{$c['inputName']}}"
                             collection="{!! $c['collect'] !!}"
                             type="{{$c['htmlType']}}"
