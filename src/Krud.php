@@ -50,8 +50,6 @@ class Krud extends Controller
     private $whereIn     = [];
     private $leftJoins   = [];
     private $errors      = [];
-    private $whereFn     = [];
-    private $whereOrFn   = [];
     private $whereAndFn  = [];
     private $viewOptions = [];
     private $validations = [];
@@ -525,22 +523,6 @@ class Krud extends Controller
         $this->whereAndFn[] = $conditions;
     }
 
-    public function setWhereFn($whereAndOr, $conditions)
-    {
-        $this->whereFn[] = [$whereAndOr, $conditions];
-    }
-
-    /**
-     * setWhereAndFn
-     *
-     * @param  mixed $conditions
-     * @return void
-     */
-    public function setWhereOrFn($conditions)
-    {
-        $this->whereOrFn[] = $conditions;
-    }
-
     /**
      * setOrWhere
      *
@@ -738,29 +720,6 @@ class Krud extends Controller
             });
         }
 
-        // Agrupando And en Or como funcion
-        if (!empty($this->whereOrFn)) {
-            $data->orWhere(function($q){
-                foreach ($this->whereOrFn as $where) {
-                    $q->where(...$where);
-                }
-            });
-        }
-
-        // Agrupando funcion
-        if (!empty($this->whereFn)) {
-            foreach ($this->whereFn as $args) {
-                $conditions = $args[1];
-                $data->{$args[0]}(function($q) use($conditions) {
-                    foreach($conditions as $condition) {
-                        $q->{$condition[0]}(...$condition[1]);
-                    }
-                });
-            }
-        }
-
-
-
         // generando filtro por whereIn
         foreach($this->whereIn as $whereIn) {
             $data->whereIn($whereIn[0], $whereIn[1]);
@@ -851,7 +810,7 @@ class Krud extends Controller
      *
      * @return void
      */
-    private function makeArrayData($data)
+    private function makeArrayData($data = null)
     {
         for ($i = 0; $i< count($this->campos); $i++) {
             
@@ -861,19 +820,20 @@ class Krud extends Controller
             
             // validando si es un select
             if($isSelect2 == true || $isSelect == true) {
-                $this->campos[$i]['inputName'] .= '[]';
-
                 // validando si tiene multiple o no
                 if($this->campos[$i]['htmlAttr'] !== null && $this->campos[$i]['htmlAttr']->has('multiple')) {
+                    $this->campos[$i]['inputName'] .= '[]';
                     // validando el formato de los valores
                     if($this->campos[$i]['format'] == 'json') {
-                        $value = $data->{$campoReal};
-                        $this->campos[$i]['value'] =  json_encode($value);    
+                        if($data != null){
+                            $value = $data->{$campoReal};
+                            $this->campos[$i]['value'] =  json_encode($value);
+                        }
                     } else if ($this->campos[$i]['format'] == 'table') {
                         $table = $this->campos[$i]['destination'];
                     }
                 }
-            } else {
+            } else if($data != null) {
                 $value = $data->{$campoReal};
                 if(is_array($value)) {
                     $this->campos[$i]['value'] =  json_encode($value);
@@ -1191,10 +1151,6 @@ class Krud extends Controller
      */
     public function edit($id, Request $request)
     {
-        if (!empty($this->errors)) {
-            return view('krud::training', $this->errors);
-        }
-
         try {
             $id = Crypt::decrypt($id);
             $parentid= $request->get('parent');
@@ -1209,13 +1165,11 @@ class Krud extends Controller
             $data = $this->model->find($id);
             $titulo = 'Editar '.$this->titulo;
             $this->makeArrayData($data);
-
             foreach ($this->embed as $eView) {
                 $eView[2]->query->add([$eView[1] => $id]);
                 $render = new $eView[0]($eView[2]);
                 $eViews[] = $render->index()->render;
             }
-            
         } else {
             $data = null;
             $titulo = 'Agregar '.$this->titulo;
@@ -1347,6 +1301,12 @@ class Krud extends Controller
                 $valor = $valor == 'on' || $valor == 0 || $valor == 1 ;
             } else if ($campo['tipo'] == 'hidden') {
                 $this->model->{$nombreCampo} = $valor == 'userid' ? Auth::id() : $valor;
+            } else if ($campo['tipo'] == 'select' || $campo['tipo'] == 'select2' || $campo['tipo'] == 'comobox') {
+                if($campo['htmlAttr']->has('multiple')) {
+                    if($campo['format'] == 'json') {
+                        $valor = json_encode($valor);
+                    }
+                }
             }
             $this->model->{$nombreCampo} = $valor;
         }
