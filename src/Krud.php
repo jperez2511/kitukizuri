@@ -50,6 +50,8 @@ class Krud extends Controller
     private $whereIn     = [];
     private $leftJoins   = [];
     private $errors      = [];
+    private $whereFn     = [];
+    private $whereOrFn   = [];
     private $whereAndFn  = [];
     private $viewOptions = [];
     private $validations = [];
@@ -523,6 +525,22 @@ class Krud extends Controller
         $this->whereAndFn[] = $conditions;
     }
 
+    public function setWhereFn($whereAndOr, $conditions)
+    {
+        $this->whereFn[] = [$whereAndOr, $conditions];
+    }
+
+    /**
+     * setWhereOrFn
+     *
+     * @param  mixed $conditions
+     * @return void
+     */
+    public function setWhereOrFn($conditions)
+    {
+        $this->whereOrFn[] = $conditions;
+    }
+
     /**
      * setOrWhere
      *
@@ -720,6 +738,27 @@ class Krud extends Controller
                     $q->orWhere(...$where);
                 }
             });
+        }
+
+        // Agrupando And en Or como funcion
+        if (!empty($this->whereOrFn)) {
+            $data->orWhere(function($q){
+                foreach ($this->whereOrFn as $where) {
+                    $q->where(...$where);
+                }
+            });
+        }
+
+        // Agrupando funcion
+        if (!empty($this->whereFn)) {
+            foreach ($this->whereFn as $args) {
+                $conditions = $args[1];
+                $data->{$args[0]}(function($q) use($conditions) {
+                    foreach($conditions as $condition) {
+                        $q->{$condition[0]}(...$condition[1]);
+                    }
+                });
+            }
         }
 
         // generando filtro por whereIn
