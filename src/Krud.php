@@ -814,8 +814,8 @@ class Krud extends Controller
     {
         for ($i = 0; $i< count($this->campos); $i++) {
             
-            $isSelect2 = $this->campos[$i]['tipo'] !== 'select2';
-            $isSelect  = $this->campos[$i]['tipo'] !== 'select';
+            $isSelect2 = $this->campos[$i]['tipo'] == 'select2';
+            $isSelect  = $this->campos[$i]['tipo'] == 'select';
             $campoReal = array_key_exists('campoReal', $this->campos[$i]) ? $this->campos[$i]['campoReal'] : $this->campos[$i]['campo'];
             
             // validando si es un select
@@ -835,11 +835,7 @@ class Krud extends Controller
                 }
             } else if($data != null) {
                 $value = $data->{$campoReal};
-                if(is_array($value)) {
-                    $this->campos[$i]['value'] =  json_encode($value);
-                } else {
-                    $this->campos[$i]['value'] =  $value;
-                }
+                $this->campos[$i]['value'] = is_array($value) ? json_encode($value) : $value;
             }
         }
     }
@@ -1304,7 +1300,7 @@ class Krud extends Controller
             } else if ($campo['tipo'] == 'select' || $campo['tipo'] == 'select2' || $campo['tipo'] == 'comobox') {
                 if($campo['htmlAttr']->has('multiple')) {
                     if($campo['format'] == 'json') {
-                        $valor = json_encode($valor);
+                        $valor = array_map('intval', $valor);
                     }
                 }
             }
