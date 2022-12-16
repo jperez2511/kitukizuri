@@ -755,8 +755,7 @@ class Krud extends Controller
                 $conditions = $args[1];
                 $data->{$args[0]}(function($q) use($conditions) {
                     foreach($conditions as $condition) {
-                        $params = $condition[1];
-                        $q->{$condition[0]}(...$params);
+                        $q->{$condition[0]}(...$condition[1]);
                     }
                 });
             }
