@@ -1,7 +1,6 @@
 @extends($layout)
 
 @section('styles')
-    <link href="{{asset('/kitukizuri/libs/RWD-Table-Patterns/css/rwd-table.min.css')}}" rel="stylesheet" type="text/css" />
     <style>
         .hide {display: none;}
     </style>
@@ -60,36 +59,38 @@
         <div class="col-12">
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-propiedades" role="tabpanel" aria-labelledby="pills-propiedades-tab" tabindex="0">
-                    <div class="row">
-                        <div class="col-4">
-                            <strong>Tabla:</strong>
-                            <span id="tituloTabla"></span> 
-                        </div>
-                        <div class="col-4 text-center">
-                            <strong>Collation:</strong>
-                            <span id="collation"></span>
-                        </div>
-                        <div class="col-4 text-center">
-                            <strong>Charset:</strong>
-                            <span id="charset"></span>
-                        </div>
-                        <div class="col-12">
-                            <hr>
-                            <strong>Columnas:</strong>
-                            <table class="table table-bordered" id="tableColumns"></table>
+                    <div class="card">
+                        <div class="card-body" style="height: 600px; overflow: auto;">
+                            <div class="row">
+                                <div class="col-4">
+                                    <strong>Tabla:</strong>
+                                    <span id="tituloTabla"></span> 
+                                </div>
+                                <div class="col-4 text-center">
+                                    <strong>Collation:</strong>
+                                    <span id="collation"></span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <strong>Charset:</strong>
+                                    <span id="charset"></span>
+                                </div>
+                                <div class="col-12">
+                                    <hr>
+                                    <strong>Columnas:</strong>
+                                    <table class="table table-bordered" id="tableColumns"></table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab" tabindex="0">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="table-rep-plugin">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead id="dataThead"></thead>
-                                        <tbody id="dataTbody"></tbody>
-                                    </table>
-                                </div>
+                        <div class="col-12" style="height:600px; overflow: auto;">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead id="dataThead"></thead>
+                                    <tbody id="dataTbody"></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -132,7 +133,6 @@
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/loader.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.nls.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.js')}}"></script>
-    <script type="text/javascript" src="{{asset('kitukizuri/libs/RWD-Table-Patterns/js/rwd-table.min.js')}}"></script>
     <script>
         "use strict";
         var editor   = null;
@@ -140,8 +140,6 @@
         var gTable   = '';
         var driver   = '{!! $driver !!}';
         var dataBase = '{!! encrypt($database) !!}';
-
-        $(".table-responsive").responsiveTable()
 
         function getAllData(limit) {
             let data = {
@@ -182,8 +180,6 @@
 
                             $('#dataTbody').append(valFormat+'</tr>');
                         });
-
-                        $(".table-responsive").responsiveTable('update')
                     }
                 })
                 .fail(error => alert(error.responseText));
