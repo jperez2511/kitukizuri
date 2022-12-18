@@ -145,9 +145,37 @@
                 database: dataBase
             }
 
+            $('#dataThead').empty();
+            $('#dataTbody').empty();
+
             $.post("{{route('database.store')}}", data)
                 .done(response => {
-                    console.log(response)
+                    let data = response.data
+
+                    if(data.length > 0) {
+                        // obteniendo nombre de columnas
+                        let colsName = Object.keys(data[0]);
+                        let colsFormat = '<tr>';
+
+                        colsName.forEach(element => {
+                            colsFormat += '<th>'+element+'</th>'
+                        });
+
+                        $('#dataThead').append(colsFormat+'</tr>');
+
+                        // poblando valores de tabla
+                        data.forEach(element => {
+                            let colValue = Object.values(element)
+                            let valFormat = '<tr>';
+
+                            colValues.forEach(value => {
+                                valFormat += '<td>'+value+'</td>'
+                            });
+
+                            $('#dataTbody').append(valFormat+'</tr>');
+                        });
+
+                    }
                 })
                 .fail(error => alert(error.responseText));
         }
