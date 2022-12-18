@@ -138,8 +138,8 @@
             let data = {
                 _token  : token,
                 opcion  : 2,
-                limit   : limit
-                table   : gTable
+                limit   : limit,
+                table   : gTable,
                 database: dataBase
             }
 
