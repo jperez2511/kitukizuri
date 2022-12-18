@@ -83,11 +83,13 @@
                 <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab" tabindex="0">
                     <div class="row">
                         <div class="col-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead id="dataThead"></thead>
-                                    <tbody id="dataTbody"></tbody>
-                                </table>
+                            <div class="table-rep-plugin">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead id="dataThead"></thead>
+                                        <tbody id="dataTbody"></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
