@@ -1,6 +1,7 @@
 @extends($layout)
 
 @section('styles')
+    <link href="{{asset('/kitukizuri/libs/RWD-Table-Patterns/css/rwd-table.min.css')}}" rel="stylesheet" type="text/css" />
     <style>
         .hide {display: none;}
     </style>
@@ -82,10 +83,12 @@
                 <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab" tabindex="0">
                     <div class="row">
                         <div class="col-12">
-                            <table class="table table-bordered">
-                                <thead id="dataThead"></thead>
-                                <tbody id="dataTbody"></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead id="dataThead"></thead>
+                                    <tbody id="dataTbody"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,6 +130,7 @@
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/loader.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.nls.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.js')}}"></script>
+    <script type="text/javascript" src="{{asset('kitukizuri/libs/RWD-Table-Patterns/js/rwd-table.min.js')}}"></script>
     <script>
         "use strict";
         var editor   = null;
@@ -134,6 +138,8 @@
         var gTable   = '';
         var driver   = '{!! $driver !!}';
         var dataBase = '{!! encrypt($database) !!}';
+
+        $(".table-responsive").responsiveTable()
 
         function getAllData(limit) {
             let data = {
@@ -168,13 +174,14 @@
                             let colValue = Object.values(element)
                             let valFormat = '<tr>';
 
-                            colValues.forEach(value => {
+                            colValue.forEach(value => {
                                 valFormat += '<td>'+value+'</td>'
                             });
 
                             $('#dataTbody').append(valFormat+'</tr>');
                         });
 
+                        $(".table-responsive").responsiveTable('update')
                     }
                 })
                 .fail(error => alert(error.responseText));
