@@ -47,7 +47,7 @@ class DataBaseController extends Controller
         return $this->{$function[(int) $request->opcion-1]}($request);
     }
 
-    private function getTableData() 
+    private function getTableData($request) 
     {
         try {
             $database = Crypt::decrypt($request->database);
