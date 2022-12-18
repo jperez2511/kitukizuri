@@ -36,6 +36,7 @@ class DataBaseController extends Controller
     public function store(Request $request)
     {
         $function = [
+            'getTableInfo',
             'getTableData'
         ];
 
@@ -46,7 +47,25 @@ class DataBaseController extends Controller
         return $this->{$function[(int) $request->opcion-1]}($request);
     }
 
-    private function getTableData($request)
+    private function getTableData() 
+    {
+        try {
+            $database = Crypt::decrypt($request->database);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+        $tableName = $request->table;
+        
+        if($request->driver == 'mysql') {
+            $getAllData = Mysql::getData($database, $tableName);
+        }
+
+        return response()->json(['data' => $getAllData]);
+        
+    }
+
+    private function getTableInfo($request)
     {
         try {
             $database = Crypt::decrypt($request->database);

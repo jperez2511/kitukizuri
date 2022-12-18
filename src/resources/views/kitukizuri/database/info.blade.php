@@ -1,5 +1,11 @@
 @extends($layout)
 
+@section('styles')
+    <style>
+        .hide {display: none;}
+    </style>
+@endsection
+
 @section('content')
 
 <div class="col-3">
@@ -35,12 +41,17 @@
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="pills-propiedades-tab" data-bs-toggle="pill" data-bs-target="#pills-propiedades" role="tab" aria-controls="pills-propiedades" aria-selected="true">
-                        <i class="fa-thin fa-info"></i> <span class="d-none d-md-inline-block">Propiedades</span> 
+                        <i class="fa-thin fa-circle-info"></i> <span class="d-none d-md-inline-block">Propiedades</span> 
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-data-tab" data-bs-toggle="pill" data-bs-target="#pills-data" role="tab" aria-controls="pills-data" aria-selected="true" onclick="initEditor()">
+                    <a class="nav-link" id="pills-data-tab" data-bs-toggle="pill" data-bs-target="#pills-data" role="tab" aria-controls="pills-data" aria-selected="true" onclick="getAllData()">
                         <i class="fa-thin fa-table"></i> <span class="d-none d-md-inline-block">Datos</span> 
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-query-tab" data-bs-toggle="pill" data-bs-target="#pills-query" role="tab" aria-controls="pills-data" aria-selected="true" onclick="initEditor()">
+                        <i class="fa-thin fa-message-code"></i> <span class="d-none d-md-inline-block">Query</span> 
                     </a>
                 </li>
             </ul>
@@ -69,6 +80,16 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-bordered">
+                                <thead id="dataThead"></thead>
+                                <tbody id="dataTbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-query" role="tabpanel" aria-labelledby="pills-query-tab" tabindex="0">
                     <div class="row">
                         <div class="col-12">
                             <table class="table table-bordered">
@@ -108,24 +129,23 @@
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.js')}}"></script>
     <script>
         "use strict";
-        var editor = null;
-        var token = '{{ csrf_token() }}';
-        var gTable = ''
+        var editor   = null;
+        var token    = '{{ csrf_token() }}';
+        var gTable   = ''
+        var dataBase = '{!! encrypt($database) !!}';
 
         function getAllData(limit) {
             let data = {
-                _token: token,
-                opcion: 2,
-                limit: limit
-                table: gTable
+                _token  : token,
+                opcion  : 2,
+                limit   : limit
+                table   : gTable
+                database: dataBase
             }
 
             $.post("{{route('database.store')}}", data)
                 .done(response => {
-                    resposne.thead.forEach(head => {
-                        $('queryThead').append('<th>'+head+'</th>');
-                    });
-                    initEditor(response.query)
+                    console.log(response)
                 })
                 .fail(error => alert(error.responseText));
         }
@@ -143,13 +163,13 @@
             console.log(value)
         }
 
-        function viewTableInfo(table){
+        function viewTableInfo(table) {
             let data = {
                 _token  : token,
                 table   : table,
                 opcion  : 1,
                 driver  : '{!! $driver !!}',
-                database: '{!! encrypt($database) !!}'
+                database: dataBase
             }
 
             gTable = table
@@ -192,7 +212,6 @@
 
             }).fail(error => alert(error.responseText));
         }
-
     </script> 
     
 @endsection
