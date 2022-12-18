@@ -131,7 +131,8 @@
         "use strict";
         var editor   = null;
         var token    = '{{ csrf_token() }}';
-        var gTable   = ''
+        var gTable   = '';
+        var driver   = '{!! $driver !!}';
         var dataBase = '{!! encrypt($database) !!}';
 
         function getAllData(limit) {
@@ -140,6 +141,7 @@
                 opcion  : 2,
                 limit   : limit,
                 table   : gTable,
+                driver  : driver,
                 database: dataBase
             }
 
@@ -168,7 +170,7 @@
                 _token  : token,
                 table   : table,
                 opcion  : 1,
-                driver  : '{!! $driver !!}',
+                driver  : driver,
                 database: dataBase
             }
 
