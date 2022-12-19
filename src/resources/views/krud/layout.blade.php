@@ -23,6 +23,7 @@
 
 
     <!-- Bootstrap -->
+    <link href="{{asset('/kitukizuri/libs/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/kitukizuri/css/bootstrap'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{asset('/kitukizuri/css/icons.min.css')}}" rel="stylesheet" type="text/css" />

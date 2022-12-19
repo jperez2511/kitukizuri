@@ -1,6 +1,7 @@
 @extends($layout)
 
 @section('styles')
+    <link href="{{asset('/kitukizuri/libs/RWD-Table-Patterns/css/rwd-table.min.css')}}" rel="stylesheet" type="text/css" />
     <style>
         .hide {display: none;}
     </style>
@@ -85,12 +86,11 @@
                 </div>
                 <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab" tabindex="0">
                     <div class="row">
-                        <div class="col-12" style="height:600px; overflow: auto;">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead id="dataThead"></thead>
-                                    <tbody id="dataTbody"></tbody>
-                                </table>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-rep-plugin" id="tableData"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
 @endsection
 
 @section('scripts')
-
+    <script type="text/javascript" src="{{asset('kitukizuri/libs/RWD-Table-Patterns/js/rwd-table.min.js')}}"></script>
     <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/monaco-editor/min/vs')}}' } };</script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/loader.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.nls.js')}}"></script>
@@ -151,8 +151,15 @@
                 database: dataBase
             }
 
-            $('#dataThead').empty();
-            $('#dataTbody').empty();
+            $('#tableData').empty();
+            $('#tableData').append(`
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead id="dataThead"></thead>
+                        <tbody id="dataTbody"></tbody>
+                    </table>
+                </div>
+            `);
 
             $.post("{{route('database.store')}}", data)
                 .done(response => {
@@ -180,6 +187,11 @@
 
                             $('#dataTbody').append(valFormat+'</tr>');
                         });
+                        $(".table-responsive").responsiveTable({stickyTableHeader:true})
+                        $(".table-responsive").responsiveTable('update')
+                        
+                    } else {
+                        $('#dataTbody').append('</tr><td>Sin Datos</td></tr>');
                     }
                 })
                 .fail(error => alert(error.responseText));
