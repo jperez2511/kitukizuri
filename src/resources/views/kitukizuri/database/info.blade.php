@@ -94,26 +94,63 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="pills-query" role="tabpanel" aria-labelledby="pills-query-tab" tabindex="0">
-                    <div class="row">
-                        <div class="col-12">
-                            <table class="table table-bordered">
-                                <thead id="queryThead"></thead>
-                                <tbody id="queryTbody"></tbody>
-                            </table>
-                        </div>
-                        <div class="col-12">
-                            <strong>Consulta:</strong>
-                            <div id="editor" style="width: 100%; height:100px;"></div>
-                        </div>
-                        <div class="col-12 text-center">
-                            <div class="form-group">
-                                <br>
-                                <a href="javascript:void(0)" class="btn btn-success btn-icon-split mr-2" onclick="getValueEditor()">
-                                    <span class="icon">
-                                        <i class="fa-duotone fa-rocket-launch"></i>
-                                    </span>
-                                    <span class="text">Generar resultados</span>
-                                </a>                
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <a href="javascript:void(0)" class="btn btn-tertiary btn-icon-split btn-block" onclick="setScript('orm')">
+                                            <span class="icon">
+                                                <i class="fa-light fa-function"></i>
+                                            </span>
+                                            <span class="text">ORM</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                @if ($driver != 'mongo')
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <a href="javascript:void(0)" class="btn btn-primary btn-icon-split btn-block" onclick="setScript('sql')">
+                                                <span class="icon">
+                                                    <i class="fa-light fa-scroll"></i>
+                                                </span>
+                                                <span class="text">SQL</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <a href="javascript:void(0)" class="btn btn-primary btn-icon-split btn-block" onclick="setScript('javascript')">
+                                                <span class="icon">
+                                                    <i class="fa-brands fa-square-js"></i>
+                                                </span>
+                                                <span class="text">JavaScript</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="col-4 text-center">
+                                    <div class="form-group">
+                                        <a href="javascript:void(0)" class="btn btn-success btn-icon-split btn-block" onclick="getValueEditor()">
+                                            <span class="icon">
+                                                <i class="fa-duotone fa-rocket-launch"></i>
+                                            </span>
+                                            <span class="text">Generar resultados</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div id="editor" style="width: 100%; height:100px;"></div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead id="queryThead"></thead>
+                                            <tbody id="queryTbody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -168,7 +205,7 @@
             to = setTimeout(function () {
                 var v = $('#krud-search').val();
                 $('#treeTables').jstree(true).search(v);
-            }, 150);
+            }, 500);
         });
 
         function getAllData(limit) {
@@ -237,7 +274,13 @@
 
         function getValueEditor(){
             var value = editor.getValue()    
-            console.log(value)
+            
+            $.post("{{route('database.store')}}", data,
+                function (data, textStatus, jqXHR) {
+                    
+                },
+                "dataType"
+            );
         }
 
         function viewTableInfo(table) {

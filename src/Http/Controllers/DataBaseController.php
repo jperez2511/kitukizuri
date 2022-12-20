@@ -14,7 +14,7 @@ class DataBaseController extends Controller
 
     private $colors = [
         'mysql'  => ['color' => 'primary',   'icono' => 'fa-duotone fa-dolphin'],
-        'sqlite' => ['color' => 'secondary', 'icono' => 'fa-duotone fa-feather'],
+        'sqlite' => ['color' => 'tertiary',  'icono' => 'fa-duotone fa-feather'],
         'pgsql'  => ['color' => 'info',      'icono' => 'fa-duotone fa-elephant'],
         'mongo'  => ['color' => 'success',   'icono' => 'fa-duotone fa-leaf'],
         'sqlsrv' => ['color' => 'secondary', 'icono' => 'fa-brands fa-microsoft'],
@@ -39,7 +39,8 @@ class DataBaseController extends Controller
     {
         $function = [
             'getTableInfo',
-            'getTableData'
+            'getTableData',
+            'executeQuery',
         ];
 
         if(!$request->has('opcion')){
@@ -60,6 +61,13 @@ class DataBaseController extends Controller
         }
 
         return $this->{$function}($request);
+    }
+
+    private function executeQuery($request)
+    {
+        if($request->driver == 'mysql') {
+            Mysql::excuteQuery($request->query);
+        }
     }
 
     private function getTables($request)
