@@ -1,6 +1,7 @@
 @extends($layout)
 
 @section('styles')
+    <link rel="stylesheet" href="{{asset('/kitukizuri/libs/jstree/themes/default/style.min.css')}}">
     <link href="{{asset('/kitukizuri/libs/RWD-Table-Patterns/css/rwd-table.min.css')}}" rel="stylesheet" type="text/css" />
     <style>
         .hide {display: none;}
@@ -10,19 +11,16 @@
 @section('content')
 
 <div class="col-3">
-    <div data-simplebar class="card" style="height: 600px; overflow: auto;">
-        <div id="sidebar-menu" class="card-body email-leftbar">
-            <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title text-center text-primary">Lista de tablas</li>
-                @foreach ($tables as $table)
-                    <li>
-                        <a href="#" class=" waves-effect" onclick="viewTableInfo('{{ $table->name }}')">
-                            <i class="mdi mdi-database"></i>
-                            <span>{{ $table->name }}</span>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+    <div class="row">
+        <div class="col-12 text-center text-primary">   
+            <div class="form-group">
+                <i class="fa-light fa-table-columns fa-xl" id="tableIcon"></i> <br>
+                <strong>Listado de tablas</strong>
+                <hr>
+            </div> 
+        </div>
+        <div class="col-12 card card-body">
+            <div id="treeTables"></div>
         </div>
     </div>
 </div>
@@ -103,7 +101,7 @@
                                 <tbody id="queryTbody"></tbody>
                             </table>
                         </div>
-                        <div class="col-12 text-center">
+                        <div class="col-12">
                             <strong>Consulta:</strong>
                             <div id="editor" style="width: 100%; height:100px;"></div>
                         </div>
@@ -128,6 +126,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('kitukizuri/libs/jstree/jstree.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/RWD-Table-Patterns/js/rwd-table.min.js')}}"></script>
     <script> var require = { paths: { 'vs': '{{asset('kitukizuri/libs/monaco-editor/min/vs')}}' } };</script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/loader.js')}}"></script>
@@ -140,6 +139,29 @@
         var gTable   = '';
         var driver   = '{!! $driver !!}';
         var dataBase = '{!! encrypt($database) !!}';
+
+        $('#treeTables').jstree({
+            "plugins" : [ "search", "changed", 'contextmenu' ],
+            'core' : {
+                'data' : {
+                    'url' : '{{route('database.store')}}?opcion=3&db='+dataBase,
+                    'dataType': "json"
+                }
+            },
+            'contextmenu': {
+                'items': {
+                    'viewData': { // The "rename" menu item
+                        'label': "Ver datos",
+                        'action': function (obj) {
+                            let idNode = obj.reference.prevObject[0].id;
+                        }
+                    }
+                },
+            }
+        }).on("select_node.jstree", function (e, data) { 
+            viewTableInfo(data.node.id)
+        });
+
 
         function getAllData(limit) {
             let data = {

@@ -37,7 +37,8 @@ class DataBaseController extends Controller
     {
         $function = [
             'getTableInfo',
-            'getTableData'
+            'getTableData',
+            'getTables'
         ];
 
         if(!$request->has('opcion')){
@@ -45,6 +46,32 @@ class DataBaseController extends Controller
         }
 
         return $this->{$function[(int) $request->opcion-1]}($request);
+    }
+
+    private function getTables($request){
+        try {
+            $database = Crypt::decrypt($request->db);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+        $treeTable = [];
+
+        if($request->drv == 'mysql') {
+            $tables = Mysql::getTables($database);
+        }
+
+        if(!empty($tables)){
+            foreach ($tables as $table) {
+                $treeTable[] = [
+                    'id' => $table->name,
+                    'icon' => 'fa-light fa-table-columns',
+                    'text' => $table->name
+                ];
+            }
+        }
+
+        return response()->json(['result' => $treeTable]);
     }
 
     private function getTableData($request) 
