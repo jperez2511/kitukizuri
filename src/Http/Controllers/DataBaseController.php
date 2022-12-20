@@ -22,6 +22,35 @@ class DataBaseController extends Controller
 
     public function index(Request $request) 
     {
+        if($request->has('opcion')) {
+            $function = [
+                'getTables'
+            ];
+    
+            $result = $this->{$function[(int) $request->opcion-1]}($request);
+        } else {
+            $result = $this->showView($request);
+        }
+
+        return $result;
+    }
+
+    public function store(Request $request)
+    {
+        $function = [
+            'getTableInfo',
+            'getTableData'
+        ];
+
+        if(!$request->has('opcion')){
+            abort(404);
+        }
+
+        return $this->{$function[(int) $request->opcion-1]}($request);
+    }
+
+    private function showView($request) 
+    {
         if($request->has('c')) {
             $function = 'viewConnection';
         } else if($request->has('ct') && $request->has('d')) {
@@ -31,21 +60,6 @@ class DataBaseController extends Controller
         }
 
         return $this->{$function}($request);
-    }
-
-    public function store(Request $request)
-    {
-        $function = [
-            'getTableInfo',
-            'getTableData',
-            'getTables'
-        ];
-
-        if(!$request->has('opcion')){
-            abort(404);
-        }
-
-        return $this->{$function[(int) $request->opcion-1]}($request);
     }
 
     private function getTables($request){
