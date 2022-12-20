@@ -62,7 +62,8 @@ class DataBaseController extends Controller
         return $this->{$function}($request);
     }
 
-    private function getTables($request){
+    private function getTables($request)
+    {
         try {
             $database = Crypt::decrypt($request->db);
         } catch (\Exception $e) {
@@ -85,7 +86,7 @@ class DataBaseController extends Controller
             }
         }
 
-        return response()->json(['result' => $treeTable]);
+        return response()->json($treeTable);
     }
 
     private function getTableData($request) 

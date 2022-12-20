@@ -20,7 +20,7 @@
             </div> 
         </div>
         <div class="col-12 card card-body">
-            <div id="treeTables"></div>
+            <div id="treeTables" style="overflow: auto"></div>
         </div>
     </div>
 </div>
@@ -59,7 +59,7 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-propiedades" role="tabpanel" aria-labelledby="pills-propiedades-tab" tabindex="0">
                     <div class="card">
-                        <div class="card-body" style="height: 600px; overflow: auto;">
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-4">
                                     <strong>Tabla:</strong>
@@ -144,7 +144,7 @@
             "plugins" : [ "search", "changed", 'contextmenu' ],
             'core' : {
                 'data' : {
-                    'url'     : '{{route('database.store')}}?opcion=1&db='+dataBase+'drv='+driver,
+                    'url'     : '{{route('database.store')}}?opcion=1&db='+dataBase+'&drv='+driver,
                     'dataType': "json"
                 }
             },
@@ -162,6 +162,14 @@
             viewTableInfo(data.node.id)
         });
 
+        var to = false;
+        $('#krud-search').keyup(function () {
+            if(to) { clearTimeout(to); }
+            to = setTimeout(function () {
+                var v = $('#krud-search').val();
+                $('#treeTables').jstree(true).search(v);
+            }, 150);
+        });
 
         function getAllData(limit) {
             let data = {

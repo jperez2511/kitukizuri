@@ -67,7 +67,7 @@
                     <!-- App Search-->
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Buscar...">
+                            <input type="text" class="form-control" id="krud-search" placeholder="Buscar...">
                             <span class="mdi mdi-magnify"></span>
                         </div>
                     </form>
