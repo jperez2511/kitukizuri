@@ -144,7 +144,8 @@
             "plugins" : [ "search", "changed", 'contextmenu' ],
             'core' : {
                 'data' : {
-                    'url' : '{{route('database.store')}}?opcion=3&db='+dataBase,
+                    'type'    : "POST",
+                    'url'     : '{{route('database.store')}}?opcion=3&db='+dataBase+'drv='+driver,
                     'dataType': "json"
                 }
             },
