@@ -99,7 +99,7 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-group">
-                                        <a href="javascript:void(0)" class="btn btn-tertiary btn-icon-split btn-block" onclick="setScript('orm')">
+                                        <a href="javascript:void(0)" class="btn btn-tertiary btn-icon-split btn-block" data-bs-toggle="tooltip" data-placement="top" title="Permite el ingreso de consultas basados en Eloquent o Krud" onclick="setScript('orm')">
                                             <span class="icon">
                                                 <i class="fa-light fa-function"></i>
                                             </span>
@@ -110,7 +110,7 @@
                                 @if ($driver != 'mongo')
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <a href="javascript:void(0)" class="btn btn-primary btn-icon-split btn-block" onclick="setScript('sql')">
+                                            <a href="javascript:void(0)" class="btn btn-primary btn-icon-split btn-block" data-bs-toggle="tooltip" data-placement="top" title="Permite el ingreso de consultas basados SQL" onclick="setScript('sql')">
                                                 <span class="icon">
                                                     <i class="fa-light fa-scroll"></i>
                                                 </span>
@@ -132,7 +132,7 @@
                                 @endif
                                 <div class="col-4 text-center">
                                     <div class="form-group">
-                                        <a href="javascript:void(0)" class="btn btn-success btn-icon-split btn-block" onclick="getValueEditor()">
+                                        <a href="javascript:void(0)" class="btn btn-success btn-icon-split btn-block" data-bs-toggle="tooltip" data-placement="top" title="Obtiene los resultados de la consulta" onclick="getValueEditor()">
                                             <span class="icon">
                                                 <i class="fa-duotone fa-rocket-launch"></i>
                                             </span>
@@ -220,7 +220,7 @@
 
             $('#tableData').empty();
             $('#tableData').append(`
-                <div class="table-responsive">
+                <div class="table-responsive" id="dataTable" >
                     <table class="table table-striped table-bordered">
                         <thead id="dataThead"></thead>
                         <tbody id="dataTbody"></tbody>
@@ -254,8 +254,8 @@
 
                             $('#dataTbody').append(valFormat+'</tr>');
                         });
-                        $(".table-responsive").responsiveTable({stickyTableHeader:true})
-                        $(".table-responsive").responsiveTable('update')
+                        $("#dataTable").responsiveTable({stickyTableHeader:true})
+                        $("#dataTable").responsiveTable('update')
                         
                     } else {
                         $('#dataTbody').append('</tr><td>Sin Datos</td></tr>');
