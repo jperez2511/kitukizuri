@@ -26,14 +26,6 @@ class UsuariosController extends Krud
         $this->setCampo(['nombre'=>'Constraseña', 'campo'=>'password', 'tipo'=>'password', 'show'=>false]);
         $this->setBoton(['nombre'=>'Asignar Permiso', 'url'=>route('asignarpermiso.index').'?parent={id}', 'class'=>'outline-success', 'icon'=>'mdi mdi-lock-open-variant-outline']);
         $this->setLayout('krud::layout');
-        $this->middleware(function ($request, $next) {
-            if (!empty(Auth::user()->empresaid)) {
-                $empresaid = Auth::user()->empresaid;
-                $this->setCampo(['nombre'=>'empresaid', 'campo'=>'empresaid', 'tipo' => 'hidden', 'value'=>$empresaid,  'show' => false]);
-                $this->setWhere('empresaid', '=', $empresaid);
-            }
-            return $next($request);
-        });
 
         // agregando campos custom
         $camposCustom = config('kitukizuri.userCustomField') ?? null;
