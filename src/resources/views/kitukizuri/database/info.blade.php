@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-query-tab" data-bs-toggle="pill" data-bs-target="#pills-query" role="tab" aria-controls="pills-data" aria-selected="true" onclick="initEditor()">
+                    <a class="nav-link" id="pills-query-tab" data-bs-toggle="pill" data-bs-target="#pills-query" role="tab" aria-controls="pills-data" aria-selected="true" onclick="setScript()">
                         <i class="fa-thin fa-message-code"></i> <span class="d-none d-md-inline-block">Query</span> 
                     </a>
                 </li>
@@ -99,7 +99,7 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-group">
-                                        <a href="javascript:void(0)" class="btn btn-tertiary btn-icon-split btn-block" data-bs-toggle="tooltip" data-placement="top" title="Permite el ingreso de consultas basados en Eloquent o Krud" onclick="setScript('orm')">
+                                        <a href="javascript:void(0)" class="btn btn-tertiary btn-icon-split btn-sm btn-block" data-bs-toggle="tooltip" data-placement="top" title="Permite el ingreso de consultas basados en Eloquent o Krud" onclick="setScript('orm')">
                                             <span class="icon">
                                                 <i class="fa-light fa-function"></i>
                                             </span>
@@ -110,7 +110,7 @@
                                 @if ($driver != 'mongo')
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <a href="javascript:void(0)" class="btn btn-primary btn-icon-split btn-block" data-bs-toggle="tooltip" data-placement="top" title="Permite el ingreso de consultas basados SQL" onclick="setScript('sql')">
+                                            <a href="javascript:void(0)" class="btn btn-primary btn-icon-split btn-sm btn-block" data-bs-toggle="tooltip" data-placement="top" title="Permite el ingreso de consultas basados SQL" onclick="setScript('sql')">
                                                 <span class="icon">
                                                     <i class="fa-light fa-scroll"></i>
                                                 </span>
@@ -121,7 +121,7 @@
                                 @else
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <a href="javascript:void(0)" class="btn btn-primary btn-icon-split btn-block" onclick="setScript('javascript')">
+                                            <a href="javascript:void(0)" class="btn btn-primary btn-icon-split btn-sm btn-block" onclick="setScript('javascript')">
                                                 <span class="icon">
                                                     <i class="fa-brands fa-square-js"></i>
                                                 </span>
@@ -132,7 +132,7 @@
                                 @endif
                                 <div class="col-4 text-center">
                                     <div class="form-group">
-                                        <a href="javascript:void(0)" class="btn btn-success btn-icon-split btn-block" data-bs-toggle="tooltip" data-placement="top" title="Obtiene los resultados de la consulta" onclick="getValueEditor()">
+                                        <a href="javascript:void(0)" class="btn btn-success btn-icon-split btn-sm btn-block" data-bs-toggle="tooltip" data-placement="top" title="Obtiene los resultados de la consulta" onclick="getValueEditor()">
                                             <span class="icon">
                                                 <i class="fa-duotone fa-rocket-launch"></i>
                                             </span>
@@ -169,6 +169,7 @@
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/loader.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.nls.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.js')}}"></script>
+    <script type="text/javascript" src="{{asset('kitukizuri/js/snippets/orm.js')}}"></script>
     <script>
         "use strict";
         var editor   = null;
@@ -264,12 +265,39 @@
                 .fail(error => alert(error.responseText));
         }
         
-        function initEditor(query) { 
+        function initEditor(language) { 
             $('#editor').empty();
-            editor = monaco.editor.create(document.getElementById('editor'), {
+            var editor = monaco.editor.create(document.getElementById('editor'), {
                 theme: 'vs-{{ config('kitukizuri.dark') ? 'dark' : 'light' }}',
-                model: monaco.editor.createModel(query, "sql")
+                model: monaco.editor.createModel('', language)
             });
+        }
+
+        function setScript(language) {
+            let defaultLanguage = 'sql';
+
+            if(language == 'orm') {
+                defaultLanguage = 'php';
+            } else if(language == 'javascript') {
+                defaultLanguage = language;
+            }
+
+            monaco.languages.registerCompletionItemProvider(defaultLenguage, {
+	            provideCompletionItems: function (model, position) {
+                    var word = model.getWordUntilPosition(position);
+                    var range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                    };
+                    return {
+                        suggestions: orm.createDependencyProposals(range)
+                    };
+	            }
+            });
+
+            initEditor(lenguage);
         }
 
         function getValueEditor(){
