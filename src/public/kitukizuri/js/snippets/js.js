@@ -1,4 +1,4 @@
-var ORM = {
+var JS = {
     createDependencyProposals: function (range){
         return [
             {

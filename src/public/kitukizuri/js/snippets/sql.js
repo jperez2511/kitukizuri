@@ -1,4 +1,4 @@
-var ORM = {
+var SQL = {
     createDependencyProposals: function (range){
         return [
             {

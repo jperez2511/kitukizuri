@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div id="editor" style="width: 100%; height:100px;"></div>
+                                    <div id="editor" style="width: 100%; height:400px;"></div>
                                 </div>
                                 <div class="col-12">
                                     <div class="table-responsive">
@@ -170,6 +170,8 @@
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.nls.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/libs/monaco-editor/min/vs/editor/editor.main.js')}}"></script>
     <script type="text/javascript" src="{{asset('kitukizuri/js/snippets/orm.js')}}"></script>
+    <script type="text/javascript" src="{{asset('kitukizuri/js/snippets/js.js')}}"></script>
+    <script type="text/javascript" src="{{asset('kitukizuri/js/snippets/sql.js')}}"></script>
     <script>
         "use strict";
         var editor   = null;
@@ -266,23 +268,8 @@
         }
         
         function initEditor(language) { 
-            $('#editor').empty();
-            var editor = monaco.editor.create(document.getElementById('editor'), {
-                theme: 'vs-{{ config('kitukizuri.dark') ? 'dark' : 'light' }}',
-                model: monaco.editor.createModel('', language)
-            });
-        }
 
-        function setScript(language) {
-            let defaultLanguage = 'sql';
-
-            if(language == 'orm') {
-                defaultLanguage = 'php';
-            } else if(language == 'javascript') {
-                defaultLanguage = language;
-            }
-
-            monaco.languages.registerCompletionItemProvider(defaultLenguage, {
+            monaco.languages.registerCompletionItemProvider('php', {
 	            provideCompletionItems: function (model, position) {
                     var word = model.getWordUntilPosition(position);
                     var range = {
@@ -292,12 +279,51 @@
                         endColumn: word.endColumn
                     };
                     return {
-                        suggestions: orm.createDependencyProposals(range)
+                        suggestions: ORM.createDependencyProposals(range)
                     };
 	            }
             });
 
-            initEditor(lenguage);
+            var editor = monaco.editor.create(document.getElementById('editor'), {
+                theme: 'vs-{{ config('kitukizuri.dark') ? 'dark' : 'light' }}',
+                model: monaco.editor.createModel('', language)
+            });
+        }
+
+        function setScript(language) {
+            $('#editor').empty();
+            
+            let defaultLanguage = 'sql';
+            let classProposals  = SQL;
+
+            if(language == 'orm') {
+                defaultLanguage = 'php';
+                classProposals = ORM;
+            } else if(language == 'javascript') {
+                defaultLanguage = language;
+                classProposals = JS;
+            }
+
+            monaco.languages.registerCompletionItemProvider(defaultLanguage, {
+                provideCompletionItems: function (model, position) {
+                    var word = model.getWordUntilPosition(position);
+                    var range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                    };
+                    
+                    return {
+                        suggestions: classProposals.createDependencyProposals(range)
+                    };
+                }
+            });
+
+            monaco.editor.create(document.getElementById('editor'), {
+                language: defaultLanguage
+            });
+
         }
 
         function getValueEditor(){
