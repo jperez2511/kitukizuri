@@ -97,6 +97,10 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
+                                <div class="col-12">
+                                    <strong>Selección de lenguaje y ejeuctar consulta: </strong>
+                                    <hr>
+                                </div>
                                 <div class="col-4">
                                     <div class="form-group">
                                         <a href="javascript:void(0)" class="btn btn-tertiary btn-icon-split btn-sm btn-block" data-bs-toggle="tooltip" data-placement="top" title="Permite el ingreso de consultas basados en Eloquent o Krud" onclick="setScript('orm')">
@@ -139,6 +143,10 @@
                                             <span class="text">Generar resultados</span>
                                         </a>
                                     </div>
+                                </div>
+                                <div class="col-12">
+                                    <strong>lenguaje seleccionado:</strong> <span id="selectedLang"></span>
+                                    <hr>
                                 </div>
                                 <div class="col-12">
                                     <div id="editor" style="width: 100%; height:400px;"></div>
@@ -304,14 +312,16 @@
                 classProposals = JS;
             }
 
+            $('#selectedLang').text(language);
+
             monaco.languages.registerCompletionItemProvider(defaultLanguage, {
                 provideCompletionItems: function (model, position) {
                     var word = model.getWordUntilPosition(position);
                     var range = {
                         startLineNumber: position.lineNumber,
-                        endLineNumber: position.lineNumber,
-                        startColumn: word.startColumn,
-                        endColumn: word.endColumn
+                        endLineNumber  : position.lineNumber,
+                        startColumn    : word.startColumn,
+                        endColumn      : word.endColumn
                     };
                     
                     return {

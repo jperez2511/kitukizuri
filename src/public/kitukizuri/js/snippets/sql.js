@@ -2,13 +2,22 @@ var SQL = {
     createDependencyProposals: function (range){
         return [
             {
-                label          : '"where"',
+                label          : '"create table"',
                 kind           : monaco.languages.CompletionItemKind.Function,
-                documentation  : 'The most basic call to the where method requires three arguments. The first argument is the name of the column. The second argument is an operator, which can be any of the database\'s supported operators. The third argument is the value to compare against the column\'s value.',
-                insertText     : 'where(\'${1:votes}\', \'${2:=}\', ${3:100})',
+                documentation  : 'The CREATE TABLE statement is used to create a new table in a database.',
+                insertText     : 'CREATE TABLE ${1:table_name} ( \n ${2:column1} ${3:datatype} \n);',
                 insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
                 range          : range
-            }
+            },
+            {
+                label          : '"create table if not exist"',
+                kind           : monaco.languages.CompletionItemKind.Function,
+                documentation  : 'The CREATE TABLE statement is used to create a new table in a database.',
+                insertText     : 'CREATE TABLE ${1:table_name} ( \n ${2:column1} ${3:datatype} \n);',
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                range          : range
+            },
+
         ]; 
     }
 }
