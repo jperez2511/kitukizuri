@@ -65,6 +65,9 @@ class DataBaseController extends Controller
 
     private function executeQuery($request)
     {
+
+        dd($request->all());
+
         if($request->driver == 'mysql') {
             Mysql::excuteQuery($request->query);
         }

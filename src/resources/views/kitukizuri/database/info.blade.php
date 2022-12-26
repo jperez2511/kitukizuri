@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-query-tab" data-bs-toggle="pill" data-bs-target="#pills-query" role="tab" aria-controls="pills-data" aria-selected="true" onclick="setScript()">
+                    <a class="nav-link" id="pills-query-tab" data-bs-toggle="pill" data-bs-target="#pills-query" role="tab" aria-controls="pills-data" aria-selected="true" onclick="setScript('sql')">
                         <i class="fa-thin fa-message-code"></i> <span class="d-none d-md-inline-block">Query</span> 
                     </a>
                 </li>
@@ -275,32 +275,16 @@
                 .fail(error => alert(error.responseText));
         }
         
-        function initEditor(language) { 
-
-            monaco.languages.registerCompletionItemProvider('php', {
-	            provideCompletionItems: function (model, position) {
-                    var word = model.getWordUntilPosition(position);
-                    var range = {
-                        startLineNumber: position.lineNumber,
-                        endLineNumber: position.lineNumber,
-                        startColumn: word.startColumn,
-                        endColumn: word.endColumn
-                    };
-                    return {
-                        suggestions: ORM.createDependencyProposals(range)
-                    };
-	            }
-            });
-
-            var editor = monaco.editor.create(document.getElementById('editor'), {
-                theme: 'vs-{{ config('kitukizuri.dark') ? 'dark' : 'light' }}',
-                model: monaco.editor.createModel('', language)
-            });
-        }
-
+        var registerCompletion = null;
         function setScript(language) {
             $('#editor').empty();
+
             
+            if(registerCompletion != null) {
+                monaco.editor.getEditors().forEach(editor => editor.dispose());
+                registerCompletion.dispose()
+            }
+
             let defaultLanguage = 'sql';
             let classProposals  = SQL;
 
@@ -312,9 +296,13 @@
                 classProposals = JS;
             }
 
-            $('#selectedLang').text(language);
+            $('#selectedLang').text(defaultLanguage);
 
-            monaco.languages.registerCompletionItemProvider(defaultLanguage, {
+            initEditor(defaultLanguage, classProposals);
+        }
+
+        function initEditor(defaultLanguage, classProposals) {
+           registerCompletion = monaco.languages.registerCompletionItemProvider(defaultLanguage, {
                 provideCompletionItems: function (model, position) {
                     var word = model.getWordUntilPosition(position);
                     var range = {
@@ -323,7 +311,7 @@
                         startColumn    : word.startColumn,
                         endColumn      : word.endColumn
                     };
-                    
+
                     return {
                         suggestions: classProposals.createDependencyProposals(range)
                     };
@@ -333,18 +321,20 @@
             monaco.editor.create(document.getElementById('editor'), {
                 language: defaultLanguage
             });
-
         }
 
         function getValueEditor(){
-            var value = editor.getValue()    
+            let value = editor.getValue()    
+            let data = {
+                _token: token,
+                query : value,
+                option: 3,
+                lang  : $('#selectedLang').text()
+            }
             
-            $.post("{{route('database.store')}}", data,
-                function (data, textStatus, jqXHR) {
-                    
-                },
-                "dataType"
-            );
+            $.post("{{route('database.store')}}", data).done(response => {
+                console.log(response);
+            }).fail(error => alert(error));
         }
 
         function viewTableInfo(table) {
