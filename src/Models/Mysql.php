@@ -59,4 +59,15 @@ class Mysql extends Model
         return DB::connection(self::$driver)->select('SHOW CHARACTER SET');
     }
 
+    public static function executeQuery($query, $lang) 
+    {
+        $results = null;
+        
+        if($lang == 'sql') {
+            $results = DB::conneciton(self::$driver)->DB::raw($query);
+        }
+
+        return $results;
+    }
+
 }

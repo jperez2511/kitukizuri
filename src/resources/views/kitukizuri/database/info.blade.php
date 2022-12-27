@@ -329,7 +329,8 @@
             let data = {
                 _token: token,
                 query : value,
-                option: 3,
+                opcion: 3,
+                driver: driver,
                 lang  : $('#selectedLang').text()
             }
             
