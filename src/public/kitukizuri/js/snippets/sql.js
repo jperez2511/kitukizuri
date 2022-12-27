@@ -13,7 +13,7 @@ var SQL = {
                 label          : '"create table if not exists"',
                 kind           : monaco.languages.CompletionItemKind.Function,
                 documentation  : 'Crea una tabla si no existe previamente en la base de datos',
-                insertText     : 'CREATE TABLE ${1:table_name} ( \n ${2:column1} ${3:datatype} \n);',
+                insertText     : 'CREATE IF NOT EXISTS TABLE ${1:table_name} ( \n ${2:column1} ${3:datatype} \n);',
                 insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
                 range          : range
             },

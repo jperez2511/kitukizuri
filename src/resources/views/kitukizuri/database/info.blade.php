@@ -301,6 +301,7 @@
             initEditor(defaultLanguage, classProposals);
         }
 
+        var editor = null;
         function initEditor(defaultLanguage, classProposals) {
            registerCompletion = monaco.languages.registerCompletionItemProvider(defaultLanguage, {
                 provideCompletionItems: function (model, position) {
@@ -318,7 +319,7 @@
                 }
             });
 
-            monaco.editor.create(document.getElementById('editor'), {
+            editor = monaco.editor.create(document.getElementById('editor'), {
                 language: defaultLanguage
             });
         }
