@@ -64,7 +64,7 @@ class Mysql extends Model
         $results = null;
         
         if($lang == 'sql') {
-            $results = DB::conneciton(self::$driver)->DB::raw($query);
+            $results = DB::connection(self::$driver)->DB::raw($query);
         }
 
         return $results;
