@@ -66,10 +66,10 @@ class DataBaseController extends Controller
     private function executeQuery($request)
     {
         if($request->driver == 'mysql') {
-            $results = Mysql::executeQuery($request->query, $request->lang);
+            $results = Mysql::executeQuery($request->input('query'), $request->lang);
         }
 
-        return response()->json(['results' => $result]);
+        return response()->json(['results' => $results]);
     }
 
     private function getTables($request)
