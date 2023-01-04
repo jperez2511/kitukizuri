@@ -7,6 +7,11 @@
             <hr>
         </div>
         @foreach ($connections as $dbName => $connection)
+            @php
+                if(str_contains($connection['driver'], 'mongo')){
+                    $connection['driver'] = 'mongo';
+                }        
+            @endphp
             <div class="col-4">
                 <div class="form-group">
                     <a href="javascript:void(0)" class="btn btn-block btn-{{ $colors[$connection['driver']]['color'] }}" onclick="goConnection('{{ encrypt($dbName) }}')">
