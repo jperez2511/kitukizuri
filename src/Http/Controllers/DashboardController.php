@@ -19,19 +19,9 @@ class DashboardController extends Controller
      */
     public function index() 
     {
-        // Obteniendo la cantidad de usuarios
-        $roles    = Rol::count();
-        $modulos  = Modulo::count();
-        $usuarios = Usuario::count();
-        $empresas = Empresa::count();
-
         return view('kitukizuri::dashboard', [
             'layout'   => 'krud::layout',
-            'titulo'   => 'Dashboard',
-            'roles'    => $roles,
-            'modulos'  => $modulos,
-            'usuarios' => $usuarios,
-            'empresas' => $empresas,
+            'titulo'   => __('Panel de administración'),
             'dash'     => true,
             'kmenu'    => true,
         ]);
