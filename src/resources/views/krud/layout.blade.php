@@ -132,66 +132,7 @@
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
-                    @if (empty($kmenu) || $kmenu ==  false)
-                       {!! session('menu')  !!}
-                    @else
-                        <ul class="metismenu list-unstyled" id="side-menu">
-                            <li>
-                                <a href="/" class="waves-effect">
-                                    <i class="mdi mdi-keyboard-return"></i>
-                                    <span>Regresar a la aplicación</span>
-                                </a>
-                            </li>
-
-                            <li class="menu-title">Organización</li>
-
-                            <li>
-                                <a href="{{route('empresas.index')}}" class=" waves-effect">
-                                    <i class="mdi mdi-office-building"></i>
-                                    <span>Empresas</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{route('usuarios.index')}}" class=" waves-effect">
-                                    <i class="mdi mdi-account-supervisor"></i>
-                                    <span>Usuarios</span>
-                                </a>
-                            </li>
-
-                            <li class="menu-title">Configuraciones</li>
-
-                            <li>
-                                <a href="{{route('modulos.index')}}" class=" waves-effect">
-                                    <i class="mdi mdi-view-module"></i>
-                                    <span>Modulos de la aplicación</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{route('roles.index')}}" class=" waves-effect">
-                                    <i class="mdi mdi-shield-account"></i>
-                                    <span>Roles de usuario</span>
-                                </a>
-                            </li>
-
-                            <li class="menu-title">Administración de datos</li>
-
-                            <li>
-                                <a href="{{route('database.index')}}" class=" waves-effect">
-                                    <i class="mdi mdi-database"></i>
-                                    <span>Gestión de base de datos</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{route('logs.index')}}" class=" waves-effect">
-                                    <i class="mdi mdi-file-document-box-multiple"></i>
-                                    <span>Ver Logs</span>
-                                </a>
-                            </li>
-                        </ul>
-                    @endif
+                    {!! session('menu')  !!}
                 </div>
                 <!-- Sidebar -->
             </div>

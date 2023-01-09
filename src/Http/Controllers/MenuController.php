@@ -3,6 +3,7 @@
 namespace Icebearsoft\Kitukizuri\Http\Controllers;
 
 use Auth;
+use Route;
 
 // Models
 use Icebearsoft\Kitukizuri\Models\Menu;
@@ -19,6 +20,47 @@ class MenuController
     // Array para los módulos que tiene acceso el usuario
     private $permisos = [];
 
+    // Template por defecto para el menu en Krud
+    private $template = [
+        'menu' => [
+            'ul' => [
+                'id' => 'side-menu',
+                'class' => 'metismenu list-unstyled'
+            ],
+            'li-parent' => [
+                'class' => '',
+                'layout' => 
+                    '<a href="{{url}}" class="has-arrow waves-effect" aria-expanded="false">
+                        {{iconFormat}}
+                        <span class="nav-title">{{label}}</span>
+                    </a>',
+                'layout-without-son' => 
+                    '<a href="{{url}}" class="waves-effect">
+                        {{iconFormat}}
+                        <span class="nav-title">{{label}}</span>
+                    </a>',
+            ],
+            'li-jr' => [
+                'class' => '',
+                'layout' => 
+                    '<a href="{{url}}">
+                        {{iconFormat}}
+                        <span class="nav-title">{{label}}</span>
+                    </a>',
+            ],
+            'ul-jr' => [
+                'aria-expanded'=>'false',
+                'class' => 'sub-menu mm-collapse'  
+            ],
+            'ul-jr-divStyle' => [
+                'class' => 'sub-menu'
+            ]
+        ]    
+    ];
+
+    private $uiElements = [];
+
+
     /**
      * __construct
      *
@@ -26,9 +68,44 @@ class MenuController
      */
     public function __construct()
     {
+        $prefix = Route::current()->action['prefix'];
+        $defaultPrefix = $this->getDefaultPrefix();
+
+        if($prefix == $defaultPrefix) {
+            $this->uiElements['ul.class']                     = $this->template['menu']['ul']['class'];
+            $this->uiElements['ul.id']                        = $this->template['menu']['ul']['id'];
+            $this->uiElements['ul-jr']                        = $this->template['menu']['ul-jr'];
+            $this->uiElements['li-parent.layout']             = $this->template['menu']['li-parent']['layout'];
+            $this->uiElements['li-parent.class']              = $this->template['menu']['li-parent']['class'];
+            $this->uiElements['li-parent.layout-without-son'] = $this->template['menu']['li-parent']['layout-without-son'];
+            $this->uiElements['li-jr.layout']                 = $this->template['menu']['li-jr']['layout'];
+            $this->uiElements['li-jr.class']                  = $this->template['menu']['li-jr']['class'];
+        } else {
+            $this->uiElements['ul.class']                     = config('kitukizuri.menu.ul.class');
+            $this->uiElements['ul.id']                        = config('kitukizuri.menu.ul.id');
+            $this->uiElements['ul-jr']                        = config('kitukizuri.menu.ul-jr');
+            $this->uiElements['li-parent.layout']             = config('kitukizuri.menu.li-parent.layout');
+            $this->uiElements['li-parent.class']              = config('kitukizuri.menu.li-parent.class');
+            $this->uiElements['li-parent.layout-without-son'] = config('kitukizuri.menu.li-parent.layout-without-son');
+            $this->uiElements['li-jr.layout']                 = config('kitukizuri.menu.li-jr.layout');
+            $this->uiElements['li-jr.class']                  = config('kitukizuri.menu.li-jr.class');
+
+            $this->vBootstrap = config('kitukizuri.vBootstrap');
+        }
+        
+        
+        
+
+
         //abriendo tag ul con los estilos personalizables
-        $this->tree .= '<ul class="'.config('kitukizuri.menu.ul.class').'" id="'.config('kitukizuri.menu.ul.id').'">';
-        $this->vBootstrap = config('kitukizuri.vBootstrap');
+        $this->tree .= '<ul class="'.$this->uiElements['ul.class'].'" id="'.$this->uiElements['ul.id'].'">';
+        
+    }
+
+
+    private function getDefaultPrefix()
+    {
+        return config('kitukizuri.routePrefix') ?? 'krud';
     }
 
     /**
@@ -84,7 +161,7 @@ class MenuController
             }
 
             //aplicando formato para el li cuando es padre
-            $formato = config('kitukizuri.menu.li-parent.layout');
+            $formato = $this->uiElements['li-parent.layout'];
                 
             // remplazando url
             $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : route($nodo->ruta.'.index')), $formato);
@@ -112,7 +189,7 @@ class MenuController
 
             $formato = str_replace('{{target}}', $nodo->menuid, $formato);
 
-            $this->tree .= '<li class="'.config('kitukizuri.menu.li-parent.class').'">'.$formato;
+            $this->tree .= '<li class="'.$this->uiElements['li-parent.class'].'">'.$formato;
             
             if ($hijos->count() > 0) {
                 
@@ -143,7 +220,7 @@ class MenuController
                 } else {
                     // Agregando ul para los hijos
                     $this->tree .= '<ul ';
-                    foreach (config('kitukizuri.menu.ul-jr') as $key => $value) {
+                    foreach ($this->uiElements['ul-jr'] as $key => $value) {
                         $this->tree .= $key.'="'.$value.'"';
                     }
                     $this->tree .= '>';
@@ -165,7 +242,7 @@ class MenuController
                 return 0;
             }
              //aplicando formato para el li cuando es padre
-             $formato = config('kitukizuri.menu.li-parent.layout-without-son');
+             $formato = $this->uiElements['li-parent.layout-without-son'];
                 
              // remplazando url
              $formato = str_replace('{{url}}', ($hijos->count() > 0 ? '#' : route($nodo->ruta.'.index')), $formato);
@@ -193,13 +270,13 @@ class MenuController
  
              $formato = str_replace('{{target}}', $nodo->menuid, $formato);
  
-             $this->tree .= '<li class="'.config('kitukizuri.menu.li-parent.class').'">'.$formato;
+             $this->tree .= '<li class="'.$this->uiElements['li-parent.class'].'">'.$formato;
         }else {
             if ($nodo->modulopermisoid == null) {
                 return 0;
             }
             //aplicando formato para el li cuando es hijo
-            $formato = config('kitukizuri.menu.li-jr.layout');
+            $formato = $this->uiElements['li-jr.layout'];
                 
             // remplazando url
             $formato = str_replace('{{url}}', $nodo->ruta == '/' ? $nodo->ruta : route($nodo->ruta.'.index'), $formato);

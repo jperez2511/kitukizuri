@@ -80,7 +80,7 @@ class KitukizuriServiceProvider extends ServiceProvider
     {
         $prefix = config('kitukizuri.routePrefix') ?? 'krud';
 
-        Route::group(['prefix' => $prefix,'namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri']], function () {
+        Route::group(['prefix' => $prefix,'namespace' =>'Icebearsoft\\Kitukizuri\\Http\\Controllers', 'middleware' => ['web', 'auth', 'kitukizuri', 'kmenu']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard.index');
             Route::resource('roles', 'RolesController');
             Route::resource('modulos', 'ModulosController');
