@@ -1,7 +1,41 @@
 var SQL = {
     createDependencyProposals: function (range){
         return [
-            // Data Base
+            // Select Options
+            {
+                label          : '"select"',
+                kind           : monaco.languages.CompletionItemKind.Function,
+                documentation  : 'Consulta datos en tabla',
+                insertText     : 'Select * from ${1:table_name}',
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                range          : range
+            },
+            {
+                label          : '"select - where"',
+                kind           : monaco.languages.CompletionItemKind.Function,
+                documentation  : 'Consulta datos en tabla con condiciones',
+                insertText     : 'Select * from ${1:table_name} where ${2:condition}',
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                range          : range
+            },
+            // where Operator
+            {
+                label          : '"where with operator"',
+                kind           : monaco.languages.CompletionItemKind.Function,
+                documentation  : 'Columna = valor',
+                insertText     : 'Select * from ${1:table_name} where ${2:column} = ${2:value}',
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                range          : range
+            },
+            {
+                label          : '"where in"',
+                kind           : monaco.languages.CompletionItemKind.Function,
+                documentation  : 'Columna in (lista de valores)',
+                insertText     : 'Select * from ${1:table_name} where ${2:column} in (${2:values})',
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                range          : range
+            },
+            // Tables Options
             {
                 label          : '"create database"',
                 kind           : monaco.languages.CompletionItemKind.Function,

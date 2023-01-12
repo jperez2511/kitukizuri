@@ -65,9 +65,35 @@ class Mysql extends Model
         
         if($lang == 'sql') {
             $results = DB::connection(self::$driver)->select(DB::raw($query));
+        } else if($lang == 'php') {
+            $driver = self::$driver;
+            $query = self::cleanORM($query);
+            $results = eval("return DB::connection('".$driver."')->".$query);
+            $results = $results->get()->toArray();
         }
 
         return $results;
+    }
+
+    private static function cleanORM($query) 
+    {
+        $elements = [
+            '<?', 
+            'php', 
+            '->toArray()',
+            '->get()',
+            '->first()',
+            "\n",
+            "\r"
+
+        ];
+
+        foreach ($elements as $value) {
+            $query = str_replace($value, '', $query);
+        }
+
+        
+        return $query;
     }
 
 }
