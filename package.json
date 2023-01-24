@@ -1,7 +1,7 @@
 {
   "name": "kitukizuri",
   "version": "1.0.0",
-  "description": "Paquete para laravel permite aplicar control de permisos de usuario. Este paquete cuenta con 4 partes importantes necesarias en una aplicacion web con multiples usuarios.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,6 +25,9 @@
   "dependencies": {
     "@toast-ui/calendar": "^2.1.3",
     "bootstrap": "^5.2.3",
+    "bootstrap-datepicker": "^1.9.0",
+    "chart.js": "^4.2.0",
+    "clipboard": "^2.0.11",
     "datatables.net": "^1.13.1",
     "datatables.net-autofill": "^2.5.1",
     "datatables.net-autofill-bs4": "^2.5.1",
@@ -43,15 +46,24 @@
     "datatables.net-select": "^1.5.0",
     "datatables.net-select-bs4": "^1.5.0",
     "datatables.net-select-bs5": "^1.5.0",
-    "jquery": "^3.6.2",
-    "jstree": "^3.3.12",
+    "jkanban": "^1.3.1",
+    "jquery": "^3.6.3",
+    "jstree": "^3.3.14",
     "jszip": "^3.10.1",
+    "knob": "^1.1.0",
+    "magnific-popup": "^1.1.0",
     "metismenu": "^3.0.7",
     "monaco-editor": "^0.34.1",
     "node-waves": "^0.7.6",
+    "nouislider": "^15.6.1",
     "pdfmake": "^0.2.7",
+    "quill": "^1.3.7",
     "RWD-Table-Patterns": "^6.0.2",
     "select2": "^4.1.0-rc.0",
-    "simplebar": "^5.3.9"
+    "simplebar": "^5.3.9",
+    "simplemde": "^1.11.2",
+    "sweetalert2": "^11.4.8",
+    "themify-icons": "^1.0.0",
+    "toastr": "^2.1.4"
   }
 }

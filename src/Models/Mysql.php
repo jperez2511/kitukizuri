@@ -91,7 +91,6 @@ class Mysql extends Model
         foreach ($elements as $value) {
             $query = str_replace($value, '', $query);
         }
-
         
         return $query;
     }

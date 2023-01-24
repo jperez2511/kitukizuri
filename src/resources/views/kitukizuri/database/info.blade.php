@@ -167,6 +167,42 @@
         </div>
     </div>
 </div>
+  
+<!-- Modal -->
+<div class="modal fade" id="resultados" tabindex="-1" role="dialog" aria-labelledby="resultadosLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resultadosLabel">Resultados</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table">
+                            <tbody id="resultadosThead"></tbody>
+                            <tbody id="resultadosTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <div class="col-6">
+                    <button class="btn btn-outline-primary">
+                        Generar tabla de reporte
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-outline-primary">
+                        Generar reporte en gráficas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -335,7 +371,20 @@
             }
             
             $.post("{{route('database.store')}}", data).done(response => {
-                console.log(response);
+                
+                if(response.results.length > 0) {
+                
+                    let thead = Object.keys(response.results[0]);
+                    thead.forEach(element => {
+                        $('#resultadosThead').append('<th>'+element+'</th>');
+                    });
+                    //resultadosTbody
+                } else {
+                    
+                }
+
+                $('#resutlados'}).modal('show');
+
             }).fail(error => alert(error));
         }
 
