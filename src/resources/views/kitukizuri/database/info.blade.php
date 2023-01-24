@@ -378,7 +378,7 @@
                     thead.forEach(element => {
                         $('#resultadosThead').append('<th>'+element+'</th>');
                     });
-                    response.results.response.forEach(element => {
+                    response.results.forEach(element => {
                         $('#resultadosTbody').append('<tr><td>'+element+'</td></tr>');
                     })
                     
