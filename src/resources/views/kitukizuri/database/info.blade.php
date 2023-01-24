@@ -170,7 +170,7 @@
   
 <!-- Modal -->
 <div class="modal fade" id="resultados" tabindex="-1" role="dialog" aria-labelledby="resultadosLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="max-width:80%;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="resultadosLabel">Resultados</h5>
@@ -180,24 +180,46 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-12">
-                        <table class="table">
-                            <tbody id="resultadosThead"></tbody>
-                            <tbody id="resultadosTbody"></tbody>
-                        </table>
+                    <div class="col-12 mb-5">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody id="resultadosThead"></tbody>
+                                <tbody id="resultadosTbody"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer text-center">
-                <div class="col-6">
-                    <button class="btn btn-outline-primary">
-                        Generar tabla de reporte
-                    </button>
-                </div>
-                <div class="col-6">
-                    <button class="btn btn-outline-primary">
-                        Generar reporte en gráficas
-                    </button>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <a href="javascript:void(0)" id="reportGraph" class="btn btn-success btn-icon-split btn-sm btn-block btn-report">
+                                <span class="icon">
+                                    <i class="fa-duotone fa-chart-simple"></i>
+                                </span>
+                                <span class="text">Generar reporte gráfica</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <a href="javascript:void(0)" id="reportTable" class="btn btn-info btn-icon-split btn-sm btn-block btn-report">
+                                <span class="icon">
+                                    <i class="fa-regular fa-table"></i>
+                                </span>
+                                <span class="text">Generar reporte Tabla</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <a href="javascript:void(0)" id="restApi" class="btn btn-primary btn-icon-split btn-sm btn-block btn-report">
+                                <span class="icon">
+                                    <i class="fa-sharp fa-solid fa-chart-network"></i>
+                                </span>
+                                <span class="text">Generar API</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -223,6 +245,10 @@
         var gTable   = '';
         var driver   = '{!! $driver !!}';
         var dataBase = '{!! encrypt($database) !!}';
+
+        $('.btn-report').click(function (e) { 
+            console.log($(this).attr('id'));
+        });
 
         $('#treeTables').jstree({
             "plugins" : [ "search", "changed", 'contextmenu' ],
@@ -372,14 +398,21 @@
             
             $.post("{{route('database.store')}}", data).done(response => {
                 
+                $('#resultadosThead').empty();
+                $('#resultadosTbody').empty();
+
                 if(response.results.length > 0) {
-                
                     let thead = Object.keys(response.results[0]);
                     thead.forEach(element => {
                         $('#resultadosThead').append('<th>'+element+'</th>');
                     });
                     response.results.forEach(element => {
-                        $('#resultadosTbody').append('<tr><td>'+element+'</td></tr>');
+                        let values = Object.values(element)
+                        $('#resultadosTbody').append('<tr>');
+                        values.forEach(data => {
+                            $('#resultadosTbody').append('<td>'+data+'</tr>');
+                        })
+                        $('#resultadosTbody').append('</tr>');
                     })
                     
                 } else {
@@ -387,7 +420,7 @@
                     $('#resultadosTbody').append('<tr><td>No se encontraron resultados</td></tr>');
                 }
 
-                $('#resutlados').modal('show');
+                $('#resultados').modal('show');
 
             }).fail(error => alert(error));
         }
@@ -440,6 +473,10 @@
                 });
 
             }).fail(error => alert(error.responseText));
+        }
+
+        function generateReport(id) {
+
         }
     </script> 
     
