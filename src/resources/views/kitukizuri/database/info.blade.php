@@ -378,12 +378,16 @@
                     thead.forEach(element => {
                         $('#resultadosThead').append('<th>'+element+'</th>');
                     });
-                    //resultadosTbody
-                } else {
+                    response.results.response.forEach(element => {
+                        $('#resultadosTbody').append('<tr><td>'+element+'</td></tr>');
+                    })
                     
+                } else {
+                    $('#resultadosThead').append('<th></th>');
+                    $('#resultadosTbody').append('<tr><td>No se encontraron resultados</td></tr>');
                 }
 
-                $('#resutlados'}).modal('show');
+                $('#resutlados').modal('show');
 
             }).fail(error => alert(error));
         }
