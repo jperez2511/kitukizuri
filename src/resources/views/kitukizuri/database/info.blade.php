@@ -182,8 +182,8 @@
                 <div class="row">
                     <div class="col-12 mb-5">
                         <div class="table-responsive">
-                            <table class="table">
-                                <tbody id="resultadosThead"></tbody>
+                            <table class="table table-bordered table-sm table-striped">
+                                <thead id="resultadosThead" class="thead-dark"></thead>
                                 <tbody id="resultadosTbody"></tbody>
                             </table>
                         </div>
