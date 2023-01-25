@@ -88,6 +88,15 @@
                             }
                         }
                     @endif
+                    @if(!empty($botonesDT))
+                        @foreach($botonesDT as $boton)
+                            {
+                                text: '{{ $boton['text'] }}',
+                                className: '{{ $boton['class'] }}',
+                                action: '{{ $boton['action'] }}'
+                            }
+                        @endforeach
+                    @endif
                 ],
                 "dom": {
                     button: {

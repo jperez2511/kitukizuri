@@ -44,6 +44,7 @@ class Krud extends Controller
     private $wheres      = [];
     private $campos      = [];
     private $botones     = [];
+    private $botonesDT   = [];
     private $parents     = [];
     private $orderBy     = [];
     private $orWheres    = [];
@@ -589,6 +590,20 @@ class Krud extends Controller
         $this->allowed($params, $allowed, $this->typeError[4]);
         $this->botones[] = $params;
     }
+    
+    /**
+     * setBotonDT
+     * Permite definir botones adicionales en data table
+     *
+     * @param  mixed $params
+     * @return void
+     */
+    public function setBotonDT($params)
+    {
+        $allowed = ['text', 'class', 'action'];
+        $this->allowed($params, $allowed, $this->typeError[4]);
+        $this->botonesDT[] = $params;
+    }
 
     /**
      * embedView
@@ -1002,7 +1017,8 @@ class Krud extends Controller
             'defaultView' => $this->defaultCalendarView,
             'action'      => Route::currentRouteName(),
             'campos'      => $this->campos,
-            'kmenu'       => $kmenu
+            'kmenu'       => $kmenu,
+            'botonesDT'   => $this->botonesDT
         ]);
     }
 
