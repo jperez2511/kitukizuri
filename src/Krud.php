@@ -1018,7 +1018,6 @@ class Krud extends Controller
             'action'      => Route::currentRouteName(),
             'campos'      => $this->campos,
             'kmenu'       => $kmenu,
-            'botonesDT'   => $this->botonesDT
         ]);
     }
 
@@ -1059,7 +1058,8 @@ class Krud extends Controller
             'dtBtnAdd'   => $dtBtnAdd,
             'dtBtnLiner' => $dtBtnLiner,
             'kmenu'      => $kmenu,
-            'vBootstrap' => $vBootstrap
+            'vBootstrap' => $vBootstrap,
+            'botonesDT'  => $this->botonesDT
         ]);
     }
 
