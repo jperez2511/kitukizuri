@@ -5,6 +5,9 @@
     <link href="{{asset('/kitukizuri/libs/RWD-Table-Patterns/css/rwd-table.min.css')}}" rel="stylesheet" type="text/css" />
     <style>
         .hide {display: none;}
+        .table .tbody-mini tr td {
+            font-size: 8px;
+        }
     </style>
 @endsection
 
@@ -184,7 +187,7 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-sm table-striped">
                                 <thead id="resultadosThead" class="thead-dark"></thead>
-                                <tbody id="resultadosTbody"></tbody>
+                                <tbody id="resultadosTbody" class="tbody-mini"></tbody>
                             </table>
                         </div>
                     </div>
@@ -404,15 +407,17 @@
                 if(response.results.length > 0) {
                     let thead = Object.keys(response.results[0]);
                     thead.forEach(element => {
-                        $('#resultadosThead').append('<th>'+element+'</th>');
+                        $('#resultadosThead').append('<th style="color: #ffffff; background-color: #11c46e;border-color: #11c46e;font-size: 10px;">'+element+'</th>');
                     });
                     response.results.forEach(element => {
                         let values = Object.values(element)
-                        $('#resultadosTbody').append('<tr>');
+                        let trTemplate = '<tr>';
                         values.forEach(data => {
-                            $('#resultadosTbody').append('<td>'+data+'</tr>');
+                            trTemplate += '<td>'+data+'</td>';
                         })
-                        $('#resultadosTbody').append('</tr>');
+                        trTemplate += '</tr>';
+
+                        $('#resultadosTbody').append(trTemplate);
                     })
                     
                 } else {
