@@ -266,7 +266,8 @@
                     'viewData': { // The "rename" menu item
                         'label': "Ver datos",
                         'action': function (obj) {
-                            let idNode = obj.reference.prevObject[0].id;
+                            let idNode = obj.reference.prf
+                            evObject[0].id;
                         }
                     }
                 },

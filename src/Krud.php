@@ -38,24 +38,25 @@ class Krud extends Controller
     private $viewHelp = null;
 
     // Variables en array
-    private $rt          = [];
-    private $joins       = [];
-    private $embed       = [];
-    private $wheres      = [];
-    private $campos      = [];
-    private $botones     = [];
-    private $botonesDT   = [];
-    private $parents     = [];
-    private $orderBy     = [];
-    private $orWheres    = [];
-    private $whereIn     = [];
-    private $leftJoins   = [];
-    private $errors      = [];
-    private $whereFn     = [];
-    private $whereOrFn   = [];
-    private $whereAndFn  = [];
-    private $viewOptions = [];
-    private $validations = [];
+    private $rt           = [];
+    private $joins        = [];
+    private $embed        = [];
+    private $wheres       = [];
+    private $campos       = [];
+    private $botones      = [];
+    private $botonesDT    = [];
+    private $defaultBtnDT = [];
+    private $parents      = [];
+    private $orderBy      = [];
+    private $orWheres     = [];
+    private $whereIn      = [];
+    private $leftJoins    = [];
+    private $errors       = [];
+    private $whereFn      = [];
+    private $whereOrFn    = [];
+    private $whereAndFn   = [];
+    private $viewOptions  = [];
+    private $validations  = [];
     private $template  = [
         'datatable',
     ];
@@ -603,6 +604,20 @@ class Krud extends Controller
         $allowed = ['text', 'class', 'action'];
         $this->allowed($params, $allowed, $this->typeError[4]);
         $this->botonesDT[] = $params;
+    }
+    
+    /**
+     * setDefaultBotonDT
+     * Visibilidad a los botones por defecto de dataTable
+     *
+     * @param  mixed $params
+     * @return void
+     */
+    public function setDefaultBotonDT($params) 
+    {
+        $allowed = ['name'];
+        $this->allowed($params, $allowed, $this->typeError[4]);
+        $this->defaultBtnDT[] = $params['name'];
     }
 
     /**

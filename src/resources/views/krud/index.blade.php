@@ -93,7 +93,7 @@
                             {
                                 text: '{{ $boton['text'] }}',
                                 className: '{{ $boton['class'] }}',
-                                action: '{{ $boton['action'] }}'
+                                action: {!! $boton['action'] !!}
                             }
                         @endforeach
                     @endif
