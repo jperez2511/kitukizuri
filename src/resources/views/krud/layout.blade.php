@@ -167,8 +167,8 @@
                     
                     @if (!empty($embed))
                         @foreach ($embed as $view)
-                            @if ($view[1] == 'top')
-                                @include($view[0]);    
+                            @if ($view['position'] == 'top')
+                                @include($view['view'], $view['values']);    
                             @endif
                         @endforeach
                     @endif
@@ -190,8 +190,8 @@
 
                     @if (!empty($embed))
                         @foreach ($embed as $view)
-                            @if ($view[1] == 'bottom')
-                                @include($view[0]);
+                            @if ($view['position'] == 'bottom')
+                                @include($view['view'], $view['values']);
                             @endif
                         @endforeach
                     @endif
@@ -345,6 +345,12 @@
     @stack('js')
 
     @yield('scripts')
+
+    @if (!empty($embed))
+        @foreach ($embed as $view)
+            @include($view['script']);
+        @endforeach
+    @endif
 
     <script>
         var year = new Date();

@@ -647,9 +647,14 @@ class Krud extends Controller
      * @param  mixed $view
      * @return void
      */
-    public function embedIndexView($view, $position)
+    public function embedIndexView($view, $position, $script = null, $values = [])
     {
-        $this->indexEmbed[] = [$view, $position];
+        $this->indexEmbed[] = [
+            'view'     => $view,
+            'position' => $position,
+            'script'   => $script,
+            'values'   => $values,
+        ];
     }
 
 
