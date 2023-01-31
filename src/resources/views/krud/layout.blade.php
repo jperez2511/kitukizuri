@@ -164,6 +164,14 @@
                         </div>
                     </div>     
                     <!-- end page title -->
+                    
+                    @if (!empty($embed))
+                        @foreach ($indexEmbed as $view)
+                            @if ($view[1] == 'top')
+                                @include($view[0]);    
+                            @endif
+                        @endforeach
+                    @endif
 
                     <div class="row">
                         @if (!empty($dash))
@@ -179,6 +187,14 @@
                             </div>
                         @endif
                     </div>
+
+                    @if (!empty($embed))
+                        @foreach ($indexEmbed as $view)
+                            @if ($view[1] == 'bottom')
+                                @include($view[0]);
+                            @endif
+                        @endforeach
+                    @endif
 
                 </div> <!-- container-fluid -->
             </div>

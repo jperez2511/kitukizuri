@@ -13,6 +13,7 @@
             {{Session::get('msg')}}
         </div>    
     @endif
+    
     <div class="col-md-12">
         <table id="table1" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
             <thead>

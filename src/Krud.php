@@ -40,7 +40,8 @@ class Krud extends Controller
     // Variables en array
     private $rt           = [];
     private $joins        = [];
-    private $embed        = [];
+    private $editEmbed    = [];
+    private $indexEmbed   = [];
     private $wheres       = [];
     private $campos       = [];
     private $botones      = [];
@@ -631,10 +632,26 @@ class Krud extends Controller
      *
      * @return void
      */
-    public function embedView($controller, $relation, $request)
+    public function embedEditView($controller, $relation, $request)
     {
-       $this->embed[] = [$controller, $relation, $request];
+       $this->editEmbed[] = [$controller, $relation, $request];
     }
+
+
+    
+    /**
+     * embedIndexView
+     * 
+     * Agrega una vista dentro del index de la pagina. 
+     *
+     * @param  mixed $view
+     * @return void
+     */
+    public function embedIndexView($view, $position)
+    {
+        $this->indexEmbed = [$view, $position];
+    }
+
 
     /**
      * setParentId
@@ -1072,6 +1089,7 @@ class Krud extends Controller
             'layout'     => $layout,
             'dtBtnAdd'   => $dtBtnAdd,
             'dtBtnLiner' => $dtBtnLiner,
+            'embed'      => $this->indexEmbed,
             'kmenu'      => $kmenu,
             'vBootstrap' => $vBootstrap,
             'botonesDT'  => $this->botonesDT
@@ -1220,26 +1238,20 @@ class Krud extends Controller
     public function edit($id, Request $request)
     {
         try {
-            $id = Crypt::decrypt($id);
-            $parentid= $request->get('parent');
+            $id       = Crypt::decrypt($id);
+            $parentid = $request->get('parent');
         } catch (Exception $e) {
             dd($e);
         }
         
         $this->editId = $id;
 
-        $eViews = [];
         if ($id != 0) {
-            $data = $this->model->find($id);
+            $data   = $this->model->find($id);
             $titulo = 'Editar '.$this->titulo;
             $this->makeArrayData($data);
-            foreach ($this->embed as $eView) {
-                $eView[2]->query->add([$eView[1] => $id]);
-                $render = new $eView[0]($eView[2]);
-                $eViews[] = $render->index()->render;
-            }
         } else {
-            $data = null;
+            $data   = null;
             $titulo = 'Agregar '.$this->titulo;
         }
 
@@ -1252,7 +1264,7 @@ class Krud extends Controller
         $prefixDefault = $this->getDefaultPrefix();
 
         if ($prefix != null && $prefix == $prefixDefault) {
-            $view = 'krud::edit';
+            $view  = 'krud::edit';
             $kmenu = true;
         }
 
@@ -1277,7 +1289,7 @@ class Krud extends Controller
             'action'   => $url,
             'id'       => Crypt::encrypt($id),
             'rt'       => $this->rt,
-            'embed'    => $eViews,
+            'embed'    => $this->editEmbed,
             'parent'   => $this->parentid,
             'parentid' => $parentid,
             'parents'  => $this->parents,
