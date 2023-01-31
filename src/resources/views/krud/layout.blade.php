@@ -166,7 +166,7 @@
                     <!-- end page title -->
                     
                     @if (!empty($embed))
-                        @foreach ($indexEmbed as $view)
+                        @foreach ($embed as $view)
                             @if ($view[1] == 'top')
                                 @include($view[0]);    
                             @endif
@@ -189,7 +189,7 @@
                     </div>
 
                     @if (!empty($embed))
-                        @foreach ($indexEmbed as $view)
+                        @foreach ($embed as $view)
                             @if ($view[1] == 'bottom')
                                 @include($view[0]);
                             @endif
