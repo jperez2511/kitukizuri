@@ -1,5 +1,5 @@
-/*! AutoFill 2.5.1
- * ©2008-2022 SpryMedia Ltd - datatables.net/license
+/*! AutoFill 2.5.2
+ * ©2008-2023 SpryMedia Ltd - datatables.net/license
  */
 
 import $ from 'jquery';
@@ -10,7 +10,7 @@ import DataTable from 'datatables.net';
 /**
  * @summary     AutoFill
  * @description Add Excel like click and drag auto-fill options to DataTables
- * @version     2.5.1
+ * @version     2.5.2
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @copyright   SpryMedia Ltd.
  *
@@ -702,11 +702,12 @@ $.extend( AutoFill.prototype, {
 	 * @private
 	 */
 	_mousemove: function ( e )
-	{	
-		var that = this;
-		var dt = this.s.dt;
-		var target = !e.type.includes('touch') ? e.target : document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+	{
+		var target = e.touches && e.touches.length
+			? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+			: e.target;
 		var name = target.nodeName.toLowerCase();
+
 		if ( name !== 'td' && name !== 'th' ) {
 			return;
 		}
@@ -1123,7 +1124,7 @@ AutoFill.actions = {
  * @static
  * @type      String
  */
-AutoFill.version = '2.5.1';
+AutoFill.version = '2.5.2';
 
 
 /**
@@ -1230,7 +1231,7 @@ $(document).on( 'preInit.dt.autofill', function (e, settings, json) {
 
 // Alias for access
 DataTable.AutoFill = AutoFill;
-DataTable.AutoFill = AutoFill;
+$.fn.DataTable.AutoFill = AutoFill;
 
 
 export default DataTable;
