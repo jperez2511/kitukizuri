@@ -56,6 +56,7 @@ class Krud extends Controller
     private $whereFn      = [];
     private $whereOrFn    = [];
     private $whereAndFn   = [];
+    private $externalData = [];
     private $viewOptions  = [];
     private $validations  = [];
     private $template  = [
@@ -696,6 +697,14 @@ class Krud extends Controller
         return config('kitukizuri.routePrefix') ?? 'krud';
     }
 
+    public function setExternalData($relation, $colName, $data){
+        $this->externalData[] = [
+            'relation' => $relation,
+            'colName'  => $colName,
+            'data'     => $data
+        ];
+    }
+
 
     /**
      * transformData
@@ -831,7 +840,19 @@ class Krud extends Controller
         // validando si hay un offset a utilizar
         $data->skip($offset);
         
-        return [$data->get(), $count];
+        $data = $data->get();
+
+        if(!empty($this->externalData)) {
+            foreach ($data as $value) {
+                foreach($this->externalData as $extData){
+                    $relation = $extData['relation'];
+                    $tmp      = $extData['data']->firstWhere($relation, $value->{$relation});
+                    $value->{$extData['colName']} = $tmp[$extData['colName']];
+                }   
+            }
+        }
+
+        return [$data, $count];
     }
 
     /**
