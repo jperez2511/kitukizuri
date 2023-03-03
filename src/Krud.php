@@ -366,6 +366,10 @@ class Krud extends Controller
             } else if(is_string($params['htmlAttr'])) {
                 $params['htmlAttr'] = collect([$params['htmlAttr'] => true]);
             }
+
+            if($params['htmlAttr']->has('multiple')){
+                $params['inputName'] = $params['inputName'].'[]';
+            }
         } else {
             $params['htmlAttr'] = null;
         }
