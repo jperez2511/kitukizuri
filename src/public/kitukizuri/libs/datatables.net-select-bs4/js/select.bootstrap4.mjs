@@ -4,7 +4,7 @@
 
 import $ from 'jquery';
 import DataTable from 'datatables.net-bs4';
-import 'datatables.net-select';
+import select from 'datatables.net-select';
 
 
 
