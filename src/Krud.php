@@ -367,6 +367,10 @@ class Krud extends Controller
             } else if(is_string($params['htmlAttr'])) {
                 $params['htmlAttr'] = collect([$params['htmlAttr'] => true]);
             }
+
+            if($params['htmlAttr']->has('multiple')){
+                $params['inputName'] = $params['inputName'].'[]';
+            }
         } else {
             $params['htmlAttr'] = null;
         }
@@ -936,7 +940,6 @@ class Krud extends Controller
             if($isSelect2 == true || $isSelect == true) {
                 // validando si tiene multiple o no
                 if($this->campos[$i]['htmlAttr'] !== null && $this->campos[$i]['htmlAttr']->has('multiple')) {
-                    $this->campos[$i]['inputName'] .= '[]';
                     // validando el formato de los valores
                     if($this->campos[$i]['format'] == 'json') {
                         if($data != null){
@@ -1427,6 +1430,12 @@ class Krud extends Controller
             if (!array_key_exists($campoReal, $requestData)) {
                 if ($campo['tipo'] == 'bool') {
                     $this->model->{$campoReal} = false;
+                } else if ($campo['tipo'] == 'select' || $campo['tipo'] == 'select2' || $campo['tipo'] == 'comobox') {
+                    if($campo['htmlAttr']->has('multiple')) {
+                        if($campo['format'] == 'json') {
+                            $this->model->{$campoReal} = null;
+                        }
+                    }
                 }
             }
         }
