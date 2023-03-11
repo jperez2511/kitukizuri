@@ -851,7 +851,7 @@ class Krud extends Controller
                 foreach($this->externalData as $extData){
                     $relation = $extData['relation'];
                     $tmp      = $extData['data']->firstWhere($relation, $value->{$relation});
-                    $value->{$extData['colName']} = $tmp[$extData['colName']];
+                    $value->{$extData['colName']} = $tmp[$extData['colName']] ?? '';
                 }   
             }
         }
