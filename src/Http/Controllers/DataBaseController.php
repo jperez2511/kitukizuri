@@ -151,7 +151,6 @@ class DataBaseController extends Controller
         $statusConnection = Connection::setConnection($connection);
 
         $viewData = [
-            'tables' => $tables,
             'layout' => 'krud::layout',
             'dash'   => true,
             'kmenu'  => true,
@@ -163,6 +162,7 @@ class DataBaseController extends Controller
             }
 
             $params = [
+                'tables'   => $tables,
                 'driver'   => $connection['driver'],
                 'database' => $connection['database'],
                 'titulo'   => 'Gestor de base de datos',
