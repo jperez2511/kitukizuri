@@ -38,9 +38,10 @@ class DataBaseController extends Controller
     public function store(Request $request)
     {
         $function = [
-            'getTableInfo',
-            'getTableData',
-            'executeQuery',
+            'getTableInfo', // 1
+            'getTableData', // 2
+            'executeQuery', // 3
+            'generateReport', // 4 
         ];
 
         if(!$request->has('opcion')){
@@ -48,6 +49,11 @@ class DataBaseController extends Controller
         }
 
         return $this->{$function[(int) $request->opcion-1]}($request);
+    }
+
+    private function generateReport($request)
+    {
+        dd($request->all());
     }
 
     private function showView($request) 

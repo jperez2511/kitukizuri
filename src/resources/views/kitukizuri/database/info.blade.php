@@ -193,33 +193,43 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="form-group">
-                            <a href="javascript:void(0)" id="reportGraph" class="btn btn-success btn-icon-split btn-sm btn-block btn-report">
+                            <a href="javascript:void(0)" data-report-name="reportGraph" class="btn btn-tertiary btn-icon-split btn-sm btn-block btn-report">
                                 <span class="icon">
-                                    <i class="fa-duotone fa-chart-simple"></i>
+                                    <i class="fa-thin fa-square-poll-vertical"></i>
                                 </span>
                                 <span class="text">Generar reporte gráfica</span>
                             </a>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="form-group">
-                            <a href="javascript:void(0)" id="reportTable" class="btn btn-info btn-icon-split btn-sm btn-block btn-report">
+                            <a href="javascript:void(0)" data-report-name="reportTable" class="btn btn-tertiary btn-icon-split btn-sm btn-block btn-report">
                                 <span class="icon">
-                                    <i class="fa-regular fa-table"></i>
+                                    <i class="fa-thin fa-table-list"></i>
                                 </span>
                                 <span class="text">Generar reporte Tabla</span>
                             </a>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="form-group">
-                            <a href="javascript:void(0)" id="restApi" class="btn btn-primary btn-icon-split btn-sm btn-block btn-report">
+                            <a href="javascript:void(0)" data-report-name="restApi" class="btn btn-tertiary btn-icon-split btn-sm btn-block btn-report">
                                 <span class="icon">
-                                    <i class="fa-sharp fa-solid fa-chart-network"></i>
+                                    <i class="fa-thin fa-network-wired"></i>
                                 </span>
                                 <span class="text">Generar API</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <a href="javascript:void(0)" data-report-name="saveMacro" class="btn btn-tertiary btn-icon-split btn-sm btn-block btn-report">
+                                <span class="icon">
+                                    <i class="fa-thin fa-microchip"></i>
+                                </span>
+                                <span class="text">Guardar Macro</span>
                             </a>
                         </div>
                     </div>
@@ -247,17 +257,28 @@
         var token    = '{{ csrf_token() }}';
         var gTable   = '';
         var driver   = '{!! $driver !!}';
+        var urlPost  = '{!! route('database.store') !!}';
         var dataBase = '{!! encrypt($database) !!}';
 
         $('.btn-report').click(function (e) { 
-            console.log($(this).attr('id'));
+            let value = editor.getValue();
+            let btnName = $(this).data('report-name');
+            let data = {
+                _token: token,
+                fnName: btnName,
+                query : value,
+            }
+
+            $.post(urlPost, data).done(response => {
+                
+            }).fail(error => console.log(error));
         });
 
         $('#treeTables').jstree({
             "plugins" : [ "search", "changed", 'contextmenu' ],
             'core' : {
                 'data' : {
-                    'url'     : '{{route('database.store')}}?opcion=1&db='+dataBase+'&drv='+driver,
+                    'url'     : urlPost+'?opcion=1&db='+dataBase+'&drv='+driver,
                     'dataType': "json"
                 }
             },
@@ -285,6 +306,15 @@
             }, 500);
         });
 
+        function saveReport(data) {
+            $.post("{{  }}", data,
+                function (data, textStatus, jqXHR) {
+                    
+                },
+                "dataType"
+            );
+        }
+        
         function getAllData(limit) {
             let data = {
                 _token  : token,
@@ -305,7 +335,7 @@
                 </div>
             `);
 
-            $.post("{{route('database.store')}}", data)
+            $.post(urlPost, data)
                 .done(response => {
                     let data = response.data
 
@@ -400,7 +430,7 @@
                 lang  : $('#selectedLang').text()
             }
             
-            $.post("{{route('database.store')}}", data).done(response => {
+            $.post(urlPost, data).done(response => {
                 
                 $('#resultadosThead').empty();
                 $('#resultadosTbody').empty();
@@ -408,7 +438,7 @@
                 if(response.results.length > 0) {
                     let thead = Object.keys(response.results[0]);
                     thead.forEach(element => {
-                        $('#resultadosThead').append('<th style="color: #ffffff; background-color: #11c46e;border-color: #11c46e;font-size: 10px;">'+element+'</th>');
+                        $('#resultadosThead').append('<th style="color: #ffffff; background-color: #878787;border-color: #878787;font-size: 10px;">'+element+'</th>');
                     });
                     response.results.forEach(element => {
                         let values = Object.values(element)
@@ -445,7 +475,7 @@
             $('#databaseIcon').removeClass('{!! $colors[$driver]['icono'] !!}');
             $('#databaseIcon').addClass('fa-duotone fa-loader fa-spin-pulse');
 
-            $.post("{{route('database.store')}}", data).done(response => {
+            $.post(urlPost, data).done(response => {
                 
                 $('#databaseIcon').removeClass('fa-duotone fa-loader fa-spin-pulse');
                 $('#databaseIcon').addClass('{!! $colors[$driver]['icono'] !!}');
@@ -481,9 +511,6 @@
             }).fail(error => alert(error.responseText));
         }
 
-        function generateReport(id) {
-
-        }
     </script> 
     
 @endsection
