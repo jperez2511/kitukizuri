@@ -27,7 +27,7 @@ class Connection
             $conexion = DB::connection($connection['driver'])->getPDO();
             $stateConnection['status'] = true;
         } catch (\Exception $e) {
-           $statusConnection['msg'] = 'No se pudo conectar a la base de datos: '. $e->getMessage();
+           $stateConnection['msg'] = 'No se pudo conectar a la base de datos: '. $e->getMessage();
         }
 
         return $stateConnection;
