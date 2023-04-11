@@ -305,15 +305,6 @@
                 $('#treeTables').jstree(true).search(v);
             }, 500);
         });
-
-        function saveReport(data) {
-            $.post("{{  }}", data,
-                function (data, textStatus, jqXHR) {
-                    
-                },
-                "dataType"
-            );
-        }
         
         function getAllData(limit) {
             let data = {
