@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-12 text-center">
-            <strong>Conexiones pre-configuradas encontradas</strong>
+            <strong>Conexiones pre-configuradas</strong>
             <hr>
         </div>
         @foreach ($connections as $dbName => $connection)

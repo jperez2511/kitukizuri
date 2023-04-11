@@ -147,24 +147,43 @@ class DataBaseController extends Controller
             dd($e);
         }   
 
-        $connection = config('database.connections.'.$connectionName);
+        $connection       = config('database.connections.'.$connectionName);
+        $statusConnection = Connection::setConnection($connection);
 
-        Connection::setConnection($connection);
+        $viewData = [
+            'tables' => $tables,
+            'layout' => 'krud::layout',
+            'dash'   => true,
+            'kmenu'  => true,
+        ];
 
-        if($connection['driver'] == 'mysql') {
-            $tables = Mysql::getTables($connection['database']);
+        if($statusConnection['status'] == true) {
+            if($connection['driver'] == 'mysql') {
+                $tables = Mysql::getTables($connection['database']);
+            }
+
+            $params = [
+                'driver'   => $connection['driver'],
+                'database' => $connection['database'],
+                'titulo'   => 'Gestor de base de datos',
+                'colors'   => $this->colors,
+            ];
+
+            $viewData = array_merge($viewData, $params);
+            $viewName = 'kitukizuri::database.info';
+
+        } else {
+
+            $params = [
+                'titulo' => 'Error de conexión',
+                'msg'    => $statusConnection['msg']
+            ];
+
+            $viewData = array_merge($viewData, $params);
+            $viewName = 'kitukizuri::database.error';
         }
 
-        return view('kitukizuri::database.info', [
-            'tables'   => $tables,
-            'driver'   => $connection['driver'],
-            'database' => $connection['database'],
-            'layout'   => 'krud::layout',
-            'titulo'   => 'Gestor de base de datos',
-            'dash'     => true,
-            'kmenu'    => true,
-            'colors'   => $this->colors,
-        ]);
+        return view($viewName, $viewData);
 
     }
 

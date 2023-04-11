@@ -16,6 +16,20 @@ class Connection
      */
     public static function setConnection($connection)
     {
+        $stateConnection = [
+            'status' => false,
+            'msg' => null
+        ];
+
         Config::set("database.connections.".$connection['driver'], $connection);
+
+        try{
+            $conexion = DB::connection($connection['driver'])->getPDO();
+            $stateConnection['status'] = true;
+        } catch (\Exception $e) {
+           $statusConnection['msg'] = 'No se pudo conectar a la base de datos: '. $e->getMessage();
+        }
+
+        return $stateConnection;
     }
 }
