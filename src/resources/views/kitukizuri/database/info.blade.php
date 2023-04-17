@@ -271,7 +271,7 @@
 
             $.post(urlPost, data).done(response => {
                 
-            }).fail(error => console.log(error));
+            }).fail(error => alert(error.responseJSON.message +'\n'+error.responseJSON.file+'\n'+error.responseJSON.line));
         });
 
         $('#treeTables').jstree({
@@ -359,7 +359,7 @@
                         $('#dataTbody').append('</tr><td>Sin Datos</td></tr>');
                     }
                 })
-                .fail(error => alert(error.responseText));
+                .fail(error => alert(error.responseJSON.message +'\n'+error.responseJSON.file+'\n'+error.responseJSON.line));
         }
         
         var registerCompletion = null;
@@ -449,7 +449,13 @@
 
                 $('#resultados').modal('show');
 
-            }).fail(error => alert(error));
+            }).fail(error => {
+                $('#resultadosThead').append('<th style="color: #ffffff; background-color: #3d8ef8;border-color: #3d8ef8;font-size: 10px;"></th>');
+                $('#resultadosTbody').append('<tr><td>Mensaje: '+error.responseJSON.message+'</td></tr>');
+                $('#resultadosTbody').append('<tr><td>Archivo: '+error.responseJSON.file+'</td></tr>');
+                $('#resultadosTbody').append('<tr><td>Linea: '+error.responseJSON.line+'</td></tr>');
+                $('#resultados').modal('show');
+            });
         }
 
         function viewTableInfo(table) {
@@ -499,7 +505,7 @@
                     `);
                 });
 
-            }).fail(error => alert(error.responseText));
+            }).fail(error => alert(error.responseJSON.message +'\n'+error.responseJSON.file+'\n'+error.responseJSON.line));
         }
 
     </script> 
