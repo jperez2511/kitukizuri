@@ -8,5 +8,4 @@ import select from 'datatables.net-select';
 
 
 
-
 export default DataTable;
