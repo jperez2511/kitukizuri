@@ -9,9 +9,9 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
-use Icebearsoft\Kitukizuri\Console\Command\MakeModule;
-use Icebearsoft\Kitukizuri\Console\Command\KrudInstall;
-use Icebearsoft\Kitukizuri\Console\Command\DefaultData;
+use Icebearsoft\Kitukizuri\App\Console\Command\MakeModule;
+use Icebearsoft\Kitukizuri\App\Console\Command\KrudInstall;
+use Icebearsoft\Kitukizuri\App\Console\Command\DefaultData;
 
 class KitukizuriServiceProvider extends ServiceProvider
 {
@@ -25,8 +25,8 @@ class KitukizuriServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');
         
-        $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\Http\Middleware\KituKizurimd');
-        $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\Http\Middleware\Menu');
+        $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\App\Http\Middleware\KituKizurimd');
+        $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\App\Http\Middleware\Menu');
 
         $this->configureViewsBladeComponents();            
         $this->configureCommands();

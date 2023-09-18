@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 //== Models
-use Icebearsoft\Kitukizuri\Models\Modulo;
-use Icebearsoft\Kitukizuri\Models\Permiso;
-use Icebearsoft\Kitukizuri\Models\UsuarioRol;
-use Icebearsoft\Kitukizuri\Models\ModuloPermiso;
-use Icebearsoft\Kitukizuri\Models\ModuloEmpresas;
-use Icebearsoft\Kitukizuri\Models\RolModuloPermiso;
+use Icebearsoft\Kitukizuri\App\Models\Modulo;
+use Icebearsoft\Kitukizuri\App\Models\Permiso;
+use Icebearsoft\Kitukizuri\App\Models\UsuarioRol;
+use Icebearsoft\Kitukizuri\App\Models\ModuloPermiso;
+use Icebearsoft\Kitukizuri\App\Models\ModuloEmpresas;
+use Icebearsoft\Kitukizuri\App\Models\RolModuloPermiso;
 
 class KituKizuri extends Controller
 {
