@@ -44,4 +44,29 @@ trait UtilityTrait
     {
         file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
+
+    protected function editConfig($path, $fields)
+    {
+        $config = include config_path($path . '.php');
+        $config = $this->arrayMergeRecursiveDistinct($config, $fields);
+        
+        file_put_contents(config_path($path . '.php'), '<?php return ' . var_export($config, true) . ';');
+    }
+
+    protected function arrayMergeRecursiveDistinct(array &$array1, array &$array2)
+    {
+        $merged = $array1;
+
+        foreach ($array2 as $key => &$value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->arrayMergeRecursiveDistinct($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
+    }
+
+
 }

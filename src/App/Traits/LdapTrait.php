@@ -10,13 +10,40 @@ trait LdapTrait
         $this->artisanCommand('vendor:publish','--provider="LdapRecord\Laravel\LdapServiceProvider"'); 
         $this->addLdapEnv('.env');
         $this->addLdapEnv('.env.example');
-        unlink(base_path('app/Providers/AuthServiceProvider.php'));
-        copy(__DIR__ . '/../../../stubs/Ldap/AuthServiceProvider.stub', base_path('app/Providers/AuthServiceProvider.php'));
+        
         $this->replaceInFile('Features::registration()', '// Features::registration()', base_path('config/fortify.php'));
         $this->replaceInFile('Features::resetPasswords()', '// Features::resetPasswords()', base_path('config/fortify.php'));
         $this->replaceInFile('Features::updateProfileInformation()', '// Features::updateProfileInformation()', base_path('config/fortify.php'));
         $this->replaceInFile('Features::updatePasswords()', '// Features::updatePasswords()', base_path('config/fortify.php'));
         
+        $this->editConfig('auth', [
+            'providers' => [
+                'ldap' => [ 
+                    'driver' => 'ldap',
+                    'model' => LdapRecord\Models\ActiveDirectory\User::class,
+                    'database' => [
+                        'model' => App\Models\User::class,
+                        'sync_passwords' => true,
+                        'sync_attributes' => [
+                            'name' => 'cn',
+                            'email' => 'mail',
+                        ],
+                    ]
+                ]
+            ]
+        ]);
+
+        $this->editConfig('auth', [
+            'guards' => [
+                'web' => ['provider' => 'ldap']
+            ]
+        ]);
+
+        unlink(base_path('app/Providers/AuthServiceProvider.php'));
+        copy(__DIR__ . '/../../stubs/Ldap/AuthServiceProvider.stub', base_path('app/Providers/AuthServiceProvider.php'));
+        
+        unlink(base_path('app/Models/User.php'));
+        copy(__DIR__ . '/../../stubs/Ldap/User.stub', base_path('app/Models/User.php'));
     }
 
     protected function addLdapEnv($file) 

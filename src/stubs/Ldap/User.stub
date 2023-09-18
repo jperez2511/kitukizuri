@@ -1,0 +1,120 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Sanctum\HasApiTokens;
+
+use LdapRecord\Laravel\Auth\HasLdapUser;
+use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
+
+class User extends Authenticatable implements LdapAuthenticatable
+{
+    use HasApiTokens;
+    use HasFactory;
+    use HasProfilePhoto;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
+    use HasLdapUser;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'profile_photo_url',
+    ];
+
+    /**
+     * Get the database column name of the domain.
+     */
+    public function getLdapDomainColumn(): string
+    {
+        return 'domain';
+    }
+
+    /**
+     * Get the models LDAP domain.
+     */
+    public function getLdapDomain(): ?string
+    {
+        return $this->{$this->getLdapDomainColumn()};
+    }
+
+    /**
+     * Set the models LDAP domain.
+     */
+    public function setLdapDomain(?string $domain): void
+    {
+        $this->{$this->getLdapDomainColumn()} = $domain;
+    }
+
+    /**
+     * Get the models LDAP GUID database column name.
+     */
+    public function getLdapGuidColumn(): string
+    {
+        return 'guid';
+    }
+
+    /**
+     * Get the models LDAP GUID.
+     */
+    public function getLdapGuid(): ?string
+    {
+        return $this->{$this->getLdapGuidColumn()};
+    }
+
+    /**
+     * Set the models LDAP GUID.
+     */
+    public function setLdapGuid(?string $guid): void
+    {
+        $this->{$this->getLdapGuidColumn()} = $guid;
+    }
+
+
+    public function roles()
+    {
+        return $this->hasMany(UsuarioRol::class, 'usuarioid', 'id');
+    }
+}

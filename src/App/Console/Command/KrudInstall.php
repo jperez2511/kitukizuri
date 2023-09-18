@@ -48,6 +48,8 @@ class KrudInstall extends Command
      */
     public function handle() 
     {
+        $ldapLogin = $this->confirm('¿Login con LDAP?');
+
         // instalación de jetstream
         $this->composerInstall('laravel/jetstream');
         $this->artisanCommand('jetstream:install', 'livewire');
@@ -60,7 +62,7 @@ class KrudInstall extends Command
         $this->artisanCommand('vendor:publish','--tag=krud-config');
         $this->artisanCommand('vendor:publish','--tag=krud-public');   
 
-        if($this->confirm('¿desea utilizar el login desde LDAP? [sí|no]')) {
+        if($ldapLogin) {
             $this->configLdap();
         }
 
