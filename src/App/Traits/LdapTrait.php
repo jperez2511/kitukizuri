@@ -12,6 +12,11 @@ trait LdapTrait
         $this->addLdapEnv('.env.example');
         unlink(base_path('app/Providers/AuthServiceProvider.php'));
         copy(__DIR__ . '/../../../stubs/Ldap/AuthServiceProvider.stub', base_path('app/Providers/AuthServiceProvider.php'));
+        $this->replaceInFile('Features::registration()', '// Features::registration()', base_path('config/fortify.php'));
+        $this->replaceInFile('Features::resetPasswords()', '// Features::resetPasswords()', base_path('config/fortify.php'));
+        $this->replaceInFile('Features::updateProfileInformation()', '// Features::updateProfileInformation()', base_path('config/fortify.php'));
+        $this->replaceInFile('Features::updatePasswords()', '// Features::updatePasswords()', base_path('config/fortify.php'));
+        
     }
 
     protected function addLdapEnv($file) 
@@ -37,9 +42,9 @@ trait LdapTrait
             // Agrega las configuraciones al final del archivo .env
             file_put_contents($envPath, $envContent . $ldapConfig);
 
-            $this->info('Configuraciones LDAP agregadas al .env');
+            $this->info('Configuraciones LDAP agregadas al '. $file);
         } else {
-            $this->info('Las configuraciones LDAP ya existen en el .env');
+            $this->info('Las configuraciones LDAP ya existen en el '.$file);
         }
     }
 }

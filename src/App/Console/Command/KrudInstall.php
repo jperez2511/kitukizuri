@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
+use Icebearsoft\Kitukizuri\App\Traits\LdapTrait;
 use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
 
 class KrudInstall extends Command
 {    
-    use UtilityTrait;
+    use UtilityTrait, LdapTrait;
 
     /**
      * The name and signature of the console command. 
