@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Providers;
+
+use DB;
+use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+
+use App\Ldap\User;
+use App\Models\User as U;
+use Icebearsoft\Kitukizuri\Models\Modulo;
+use Icebearsoft\Kitukizuri\Models\Empresa;
+use Icebearsoft\Kitukizuri\Models\UsuarioRol;
+use Icebearsoft\Kitukizuri\Models\ModuloEmpresas;
+
+class AuthServiceProvider extends ServiceProvider
+{
+    /**
+     * The model to policy mappings for the application.
+     *
+     * @var array<class-string, class-string>
+     */
+    protected $policies = [
+        //
+    ];
+
+    /**
+     * Register any authentication / authorization services.
+     */
+    public function boot(): void
+    {
+        $this->registerPolicies();
+
+        Fortify::authenticateUsing(function ($request) {
+            $validated = Auth::validate([
+                'mail'     => $request->email,
+                'password' => $request->password,
+            ]);
+            if ($validated === true) {
+                $this->setEmpresaRol(Auth::getLastAttempted());
+            }
+            return $validated ? Auth::getLastAttempted() : null;
+        });
+    }
+
+    private function setEmpresaRol($user) 
+    {
+        if($user->empresaid == null) {
+            $ldapUserData = User::where('mail', '=', $user->email)->first();
+            
+            $empresa = Empresa::firstOrCreate([
+                'nombre' => $ldapUserData['company'][0]
+            ]);
+            
+            $userData = U::find($user->id);
+            $userData->empresaid = $empresa->empresaid;
+            $userData->save();
+
+            $modulos = Modulo::select(DB::raw($empresa->empresaid.' as empresaid'), 'moduloid')->get()->toArray();
+            ModuloEmpresas::insert($modulos);
+        }
+
+        $rol = UsuarioRol::where('usuarioid',$user->id)->count();
+        if($rol == 0){
+            $usuarioRol = new UsuarioRol;
+            $usuarioRol->rolid = 2;
+            $usuarioRol->usuarioid = $user->id;
+            $usuarioRol->save();
+        }
+    }
+}
