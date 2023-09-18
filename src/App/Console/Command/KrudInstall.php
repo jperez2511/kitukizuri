@@ -54,11 +54,11 @@ class KrudInstall extends Command
         $this->composerInstall('laravel/jetstream');
         $this->artisanCommand('jetstream:install', 'livewire');
 
-        $this->runCommands(['npm install'], __DIR__.'../../../');
-        $this->runCommands(['npm install --save-dev gulp'], __DIR__.'../../../');
-        $this->runCommands(['npx gulp build'], __DIR__.'../../../');
+        $this->runCommands(['npm install'], __DIR__.'/../../../');
+        $this->runCommands(['npm install --save-dev gulp'], __DIR__.'/../../../');
+        $this->runCommands(['npx gulp build'], __DIR__.'/../../../');
 
-        $this->runCommands(['rm -rf node_modules'], __DIR__.'../../../');
+        $this->runCommands(['rm -rf node_modules'], __DIR__.'/../../../');
 
         // publicación de krud
         $this->artisanCommand('vendor:publish','--tag=krud-migrations');
