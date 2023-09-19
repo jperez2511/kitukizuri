@@ -1,13 +1,12 @@
 FROM php:8-fpm
 
-RUN echo 'alias migrate="php artisan migrate"' >> ~/.bashrc
-RUN echo 'alias rollback="php artisan migrate:rollback"' >> ~/.bashrc
-RUN echo 'alias seed="php artisan db:seed"' >> ~/.bashrc
-
 RUN apt-get update \
-    && apt-get install -y ca-certificates gnupg libmagickwand-dev --no-install-recommends libmcrypt-dev mariadb-client mcrypt zlib1g-dev libzip-dev libpng-dev libssl-dev \
-    && docker-php-ext-install pdo_mysql zip gd \
+    && apt-get install -y ca-certificates gnupg libxml2-dev libmagickwand-dev --no-install-recommends libmcrypt-dev mariadb-client mcrypt zlib1g-dev libzip-dev libpng-dev libssl-dev libldap2-dev libcurl4-openssl-dev pkg-config \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+    && docker-php-ext-install pdo_mysql zip gd bcmath soap \
     && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-enable soap
 
 RUN pecl install mongodb imagick && docker-php-ext-enable mongodb imagick
 
