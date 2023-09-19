@@ -1,0 +1,22 @@
+FROM php:8-fpm
+
+RUN echo 'alias migrate="php artisan migrate"' >> ~/.bashrc
+RUN echo 'alias rollback="php artisan migrate:rollback"' >> ~/.bashrc
+RUN echo 'alias seed="php artisan db:seed"' >> ~/.bashrc
+
+RUN apt-get update \
+    && apt-get install -y ca-certificates gnupg libmagickwand-dev --no-install-recommends libmcrypt-dev mariadb-client mcrypt zlib1g-dev libzip-dev libpng-dev libssl-dev \
+    && docker-php-ext-install pdo_mysql zip gd \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pecl install mongodb imagick && docker-php-ext-enable mongodb imagick
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+ADD ./dockerfiles/php/limits.conf /usr/local/etc/php-fpm.d/limits.conf
+
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install -y nodejs npm
+
+WORKDIR /var/www

@@ -18,19 +18,19 @@ class KrudInstall extends Command
     use UtilityTrait, LdapTrait;
 
     /**
-     * The name and signature of the console command. 
+     * The name and signature of the console command.
      *
      * @var string
      */
     protected $signature = "krud:install";
-        
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = "Genera los datos necesarios para inicializar un proyecto basado en KRUD";
-    
+
     /**
      * Create a new command instance.
      *
@@ -40,13 +40,13 @@ class KrudInstall extends Command
     {
         parent::__construct();
     }
-    
+
     /**
      * Execute te console command.
      *
      * @return void
      */
-    public function handle() 
+    public function handle()
     {
         $ldapLogin = $this->confirm('¿Login con LDAP?');
 
@@ -57,7 +57,6 @@ class KrudInstall extends Command
         $this->runCommands(['npm install'], __DIR__.'/../../../');
         $this->runCommands(['npm install --save-dev gulp'], __DIR__.'/../../../');
         $this->runCommands(['npx gulp build'], __DIR__.'/../../../');
-
         $this->runCommands(['rm -rf node_modules'], __DIR__.'/../../../');
 
         // publicación de krud
@@ -75,19 +74,19 @@ class KrudInstall extends Command
         // validando conexion a base de datos
         try {
             DB::connection()->getPDO();
-            
+
             // construyendo estructura de la base de datos
             $this->artisanCommand('migrate');
-        
+
             // poblando datos de configuración
             $this->artisanCommand('db:seed', '--class=PermisosSeeder');
             $this->artisanCommand('db:seed', '--class=ModulosSeeder');
             $this->artisanCommand('db:seed', '--class=InicialSeeder');
-            
+
         } catch (\Exception $e) {
             $this->error('
                 La base de datos no está configurada correctamente.
-                
+
                 Una vez que la base de datos funcione correctamente ejecute el comando
                 php artisan krud:default-data
             ');
