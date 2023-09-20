@@ -68,6 +68,7 @@ class KrudInstall extends Command
         $this->artisanCommand('vendor:publish','--tag=krud-public');
 
         if($ldapLogin) {
+            $this->composerInstall('nikic/php-parser');
             $this->configLdap();
         }
 

@@ -5,6 +5,13 @@ namespace Icebearsoft\Kitukizuri\App\Traits;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
+use PhpParser\ParserFactory;
+use PhpParser\PrettyPrinter;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\CloningVisitor;
+use PhpParser\Node\Stmt\Return_;
+use PhpParser\Node\Expr\Array_;
+
 trait UtilityTrait 
 {    
     protected function composerInstall($package)
@@ -47,25 +54,37 @@ trait UtilityTrait
 
     protected function editConfig($path, $fields)
     {
-        $config = include config_path($path . '.php');
-        $config = $this->arrayMergeRecursiveDistinct($config, $fields);
-        
-        file_put_contents(config_path($path . '.php'), '<?php return ' . var_export($config, true) . ';');
-    }
+        $code = file_get_contents(config_path($path . '.php'));
+        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        $stmts = $parser->parse($code);
 
-    protected function arrayMergeRecursiveDistinct(array &$array1, array &$array2)
-    {
-        $merged = $array1;
+        $traverser = new NodeTraverser;
+        $traverser->addVisitor(new CloningVisitor);
+        $stmts = $traverser->traverse($stmts);
 
-        foreach ($array2 as $key => &$value) {
-            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-                $merged[$key] = $this->arrayMergeRecursiveDistinct($merged[$key], $value);
-            } else {
-                $merged[$key] = $value;
+        foreach ($stmts as $stmt) {
+            if ($stmt instanceof Return_ && $stmt->expr instanceof Array_) {
+                $this->mergeArray($stmt->expr, $fields);
             }
         }
 
-        return $merged;
+        $prettyPrinter = new PrettyPrinter\Standard;
+        $code = $prettyPrinter->prettyPrintFile($stmts);
+        file_put_contents(config_path($path . '.php'), $code);
+    }
+
+    protected function mergeArray(Array_ $node, array $fields)
+    {
+        foreach ($node->items as $item) {
+            $key = $item->key->value;
+            if (isset($fields[$key])) {
+                if ($item->value instanceof Array_ && is_array($fields[$key])) {
+                    $this->mergeArray($item->value, $fields[$key]);
+                } else {
+                    $item->value = new \PhpParser\Node\Scalar\String_($fields[$key]);
+                }
+            }
+        }
     }
 
     protected function runCommands($commands, $path = null)
