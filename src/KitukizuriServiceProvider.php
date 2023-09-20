@@ -9,9 +9,12 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
-use Icebearsoft\Kitukizuri\App\Console\Command\MakeModule;
-use Icebearsoft\Kitukizuri\App\Console\Command\KrudInstall;
-use Icebearsoft\Kitukizuri\App\Console\Command\DefaultData;
+use Icebearsoft\Kitukizuri\App\Console\Command\{
+    MakeModule,
+    KrudInstall,
+    DefaultData,
+    SetDocker
+};
 
 class KitukizuriServiceProvider extends ServiceProvider
 {
@@ -67,6 +70,7 @@ class KitukizuriServiceProvider extends ServiceProvider
                 MakeModule::class,
                 KrudInstall::class,
                 DefaultData::class,
+                SetDocker::class,
             ]);
         }
     }
