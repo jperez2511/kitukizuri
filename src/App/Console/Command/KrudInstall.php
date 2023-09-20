@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
-use Icebearsoft\Kitukizuri\App\Traits\LdapTrait;
-use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
+use Icebearsoft\Kitukizuri\App\Traits\{
+    LdapTrait,
+    UtilityTrait,
+    VueTrait
+};
 
 class KrudInstall extends Command
 {    
