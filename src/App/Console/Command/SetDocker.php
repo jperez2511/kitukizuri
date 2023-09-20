@@ -51,6 +51,7 @@ class SetDocker extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/Docker', base_path('/'));
         $this->info('Archivos configurados correctamente!');
 
+
         if($this->confirm('¿Configurar base de datos?')) {
             $database = $this->ask('Nombre: ');
             $pass = $this->ask('Contraseña: ');
@@ -68,6 +69,21 @@ class SetDocker extends Command
             $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=mysql', base_path('.env.example'));
             $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env.example'));
             $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env.example'));
+
+            $this->info('La base de datos se ha configurado correctamente!');
+        }
+
+        if($this->confirm('¿Configurar puertos?')) {
+            $http  = $this->ask('HTTP: ');
+            $mysql = $this->ask('MySQL: ');
+            $mongo = $this->ask('Mongo: ');
+
+            // Update docker-compose.yml
+            $this->replaceInFile('"80:80"', '"'.$http.':80"', base_path('docker-compose.yml'));
+            $this->replaceInFile('"3306:3306"', '"'.$mysql.':3306"', base_path('docker-compose.yml'));
+            $this->replaceInFile('"27017:27017"', '"'.$mongo.':27017"', base_path('docker-compose.yml'));
+
+            $this->info('Los puertos se han configurado correctamente!');
         }
     }
 }

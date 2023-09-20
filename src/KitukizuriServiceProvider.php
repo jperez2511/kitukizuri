@@ -30,6 +30,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\App\Http\Middleware\KituKizurimd');
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\App\Http\Middleware\Menu');
+        $router->aliasMiddleware('klang', 'Icebearsoft\Kitukizuri\App\Http\Middleware\SetLang');
 
         $this->configureViewsBladeComponents();            
         $this->configureCommands();
@@ -115,6 +116,7 @@ class KitukizuriServiceProvider extends ServiceProvider
             ['from' => '/database/seeders',         'to' => $databasePath.'/seeders',              'tag' => 'krud-seeders'],
             ['from' => '/resources/views/errors',   'to' => $basePath.'/resources/views/errors',   'tag' => 'krud-error'],
             ['from' => '/resources/views/krud',     'to' => $basePath.'/resources/views/krud',     'tag' => 'krud-views'],
+            ['from' => '/resources/views/app',      'to' => $basePath.'/resources/views/app',      'tag' => 'krud-app'],
             ['from' => '/config',                   'to' => $basePath.'/config',                   'tag' => 'krud-config'],
             ['from' => '/public',                   'to' => $basePath.'/public',                   'tag' => 'krud-public'],
         ];

@@ -15,7 +15,7 @@ use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
 
 class KrudInstall extends Command
 {    
-    use UtilityTrait, LdapTrait;
+    use UtilityTrait, LdapTrait, VueTrait;
 
     /**
      * The name and signature of the console command.
@@ -54,18 +54,28 @@ class KrudInstall extends Command
         $this->composerInstall('laravel/jetstream');
         $this->artisanCommand('jetstream:install', 'livewire');
 
+        // instalación de Vue en proyecto
+        $this->configVue();
+
+        // instalación de dependencias Krud
         $this->runCommands(['npm install'], __DIR__.'/../../../');
         $this->runCommands(['npm install --save-dev gulp'], __DIR__.'/../../../');
         $this->runCommands(['npx gulp build'], __DIR__.'/../../../');
-        $this->runCommands(['rm -rf node_modules'], __DIR__.'/../../../');
+        $this->deleteDirectory(__DIR__.'/../../../node_modules');
 
         // publicación de krud
         $this->artisanCommand('vendor:publish','--tag=krud-migrations');
         $this->artisanCommand('vendor:publish','--tag=krud-seeders');
         $this->artisanCommand('vendor:publish','--tag=krud-error');
         $this->artisanCommand('vendor:publish','--tag=krud-views');
+        $this->artisanCommand('vendor:publish','--tag=krud-app');
         $this->artisanCommand('vendor:publish','--tag=krud-config');
         $this->artisanCommand('vendor:publish','--tag=krud-public');
+
+        unlink(base_path('routes/web.php'));
+        copy(__DIR__ . '/../../stubs/Routes/web.php', base_path('routes/web.php'));
+
+        copy(__DIR__ . '/../../stubs/Controllers/HomeController.php', base_path('app/Http/Controllers/HomeController.php'));
 
         if($ldapLogin) {
             $this->configLdap();
