@@ -15,8 +15,11 @@ trait LdapTrait
         $this->replaceInFile('Features::resetPasswords()', '// Features::resetPasswords()', base_path('config/fortify.php'));
         $this->replaceInFile('Features::updateProfileInformation()', '// Features::updateProfileInformation()', base_path('config/fortify.php'));
         $this->replaceInFile('Features::updatePasswords()', '// Features::updatePasswords()', base_path('config/fortify.php'));
-        
+
         $this->editConfig('auth', [
+            'guards' => [
+                'web' => ['provider' => 'ldap']
+            ],
             'providers' => [
                 'ldap' => [ 
                     'driver' => 'ldap',
@@ -30,12 +33,6 @@ trait LdapTrait
                         ],
                     ]
                 ]
-            ]
-        ]);
-
-        $this->editConfig('auth', [
-            'guards' => [
-                'web' => ['provider' => 'ldap']
             ]
         ]);
 
