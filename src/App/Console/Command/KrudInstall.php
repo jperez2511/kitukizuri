@@ -56,6 +56,7 @@ class KrudInstall extends Command
         // instalación de jetstream
         $this->composerInstall('laravel/jetstream');
         $this->artisanCommand('jetstream:install', 'livewire');
+        $this->info('instalación de Jetstream terminada exitosamente !');
 
         // instalación de Vue en proyecto
         $this->configVue();
@@ -65,6 +66,7 @@ class KrudInstall extends Command
         $this->runCommands(['npm install --save-dev gulp'], __DIR__.'/../../../');
         $this->runCommands(['npx gulp build'], __DIR__.'/../../../');
         $this->deleteDirectory(__DIR__.'/../../../node_modules');
+        $this->info('instalación de dependencias kitukizuri termianda exitosamente !');
 
         // publicación de krud
         $this->artisanCommand('vendor:publish','--tag=krud-migrations');
@@ -76,9 +78,10 @@ class KrudInstall extends Command
         $this->artisanCommand('vendor:publish','--tag=krud-public');
 
         unlink(base_path('routes/web.php'));
-        copy(__DIR__ . '/../../stubs/Routes/web.php', base_path('routes/web.php'));
+        copy(__DIR__ . '/../../../stubs/Routes/web.php', base_path('routes/web.php'));
 
-        copy(__DIR__ . '/../../stubs/Controllers/HomeController.php', base_path('app/Http/Controllers/HomeController.php'));
+        copy(__DIR__ . '/../../../stubs/Controllers/HomeController.php', base_path('app/Http/Controllers/HomeController.php'));
+        $this->info('Configuración de archivos terminada exitosamente !');
 
         if($ldapLogin) {
             $this->configLdap();
