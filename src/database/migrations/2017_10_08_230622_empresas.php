@@ -16,12 +16,12 @@ class Empresas extends Migration
         Schema::create('empresas', function (Blueprint $table) {
             $table->bigIncrements('empresaid');
             $table->string('nombre');
-            $table->string('telefono');
-            $table->string('correo');
-            $table->string('nit');
-            $table->longtext('logo');
-            $table->text('direccion');
-            $table->boolean('activo');            
+            $table->string('telefono')->nullable();
+            $table->string('correo')->nullable();
+            $table->string('nit')->nullable();
+            $table->longtext('logo')->nullable();
+            $table->text('direccion')->nullable();
+            $table->boolean('activo')->default(true);
             $table->nullableTimestamps();
         });
         

@@ -10,10 +10,10 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 
 use App\Ldap\User;
 use App\Models\User as U;
-use Icebearsoft\Kitukizuri\Models\Modulo;
-use Icebearsoft\Kitukizuri\Models\Empresa;
-use Icebearsoft\Kitukizuri\Models\UsuarioRol;
-use Icebearsoft\Kitukizuri\Models\ModuloEmpresas;
+use Icebearsoft\Kitukizuri\App\Models\Modulo;
+use Icebearsoft\Kitukizuri\App\Models\Empresa;
+use Icebearsoft\Kitukizuri\App\Models\UsuarioRol;
+use Icebearsoft\Kitukizuri\App\Models\ModuloEmpresas;
 
 class AuthServiceProvider extends ServiceProvider
 {

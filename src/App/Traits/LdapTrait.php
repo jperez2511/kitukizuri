@@ -27,6 +27,8 @@ trait LdapTrait
         copy(__DIR__ . '/../../stubs/Database/2023_08_03_214449_add_ldap_columns_to_users_table.php', base_path('database/migrations/2023_08_03_214449_add_ldap_columns_to_users_table.php'));
 
         $this->artisanCommand('vendor:publish','--tag=ldap-config'); 
+        $this->artisanCommand('ldap:make:model', 'User');
+        
     }
 
     protected function addLdapEnv($file) 
