@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Icebearsoft\Kitukizuri\App\Http\Middleware;
 
 use DB;
 use Auth;
