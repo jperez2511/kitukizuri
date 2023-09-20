@@ -6,8 +6,10 @@ use Krud;
 use Illuminate\Support\Facades\Auth;
 
 //== Models
-use Icebearsoft\Kitukizuri\Models\Rol;
-use Icebearsoft\Kitukizuri\Models\UsuarioRol;
+use Icebearsoft\Kitukizuri\App\Models\{
+    Rol,
+    UsuarioRol
+};
 
 class RolesController extends Krud
 {

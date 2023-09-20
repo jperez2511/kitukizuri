@@ -8,9 +8,11 @@ use Auth;
 use App\Http\Controllers\Controller;
 
 //Models
-use Icebearsoft\Kitukizuri\Models\Modulo;
-use Icebearsoft\Kitukizuri\Models\UsuarioRol;
-use Icebearsoft\Kitukizuri\Models\RolModuloPermiso;
+use Icebearsoft\Kitukizuri\App\Models\{
+    Modulo,
+    UsuarioRol,
+    RolModuloPermiso
+};
 
 class RolesPermisosController extends Controller
 {

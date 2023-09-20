@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 //Models
-use Icebearsoft\Kitukizuri\Models\ModuloEmpresas;
-use Icebearsoft\Kitukizuri\Models\Modulo;
+use Icebearsoft\Kitukizuri\App\Models\{
+    ModuloEmpresas,
+    Modulo
+};
 
 class ModuloEmpresasController extends Controller
 {

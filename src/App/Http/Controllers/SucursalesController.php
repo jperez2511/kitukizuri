@@ -5,7 +5,7 @@ namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 use Krud;
 
 //Models
-use Icebearsoft\Kitukizuri\Models\Sucursal;
+use Icebearsoft\Kitukizuri\App\Models\Sucursal;
 
 class SucursalesController extends Krud
 {

@@ -7,7 +7,7 @@ use Session;
 use Closure;
 
 // Controller
-use Icebearsoft\Kitukizuri\Http\Controllers\MenuController;
+use Icebearsoft\Kitukizuri\App\Http\Controllers\MenuController;
 
 class Menu
 {

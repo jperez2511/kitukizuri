@@ -5,10 +5,12 @@ namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 
 //Models
-use Icebearsoft\Kitukizuri\Models\Rol;
-use Icebearsoft\Kitukizuri\Models\Modulo;
-use Icebearsoft\Kitukizuri\Models\Usuario;
-use Icebearsoft\Kitukizuri\Models\Empresa;
+use Icebearsoft\Kitukizuri\App\Models\{
+    Rol,
+    Modulo,
+    Usuario,
+    Empresa
+};
 
 class DashboardController extends Controller
 {

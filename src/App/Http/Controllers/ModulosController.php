@@ -2,7 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 
-use Icebearsoft\Kitukizuri\Models\Modulo;
+use Icebearsoft\Kitukizuri\App\Models\Modulo;
 use Krud;
 
 class ModulosController extends Krud

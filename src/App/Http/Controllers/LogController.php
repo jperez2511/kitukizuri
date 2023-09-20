@@ -3,7 +3,7 @@
 namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Icebearsoft\Kitukizuri\Models\LaravelLogReader;
+use Icebearsoft\Kitukizuri\App\Models\LaravelLogReader;
 class LogController extends Controller
 {
     public function index()

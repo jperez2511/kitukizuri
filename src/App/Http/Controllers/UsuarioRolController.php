@@ -7,8 +7,10 @@ use Auth;
 use Illuminate\Http\Request;
 
 //=== Models
-use Icebearsoft\Kitukizuri\Models\Rol;
-use Icebearsoft\Kitukizuri\Models\UsuarioRol;
+use Icebearsoft\Kitukizuri\App\Models\{
+    Rol,
+    UsuarioRol
+};
 
 class UsuarioRolController extends Krud
 {

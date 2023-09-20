@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Crypt;
 use App\Http\Controllers\Controller;
 
 //Models
-use Icebearsoft\Kitukizuri\Models\Permiso;
-use Icebearsoft\Kitukizuri\Models\ModuloPermiso;
-use Icebearsoft\Kitukizuri\Models\RolModuloPermiso;
+use Icebearsoft\Kitukizuri\App\Models\{
+	Permiso,
+	ModuloPermiso,
+	RolModuloPermiso
+};
 
 class PermisosController extends Controller 
 {

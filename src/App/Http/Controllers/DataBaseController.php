@@ -5,9 +5,11 @@ namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 use Crypt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Icebearsoft\Kitukizuri\Models\Mysql;
-use Icebearsoft\Kitukizuri\Models\Tenants;
-use Icebearsoft\Kitukizuri\Models\Connection;
+use Icebearsoft\Kitukizuri\App\Models\{
+    Mysql,
+    Tenants,
+    Connection
+};
 
 class DataBaseController extends Controller
 {

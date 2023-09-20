@@ -5,7 +5,7 @@ namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 use Krud;
 
 //Models
-use Icebearsoft\Kitukizuri\Models\Empresa;
+use Icebearsoft\Kitukizuri\App\Models\Empresa;
 
 class EmpresasController extends Krud
 {

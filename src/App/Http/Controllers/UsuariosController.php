@@ -6,7 +6,7 @@ use Krud;
 
 use Auth;
 
-use Icebearsoft\Kitukizuri\Models\Usuario;
+use Icebearsoft\Kitukizuri\App\Models\Usuario;
 
 class UsuariosController extends Krud
 {

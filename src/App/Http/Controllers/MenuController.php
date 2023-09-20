@@ -6,8 +6,10 @@ use Auth;
 use Route;
 
 // Models
-use Icebearsoft\Kitukizuri\Models\Menu;
-use Icebearsoft\Kitukizuri\Models\UsuarioRol;
+use Icebearsoft\Kitukizuri\App\Models\{
+    Menu,
+    UsuarioRol
+};
 
 class MenuController
 {
