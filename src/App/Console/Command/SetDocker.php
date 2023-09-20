@@ -44,8 +44,7 @@ class SetDocker extends Command
      */
     public function handle() 
     {
-        copy(__DIR__ . '/../../../stubs/Docker/docker-compose.yml', base_path('docker-compose.yml'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles', base_path('/'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/Docker', base_path('/'));
         $this->info('La configuración de docker terminó exitosamente!');
     }
 }
