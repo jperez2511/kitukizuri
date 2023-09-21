@@ -2,14 +2,14 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits;
 
-trait LdapTrait 
+trait LdapTrait
 {
     protected function configLdap()
     {
         $this->composerInstall('directorytree/ldaprecord-laravel');
         $this->addLdapEnv('.env');
         $this->addLdapEnv('.env.example');
-        
+
         $this->replaceInFile('Features::registration()', '// Features::registration()', base_path('config/fortify.php'));
         $this->replaceInFile('Features::resetPasswords()', '// Features::resetPasswords()', base_path('config/fortify.php'));
         $this->replaceInFile('Features::updateProfileInformation()', '// Features::updateProfileInformation()', base_path('config/fortify.php'));
@@ -20,18 +20,18 @@ trait LdapTrait
 
         unlink(base_path('app/Providers/AuthServiceProvider.php'));
         copy(__DIR__ . '/../../stubs/Ldap/AuthServiceProvider.stub', base_path('app/Providers/AuthServiceProvider.php'));
-        
+
         unlink(base_path('app/Models/User.php'));
         copy(__DIR__ . '/../../stubs/Ldap/User.stub', base_path('app/Models/User.php'));
 
         copy(__DIR__ . '/../../stubs/Database/2023_08_03_214449_add_ldap_columns_to_users_table.php', base_path('database/migrations/2023_08_03_214449_add_ldap_columns_to_users_table.php'));
 
-        $this->artisanCommand('vendor:publish','--tag=ldap-config'); 
+        $this->artisanCommand('vendor:publish','--tag=ldap-config');
         $this->artisanCommand('ldap:make:model', 'User');
-        
+
     }
 
-    protected function addLdapEnv($file) 
+    protected function addLdapEnv($file)
     {
         $envPath = base_path($file);
         $envContent = file_get_contents($envPath);

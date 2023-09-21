@@ -32,7 +32,7 @@ class KituKizuri extends Controller
         $ruta = explode('.', $ruta);
 
         if(count($ruta) != 2) {
-            dd('falta agregar un nombre a la ruta');   
+            dd('falta agregar un nombre a la ruta');
         }
 
         $nombreRuta   = $ruta[1];
@@ -43,10 +43,10 @@ class KituKizuri extends Controller
             'store' => ['create', 'edit'],
             'update' => ['create', 'edit'],
         ];
-    
+
         $arrayAccion = !empty($acciones[$nombreRuta]) ? $acciones[$nombreRuta] : [$nombreRuta];
         $moduloID = Modulo::where('ruta', $moduloNombre)->value('moduloid');
-        
+
         if(!empty($moduloID)){
             $estado = UsuarioRol::getPermisosAsignados(Auth::id(), $moduloID, $arrayAccion);
         }

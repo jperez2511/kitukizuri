@@ -13,12 +13,13 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Icebearsoft\Kitukizuri\App\Traits\{
     LdapTrait,
     UtilityTrait,
-    VueTrait
+    VueTrait,
+    MongoTrait
 };
 
 class KrudInstall extends Command
-{    
-    use UtilityTrait, LdapTrait, VueTrait;
+{
+    use UtilityTrait, LdapTrait, VueTrait, MongoTrait;
 
     /**
      * The name and signature of the console command.
@@ -60,6 +61,9 @@ class KrudInstall extends Command
 
         // instalación de Vue en proyecto
         $this->configVue();
+
+        // Configuración de MongoDB
+        $this->configMongoDB();
 
         // instalación de dependencias Krud
         $this->runCommands(['npm install'], __DIR__.'/../../../');
