@@ -8,7 +8,7 @@ trait MongoTrait
 {
     protected function configMongoDB()
     {
-        $this->composerInstall('jenssegers/mongodb');
+        $this->composerInstall('jenssegers/mongodb:dev-master');
 
         $this->setDatabaseConfig();
     }
@@ -36,10 +36,9 @@ trait MongoTrait
         if ($position !== false) {
             $position += strlen("'connections' => [");
             $contents = substr_replace($contents, $newConfig, $position, 0);
+            // Guarda el archivo modificado
+            File::put($path, $contents);
         }
-
-        // Guarda el archivo modificado
-        File::put($path, $contents);
 
         $this->info('Configuración de base de datos actualizada con éxito.');
     }
