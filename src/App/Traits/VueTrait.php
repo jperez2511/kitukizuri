@@ -3,7 +3,7 @@
 namespace Icebearsoft\Kitukizuri\App\Traits;
 
 trait VueTrait
-{    
+{
     protected function configVue()
     {
         $this->runCommands(['npm install --save vue@latest'], base_path());
@@ -11,7 +11,7 @@ trait VueTrait
         $this->addVueConfig();
     }
 
-    protected function addVueConfig() 
+    protected function addVueConfig()
     {
         $filePath    = base_path('resources/js/app.js');
         $fileContent = file_get_contents($filePath);
@@ -32,7 +32,7 @@ trait VueTrait
 
             $this->info('La configuración para Vue fue agregada exitosamente');
         } else {
-            $this->info('Las configuración para Vue ya existen en el '.$file);
+            $this->info('Las configuración para Vue ya existen en el app.js');
         }
     }
 }

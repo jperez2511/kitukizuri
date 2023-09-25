@@ -8,7 +8,7 @@ trait MongoTrait
 {
     protected function configMongoDB()
     {
-        $this->composerInstall('jenssegers/mongodb:dev-master');
+        $this->composerInstall('mongodb/laravel-mongodb');
 
         $this->setDatabaseConfig();
     }

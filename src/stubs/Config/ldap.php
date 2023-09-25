@@ -64,7 +64,8 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        'ldap' => [ 
+
+        'ldap' => [
             'driver' => 'ldap',
             'model' => LdapRecord\Models\ActiveDirectory\User::class,
             'database' => [
