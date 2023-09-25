@@ -15,8 +15,8 @@ trait MongoTrait
 
     private function setDatabaseConfig()
     {
-        $path = config_path('database.php');
-        $content = File::get($path);
+        $path      = config_path('database.php');
+        $contents  = File::get($path);
         $newConfig = <<<EOD
                 'mongodb' => [
                     'driver'   => 'mongodb',
