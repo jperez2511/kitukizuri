@@ -59,10 +59,9 @@ class Mysql extends Model
         return DB::connection(self::$driver)->select('SHOW CHARACTER SET');
     }
 
-    public static function executeQuery($query, $lang) 
+    public static function executeQuery($query, $lang)
     {
         $results = null;
-        
         if($lang == 'sql') {
             $results = DB::connection(self::$driver)->select(DB::raw($query));
         } else if($lang == 'php') {
@@ -75,11 +74,11 @@ class Mysql extends Model
         return $results;
     }
 
-    private static function cleanORM($query) 
+    private static function cleanORM($query)
     {
         $elements = [
-            '<?', 
-            'php', 
+            '<?',
+            'php',
             '->toArray()',
             '->get()',
             '->first()',
@@ -91,7 +90,7 @@ class Mysql extends Model
         foreach ($elements as $value) {
             $query = str_replace($value, '', $query);
         }
-        
+
         return $query;
     }
 

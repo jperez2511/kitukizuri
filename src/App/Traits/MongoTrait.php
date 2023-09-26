@@ -18,6 +18,12 @@ trait MongoTrait
     {
         $path      = config_path('database.php');
         $contents  = File::get($path);
+
+        if(strpos($contents, 'mongodb')) {
+            $this->info('La configuración de MongoDB ya existe en el archivo database.php');
+            return;
+        }
+
         $newConfig = <<<EOD
                 \n
                 'mongodb' => [

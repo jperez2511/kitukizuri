@@ -22,13 +22,13 @@ class DataBaseController extends Controller
         'sqlsrv' => ['color' => 'secondary', 'icono' => 'fa-brands fa-microsoft'],
     ];
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         if($request->has('opcion')) {
             $function = [
                 'getTables'
             ];
-    
+
             $result = $this->{$function[(int) $request->opcion-1]}($request);
         } else {
             $result = $this->showView($request);
@@ -43,7 +43,7 @@ class DataBaseController extends Controller
             'getTableInfo', // 1
             'getTableData', // 2
             'executeQuery', // 3
-            'generateReport', // 4 
+            'generateReport', // 4
         ];
 
         if(!$request->has('opcion')){
@@ -58,7 +58,7 @@ class DataBaseController extends Controller
         dd($request->all());
     }
 
-    private function showView($request) 
+    private function showView($request)
     {
         if($request->has('c')) {
             $function = 'viewConnection';
@@ -107,7 +107,7 @@ class DataBaseController extends Controller
         return response()->json($treeTable);
     }
 
-    private function getTableData($request) 
+    private function getTableData($request)
     {
         try {
             $database = Crypt::decrypt($request->database);
@@ -116,13 +116,13 @@ class DataBaseController extends Controller
         }
 
         $tableName = $request->table;
-        
+
         if($request->driver == 'mysql') {
             $getAllData = Mysql::getData($database, $tableName);
         }
 
         return response()->json(['data' => $getAllData]);
-        
+
     }
 
     private function getTableInfo($request)
@@ -153,7 +153,7 @@ class DataBaseController extends Controller
             $connectionName = Crypt::decrypt($request->c);
         } catch (Exception $e) {
             dd($e);
-        }   
+        }
 
         $connection       = config('database.connections.'.$connectionName);
         $statusConnection = Connection::setConnection($connection);
@@ -219,7 +219,7 @@ class DataBaseController extends Controller
         Connection::setConnection($connection);
 
         $tables = Mysql::getTables($connectionData->db);
-        
+
         return view('kitukizuri::database.info', [
             'tables'   => $tables,
             'driver'   => $connection['driver'],

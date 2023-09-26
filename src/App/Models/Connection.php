@@ -7,7 +7,7 @@ use Config;
 use Session;
 
 class Connection
-{    
+{
     /**
      * setConnection
      *
