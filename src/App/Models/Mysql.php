@@ -63,7 +63,7 @@ class Mysql extends Model
     {
         $results = null;
         if($lang == 'sql') {
-            $results = DB::connection(self::$driver)->select(DB::raw($query));
+            $results = DB::connection(self::$driver)->select($query);
         } else if($lang == 'php') {
             $driver = self::$driver;
             $query = self::cleanORM($query);
