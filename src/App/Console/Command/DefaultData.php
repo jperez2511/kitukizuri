@@ -11,21 +11,21 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class DefaultData extends Command
-{    
+{
     /**
-     * The name and signature of the console command. 
+     * The name and signature of the console command.
      *
      * @var string
      */
     protected $signature = "krud:default-data";
-        
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = "Crea al estructura de base de datos y establce los datos iniciales";
-    
+
     /**
      * Create a new command instance.
      *
@@ -35,26 +35,26 @@ class DefaultData extends Command
     {
         parent::__construct();
     }
-    
+
     /**
      * Execute te console command.
      *
      * @return void
      */
-    public function handle() 
+    public function handle()
     {
         // validando conexion a base de datos
         try {
             DB::connection()->getPDO();
-            
+
             // construyendo estructura de la base de datos
             $this->artisanCommand('migrate');
-        
+
             // poblando datos de configuración
             $this->artisanCommand('db:seed', '--class=PermisosSeeder');
             $this->artisanCommand('db:seed', '--class=ModulosSeeder');
             $this->artisanCommand('db:seed', '--class=InicialSeeder');
-            
+
         } catch (\Exception $e) {
             $this->error('
                 La base de datos no está configurada correctamente.
@@ -68,7 +68,7 @@ class DefaultData extends Command
     protected function artisanCommand($action, $option = null)
     {
         $command = [$this->phpBinary(), 'artisan', $action];
-        
+
         if (!empty($option) && is_array($option)) {
             $command = \array_merge($command, $option);
         } else if (!empty($option)){

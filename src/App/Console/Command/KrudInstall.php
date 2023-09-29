@@ -14,7 +14,8 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     LdapTrait,
     UtilityTrait,
     VueTrait,
-    MongoTrait
+    MongoTrait,
+    TrinoTrait
 };
 
 class KrudInstall extends Command
@@ -64,6 +65,9 @@ class KrudInstall extends Command
 
         // Configuración de MongoDB
         $this->configMongoDB();
+
+        // Configuración de Trino
+        $this->configTrino();
 
         // instalación de dependencias Krud
         $this->runCommands(['npm install'], __DIR__.'/../../../');
