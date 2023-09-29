@@ -27,17 +27,17 @@ class KitukizuriServiceProvider extends ServiceProvider
     {
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');
-        
+
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\App\Http\Middleware\KituKizurimd');
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\App\Http\Middleware\Menu');
         $router->aliasMiddleware('klang', 'Icebearsoft\Kitukizuri\App\Http\Middleware\SetLang');
 
-        $this->configureViewsBladeComponents();            
+        $this->configureViewsBladeComponents();
         $this->configureCommands();
         $this->configurePublishing();
         $this->configureRoutes();
     }
-            
+
     /**
      * configureBladeComponents
      *
@@ -95,12 +95,12 @@ class KitukizuriServiceProvider extends ServiceProvider
             Route::resource('rolpermisos', 'RolesPermisosController', ['only'=>['index', 'store']]);
             Route::resource('empresas', 'EmpresasController');
             Route::resource('sucursales', 'SucursalesController');
-            Route::resource('moduloempresas', 'ModuloEmpresasController'); 
-            Route::resource('database', 'DataBaseController'); 
-            Route::resource('logs', 'LogController'); 
+            Route::resource('moduloempresas', 'ModuloEmpresasController');
+            Route::resource('database', 'DataBaseController');
+            Route::resource('logs', 'LogController');
         });
     }
-    
+
     /**
      * configurePublishing
      *
@@ -122,10 +122,10 @@ class KitukizuriServiceProvider extends ServiceProvider
         ];
 
         foreach ($publishes as $publish) {
-            $this->publishes([__DIR__. $publish['from'] => $publish['to'],], $publish['tag']);    
+            $this->publishes([__DIR__. $publish['from'] => $publish['to'],], $publish['tag']);
         }
     }
-    
+
     /**
      * registerComponent
      *
