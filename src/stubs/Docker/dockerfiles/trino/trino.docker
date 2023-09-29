@@ -1,0 +1,4 @@
+FROM trinodb/trino:latest
+
+ADD ./dockerfiles/trino/mongo.properties /etc/trino/catalog/mongo.properties
+ADD ./dockerfiles/trino/mysql.properties /etc/trino/catalog/mysql.properties
