@@ -736,7 +736,9 @@ class Krud extends Controller
             foreach ($a as $k => $v) {
                 foreach ($this->campos as $cn => $cv) {
                     
-                    if (strrpos($cv['campo'], '.') != false) {
+                    if($cv['campo'] instanceof Expression) {
+                        $cv['campo'] = $cv['campoReal'];
+                    } else if (strrpos($cv['campo'], '.') != false) {
                         $array = explode('.', $cv['campo']);
                         $cv['campo'] = $array[count($array) - 1];
                     }

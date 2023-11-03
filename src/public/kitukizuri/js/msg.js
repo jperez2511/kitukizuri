@@ -86,7 +86,7 @@ var data = {
     },
     "needRealField": {
         "titulo": "Al utilizar <code>DB::raw()</code> es necesario incluir el parámetro <code>Campo Real</code>",
-        "comentario": "El parámetro se incluye de la siguiente forma:"
+        "comentario": "El parámetro se incluye de la siguiente forma:",
         "codigo": "<?php \n\nnamespace kitukizuri\\training; \n\nuse Krud; \nuse Icebearsoft\\Models\\Training; \n\nclass ExapleController extends Krud\n{\n\tpublic function __construct()\n\t{\n\t\t$this->setModel(new Training);\n\t\t$this->setCampo(['nombre'=>'Label del campo', 'campo'=>DB::raw('now() as fecha_actual'), 'campoReal' => 'fecha_actual']);\n\t}\n}"
     }
 }
