@@ -14,7 +14,10 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+
+// librerías para base de datos
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Query\Expression;
 
 // Controllers 
 use App\Http\Controllers\Controller;
@@ -87,7 +90,8 @@ class Krud extends Controller
         'badLeftJoinOperator',  // 13
         'badWhereOperator',     // 14
         'badOrWhereOperator',   // 15
-        'badColumnDefinition'   // 16
+        'badColumnDefinition',  // 16
+        'needRealField'         // 17  
     ];
 
     // viables únicas para vista calendario
@@ -268,7 +272,8 @@ class Krud extends Controller
         }
 
         $allowed = [
-            'campo',        // Campo de la base de datos  
+            'campo',        // Campo de la base de datos
+            'campoReal',    // Campo real de la base de datos donde se almacenará la DATA  
             'column',       // Para el tipo combobox permite seleccionar las columnas a utilizar
             'columnClass',  // clase para columnas en html (bootstrap)
             'collect',      // Colección de datos para el campo combobox
@@ -333,7 +338,11 @@ class Krud extends Controller
         }
 
          // capturando el nombre real del campo
-         if (!strpos($params['campo'], ')')) {
+         if($params['campo'] instanceof Expression) {
+            if(!array_key_exists('campoReal', $params)) {
+                return $this->errors = ['tipo' => $this->typeError[17]];
+            }
+        } else if (!strpos($params['campo'], ')')) {
             $arr = explode('.', $params['campo']);
             if (count($arr)>=2) {
                 $params['campoReal'] = end($arr);
