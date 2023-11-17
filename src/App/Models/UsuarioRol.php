@@ -5,6 +5,8 @@ namespace Icebearsoft\Kitukizuri\App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
+use Icebearsoft\Kitukizuri\App\Models\Usuario;
+
 class UsuarioRol extends Model
 {
     protected $table      = "usuarioRol";
@@ -53,5 +55,10 @@ class UsuarioRol extends Model
     public function modulos()
     {
         return $this->hasMany(RolModuloPermiso::class, 'rolid', 'rolid');
+    }
+
+    public function usuarios()
+    {
+        return $this->hasMany(Usuario::class, 'id', 'usuarioid');
     }
 }
