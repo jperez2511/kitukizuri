@@ -1229,7 +1229,7 @@ class Krud extends Controller
                     </a>';
             } else {
                 foreach($this->botones as $boton) {
-                    $boton['url'] = str_replace('{id}', $item['__id__'], $boton['url']);
+                    $boton['url'] = str_replace('{id}', Crypt::encrypt($item['__id__']), $boton['url']);
                     $btns .= '<a 
                         data-toggle="tooltip" data-placement="left" title="'.$boton['nombre'].'" 
                         href="'.$boton['url'].'" 
