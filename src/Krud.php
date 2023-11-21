@@ -41,27 +41,28 @@ class Krud extends Controller
     private $viewHelp = null;
 
     // Variables en array
-    private $rt           = [];
-    private $joins        = [];
-    private $editEmbed    = [];
-    private $indexEmbed   = [];
-    private $wheres       = [];
-    private $campos       = [];
-    private $botones      = [];
-    private $botonesDT    = [];
-    private $defaultBtnDT = [];
-    private $parents      = [];
-    private $orderBy      = [];
-    private $orWheres     = [];
-    private $whereIn      = [];
-    private $leftJoins    = [];
-    private $errors       = [];
-    private $whereFn      = [];
-    private $whereOrFn    = [];
-    private $whereAndFn   = [];
-    private $externalData = [];
-    private $viewOptions  = [];
-    private $validations  = [];
+    private $rt             = [];
+    private $joins          = [];
+    private $editEmbed      = [];
+    private $indexEmbed     = [];
+    private $wheres         = [];
+    private $campos         = [];
+    private $removePermisos = [];
+    private $botones        = [];
+    private $botonesDT      = [];
+    private $defaultBtnDT   = [];
+    private $parents        = [];
+    private $orderBy        = [];
+    private $orWheres       = [];
+    private $whereIn        = [];
+    private $leftJoins      = [];
+    private $errors         = [];
+    private $whereFn        = [];
+    private $whereOrFn      = [];
+    private $whereAndFn     = [];
+    private $externalData   = [];
+    private $viewOptions    = [];
+    private $validations    = [];
     private $template  = [
         'datatable',
     ];
@@ -183,6 +184,11 @@ class Krud extends Controller
     {
         $kitukizuri = new KituKizuri;
         return $kitukizuri->getPermisos($id);
+    }
+
+    protected function removePermisos($permisos) 
+    {
+        $this->removePermisos = $permisos;
     }
 
     /**
@@ -1119,11 +1125,17 @@ class Krud extends Controller
             $vBootstrap = 5;
         }
 
+        $permisos = $this->getPermisos(Auth::id());
+
+        if(!empty($this->removePermisos)) {
+            $permisos = array_values(array_diff($permisos, $this->removePermisos));
+        }
+
         return view($view, [
             'titulo'     => $this->titulo,
             'columnas'   => $this->getColumnas($this->getSelectShow()),
             'botones'    => $botones,
-            'permisos'   => $this->getPermisos(Auth::id()),
+            'permisos'   => $this->permisos,
             'ruta'       => $ruta,
             'template'   => $this->template,
             'layout'     => $layout,
