@@ -1135,7 +1135,7 @@ class Krud extends Controller
             'titulo'     => $this->titulo,
             'columnas'   => $this->getColumnas($this->getSelectShow()),
             'botones'    => $botones,
-            'permisos'   => $this->permisos,
+            'permisos'   => $permisos,
             'ruta'       => $ruta,
             'template'   => $this->template,
             'layout'     => $layout,
