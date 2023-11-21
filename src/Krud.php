@@ -1181,6 +1181,10 @@ class Krud extends Controller
 
         $response = [];
         $permisos = $this->getPermisos(Auth::id());
+        if(!empty($this->removePermisos)) {
+            $permisos = array_values(array_diff($permisos, $this->removePermisos));
+        }
+
 
         //Contador de datos para el render
         $response['draw'] = intval($request->draw);
