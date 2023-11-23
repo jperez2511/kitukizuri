@@ -53,6 +53,7 @@ class Krud extends Controller
     private $defaultBtnDT   = [];
     private $parents        = [];
     private $orderBy        = [];
+    private $groupBy        = [];
     private $orWheres       = [];
     private $whereIn        = [];
     private $leftJoins      = [];
@@ -599,6 +600,23 @@ class Krud extends Controller
     }
 
     /**
+     * setGroupBy
+     * Define como agrupar los elementos de la consulta
+     *
+     * @param  mixed $column
+     *
+     * @return void
+     */
+    public function setGroupBy($column)
+    {
+        if(is_array($column)) {
+            $this->groupBy = $column;
+        } else {
+            $this->groupBy[] = $column;
+        }
+    }
+
+    /**
      * setBoton
      * Define los botones personalizados disponibles a utilizar en la tabla de la vista index.
      *
@@ -851,6 +869,10 @@ class Krud extends Controller
         // Agregando el orden para mostrar los datos
         foreach ($this->orderBy as $column) {
             $data->orderBy(...$column);
+        }
+
+        if(!empty($this->groupBy)) {
+            $data->groupBy($this->groupBy);
         }
 
         $count = $data->count();
