@@ -84,7 +84,7 @@ class SetDocker extends Command
             $this->replaceInFile('"80:80"', '"'.$http.':80"', base_path('docker-compose.yml'));
             $this->replaceInFile('"3306:3306"', '"'.$mysql.':3306"', base_path('docker-compose.yml'));
             $this->replaceInFile('"27017:27017"', '"'.$mongo.':27017"', base_path('docker-compose.yml'));
-            $this->replaceInFile('"8080:8080"', '"'.$trino.':27017"', base_path('docker-compose.yml'));
+            $this->replaceInFile('"8080:8080"', '"'.$trino.':8080"', base_path('docker-compose.yml'));
 
             $this->info('Los puertos se han configurado correctamente!');
         }
