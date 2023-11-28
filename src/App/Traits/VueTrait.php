@@ -45,29 +45,27 @@ trait VueTrait
         $lines = explode("\n", $fileContent);
 
         if(count($lines) >= 3) {
-            for ($i=0; $i < count($lines); $i++) {
-                if($i == 2) {
-                    array_splice($lines, $i + 1, 0, "import vue from '@vitejs/plugin-vue';\n");
-                } else if (\str_contains($i == 4)) {
-                    $pluginContent = str_pad("vue({\n", 8, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("template: {\n", 12, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("transformAssetUrls: {\n", 16, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("base:null,\n", 20, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("includeAbsolute:false,\n", 20, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("},\n", 16, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("},\n", 12, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("}),\n", 8, " ", STR_PAD_LEFT);
 
-                    array_splice($lines, $i + 1, 0, $pluginContent);
-                } else if ($i == 15) {
-                    $pluginContent = str_pad("resolve: {\n", 4, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("alias: {\n", 8, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("vue: 'vue/dist/vue.esm-bundler.js'\n", 12, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("},\n", 8, " ", STR_PAD_LEFT);
-                    $pluginContent .= str_pad("},\n", 4, " ", STR_PAD_LEFT);
-                    array_splice($lines, $i + 1, 0, $pluginContent);
-                }
-            }
+            $lines[2] = "import vue from '@vitejs/plugin-vue';\n" . $lines[2];
+
+            $pluginContent  = "        vue({\n";
+            $pluginContent .= "            template: {\n";
+            $pluginContent .= "                transformAssetUrls: {\n";
+            $pluginContent .= "                    base: null,\n";
+            $pluginContent .= "                    includeAbsolute: false,\n";
+            $pluginContent .= "                },\n";
+            $pluginContent .= "            },\n";
+            $pluginContent .= "        }),\n";
+
+            $lines[5] = $pluginContent . $lines[5];
+
+            $pluginContent  = "    resolve: {\n";
+            $pluginContent .= "        alias: {\n";
+            $pluginContent .= "            vue: 'vue/dist/vue.esm-bundler.js'\n";
+            $pluginContent .= "        },\n";
+            $pluginContent .= "    },\n";
+
+            $lines[16] = $pluginContent . $lines[16];
 
             file_put_contents($filePath, implode("\n", $lines));
         } else {
