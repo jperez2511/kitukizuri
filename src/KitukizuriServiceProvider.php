@@ -12,6 +12,7 @@ use Illuminate\View\Compilers\BladeCompiler;
 use Icebearsoft\Kitukizuri\App\Console\Command\{
     MakeModule,
     KrudInstall,
+    VueInstall,
     DefaultData,
     SetDocker
 };
@@ -70,6 +71,7 @@ class KitukizuriServiceProvider extends ServiceProvider
             $this->commands([
                 MakeModule::class,
                 KrudInstall::class,
+                VueInstall::class,
                 DefaultData::class,
                 SetDocker::class,
             ]);
