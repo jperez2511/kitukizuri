@@ -18,8 +18,8 @@ class MenuSeeder extends Seeder
 	public function run()
 	{
 		$this->menu[] = ['orden' => 0, 'ruta' => 'home', 'icono' => 'class="fa fa-star"', 'catalogo' => false, 'show' => true];
-		
-		// Ejemplo de elemento de menu con sub elementos 
+
+		// Ejemplo de elemento de menu con sub elementos
 
 		// $this->menu[] = ['orden' => 100, 'ruta' => '', 	   'icono' => 'class="fa fa-bars"', 'catalogo' => false, 'show' => true, 'etiqueta' => 'Catálogos',
 		// 	'menu' => [
@@ -50,7 +50,7 @@ class MenuSeeder extends Seeder
 				$modulo = DB::table('modulos')
 					->where('ruta', $item['ruta'])
 					->first();
-				
+
 				$moduloPermisoID = DB::table('moduloPermiso')
 					->where('moduloid', $modulo->moduloid)
 					->where('permisoid', 2)
