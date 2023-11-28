@@ -1,77 +1,75 @@
 # Kitu Kizuri
 
-Paquete para laravel permite aplicar control de permisos de usuario. Este paquete cuenta con 4 partes importantes necesarias en una aplicacion web con multiples usuarios. 
+Kitu Kizuri es una estructura de aplicación diseñada para Laravel. Proporciona un punto de partida para tu aplicación.
 
-- **Modulos**
-  - Sirve para definir las partes de tu proyecto por ejemplo el modulo de clientes, proveedores, Inicio, etc. 
-- **Permisos que necesitara al modulo**
-  - A cada modulo se le pueden asignar permisos de Crear, Actualizar, Leer y Eliminar pero tambien puedes agregar tus propios permisos.
-- **Roles**
-  - tu puedes crear tus propios roles haciendo combinaciones entre los modulos y sus permisos casi en combinaciones infinitas segun la cantidad de modulos de tu proyecto.
-- **Usuarios**
-  - al dejar los usuarios en manos de kitukizuri puedes administrarlos incluyendo la asignacion de permisos, soporta multiples roles.
+## Componentes
 
-## Instalacion 
+- **Krud Security**
+  - Inicio de sesión con [**Jetstream**](https://jetstream.laravel.com/introduction.html) - default
+  - Inicio de sesión con [**LdapRecord**](https://ldaprecord.com/docs/laravel/v3) - opcional
+  - Gestión de **Usuarios**
+  - Asignación de **Roles**
+  - Asignación de **Permisos** por **Módulos**
+- **Krud Admin**
+  - GUI para administración de Krud Security
+  - Generador Low Code de "Catálogos (CRUD)"
+  - Gestor de base de Datos para MySQL
+  - Lector de Logs
+- **Krud Aux**
+  - Entorno de desarrollo basado en [**Docker**](https://www.docker.com/) integrando
+  - Integración con [**Vue**](https://vuejs.org/) - opcional
+  - Integración con [**MongoDB**](https://www.mongodb.com/) - opcional
+  - Integración con [**Trino**](https://trino.io/) - opcional
 
-Agregar en tu **composer.json** lo siguiente: 
 
-```json
-"requiere": {
-  "icebearsoft/kitukizuri": "dev-master"
-}
-```
+## Instalación
 
-Ejecutar el siguiente comando para instalar y actualizar
-
-```bash
-composer update
-```
-
-Configurar nuestro service provider dentro de **config/app.php** :
-
-```php
-'providers' => [
-  Icebearsoft\Kitukizuri\KitukizuriServiceProvider::class
-]
-```
-
-Publicaremos los archivos que el usuario puede modificar del paquete, ejecutar el siguiente comando:
+Instalar paquete en Laravel
 
 ```bash
-php artisan vendor:publish
+composer require icebearsoft/kitukizuri
 ```
 
-## Configuracion
+Utilizar entorno de desarrollo con Docker
+```bash
+php artisan krud:set-docker
+
+docker-compose build
+
+docker-compose up -d
+```
+
+Instalar Krud
+
+```bash
+# utilizando recursos locales
+php artisan krud:install
+
+# utilizando entorno en docker
+docker exec -it idContainer bash
+
+php artisan krud:install
+```
+
+
+## Configuración opcional
 
 ### Seeders
 
- Agregar en **database/seeds/DatabaseSeeder.php**
+Agregar en **database/seeds/DatabaseSeeder.php**
 
 ```php
 public function run()
 {
   $this->call(ModulosSeeder::class);
   $this->call(PermisosSeeder::class);
-  $this->call(ModuloPermisosSeeder::class);
+  $this->call(MenuSeeder::class);
 }
 ```
-
-middleware kitukizuri es el encargado de verificar los permisos que tiene el usuario para la ruta en cuestion.
-
-### Ejecutar Migrations & Seeders
-
-una vez configurados los seeders es necesario ejecutar las migrations y los seeders para eso ejecutar el siguiente comando:
-
-```bash
-php artisan migrate
-php artisan db:seed
-php artisan db:seed --class=InicialSeeder
-```
-
-Este comando **php artisan db:seed --class=InicialSeeder** sirve para configurar el usuario inicial, con el rol GOD (rol adminstrador). Datos del usuario: 
+## Usuario default
 
 > Usuario: admin@mail.com
-> Password: temp,123
+> Password: "temp,123"
 
 
-Visita la Wiki para sabes como utilizar este paquete. 
+Visitar la wiki para conocer más acerca del proyecto.
