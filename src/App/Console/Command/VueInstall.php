@@ -11,16 +11,13 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 use Icebearsoft\Kitukizuri\App\Traits\{
-    LdapTrait,
     UtilityTrait,
-    VueTrait,
-    MongoTrait,
-    TrinoTrait
+    VueTrait
 };
 
 class VueInstall extends Command
 {
-    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait;
+    use UtilityTrait, VueTrait;
 
     /**
      * The name and signature of the console command.
