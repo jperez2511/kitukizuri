@@ -60,21 +60,33 @@ class KrudInstall extends Command
         $this->artisanCommand('jetstream:install', 'livewire');
         $this->info('instalación de Jetstream terminada exitosamente !');
 
-        // instalación de Vue en proyecto
-        $this->configVue();
+        $vueConfig = $this->confirm('¿Configurar Vue?');
 
-        // Configuración de MongoDB
-        $this->configMongoDB();
+        if($vueConfig == true) {
+            // instalación de Vue en proyecto
+            $this->configVue();
+        }
 
-        // Configuración de Trino
-        $this->configTrino();
+        $mongoConfig = $this->confirm('¿Configurar MongoDB?');
+
+        if($mongoConfig == true) {
+            // Configuración de MongoDB
+            $this->configMongoDB();
+        }
+
+        $trinoConfig = $this->confirm('¿Configurar Trino?');
+
+        if($trinoConfig == true) {
+            // Configuración de Trino
+            $this->configTrino();
+        }
 
         // instalación de dependencias Krud
         $this->runCommands(['npm install'], __DIR__.'/../../../');
         $this->runCommands(['npm install --save-dev gulp'], __DIR__.'/../../../');
         $this->runCommands(['npx gulp build'], __DIR__.'/../../../');
         $this->deleteDirectory(__DIR__.'/../../../node_modules');
-        $this->info('instalación de dependencias kitukizuri termianda exitosamente !');
+        $this->info('instalación de dependencias Kitu Kizuri terminada exitosamente');
 
         // publicación de krud
         $this->artisanCommand('vendor:publish','--tag=krud-migrations');
