@@ -22,8 +22,8 @@ trait TsTrait
         $fileContent = file_get_contents($filePath);
 
         // agregando nuevo import para TS
-        $newConfig      = "import vueJsx from '@vitejs/plugin-vue-jsx';\n";
-        $pattern        = '/(import[^;]+;\s*)$/m';
+        $newConfig      = "\nimport vueJsx from '@vitejs/plugin-vue-jsx';\n";
+        $pattern        = '/(import[^;]+;\s*)(?!.*import[^;]+;\s*)/s';
         $replacement    = '$1' . $newConfig;
         $newFileContent = preg_replace($pattern, $replacement, $fileContent, 1);
 
