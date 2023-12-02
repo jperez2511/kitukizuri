@@ -53,28 +53,25 @@ class KrudInstall extends Command
      */
     public function handle()
     {
-        $ldapLogin = $this->confirm('¿Login con LDAP?');
+        $ldapLogin   = $this->confirm('¿Login con LDAP?');
+        $vueConfig   = $this->confirm('¿Configurar Vue?');
+        $mongoConfig = $this->confirm('¿Configurar MongoDB?');
+        $trinoConfig = $this->confirm('¿Configurar Trino?');
 
         // instalación de jetstream
         $this->composerInstall('laravel/jetstream');
         $this->artisanCommand('jetstream:install', 'livewire');
         $this->info('instalación de Jetstream terminada exitosamente !');
 
-        $vueConfig = $this->confirm('¿Configurar Vue?');
-
         if($vueConfig == true) {
             // instalación de Vue en proyecto
             $this->configVue();
         }
 
-        $mongoConfig = $this->confirm('¿Configurar MongoDB?');
-
         if($mongoConfig == true) {
             // Configuración de MongoDB
             $this->configMongoDB();
         }
-
-        $trinoConfig = $this->confirm('¿Configurar Trino?');
 
         if($trinoConfig == true) {
             // Configuración de Trino
