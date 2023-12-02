@@ -13,6 +13,7 @@ use Icebearsoft\Kitukizuri\App\Console\Command\{
     MakeModule,
     KrudInstall,
     VueInstall,
+    TsInstall,
     DefaultData,
     SetDocker
 };
@@ -72,6 +73,7 @@ class KitukizuriServiceProvider extends ServiceProvider
                 MakeModule::class,
                 KrudInstall::class,
                 VueInstall::class,
+                TsInstall::class,
                 DefaultData::class,
                 SetDocker::class,
             ]);
