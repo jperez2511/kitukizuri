@@ -6,7 +6,7 @@ trait TsTrait
 {
     protected function configTs()
     {
-        $this->runCommands(['npm install typescript vue-tsc @vitejs/plugin-vue-jsx @vue/compiler-sfc --save-dev'], base_path());
+        $this->runCommands(['npm install typescript vue-tsc @vue/tsconfig @vue/compiler-sfc --save-dev'], base_path());
         $this->addTsConfig();
         $this->addViteConfig();
     }
@@ -14,21 +14,23 @@ trait TsTrait
     protected function addTsConfig()
     {
         copy(__DIR__ . '/../../stubs/tsconfig.json', base_path('tsconfig.json'));
+        copy(__DIR__ . '/../../stubs/tsconfig.vite-config.json', base_path('tsconfig.vite-config.json'));
     }
 
     protected function addViteConfig()
     {
-        $filePath    = base_path('vite.config.js');
+        $this->replaceInFile('vite build', 'vue-tsc --noEmit && vite build', base_path('package.json'));
+
+        $filePath = base_path('vite.config.js');
         $fileContent = file_get_contents($filePath);
 
-        // agregando nuevo import para TS
-        $newConfig      = "\nimport vueJsx from '@vitejs/plugin-vue-jsx';\n";
-        $pattern        = '/(import[^;]+;\s*)(?!.*import[^;]+;\s*)/s';
-        $replacement    = '$1' . $newConfig;
-        $newFileContent = preg_replace($pattern, $replacement, $fileContent, 1);
+        $newInput       = "                \n'resources/js/app.js',";
+        $pattern        = '/(input: \[[^\]]+)(\s*\])/';
+        $replacement    = '$1' . $newPath . '$2';
+        $newFileContent = preg_replace($pattern, $replacement, $fileContent);
 
         file_put_contents($filePath, $newFileContent);
 
-        $this->info('La configuración de Vue en Vite fue agregada exitosamente');
+        $this->info('La configuración de TypeScript en Vite fue agregada exitosamente');
     }
  }

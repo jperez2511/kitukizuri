@@ -1,17 +1,17 @@
 {
-    "extends": "@vue/tsconfig/tsconfig.web.json",
-    "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-    "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "@/*": ["./src/*"]
-      },
-      "allowJs": true
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["env.d.ts", "resources/ts/**/*", "resources/ts/**/*.vue"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./resources/ts/*"]
     },
+    "allowJs": true
+  },
 
-    "references": [
-      {
-        "path": "./tsconfig.vite-config.json"
-      }
-    ]
-  }
+  "references": [
+    {
+      "path": "./tsconfig.vite-config.json"
+    }
+  ]
+}
