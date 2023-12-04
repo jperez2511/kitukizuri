@@ -402,7 +402,7 @@ class Krud extends Controller
         $data = $this->model->select($this->getSelect($campos));
 
         // Obteniendo el id de la tabla
-        $data->addSelect($this->model->getTable().'.'.$this->model->getKeyName().' as '.$this->id);
+        $data->addSelect($this->tableName.'.'.$this->keyName.' as '.$this->id);
 
         //agregando joins a la consulta
         // foreach ($this->joins as $join) {

@@ -4,7 +4,10 @@ namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
 trait QueryBuilderTrait
 {
-    protected $model           = null;
+    protected $model     = null;
+    protected $tableName = null;
+    protected $keyName   = null;
+
     protected $allowedOperator = [
         '=', '<', '>', '<=', '>=', '<>', '!=', '<=>',
         'like', 'like binary', 'not like', 'ilike',
@@ -24,7 +27,9 @@ trait QueryBuilderTrait
      */
     protected function setModel($model)
     {
-        $this->model = $model;
+        $this->model     = $model;
+        $this->tableName = $model->getTable();
+        $this->keyName   = $model->getKeyName();
     }
 
     /**
