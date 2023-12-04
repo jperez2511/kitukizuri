@@ -77,4 +77,31 @@ trait QueryBuilderTrait
 
         $this->model = $this->model->leftJoin($tabla, $v1, $operador, $v2);
     }
+
+    /**
+     * setWhere
+     * Define las condiciones al momento de obtener la data y mostrarla en la vista index.
+     *
+     * @param  mixed $column
+     * @param  mixed $op
+     * @param  mixed $column2
+     *
+     * @return void
+     */
+    protected function setWhere($column, $op = null, $column2 = null)
+    {
+
+        if(is_callable($column)){
+            $this->model = $this->model->where($column);
+        } else {
+            if (func_num_args() === 2) {
+                $column2 = $op;
+                $op = '=';
+            }
+
+            $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
+
+            $this->model = $this->model->where($column, $op, $column2);
+        }
+    }
 }

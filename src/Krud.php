@@ -47,7 +47,6 @@ class Krud extends Controller
     private $rt             = [];
     private $editEmbed      = [];
     private $indexEmbed     = [];
-    private $wheres         = [];
     private $campos         = [];
     private $removePermisos = [];
     private $parents        = [];
@@ -92,31 +91,17 @@ class Krud extends Controller
         return $kitukizuri->getPermisos($id);
     }
 
+    /**
+     * removePermisos
+     * Según la lista de permisos ingresados, así los remueve de la vista
+     * pero las rutas siguen existiendo
+     *
+     * @param  mixed $permisos
+     * @return void
+     */
     protected function removePermisos($permisos)
     {
         $this->removePermisos = $permisos;
-    }
-
-    /**
-     * setWhere
-     * Define las condiciones al momento de obtener la data y mostrarla en la vista index.
-     *
-     * @param  mixed $column
-     * @param  mixed $op
-     * @param  mixed $column2
-     *
-     * @return void
-     */
-    public function setWhere($column, $op = null, $column2 = null)
-    {
-        if (func_num_args() === 2) {
-            $column2 = $op;
-            $op = '=';
-        }
-
-        $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
-
-        $this->wheres[] =  [$column, $op, $column2];
     }
 
     /**
@@ -352,20 +337,10 @@ class Krud extends Controller
         // Obteniendo el id de la tabla
         $data->addSelect($this->tableName.'.'.$this->keyName.' as '.$this->id);
 
-        //agregando joins a la consulta
-        // foreach ($this->joins as $join) {
-        //     $data->join($join['tabla'], $join['value1'], $join['operador'], $join['value2']);
-        // }
-
-        //agregando leftJoins a la consulta
-        // foreach ($this->leftJoins as $leftJoin) {
-        //     $data->leftJoin($leftJoin['tabla'], $leftJoin['value1'], $leftJoin['operador'], $leftJoin['value2']);
-        // }
-
         // Agregando wehres a la consulta
-        foreach ($this->wheres as $where) {
-            $data->where($where[0], $where[1], $where[2]);
-        }
+        // foreach ($this->wheres as $where) {
+        //     $data->where($where[0], $where[1], $where[2]);
+        // }
 
         // Agregando orWhere a la onsulta general
         foreach ($this->orWheres as $orWhere) {
