@@ -70,6 +70,6 @@ trait QueryBuilderTrait
 
         $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
 
-        $this->model = $this->model->lefJoin($tabla, $v1, $operador, $v2);
+        $this->model = $this->model->leftJoin($tabla, $v1, $operador, $v2);
     }
 }
