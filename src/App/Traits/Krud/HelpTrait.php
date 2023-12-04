@@ -4,6 +4,7 @@ namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
 trait HelpTrait
 {
+    protected $errors    = [];
     protected $typeError = [
         'setModelo',            // 0
         'setCampo',             // 1

@@ -4,10 +4,16 @@ namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
 trait UiTrait
 {
-    protected $layout   = null;
-    protected $storeMsg = null;
-    protected $titulo   = null;
-    protected $template = [
+    protected $layout       = null;
+    protected $storeMsg     = null;
+    protected $titulo       = null;
+    protected $view         = null;
+    protected $viewOptions  = [];
+    protected $botones      = [];
+    protected $botonesDT    = [];
+    protected $defaultBtnDT = [];
+    protected $validations  = [];
+    protected $template     = [
         'datatable',
     ];
 
@@ -81,5 +87,242 @@ trait UiTrait
     protected function setTitulo($titulo)
     {
         $this->titulo = $titulo;
+    }
+
+    /**
+     * setView
+     * Define el tipo de vista que se quiere utilizar
+     *
+     * @param  mixed $view
+     * @param  mixed $options
+     *
+     * @return void
+     */
+    protected function setView($view, $options = [])
+    {
+        $allowed = ['table', 'calendar'];
+
+        if(!in_array($view, $allowed)){
+            $this->errors = ['tipo' => $this->typeError[5], 'bad' => $view, 'permitidos' => $allowed];
+        }
+
+        if ($view == 'calendar' && !empty($options)) {
+            $allowedOptions = ['public'];
+            $this->allowed($options, $allowedOptions, $this->typeError[3]);
+            $this->viewOptions = $options;
+        }
+
+        $this->view = $view;
+    }
+
+    /**
+     * setCalendarDefaultView
+     * Define la vista default que mostrara el calendario
+     *
+     * @param  mixed $view
+     *
+     * @return void
+     */
+    protected function setCalendarDefaultView($view)
+    {
+        $allowed = ['day','week', 'month'];
+
+        if(!in_array($view, $allowed)){
+            $this->errors = ['tipo' => $this->typeError[6], 'bad' => $view, 'permitidos' => $allowed];
+        }
+
+        $this->defaultCalendarView = $view;
+    }
+
+    /**
+     * setCampo
+     * Define las propiedades de un campo a utilizar en el controller,
+     * Vista y posteriormente almacenado desde el modelo.
+     *
+     * @param  mixed $params
+     *
+     * @return void
+     */
+    protected function setCampo($params)
+    {
+        if(!is_array($params)) {
+            return $this->errors = ['tipo' => $this->typeError[1]];
+        }
+
+        $allowed = [
+            'campo',        // Campo de la base de datos
+            'campoReal',    // Campo real de la base de datos donde se almacenará la DATA
+            'column',       // Para el tipo combobox permite seleccionar las columnas a utilizar
+            'columnClass',  // clase para columnas en html (bootstrap)
+            'collect',      // Colección de datos para el campo combobox
+            'edit',         // Valor boolean, muestra o no el input en el edit
+            'enumArray',    // array de datos para el tipo de dato enum
+            'filepath',     // dirección donde se almacenaran los archivos
+            'format',       // establece el formato para diferentes tipos de campos
+            'htmlType',     // establece el tipo de dato a utilizar en un input siempre que aplique
+            'htmlAttr',     // Agrega atributos HTML a los campos definidos para editar
+            'inputClass',   // añade clases CSS a campo a agregar.
+            'nombre',       // es el label del campo que queremos que se muestre en la pantalla
+            'show',         // visibilidad del campo en la tabla de la vista index
+            'tipo',         // Define el tipo de campo a utilizar
+            'target',       // Para los campos URL establece el target
+            'unique',       // valida que el valor ingresado se único
+            'value',        // Valor definido o predeterminado.
+            'validation',   // Valida los campos según la nomenclatura de laravel,
+            'destination',  // Aplica cuando es un select o un select 2
+        ];
+        $tipos = [
+            'bool',         // Muestra un checkbox en el edit y un si o no en el index
+            'combobox',     // Muestra un select simple
+            'select2',
+            'date',         // Input con formato tipo fecha
+            'datetime',     // Input en formato fecha y hora
+            'enum',         // Select con valores determinados
+            'file',         // Guarda un archivo en una ubicación definida
+            'file64',       // Guarda un archivo codificado en base64
+            'hidden',       // Muestra un campo hidden en el formulario edit.
+            'icono',        // Muestra un campo para seleccionar un icono
+            'image',        // Guarda una imagen en formato Base64
+            'numeric',      // Muestra un campo de tipo number en HTML y le da formato en el index
+            'password',     // Muestra dos campos contraseña y confirmar contraseña
+            'string',       // Tipo por defecto muestra un input tipo text
+            'text',         // La misma definición de string
+            'textarea',     // Muestra un campo textArea en el formulario edit
+            'url',          // Establece  una url con parámetros personalizados.
+        ];
+        $component = [      // Nombre del componente a utilizar
+            'combobox' => 'select',
+            'enum'     => 'select',
+            'select2'  => 'select2',
+            'password' => 'password',
+            'textarea' => 'textarea',
+        ];
+        $htmlType = [       // relación entre tipos de datos HTML y locales
+            'string'   => 'text',
+            'bool'     => 'checkbox',
+            'date'     => 'date',
+            'numeric'  => 'number',
+            'image'    => 'file',
+            'file'     => 'file',
+            'file64'   => 'file',
+            'hidden'   => 'hidden',
+            'password' => 'password'
+        ];
+
+        // validando datos permitidos
+        $this->allowed($params, $allowed, $this->typeError[2]);
+        if (!array_key_exists('campo', $params)) {
+            return $this->errors = ['tipo' => $this->typeError[1]];
+        }
+
+         // capturando el nombre real del campo
+         if($params['campo'] instanceof Expression) {
+            if(!array_key_exists('campoReal', $params)) {
+                return $this->errors = ['tipo' => $this->typeError[17]];
+            }
+        } else if (!strpos($params['campo'], ')')) {
+            $arr = explode('.', $params['campo']);
+            if (count($arr)>=2) {
+                $params['campoReal'] = end($arr);
+            }
+        }
+
+        $params['nombre']      = $params['nombre'] ?? str_replace('_', ' ', ucfirst($params['campo']));
+        $params['edit']        = $params['edit'] ?? true;
+        $params['show']        = $params['show'] ?? true;
+        $params['tipo']        = $params['tipo'] ?? 'string';
+        $params['decimales']   = $params['decimales'] ?? 0;
+        $params['format']      = $params['format'] ?? '';
+        $params['unique']      = $params['unique'] ?? false;
+        $params['input']       = $component[$params['tipo']] ?? 'input';
+        $params['inputName']   = $params['campoReal'] ?? $params['campo'];
+        $params['component']   = "krud-".$params['input'];
+        $params['columnClass'] = $params['columnClass'] ?? 'col-md-6';
+        $params['inputClass']  = $params['inputClass'] ?? null ;
+        $params['editClass']   = $params['edit'] == false ? 'hide' : '';
+        $params['collect']     = $params['collect'] ?? null;
+        $params['value']       = $params['value'] ?? null;
+        $params['validation']  = $params['validation'] ?? null;
+
+        if(empty($params['htmlType'])){
+            $params['htmlType'] = $htmlType[$params['tipo']] ?? 'text';
+        }
+
+        if(!empty($params['htmlAttr'])){
+            if(is_array($params['htmlAttr'])){
+                $params['htmlAttr'] = collect($params['htmlAttr']);
+            } else if(is_string($params['htmlAttr'])) {
+                $params['htmlAttr'] = collect([$params['htmlAttr'] => true]);
+            }
+
+            if($params['htmlAttr']->has('multiple')){
+                $params['inputName'] = $params['inputName'].'[]';
+            }
+        } else {
+            $params['htmlAttr'] = null;
+        }
+
+        // validando tipo y longitud de columns
+        if ($params['tipo'] == 'combobox' && !empty($params['column'])) {
+            $tipo = \is_array($params['column']);
+            $longitud = count($params['column']) == 2;
+
+            if(!$tipo || !$longitud) {
+                return $this->errors = ['tipo' => $this->typeError[1]];
+            }
+        }
+
+        if (!in_array($params['tipo'], $tipos)) {
+            $this->errors = ['tipo' => $this->typeError[2], 'bad' => $params['tipo'], 'permitidos' => $tipos];
+        } else {
+            $tipo = $params['tipo'];
+            if ($tipo == 'datetime' || $tipo == 'date') {
+                $this->setTemplate(['datetimepicker']);
+            } else if ($tipo == 'icono') {
+                $this->setTemplate(['iconpicker']);
+            } else if($tipo == 'combobox') {
+                if (empty($params['collect'])) {
+                    $this->errors = ['tipo' => $this->typeError[7]];
+                } else {
+                    $columns = !empty($params['column']) ? $params['column'] : ['id', 'value'];
+
+                    if($params['collect']->isNotEmpty()){
+                        $hasID    = !empty($params['collect']->first()[$columns[0]]);
+                        $hasValue = !empty($params['collect']->first()[$columns[1]]);
+                        if($hasID && $hasValue){
+                            $params['options'] = $params['collect']->map(function($item){
+                                return array_values($item->toArray());
+                            })->toArray();
+                            $params['show'] = false;
+                        } else {
+                            $this->errors = ['tipo' => $this->typeError[8], 'permitidos' => $columns];
+                        }
+                    }
+                }
+            } else if ($tipo == 'file' && empty($params['filepath'])) {
+                $this->errors = ['tipo' => $this->typeError[9]];
+            } else if ($tipo == 'enum' && count($params['enumarray']) == 0) {
+                $this->errors = ['tipo' => $this->typeError[10]];
+            } else if ($tipo == 'hidden' && empty($params['value'])) {
+                $this->errors = ['tipo' => $this->typeError[11]];
+            }
+        }
+        if(!empty($params['validation'])) {
+            $this->setValidationItem($params['inputName'], $params['validation']);
+        }
+        $this->campos[] = $params;
+    }
+
+    /**
+     * setValidationItem
+     * Define las reglas que debe cumplir el input que se está validando
+     *
+     * @param  string $name
+     * @param  string|array $rule
+     * @return void
+     */
+    private function setValidationItem($name, $rule)
+    {
+        $this->validations[$name] = $rule;
     }
 }
