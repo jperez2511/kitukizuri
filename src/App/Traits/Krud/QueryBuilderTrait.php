@@ -61,7 +61,7 @@ trait QueryBuilderTrait
      *
      * @return void
      */
-    public function setLeftJoin($tabla, $v1, $operador = null, $v2 = null)
+    protected function setLeftJoin($tabla, $v1, $operador = null, $v2 = null)
     {
         if (func_num_args() === 3) {
             $v2 = $operador;
