@@ -13,6 +13,7 @@ trait TsTrait
 
     protected function addTsConfig()
     {
+        copy(__DIR__ . '/../../stubs/resources/ts/app.ts', base_path('resources/ts/app.ts'));
         copy(__DIR__ . '/../../stubs/tsconfig.json', base_path('tsconfig.json'));
         copy(__DIR__ . '/../../stubs/tsconfig.vite-config.json', base_path('tsconfig.vite-config.json'));
     }
@@ -24,7 +25,7 @@ trait TsTrait
         $filePath = base_path('vite.config.js');
         $fileContent = file_get_contents($filePath);
 
-        $newInput       = "                'resources/js/app.ts',\n";
+        $newInput       = "    'resources/js/app.ts',\n";
         $pattern        = '/(input: \[[^\]]+)(\s*\])/';
         $replacement    = '$1' . $newInput . '$2';
         $newFileContent = preg_replace($pattern, $replacement, $fileContent);
