@@ -323,8 +323,57 @@ trait UiTrait
      * @param  string|array $rule
      * @return void
      */
-    private function setValidationItem($name, $rule)
+    protected function setValidationItem($name, $rule)
     {
         $this->validations[$name] = $rule;
+    }
+
+    /**
+     * transformData
+     * Transforma la data según el estilo visual de bootstrap.
+     *
+     * @param  mixed $data
+     *
+     * @return void
+     */
+    protected function transformData($data, $prefix = null)
+    {
+        $i = 0;
+        $prefixDefault = $this->getDefaultPrefix();
+
+        foreach ($data as $a) {
+            foreach ($a as $k => $v) {
+                foreach ($this->campos as $cn => $cv) {
+                    if($cv['campo'] instanceof Expression) {
+                        $cv['campo'] = $cv['campoReal'];
+                    } else if (strrpos($cv['campo'], '.') != false) {
+                        $array = explode('.', $cv['campo']);
+                        $cv['campo'] = $array[count($array) - 1];
+                    }
+
+                    if ($k == $cv['campo']) {
+                        // agregando estilo visual a los campos booleanos
+                        if ($cv['tipo'] == 'bool') {
+                            $v = '<span class="'.($prefix != null && $prefix == $prefixDefault ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? __('Si') : 'No').'</span>';
+                            $data[$i][$k] = $v;
+                        } else if ($cv['tipo'] == 'url') {
+                            if($cv['format'] != '') {
+                                $v = str_replace('{value}', $v, $cv['format']);
+                            }
+                            $v = '<a href="'.$v.'">'.$v.'</a>';
+                            $data[$i][$k] = $v;
+                        } else if($cv['tipo'] == 'date' || $cv['tipo'] == 'datetime') {
+                            if(!empty($v)){
+                                $time = strtotime($v);
+                                $v = $cv['format'] != '' ? date($cv['format'], $time) : date('d/m/Y', $time);
+                                $data[$i][$k] = $v;
+                            }
+                        }
+                    }
+                }
+            }
+            $i++;
+        }
+        return $data;
     }
 }
