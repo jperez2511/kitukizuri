@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Crypt;
 
 // librerías para base de datos
 use Illuminate\Database\QueryException;
-use Illuminate\Database\Query\Expression;
 
 // Controllers
 use App\Http\Controllers\Controller;
