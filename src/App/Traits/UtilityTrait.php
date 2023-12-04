@@ -2,6 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits;
 
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
@@ -82,5 +83,10 @@ trait UtilityTrait
         }
 
         return rmdir($dir);
+    }
+
+    protected function copyDirectory($from, $to)
+    {
+        (new Filesystem)->copyDirectory($from, $to);
     }
 }

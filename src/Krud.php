@@ -19,25 +19,30 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Query\Expression;
 
-// Controllers 
+// Controllers
 use App\Http\Controllers\Controller;
 
 // Models
 use App\Models\Municipio;
 
+use Icebearsoft\Kitukizuri\App\Traits\Krud\{
+    QueryBuilderTrait,
+    UiTrait,
+    HelpTrait
+};
+
 class Krud extends Controller
 {
-    // Variable remplazo id  
+
+    use QueryBuilderTrait, UiTrait, HelpTrait;
+
+    // Variable remplazo id
     private $id       = '__id__';
 
     // Variables de valor único
     private $view     = null;
-    private $model    = null;
-    private $titulo   = null;
     private $editId   = null;
-    private $layout   = null;
     private $parentid = null;
-    private $storeMsg = null;
     private $viewHelp = null;
 
     // Variables en array
@@ -64,99 +69,9 @@ class Krud extends Controller
     private $externalData   = [];
     private $viewOptions    = [];
     private $validations    = [];
-    private $template  = [
-        'datatable',
-    ];
-    private $allowedOperator = [
-        '=', '<', '>', '<=', '>=', '<>', '!=', '<=>',
-        'like', 'like binary', 'not like', 'ilike',
-        '&', '|', '^', '<<', '>>', '&~',
-        'rlike', 'not rlike', 'regexp', 'not regexp',
-        '~', '~*', '!~', '!~*', 'similar to',
-        'not similar to', 'not ilike', '~~*', '!~~*',
-    ];
-    private $typeError = [
-        'setModelo',            // 0
-        'setCampo',             // 1
-        'badType',              // 2
-        'badOptionsView',       // 3
-        'badTypeButton',        // 4
-        'badView',              // 5
-        'badCalendarView',      // 6
-        'typeCombo',            // 7
-        'typeCollect',          // 8
-        'filepath',             // 9
-        'enum',                 // 10
-        'value',                // 11
-        'badJoinOperator',      // 12
-        'badLeftJoinOperator',  // 13
-        'badWhereOperator',     // 14
-        'badOrWhereOperator',   // 15
-        'badColumnDefinition',  // 16
-        'needRealField'         // 17  
-    ];
 
     // viables únicas para vista calendario
     private $defaultCalendarView = null;
-
-    /**
-     * setLayout
-     * Define el layout a utilizar en el controller
-     * 
-     * @param  mixed $layout
-     *
-     * @return void
-     */
-    protected function setLayout($layout)
-    {
-        $this->layout = $layout;
-    }
-
-    /**
-     * getLayout
-     * Define el layout predeterminado
-     * 
-     * @return void
-     */
-    private function getLayout()
-    {
-        return $this->layout ?? config('kitukizuri.layout');
-    }
-
-    /**
-     * getStoreMSG
-     *
-     * @return void
-     */
-    private function getStoreMSG()
-    {
-        return $this->storeMsg ?? config('kitukizuri.storemsg');
-    }
-    
-    /**
-     * setStoreMSG
-     *
-     * @return void
-     */
-    protected function setStoreMSG($msg)
-    {
-        $this->storeMsg = $msg;
-    }
-
-    /**
-     * setTemplate
-     * Define las librerías a utilizar por ejemplo DataTable, FontAwesome ,etc.
-     *
-     * @param  mixed $templates
-     *
-     * @return void
-     */
-    private function setTemplate($templates)
-    {
-        foreach ($templates as $t) {
-            $this->template[] = $t;
-        }
-    }
 
     /**
      * setParents
@@ -187,35 +102,9 @@ class Krud extends Controller
         return $kitukizuri->getPermisos($id);
     }
 
-    protected function removePermisos($permisos) 
+    protected function removePermisos($permisos)
     {
         $this->removePermisos = $permisos;
-    }
-
-    /**
-     * setModel
-     * Define el modelo donde se obtendrán y almacenaran los datos
-     *
-     * @param  mixed $model
-     *
-     * @return void
-     */
-    protected function setModel($model)
-    {
-        $this->model = $model;
-    }
-
-    /**
-     * setTitulo
-     * Define el titulo que se mostrara en pantalla index
-     *
-     * @param  mixed $titulo
-     *
-     * @return void
-     */
-    protected function setTitulo($titulo)
-    {
-        $this->titulo = $titulo;
     }
 
     /**
@@ -525,7 +414,7 @@ class Krud extends Controller
 
         $this->wheres[] =  [$column, $op, $column2];
     }
-    
+
     /**
      * setWhereIn
      *
@@ -537,7 +426,7 @@ class Krud extends Controller
     {
         $this->whereIn[] = [$column, $data];
     }
-    
+
     /**
      * setWhereAndFn
      *
@@ -793,11 +682,11 @@ class Krud extends Controller
         }
         return $data;
     }
-    
+
     /**
      * getData
      * Obtiene la data que se mostrara en la tabla consolidando joins, where y, orderby
-     * 
+     *
      * @return void
      */
     private function getData($limit = null, $offset = null)
@@ -805,7 +694,7 @@ class Krud extends Controller
         // lista de campos a mostrar en la tabla
         $campos = $this->getSelectShow();
 
-        //consultando al modelo los campos a mostrar en la tabla 
+        //consultando al modelo los campos a mostrar en la tabla
         $data = $this->model->select($this->getSelect($campos));
 
         // Obteniendo el id de la tabla
@@ -825,12 +714,12 @@ class Krud extends Controller
         foreach ($this->wheres as $where) {
             $data->where($where[0], $where[1], $where[2]);
         }
-        
+
         // Agregando orWhere a la onsulta general
         foreach ($this->orWheres as $orWhere) {
             $data->orWhere($orWhere[0], $orWhere[1], $orWhere[2]);
         }
-        
+
         // Agrupando Or en And como funcion
         if (!empty($this->whereAndFn)) {
             $data->where(function($q){
@@ -882,7 +771,7 @@ class Krud extends Controller
 
         // validando si hay un offset a utilizar
         $data->skip($offset);
-        
+
         $data = $data->get();
 
         if(!empty($this->externalData)) {
@@ -891,7 +780,7 @@ class Krud extends Controller
                     $relation = $extData['relation'];
                     $tmp      = $extData['data']->firstWhere($relation, $value->{$relation});
                     $value->{$extData['colName']} = $tmp[$extData['colName']] ?? '';
-                }   
+                }
             }
         }
 
