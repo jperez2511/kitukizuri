@@ -24,7 +24,7 @@ trait TsTrait
         $filePath = base_path('vite.config.js');
         $fileContent = file_get_contents($filePath);
 
-        $newInput       = "                \n'resources/js/app.ts',";
+        $newInput       = "                'resources/js/app.ts',\n";
         $pattern        = '/(input: \[[^\]]+)(\s*\])/';
         $replacement    = '$1' . $newInput . '$2';
         $newFileContent = preg_replace($pattern, $replacement, $fileContent);
