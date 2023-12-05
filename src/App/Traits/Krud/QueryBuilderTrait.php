@@ -71,7 +71,7 @@ trait QueryBuilderTrait
 
         $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
 
-        $this->model = $this->model->join($tabla, $v1, $operador, $v2);
+        $this->model->join($tabla, $v1, $operador, $v2);
     }
 
     /**
@@ -93,7 +93,7 @@ trait QueryBuilderTrait
 
         $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
 
-        $this->model = $this->model->leftJoin($tabla, $v1, $operador, $v2);
+        $this->model->leftJoin($tabla, $v1, $operador, $v2);
     }
 
     /**
@@ -110,7 +110,7 @@ trait QueryBuilderTrait
     {
 
         if(is_callable($column)){
-            $this->model = $this->model->where($column);
+            $this->model->where($column);
         } else {
             if (func_num_args() === 2) {
                 $column2 = $op;
@@ -119,7 +119,7 @@ trait QueryBuilderTrait
 
             $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
 
-            $this->model = $this->model->where($column, $op, $column2);
+            $this->model->where($column, $op, $column2);
         }
     }
 }
