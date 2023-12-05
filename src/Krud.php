@@ -1014,14 +1014,12 @@ class Krud extends Controller
         foreach($this->parents as $parent) {
             if($parent['editable'] === true) {
 
-                function isValueEncrypted($value) {
-                    try {
-                        // Intentar desencriptar y ver si no hay errores
-                        $value = Crypt::decrypt($request->{$parent['nombre']});
-                    } catch (DecryptException $e) {
-                        // Si hay un error, probablemente el valor no está encriptado
-                        $value = $request->{$parent['nombre']};
-                    }
+                try {
+                    // Intentar desencriptar y ver si no hay errores
+                    $value = Crypt::decrypt($request->{$parent['nombre']});
+                } catch (DecryptException $e) {
+                    // Si hay un error, probablemente el valor no está encriptado
+                    $value = $request->{$parent['nombre']};
                 }
 
                 $this->model->{$parent['nombre']} = $value;
