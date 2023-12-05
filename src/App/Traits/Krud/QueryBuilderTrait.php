@@ -33,6 +33,21 @@ trait QueryBuilderTrait
     }
 
     /**
+     * getSql
+     * Genera la consulta en SQL
+     *
+     * @return void
+     */
+    protected function getSql()
+    {
+        $sql = $this->model->toSql();
+        $bindings = $query->getBindings();
+        $realSql = str_replace_array('?', $bindings, $sql);
+
+        dd($realSql);
+    }
+
+    /**
      * setJoin
      * Define las relaciones a utilizar entre las tablas y que estarán disponibles para mostrar
      * en la tabla de la vista index.
