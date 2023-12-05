@@ -334,7 +334,7 @@ class Krud extends Controller
         $campos = $this->getSelectShow();
 
         //consultando al modelo los campos a mostrar en la tabla
-        $data = $this->model->select($this->getSelect($campos));
+        $data = $this->queryBuilder->select($this->getSelect($campos));
 
         // Obteniendo el id de la tabla
         $data->addSelect($this->tableName.'.'.$this->keyName.' as '.$this->id);

@@ -4,10 +4,11 @@ namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
 trait QueryBuilderTrait
 {
-    protected $model     = null;
-    protected $tableName = null;
-    protected $keyName   = null;
-
+    protected $model        = null;
+    protected $queryBuilder = null;
+    protected $tableName    = null;
+    protected $keyName      = null;
+ 
     protected $allowedOperator = [
         '=', '<', '>', '<=', '>=', '<>', '!=', '<=>',
         'like', 'like binary', 'not like', 'ilike',
@@ -27,9 +28,10 @@ trait QueryBuilderTrait
      */
     protected function setModel($model)
     {
-        $this->model     = $model;
-        $this->tableName = $model->getTable();
-        $this->keyName   = $model->getKeyName();
+        $this->model        = $model;
+        $this->queryBuilder = $model;
+        $this->tableName    = $model->getTable();
+        $this->keyName      = $model->getKeyName();
     }
 
     /**
@@ -40,8 +42,8 @@ trait QueryBuilderTrait
      */
     protected function getSql()
     {
-        $sql = $this->model->toSql();
-        $bindings = $this->model->getBindings();
+        $sql = $this->queryBuilder->toSql();
+        $bindings = $this->queryBuilder->getBindings();
         foreach ($bindings as $binding) {
             $value = is_numeric($binding) ? $binding : "'".addslashes($binding)."'";
             $sql = preg_replace('/\?/', $value, $sql, 1);
@@ -71,7 +73,7 @@ trait QueryBuilderTrait
 
         $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
 
-        $this->model->join($tabla, $v1, $operador, $v2);
+        $this->queryBuilder = $this->queryBuilder->join($tabla, $v1, $operador, $v2);
     }
 
     /**
@@ -93,7 +95,7 @@ trait QueryBuilderTrait
 
         $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
 
-        $this->model->leftJoin($tabla, $v1, $operador, $v2);
+        $this->queryBuilder = $this->queryBuilder->leftJoin($tabla, $v1, $operador, $v2);
     }
 
     /**
@@ -110,7 +112,7 @@ trait QueryBuilderTrait
     {
 
         if(is_callable($column)){
-            $this->model->where($column);
+            $this->queryBuilder->where($column);
         } else {
             if (func_num_args() === 2) {
                 $column2 = $op;
@@ -119,7 +121,7 @@ trait QueryBuilderTrait
 
             $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
 
-            $this->model->where($column, $op, $column2);
+            $this->queryBuilder = $this->queryBuilder->where($column, $op, $column2);
         }
     }
 }
