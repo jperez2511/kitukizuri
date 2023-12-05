@@ -4,6 +4,7 @@ namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 
 use Krud;
 use Auth;
+use Crypt;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 
