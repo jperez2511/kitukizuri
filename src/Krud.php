@@ -46,7 +46,6 @@ class Krud extends Controller
     private $viewHelp = null;
 
     // Variables en array
-    private $rt             = [];
     private $editEmbed      = [];
     private $indexEmbed     = [];
     private $campos         = [];
@@ -99,49 +98,6 @@ class Krud extends Controller
     }
 
     /**
-     * setBoton
-     * Define los botones personalizados disponibles a utilizar en la tabla de la vista index.
-     *
-     * @param  mixed $params
-     *
-     * @return void
-     */
-    public function setBoton($params)
-    {
-        $allowed = ['nombre', 'url', 'class', 'icon'];
-        $this->allowed($params, $allowed, $this->typeError[4]);
-        $this->botones[] = $params;
-    }
-    
-    /**
-     * setBotonDT
-     * Permite definir botones adicionales en data table
-     *
-     * @param  mixed $params
-     * @return void
-     */
-    public function setBotonDT($params)
-    {
-        $allowed = ['text', 'class', 'action'];
-        $this->allowed($params, $allowed, $this->typeError[4]);
-        $this->botonesDT[] = $params;
-    }
-    
-    /**
-     * setDefaultBotonDT
-     * Visibilidad a los botones por defecto de dataTable
-     *
-     * @param  mixed $params
-     * @return void
-     */
-    public function setDefaultBotonDT($params) 
-    {
-        $allowed = ['name'];
-        $this->allowed($params, $allowed, $this->typeError[4]);
-        $this->defaultBtnDT[] = $params['name'];
-    }
-
-    /**
      * embedView
      * Pretende incluir una vista dentro de una vista AUN EN DESARROLLO
      *
@@ -157,8 +113,6 @@ class Krud extends Controller
        $this->editEmbed[] = [$controller, $relation, $request];
     }
 
-
-    
     /**
      * embedIndexView
      * 
@@ -177,7 +131,6 @@ class Krud extends Controller
         ];
     }
 
-
     /**
      * setParentId
      * Define el nombre del id padre al que pertenece el controller
@@ -190,20 +143,6 @@ class Krud extends Controller
     public function setParentId($text)
     {
         $this->parentid = $text;
-    }
-
-    /**
-     * getMunicipios
-     * Obtiene una lista de los municipios ingresados en al tabla municipios
-     *
-     * @param  mixed $departamentoid
-     *
-     * @return void
-     */
-    public function getMunicipios($departamentoid)
-    {
-        $municipios = Municipio::select('municipioid', 'nombre')->where('departamentoid', $departamentoid)->get();
-        return $municipios;
     }
     
     /**
@@ -724,7 +663,6 @@ class Krud extends Controller
             'campos'   => $this->campos,
             'action'   => $url,
             'id'       => Crypt::encrypt($id),
-            'rt'       => $this->rt,
             'embed'    => $this->editEmbed,
             'parent'   => $this->parentid,
             'parentid' => $parentid,
@@ -947,32 +885,5 @@ class Krud extends Controller
         return $ff->diffInMonths($fi);
     }
 
-    /**
-     * allowed
-     * verifica los parametros permitidos segun la lista enviada
-     *
-     * @param  mixed $params
-     * @param  mixed $allowed
-     *
-     * @return void
-     */
-    private function allowed($params, $allowed, $badType)
-    {
-        if(is_array($params)) {
-            if(empty($params)) {
-                return $this->errors = ['tipo' => $badType, 'bad' => 'Array Vacío', 'permitidos' => $allowed];
-            }
-            foreach ($params as $key => $val) { //Validamos que todas las variables del array son permitidas.
-                if (!in_array($key, $allowed)) {
-                    $this->errors = ['tipo' => $badType, 'bad' => $key, 'permitidos' => $allowed];
-                    break;
-                }
-            }
-        } else if(is_string($params)) {
-            if (!in_array($params, $allowed)) {
-                $this->errors = ['tipo' => $badType, 'bad' => $params, 'permitidos' => $allowed];
-            }
-        }
-        
-    }
+    
 }

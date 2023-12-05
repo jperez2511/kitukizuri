@@ -376,4 +376,47 @@ trait UiTrait
         }
         return $data;
     }
+
+    /**
+     * setBoton
+     * Define los botones personalizados disponibles a utilizar en la tabla de la vista index.
+     *
+     * @param  mixed $params
+     *
+     * @return void
+     */
+    protected function setBoton($params)
+    {
+        $allowed = ['nombre', 'url', 'class', 'icon'];
+        $this->allowed($params, $allowed, $this->typeError[4]);
+        $this->botones[] = $params;
+    }
+
+    /**
+     * setBotonDT
+     * Permite definir botones adicionales en data table
+     *
+     * @param  mixed $params
+     * @return void
+     */
+    protected function setBotonDT($params)
+    {
+        $allowed = ['text', 'class', 'action'];
+        $this->allowed($params, $allowed, $this->typeError[4]);
+        $this->botonesDT[] = $params;
+    }
+
+    /**
+     * setDefaultBotonDT
+     * Visibilidad a los botones por defecto de dataTable
+     *
+     * @param  mixed $params
+     * @return void
+     */
+    protected function setDefaultBotonDT($params) 
+    {
+        $allowed = ['name'];
+        $this->allowed($params, $allowed, $this->typeError[4]);
+        $this->defaultBtnDT[] = $params['name'];
+    }
 }

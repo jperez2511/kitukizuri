@@ -25,4 +25,32 @@ trait HelpTrait
         'badColumnDefinition',  // 16
         'needRealField'         // 17
     ];
+    
+    /**
+     * allowed
+     * verifica los parametros permitidos segun la lista enviada
+     *
+     * @param  mixed $params
+     * @param  mixed $allowed
+     * @param  mixed $badType
+     * @return void
+     */
+    protected function allowed($params, $allowed, $badType)
+    {
+        if(is_array($params)) {
+            if(empty($params)) {
+                return $this->errors = ['tipo' => $badType, 'bad' => 'Array Vacío', 'permitidos' => $allowed];
+            }
+            foreach ($params as $key => $val) { //Validamos que todas las variables del array son permitidas.
+                if (!in_array($key, $allowed)) {
+                    $this->errors = ['tipo' => $badType, 'bad' => $key, 'permitidos' => $allowed];
+                    break;
+                }
+            }
+        } else if(is_string($params)) {
+            if (!in_array($params, $allowed)) {
+                $this->errors = ['tipo' => $badType, 'bad' => $params, 'permitidos' => $allowed];
+            }
+        }
+    }
 }
