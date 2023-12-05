@@ -52,14 +52,6 @@ class Krud extends Controller
     private $campos         = [];
     private $removePermisos = [];
     private $parents        = [];
-    private $orderBy        = [];
-    private $groupBy        = [];
-    private $orWheres       = [];
-    private $whereIn        = [];
-    private $whereFn        = [];
-    private $whereOrFn      = [];
-    private $whereAndFn     = [];
-    private $externalData   = [];
 
     // viables únicas para vista calendario
     private $defaultCalendarView = null;
@@ -104,96 +96,6 @@ class Krud extends Controller
     protected function removePermisos($permisos)
     {
         $this->removePermisos = $permisos;
-    }
-
-    /**
-     * setWhereIn
-     *
-     * @param  mixed $column
-     * @param  mixed $data
-     * @return void
-     */
-    public function setWhereIn($column, $data)
-    {
-        $this->whereIn[] = [$column, $data];
-    }
-
-    /**
-     * setWhereAndFn
-     *
-     * @param  mixed $conditions
-     * @return void
-     */
-    public function setWhereAndFn($conditions)
-    {
-        $this->whereAndFn[] = $conditions;
-    }
-
-    public function setWhereFn($whereAndOr, $conditions)
-    {
-        $this->whereFn[] = [$whereAndOr, $conditions];
-    }
-
-    /**
-     * setWhereOrFn
-     *
-     * @param  mixed $conditions
-     * @return void
-     */
-    public function setWhereOrFn($conditions)
-    {
-        $this->whereOrFn[] = $conditions;
-    }
-
-    /**
-     * setOrWhere
-     *
-     * @param  mixed $column
-     * @param  mixed $op
-     * @param  mixed $column2
-     *
-     * @return void
-     */
-    public function setOrWhere($column, $op = null, $column2 = null)
-    {
-        if (func_num_args() === 2) {
-            $column2 = $op;
-            $op = '=';
-        }
-
-        $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
-
-        $this->orWheres[] = [$column, $op, $column2];
-    }
-
-    /**
-     * setOrderBy
-     * Define el orden para obtener la data que se mostrara en la vista index.
-     *
-     * @param  mixed $column
-     *
-     * @return void
-     */
-    public function setOrderBy($column, $orientation = null)
-    {
-        $this->orderBy[] = [$column, $orientation ?? 'asc'];
-    }
-
-    /**
-     * setGroupBy
-     * Define como agrupar los elementos de la consulta
-     *
-     * @param  mixed $column
-     *
-     * @return void
-     */
-    public function setGroupBy($column)
-    {
-        if(is_array($column)) {
-            $this->groupBy = $column;
-        } else {
-            $this->groupBy[] = $column;
-        }
     }
 
     /**
@@ -314,14 +216,6 @@ class Krud extends Controller
         return config('kitukizuri.routePrefix') ?? 'krud';
     }
 
-    public function setExternalData($relation, $colName, $data){
-        $this->externalData[] = [
-            'relation' => $relation,
-            'colName'  => $colName,
-            'data'     => $data
-        ];
-    }
-
     /**
      * getData
      * Obtiene la data que se mostrara en la tabla consolidando joins, where y, orderby
@@ -338,60 +232,6 @@ class Krud extends Controller
 
         // Obteniendo el id de la tabla
         $data->addSelect($this->tableName.'.'.$this->keyName.' as '.$this->id);
-
-        // Agregando wehres a la consulta
-        // foreach ($this->wheres as $where) {
-        //     $data->where($where[0], $where[1], $where[2]);
-        // }
-
-        // Agregando orWhere a la onsulta general
-        foreach ($this->orWheres as $orWhere) {
-            $data->orWhere($orWhere[0], $orWhere[1], $orWhere[2]);
-        }
-
-        // Agrupando Or en And como funcion
-        if (!empty($this->whereAndFn)) {
-            $data->where(function($q){
-                foreach ($this->whereAndFn as $where) {
-                    $q->orWhere(...$where);
-                }
-            });
-        }
-
-        // Agrupando And en Or como funcion
-        if (!empty($this->whereOrFn)) {
-            $data->orWhere(function($q){
-                foreach ($this->whereOrFn as $where) {
-                    $q->where(...$where);
-                }
-            });
-        }
-
-        // Agrupando funcion
-        if (!empty($this->whereFn)) {
-            foreach ($this->whereFn as $args) {
-                $conditions = $args[1];
-                $data->{$args[0]}(function($q) use($conditions) {
-                    foreach($conditions as $condition) {
-                        $q->{$condition[0]}(...$condition[1]);
-                    }
-                });
-            }
-        }
-
-        // generando filtro por whereIn
-        foreach($this->whereIn as $whereIn) {
-            $data->whereIn($whereIn[0], $whereIn[1]);
-        }
-
-        // Agregando el orden para mostrar los datos
-        foreach ($this->orderBy as $column) {
-            $data->orderBy(...$column);
-        }
-
-        if(!empty($this->groupBy)) {
-            $data->groupBy($this->groupBy);
-        }
 
         $count = $data->count();
 

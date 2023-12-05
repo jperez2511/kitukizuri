@@ -8,6 +8,7 @@ trait QueryBuilderTrait
     protected $queryBuilder = null;
     protected $tableName    = null;
     protected $keyName      = null;
+    protected $externalData = [];
  
     protected $allowedOperator = [
         '=', '<', '>', '<=', '>=', '<>', '!=', '<=>',
@@ -32,6 +33,23 @@ trait QueryBuilderTrait
         $this->queryBuilder = $model;
         $this->tableName    = $model->getTable();
         $this->keyName      = $model->getKeyName();
+    }
+    
+    /**
+     * setExternalData
+     * Permite hacer un merge entre datos externos a la consulta actual
+     *
+     * @param  mixed $relation
+     * @param  mixed $colName
+     * @param  mixed $data
+     * @return void
+     */
+    protected function setExternalData($relation, $colName, $data){
+        $this->externalData[] = [
+            'relation' => $relation,
+            'colName'  => $colName,
+            'data'     => $data
+        ];
     }
 
     /**
@@ -123,5 +141,68 @@ trait QueryBuilderTrait
 
             $this->queryBuilder = $this->queryBuilder->where($column, $op, $column2);
         }
+    }
+    
+    /**
+     * setWhereIn
+     * Establece un where basado en una lista de valores o una función
+     *
+     * @param  mixed $column
+     * @param  mixed $data
+     * @param  mixed $boolean
+     * @param  mixed $not
+     * @return void
+     */
+    protected function setWhereIn($column, $data, $boolean = 'and', $not = false)
+    {
+        $this->queryBuilder = $this->queryBuilder->whereIn($column, $data, $boolean, $not);
+    }
+
+    /**
+     * setOrWhere
+     *
+     * @param  mixed $column
+     * @param  mixed $op
+     * @param  mixed $column2
+     *
+     * @return void
+     */
+    protected function setOrWhere($column, $op = null, $column2 = null)
+    {
+        if (func_num_args() === 2) {
+            $column2 = $op;
+            $op = '=';
+        }
+
+        $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
+
+        $this->queryBuilder = $this->queryBuilder->orWhere($column, $op, $column2);
+    }
+
+        
+    /**
+     * setOrderBy
+     * Define el orden para obtener la data que se mostrara en la vista index.
+     *
+     * @param  mixed $column
+     * @param  mixed $orientation
+     * @return void
+     */
+    protected function setOrderBy($column, $orientation = 'asc')
+    {
+        $this->queryBuilder = $this->queryBuilder->orderBy($column, $orientation);
+    }
+
+    /**
+     * setGroupBy
+     * Define como agrupar los elementos de la consulta
+     *
+     * @param  mixed $column
+     *
+     * @return void
+     */
+    protected function setGroupBy($column)
+    {
+        $this->queryBuilder = $this->queryBuilder->groupBy($column);   
     }
 }
