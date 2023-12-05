@@ -30,6 +30,8 @@ use Icebearsoft\Kitukizuri\App\Traits\Krud\{
     HelpTrait
 };
 
+use Illuminate\Contracts\Encryption\DecryptException;
+
 class Krud extends Controller
 {
 
@@ -1011,7 +1013,18 @@ class Krud extends Controller
 
         foreach($this->parents as $parent) {
             if($parent['editable'] === true) {
-                $this->model->{$parent['nombre']} = $request->{$parent['nombre']};
+
+                function isValueEncrypted($value) {
+                    try {
+                        // Intentar desencriptar y ver si no hay errores
+                        $value = Crypt::decrypt($request->{$parent['nombre']});
+                    } catch (DecryptException $e) {
+                        // Si hay un error, probablemente el valor no está encriptado
+                        $value = $request->{$parent['nombre']};
+                    }
+                }
+
+                $this->model->{$parent['nombre']} = $value;
             }
             
             $uriItems[] = $parent['value'].'='.$request->{$parent['nombre']};;

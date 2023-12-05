@@ -41,10 +41,13 @@ trait QueryBuilderTrait
     protected function getSql()
     {
         $sql = $this->model->toSql();
-        $bindings = $query->getBindings();
-        $realSql = str_replace_array('?', $bindings, $sql);
+        $bindings = $this->model->getBindings();
+        foreach ($bindings as $binding) {
+            $value = is_numeric($binding) ? $binding : "'".addslashes($binding)."'";
+            $sql = preg_replace('/\?/', $value, $sql, 1);
+        }
 
-        dd($realSql);
+        dd($sql);
     }
 
     /**
