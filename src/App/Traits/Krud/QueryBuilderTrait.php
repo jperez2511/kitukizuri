@@ -31,12 +31,12 @@ trait QueryBuilderTrait
     protected function setModel($model)
     {
         $this->model        = $model;
-        $this->queryBuilder = $model;
+        $this->queryBuilder = $model->newQuery();
         $this->tableName    = $model->getTable();
         $this->keyName      = $model->getKeyName();
     }
 
-    protected function __call($method, $args)
+    public function __call($method, $args)
     {
         if (method_exists($this, $method)) {
             return call_user_func_array([$this, $method], $args);
@@ -44,11 +44,21 @@ trait QueryBuilderTrait
 
         // Luego, delega al queryBuilder si el método existe allí
         if (method_exists($this->queryBuilder, $method)) {
-            $this->queryBuilder = call_user_func_array([$this->queryBuilder, $method], $parameters);
+            $this->queryBuilder = call_user_func_array([$this->queryBuilder, $method], $args);
             return $this; // Mantener el encadenamiento de métodos
         }
 
-        throw new \BadMethodCallException("Método {$method} no existe en la clase " . get_class($this));
+       // Luego, intenta como un método dinámico de Eloquent en el modelo
+        try {
+            $result = call_user_func_array([$this->model, $method], $args);
+            if ($result instanceof \Illuminate\Database\Eloquent\Builder) {
+                $this->queryBuilder = $result;
+            }
+            return $this;
+        } catch (\BadMethodCallException $e) {
+            // Si el método no existe en ninguno, lanza una excepción
+            throw new \BadMethodCallException("Método {$method} no asfasd en la clase " . get_class($this));
+        }
     }
 
     /**
