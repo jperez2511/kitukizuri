@@ -47,8 +47,6 @@ class Krud extends Controller
 
     // Variables en array
     private $editEmbed      = [];
-    private $indexEmbed     = [];
-    private $campos         = [];
     private $removePermisos = [];
     private $parents        = [];
 
@@ -114,24 +112,6 @@ class Krud extends Controller
     }
 
     /**
-     * embedIndexView
-     * 
-     * Agrega una vista dentro del index de la pagina. 
-     *
-     * @param  mixed $view
-     * @return void
-     */
-    public function embedIndexView($view, $position, $script = null, $values = [])
-    {
-        $this->indexEmbed[] = [
-            'view'     => $view,
-            'position' => $position,
-            'script'   => $script,
-            'values'   => $values,
-        ];
-    }
-
-    /**
      * setParentId
      * Define el nombre del id padre al que pertenece el controller
      * para usarlo el controller padre debe de tener en la URL ?parent={id}
@@ -155,62 +135,7 @@ class Krud extends Controller
         return config('kitukizuri.routePrefix') ?? 'krud';
     }
 
-    /**
-     * getData
-     * Obtiene la data que se mostrara en la tabla consolidando joins, where y, orderby
-     *
-     * @return void
-     */
-    private function getData($limit = null, $offset = null)
-    {
-        // lista de campos a mostrar en la tabla
-        $campos = $this->getSelectShow();
-
-        //consultando al modelo los campos a mostrar en la tabla
-        $data = $this->queryBuilder->select($this->getSelect($campos));
-
-        // Obteniendo el id de la tabla
-        $data->addSelect($this->tableName.'.'.$this->keyName.' as '.$this->id);
-
-        $count = $data->count();
-
-        // validando si existe un limite para obtenr los datos
-        $data->take($limit);
-
-        // validando si hay un offset a utilizar
-        $data->skip($offset);
-
-        $data = $data->get();
-
-        if(!empty($this->externalData)) {
-            foreach ($data as $value) {
-                foreach($this->externalData as $extData){
-                    $relation = $extData['relation'];
-                    $tmp      = $extData['data']->firstWhere($relation, $value->{$relation});
-                    $value->{$extData['colName']} = $tmp[$extData['colName']] ?? '';
-                }
-            }
-        }
-
-        return [$data, $count];
-    }
-
-    /**
-     * getSelectShow
-     * valida y clasifica los campos a mostrar y los que no.
-     *
-     * @return void
-     */
-    private function getSelectShow()
-    {
-        $campos = $this->campos;
-        for ($i = 0; $i<count($campos); $i++) {
-            if ($campos[$i]['show'] == false) {
-                unset($campos[$i]);
-            }
-        }
-        return array_values($campos);
-    }
+    
 
     /**
      * getSelect

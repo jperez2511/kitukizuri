@@ -9,7 +9,8 @@ trait QueryBuilderTrait
     protected $tableName    = null;
     protected $keyName      = null;
     protected $externalData = [];
- 
+    protected $campos       = [];
+
     protected $allowedOperator = [
         '=', '<', '>', '<=', '>=', '<>', '!=', '<=>',
         'like', 'like binary', 'not like', 'ilike',
@@ -34,7 +35,22 @@ trait QueryBuilderTrait
         $this->tableName    = $model->getTable();
         $this->keyName      = $model->getKeyName();
     }
-    
+
+    protected function __call($method, $args)
+    {
+        if (method_exists($this, $method)) {
+            return call_user_func_array([$this, $method], $args);
+        }
+
+        // Luego, delega al queryBuilder si el método existe allí
+        if (method_exists($this->queryBuilder, $method)) {
+            $this->queryBuilder = call_user_func_array([$this->queryBuilder, $method], $parameters);
+            return $this; // Mantener el encadenamiento de métodos
+        }
+
+        throw new \BadMethodCallException("Método {$method} no existe en la clase " . get_class($this));
+    }
+
     /**
      * setExternalData
      * Permite hacer un merge entre datos externos a la consulta actual
@@ -142,7 +158,7 @@ trait QueryBuilderTrait
             $this->queryBuilder = $this->queryBuilder->where($column, $op, $column2);
         }
     }
-    
+
     /**
      * setWhereIn
      * Establece un where basado en una lista de valores o una función
@@ -179,7 +195,6 @@ trait QueryBuilderTrait
         $this->queryBuilder = $this->queryBuilder->orWhere($column, $op, $column2);
     }
 
-        
     /**
      * setOrderBy
      * Define el orden para obtener la data que se mostrara en la vista index.
@@ -203,6 +218,58 @@ trait QueryBuilderTrait
      */
     protected function setGroupBy($column)
     {
-        $this->queryBuilder = $this->queryBuilder->groupBy($column);   
+        $this->queryBuilder = $this->queryBuilder->groupBy($column);
     }
+
+     /**
+     * getData
+     * Obtiene la data que se mostrara en la tabla consolidando joins, wheres, etc.
+     *
+     * @return void
+     */
+    protected function getData($limit = null, $offset = null)
+    {
+        // lista de campos a mostrar en la tabla
+        $campos = $this->getSelectShow();
+
+        //consultando al modelo los campos a mostrar en la tabla
+        $data = $this->queryBuilder->select($this->getSelect($campos));
+
+        // Obteniendo el id de la tabla
+        $data->addSelect($this->tableName.'.'.$this->keyName.' as '.$this->id);
+
+        $count = $data->count();
+
+        // validando si existe un limite para obtenr los datos
+        $data->take($limit);
+
+        // validando si hay un offset a utilizar
+        $data->skip($offset);
+
+        $data = $data->get();
+
+        if(!empty($this->externalData)) {
+            foreach ($data as $value) {
+                foreach($this->externalData as $extData){
+                    $relation = $extData['relation'];
+                    $tmp      = $extData['data']->firstWhere($relation, $value->{$relation});
+                    $value->{$extData['colName']} = $tmp[$extData['colName']] ?? '';
+                }
+            }
+        }
+
+        return [$data, $count];
+    }
+
+    /**
+     * getSelectShow
+     * valida y clasifica los campos a mostrar y los que no.
+     *
+     * @return void
+     */
+    protected function getSelectShow()
+    {
+        return array_values(array_filter($this->campos, fn($campo) => $campo['show']));
+    }
+
 }

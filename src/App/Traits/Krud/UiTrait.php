@@ -15,6 +15,7 @@ trait UiTrait
     protected $botonesDT    = [];
     protected $defaultBtnDT = [];
     protected $validations  = [];
+    protected $indexEmbed   = [];
     protected $template     = [
         'datatable',
     ];
@@ -413,10 +414,27 @@ trait UiTrait
      * @param  mixed $params
      * @return void
      */
-    protected function setDefaultBotonDT($params) 
+    protected function setDefaultBotonDT($params)
     {
         $allowed = ['name'];
         $this->allowed($params, $allowed, $this->typeError[4]);
         $this->defaultBtnDT[] = $params['name'];
+    }
+
+    /**
+     * embedIndexView
+     * Agrega una vista dentro del index de la pagina.
+     *
+     * @param  mixed $view
+     * @return void
+     */
+    public function embedIndexView($view, $position, $script = null, $values = [])
+    {
+        $this->indexEmbed[] = [
+            'view'     => $view,
+            'position' => $position,
+            'script'   => $script,
+            'values'   => $values,
+        ];
     }
 }
