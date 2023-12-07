@@ -439,12 +439,14 @@ class Krud extends Controller
         $columns = $this->getColumnas($this->getSelectShow(), true);
         
         if (!empty($request->search['value'])) {
-            foreach ($columns as $column) {
-                if (strpos($column, 'as')) {
-                    $column = trim(explode('as', $column)[0]);
+            $this->queryBuilder->where(function($q) use($columns, $request){
+                foreach ($columns as $column) {
+                    if (strpos($column, 'as')) {
+                        $column = trim(explode('as', $column)[0]);
+                    }
+                    $q->orWhere($column, 'like', '%'.$request->search['value'].'%');
                 }
-                $this->setWhereAndFn([$column, 'like', '%'.$request->search['value'].'%']);
-            }   
+            });   
         }
 
         // Obteniendo los datos de la tabla
