@@ -4,6 +4,7 @@ namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Crypt;
 use Auth;
 use App\Http\Controllers\Controller;
 
@@ -47,11 +48,16 @@ class RolesPermisosController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request->get('id');
+        try {
+            $id = Crypt::decrypt($request->get('id'));
+        } catch (Exception $e) {
+            dd($e);
+        }
+
         $permisos = $request->get('permisos');
-    
+
         RolModuloPermiso::where('rolid', $id)->delete();
-        
+
         if(!empty($permisos)){
             foreach ($permisos as $p) {
                 $tmp = new RolModuloPermiso;
@@ -60,7 +66,7 @@ class RolesPermisosController extends Controller
                 $tmp->save();
             }
         }
-        
+
         $roles = UsuarioRol::where('usuarioid', Auth::id())->get();
 
         return redirect()->route('roles.index');
