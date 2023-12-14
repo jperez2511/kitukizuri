@@ -8,11 +8,8 @@ class LogController extends Controller
 {
     public function index()
     {
-        $month = date('m') - 1;
-
-        
-        $log = new LaravelLogReader(['date' => date('Y-'.$month.'-d H:i:s')]);
-        $log->get(); 
+        $log = new LaravelLogReader();
+        $log = $log->get();
 
         return view('kitukizuri::log', [
             'logs'   => $log,

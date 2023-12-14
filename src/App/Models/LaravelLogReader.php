@@ -17,55 +17,40 @@ class LaravelLogReader
     }
 
     public function get()
-    {   
+    {
         $filterDate = explode(' ',$this->config['date']);
+        $fileName   = 'laravel.log';
+        $content    = file_get_contents(storage_path('logs/' . $fileName));
+        $pattern    = "/\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]/";
+        $bloques    = preg_split($pattern, $content, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
-        $pattern ="/^\[(?'date'".$filterDate[0]." [0-9]*:[0-9]*:[0-9]*)\]\s(?<env>\w+)\.(?<type>\w+):(?<message>.*(\R*.*)*)/m";
-        
-        $fileName  = 'laravel.log';
-        $content   = file_get_contents(storage_path('logs/' . $fileName));
-        $splitData = preg_split("/(?<=\[\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\])/", $content, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-    
-        $fecha = $splitData[0];
-        unset($splitData[0]);
-
-        $logs = [];
-        foreach($splitData as $split) {
-            // fecha siguiente elemento
-            preg_match_all("/\[\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\]/m", $split, $matches, PREG_SET_ORDER, 0);
-
-            if(!empty($matches)) {
-                $fechaNext = $matches[0][0];
-                $split = str_replace($fechaNext, '', $split);
-            }
-
-            $split = $fecha.$split;
-
-            preg_match_all($pattern, $split, $matches, PREG_SET_ORDER, 0);
-            
-            foreach ($matches as $match) {
-                $logs[] = [
-                    'timestamp' => $match['date'],
-                    'env'       => $match['env'],
-                    'type'      => $match['type'],
-                    'message'   => $match['message']
+        $result = [];
+        for ($i = 0; $i < count($bloques); $i += 2) {
+            if (isset($bloques[$i + 1])) {
+                $bloque = [
+                    'date' => $bloques[$i],
+                    'msg' => '',  // Aquí se almacenará el mensaje de error
+                    'stacktrace' => ''  // Aquí se almacenará el stacktrace
                 ];
+
+                // Dividir el bloque en mensaje y stacktrace (si es necesario)
+                // Dependerá de cómo estén estructurados tus logs
+                // Esta es una forma básica de hacerlo, puede requerir ajustes
+                $parts = explode("\n", trim($bloques[$i + 1]));
+                $bloque['msg'] = array_shift($parts);  // El primer elemento es el mensaje
+                $bloque['stacktrace'] = implode("\n", $parts);  // El resto es el stacktrace
+
+                $result[] = $bloque;
             }
-            $fecha = $fechaNext;
         }
 
-        $logs = collect($logs);
-        
-        if(!empty($this->config['date'])){
-            $data = $logs->filter(function($item) use($filterDate){
-                return $item['timestamp'] >= $this->config['date'];
-            });
-        } else {
-            $data = $logs;
+        $result = collect($result);
+
+        if(!empty($this->config['date'])) {
+            $result = $result->filter(fn($item) => str_starts_with($bloque['date'], $this->config['date']));
         }
 
-
-        return $data;
+        return $result;
     }
 
 
