@@ -25,7 +25,7 @@
                     <tr>
                         <td>{{ $item['date'] }}</td>
                         <td class="wrap-text" style="width: 33.33%;">{!! htmlspecialchars($item['msg']) !!}</td>
-                        <td class="wrap-text" >
+                        <td class="wrap-text" style="font-size: 8px;">
                             @foreach (explode('#', $item['stacktrace']) as $value)
                                 {{ $value }} <br>
                             @endforeach
