@@ -15,12 +15,13 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     UtilityTrait,
     VueTrait,
     MongoTrait,
-    TrinoTrait
+    TrinoTrait,
+    LogTrait
 };
 
 class KrudInstall extends Command
 {
-    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait;
+    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait, LogTrait;
 
     /**
      * The name and signature of the console command.
@@ -57,6 +58,7 @@ class KrudInstall extends Command
         $vueConfig   = $this->confirm('¿Configurar Vue?');
         $mongoConfig = $this->confirm('¿Configurar MongoDB?');
         $trinoConfig = $this->confirm('¿Configurar Trino?');
+        $logConfig   = $this->confirm('¿Guardar Logs en base de datos?');
 
         // instalación de jetstream
         $this->composerInstall('laravel/jetstream');
@@ -77,6 +79,12 @@ class KrudInstall extends Command
             // Configuración de Trino
             $this->configTrino();
         }
+
+        if($logConfig == true) {
+            // Configuración de Log
+            $this->configLogChanel();
+        }
+
 
         // instalación de dependencias Krud
         $this->runCommands(['npm install'], __DIR__.'/../../../');
