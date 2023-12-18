@@ -24,6 +24,16 @@ trait LogTrait
             ],
         EOD;
 
+        $position = strpos($contents, "'channels' => [");
+        if ($position !== false) {
+            $position += strlen("'channels' => [");
+            $contents = substr_replace($contents, $newConfig, $position, 0);
+            // Guarda el archivo modificado
+            File::put($path, $contents);
+        }
+
         $this->replaceInFile('LOG_CHANNEL=stack', 'LOG_CHANNEL=database', base_path('.env'));
+
+        $this->info('Configuración de base de datos actualizada con éxito.');
     }
 }
