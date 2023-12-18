@@ -18,10 +18,10 @@ trait LogTrait
 
         $newConfig = <<<EOD
             \n
-            'database' => [
-                'driver' => 'custom',
-                'via' => Icebearsoft\Kitukizuri\App\Logging\DatabaseLogger::class,
-            ],
+                'database' => [
+                    'driver' => 'custom',
+                    'via' => Icebearsoft\Kitukizuri\App\Logging\DatabaseLogger::class,
+                ],
         EOD;
 
         $position = strpos($contents, "'channels' => [");
