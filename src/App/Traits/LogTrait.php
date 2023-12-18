@@ -2,6 +2,8 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits;
 
+use File;
+
 trait LogTrait
 {
     protected function configLogChanel()
