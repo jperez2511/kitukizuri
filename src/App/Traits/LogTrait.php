@@ -11,7 +11,7 @@ trait LogTrait
         $path      = config_path('logging.php');
         $contents  = File::get($path);
 
-        if(strpos($contents, 'dblog')) {
+        if(strpos($contents, 'database')) {
             $this->info('los logs ya fueron configurados para almacenarse en la base de datos');
             return;
         }
