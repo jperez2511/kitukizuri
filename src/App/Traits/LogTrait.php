@@ -34,7 +34,7 @@ trait LogTrait
         $this->replaceInFile('LOG_CHANNEL=stack', 'LOG_CHANNEL=database', base_path('.env'));
 
         // configuración de tablas en base de datos
-        $this->artisanCommand('vendor:publish --tag=krud-migrations');
+        $this->artisanCommand('vendor:publish','--tag=krud-migrations');
         $this->artisanCommand('migrate');
 
         $this->info('Configuración de base de datos actualizada con éxito.');
