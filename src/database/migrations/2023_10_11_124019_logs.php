@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('memory', 100)->nullable();
             $table->dateTime('time')->nullable();
             $table->string('level', 100)->nullable();
-            $table->text('message')->nullable();
-            $table->text('context')->nullable();
+            $table->longText('message')->nullable();
+            $table->longText('context')->nullable();
 
             $table->timestamps();
         });

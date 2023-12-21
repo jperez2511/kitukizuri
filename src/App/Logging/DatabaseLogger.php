@@ -20,14 +20,14 @@ class DatabaseLogger extends AbstractProcessingHandler
 
     protected function write(LogRecord $record): void
     {
-
-        $time   = $record->datetime->format('Y-m-d H:i:s.u');
-        $url    = Request::fullUrl();
-        $method = Request::method();
-        $agent  = Request::header('User-Agent');;
-        $params = json_enconde(Request::all());
-        $memory = memory_get_peak_usage(true);
-        $user   = Auth::check() ? Auth::id() : null;
+        $allParams = Request::all();
+        $time      = $record->datetime->format('Y-m-d H:i:s.u');
+        $url       = Request::fullUrl();
+        $method    = Request::method();
+        $agent     = Request::header('User-Agent');
+        $params    = !empty($allParams) ? json_encode($allParams) : null;
+        $memory    = memory_get_peak_usage(true);
+        $user      = Auth::check() ? Auth::id() : null;
 
         Log::create([
             'id_user' => $user,
