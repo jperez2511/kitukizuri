@@ -12,27 +12,30 @@ trait LogTrait
         $contents  = File::get($path);
 
         if(strpos($contents, 'database')) {
-            $this->info('los logs ya fueron configurados para almacenarse en la base de datos');
-            return;
-        }
+            $this->info('los logs ya fueron agregados en el config para almacenarse en la base de datos');
 
-        $newConfig = <<<EOD
-            \n
-                'database' => [
-                    'driver' => 'custom',
-                    'via' => Icebearsoft\Kitukizuri\App\Logging\DatabaseLogger::class,
-                ],
-        EOD;
+            $newConfig = <<<EOD
+                \n
+                    'database' => [
+                        'driver' => 'custom',
+                        'via' => Icebearsoft\Kitukizuri\App\Logging\DatabaseLogger::class,
+                    ],
+            EOD;
 
-        $position = strpos($contents, "'channels' => [");
-        if ($position !== false) {
-            $position += strlen("'channels' => [");
-            $contents = substr_replace($contents, $newConfig, $position, 0);
-            // Guarda el archivo modificado
-            File::put($path, $contents);
+            $position = strpos($contents, "'channels' => [");
+            if ($position !== false) {
+                $position += strlen("'channels' => [");
+                $contents = substr_replace($contents, $newConfig, $position, 0);
+                // Guarda el archivo modificado
+                File::put($path, $contents);
+            }
         }
 
         $this->replaceInFile('LOG_CHANNEL=stack', 'LOG_CHANNEL=database', base_path('.env'));
+
+        // configuración de tablas en base de datos
+        $this->artisanCommand('vendor:publish --tag=krud-migrations');
+        $this->artisanCommand('migrate');
 
         $this->info('Configuración de base de datos actualizada con éxito.');
     }
