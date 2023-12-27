@@ -14,7 +14,7 @@ Kitu Kizuri es una estructura de aplicación diseñada para Laravel. Proporciona
   - GUI para administración de Krud Security
   - Generador Low Code de "Catálogos (CRUD)"
   - Gestor de base de Datos para MySQL
-  - Lector de Logs
+  - Logs en base de datos - opcional
 - **Krud Aux**
   - Entorno de desarrollo basado en [**Docker**](https://www.docker.com/) integrando
   - Integración con [**Vue**](https://vuejs.org/) - opcional
