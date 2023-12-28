@@ -21,6 +21,7 @@ Kitu Kizuri es una estructura de aplicación diseñada para Laravel. Proporciona
   - Integración con [**MongoDB**](https://www.mongodb.com/) - opcional
   - Integración con [**Trino**](https://trino.io/) - opcional
 
+Documentación: [**https://kitukizuri.icebearsoft.com**](https://kitukizuri.icebearsoft.com/)
 
 ## Instalación
 
