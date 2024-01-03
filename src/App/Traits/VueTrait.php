@@ -65,7 +65,7 @@ trait VueTrait
             $pluginContent .= "        },\n";
             $pluginContent .= "    },\n";
 
-            $lines[16] = $pluginContent . $lines[16];
+            $lines[count($lines)-2] = $pluginContent . $lines[count($lines)-2];
 
             file_put_contents($filePath, implode("\n", $lines));
         } else {
