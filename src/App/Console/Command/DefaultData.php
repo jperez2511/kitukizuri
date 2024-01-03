@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
+use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
+
 class DefaultData extends Command
 {
     /**
@@ -54,6 +56,7 @@ class DefaultData extends Command
             $this->artisanCommand('db:seed', '--class=PermisosSeeder');
             $this->artisanCommand('db:seed', '--class=ModulosSeeder');
             $this->artisanCommand('db:seed', '--class=InicialSeeder');
+            $this->artisanCommand('db:seed', '--class=MenuSeeder');
 
         } catch (\Exception $e) {
             $this->error('
@@ -63,27 +66,5 @@ class DefaultData extends Command
                 php artisan krud:default-data
             ');
         }
-    }
-
-    protected function artisanCommand($action, $option = null)
-    {
-        $command = [$this->phpBinary(), 'artisan', $action];
-
-        if (!empty($option) && is_array($option)) {
-            $command = \array_merge($command, $option);
-        } else if (!empty($option)){
-            $command[] = $option;
-        }
-
-        $process = new Process($command, base_path());
-        $process->setTimeout(null)
-            ->run(function ($type, $output) {
-                $this->output->write($output);
-            });
-    }
-
-    protected function phpBinary()
-    {
-        return (new PhpExecutableFinder())->find(false) ?: 'php';
     }
 }

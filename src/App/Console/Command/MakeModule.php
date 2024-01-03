@@ -18,14 +18,14 @@ class MakeModule extends Command
      *
      * @var string
      */
-    protected $signature = "krud:make";
+    protected $signature = "krud:make {--module}";
         
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "Genera un modulo utilizable con Krud";
+    protected $description = "Permite generar elementos funcionales para el KRUD";
     
     /**
      * Create a new command instance.
@@ -44,172 +44,64 @@ class MakeModule extends Command
      */
     public function handle() 
     {
+        if ($this->option('module')) {
+            $this->makeModule();
+        }
+    }
 
-        $multiTenants = config('kitukizuri.multiTenants');
-        $nombreModulo = $this->ask('Nombre del módulo:');
-        $rutaDefault  = $this->strClean($nombreModulo);
-        $opcionesRuta = [$rutaDefault, 'No, ingresar nombre'];
+    private function makeModule()
+    {
+        $módulo = [];
 
-        $resultado = $this->choice(
-            '¿ Utilizar nombre de ruta default ?',
-            $opcionesRuta, 0, 2, false
-        );
+        // validando nombre del módulo 
+        $nombre = $this->ask('Nombre del módulo');
 
-        if($opcionesRuta[1] == $resultado) {
-            $nombreRuta = $this->ask('Ingrese el nombre de la ruta *(minúsculas sin espacios):');
-        } else {
-            $nombreRuta = $rutaDefault;
+        if($nombre == '') {
+            $this->error('El nombre del módulo es obligatorio');
+            return;
         }
 
-        if($multiTenants === true) {
-            $listDB = array_keys(config('database.connections'));
-            $nombreDB = $this->choice(
-                '¿ Seleccione la base de datos tenants ?',
-                $listDB, 0, 2, false
-            );
+        $modulo['nombre'] = $nombre;
+        
 
-            $configuraciones = $this->getTenantsConnection($nombreDB);
-            
-            
-            foreach ($configuraciones as $db) {
-               $this->setConnectionDB($db);
-                // validando la existencia del modulo 
-                $existe = Modulo::where('ruta', $nombreRuta)->exists();
-                if($existe) {
-                    $this->error('-> El nombre de ruta ya existe.');
-                    break;
-                }
+        // validando la ruta del módulo
+        $ruta = $this->validateRoute(null);
 
-                if(empty($permisos)){
-                    // Asignando valor default para los permisos
-                    $permiso = ['0 - Todos'];
-                    // Obteniendo los permisos para el módulo
-                    $permisos = Permiso::select(DB::raw('concat_ws(\' - \', permisoid, nombre) as permiso'))
-                        ->pluck('permiso')
-                        ->toArray();
+        // validando que la ruta no exista en la base de datos
+        $rutaExiste = Modulo::where('ruta', $ruta)->exists();
+        if($rutaExiste) {
+            $this->error('la ruta ya existe para otro módulo');
+            return;
+        }
+
+        $icono  = $this->ask('Icono del modulo');
+        
+        $orden  = $this->ask('Orden del modulo');
+
+    }
+
+    private function validateRoute($ruta)
+    {
+        if($ruta === null) {
+            $ruta = $this->ask('Ruta del módulo');
+            return $this->validateRoute($ruta);
+        } else {
+            if($route == '') { // validando que el nombre de la ruta no este vacía
+                $this->error('La ruta del módulo es obligatoria');
+                return $this->validateRoute(null);
+            } 
+            if (!preg_match('/^[a-zA-Z0-9]+$/', $ruta)) { // validando que la ruta contenga solo caracteres alfanuméricos
+                $this->error('La ruta del módulo solo puede contener caracteres alfanuméricos');
+                return $this->validateRoute(null);
+            }
     
-                    $permisos = array_merge($permiso, $permisos);
-                }
-                continue;
+            // validando que la ruta no exista en la base de datos
+            $rutaExiste = Modulo::where('ruta', $ruta)->exists();
+            if($rutaExiste) {
+                $this->error('la ruta ya existe para otro módulo');
+                return $this->validateRoute(null);
             }
-
-            $permisoSeleccionado = $this->choice(
-                '¿ Seleccioné los permisos disponibles para el módulo ?',
-                $permisos, 0, 2, true
-            );
-
-            $allPermisos = $permisoSeleccionado;
-            foreach ($permisoSeleccionado as $permiso) {
-                $permiso = explode('-', $permiso);
-                $id = trim($permiso[0]);
-                if($id == 0) {
-                    $allPermisos = $permisos;
-                    break;
-                }
-            }
-
-            // Guardando el modulo en todas las bases de datos
-            foreach ($configuraciones as $db) {
-                $this->setConnectionDB($db);
-                DB::beginTransaction();
-                
-                try {
-                    $modulo         = new Modulo;
-                    $modulo->nombre = $nombreModulo;
-                    $modulo->ruta   = $nombreRuta;
-                    $modulo->save();
-
-                    foreach ($allPermisos as $permiso) {
-                        $permiso = explode('-', $permiso);
-                        $id = trim($permiso[0]);
-
-                        if($id == 0) {
-                            continue;
-                        }
-                        
-                        $moduloPermiso = new ModuloPermiso;
-                        $moduloPermiso->moduloid = $modulo->moduloid;
-                        $moduloPermiso->permisoid = $id;
-                        $moduloPermiso->save();
-                    }
-                    DB::commit();
-                } catch (\Exception $e) {
-                    DB::rollback();
-                    $this->error($e->getMessage());
-                }
-            }
-        } else {
-            // Validando si existe el la ruta 
-            $existe = Modulo::where('ruta', $nombreRuta)->exists();
-            if($existe) {
-                $this->error('-> El nombre de ruta ya existe.');
-            }
-            // Obteniendo los permisos
-            $permiso  = ['0 - Todos'];
-            $permisos = Permiso::select(DB::raw('concat_ws(\' - \', permisoid, nombre) as permiso'))
-                ->pluck('permiso')
-                ->toArray();
-            
-                $permisos = array_merge($permiso, $permisos);
         }
-
-        
-
-        
-        
-
-        
-        
-
-
-
-        
-
-        
     }
 
-    /**
-     * getTenantsConnection
-     *
-     * @param  mixed $nombreDB
-     * @return void
-     */
-    private function getTenantsConnection($nombreDB)
-    {
-        return DB::connection($nombreDB)
-          ->table('tenants')
-          ->select('db', 'db_password', 'db_username')
-          ->where('activo', true)
-          ->orderBy('tenant_id')
-          ->get();
-    }
-
-    /**
-     * setConnectionDB
-     *
-     * @param  mixed $db
-     * @return void
-     */
-    private function setConnectionDB($db)
-    {
-        DB::purge('mysql');
-        Config::set('database.connections.mysql.database',  $db->db);
-        Config::set('database.connections.mysql.username',  $db->db_username);
-        Config::set('database.connections.mysql.password',  $db->db_password);
-        DB::reconnect('mysql');
-    }
-
-    /**
-     * strClean
-     *
-     * @param  mixed $string
-     * @return void
-     */
-    private function strClean($string)
-    {
-        $string = \str_replace(' ', '', $string);
-        $string = \strtolower($string);
-
-        return $string;
-    }
 }
