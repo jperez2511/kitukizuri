@@ -89,4 +89,11 @@ trait UtilityTrait
     {
         (new Filesystem)->copyDirectory($from, $to);
     }
+
+    protected function isPackageInstalled($package)
+    {
+        $packages = json_decode(file_get_contents(base_path('composer.json')), true);
+
+        return isset($packages['require'][$package]);
+    }
 }

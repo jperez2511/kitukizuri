@@ -61,9 +61,14 @@ class KrudInstall extends Command
         $logConfig   = $this->confirm('¿Guardar Logs en base de datos?');
 
         // instalación de jetstream
-        $this->composerInstall('laravel/jetstream');
-        $this->artisanCommand('jetstream:install', 'livewire');
-        $this->info('instalación de Jetstream terminada exitosamente !');
+        $installed = $this->isPackageInstalled('laravel/jetstream');
+        if(!$installed) {
+            $this->composerInstall('laravel/jetstream');
+            $this->artisanCommand('jetstream:install', 'livewire');
+            $this->info('instalación de Jetstream terminada exitosamente !');
+        } else {
+            $this->info('Jetstream ya está instalado');
+        }
 
         if($vueConfig == true) {
             // instalación de Vue en proyecto
