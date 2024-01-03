@@ -44,6 +44,11 @@ trait VueTrait
 
         $lines = explode("\n", $fileContent);
 
+        if(str_contains($fileContent, '@vitejs/plugin-vue')) {
+            $this->info('vite.config.js ya contiene la configuración de Vue');
+            return true;
+        }
+
         if(count($lines) >= 3) {
 
             $lines[2] = "import vue from '@vitejs/plugin-vue';\n" . $lines[2];
