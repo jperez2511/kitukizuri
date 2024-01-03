@@ -7,9 +7,9 @@ use Config;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-use Icebearsoft\Kitukizuri\Models\Modulo;
-use Icebearsoft\Kitukizuri\Models\Permiso;
-use Icebearsoft\Kitukizuri\Models\ModuloPermiso;
+use Icebearsoft\Kitukizuri\App\Models\Modulo;
+use Icebearsoft\Kitukizuri\App\Models\Permiso;
+use Icebearsoft\Kitukizuri\App\Models\ModuloPermiso;
 
 class MakeModule extends Command
 {    
