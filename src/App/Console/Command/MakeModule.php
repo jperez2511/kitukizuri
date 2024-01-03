@@ -11,8 +11,13 @@ use Icebearsoft\Kitukizuri\App\Models\Modulo;
 use Icebearsoft\Kitukizuri\App\Models\Permiso;
 use Icebearsoft\Kitukizuri\App\Models\ModuloPermiso;
 
+use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
+
 class MakeModule extends Command
 {    
+
+    use UtilityTrait;
+
     /**
      * The name and signature of the console command. 
      *
@@ -63,14 +68,37 @@ class MakeModule extends Command
 
         $modulo['nombre'] = $nombre;
         
-
         // validando la ruta del módulo
         $ruta = $this->validateRoute(null);
+        $modulo['ruta'] = $ruta;
 
-        $icono  = $this->ask('Icono del modulo');
-        
-        $orden  = $this->ask('Orden del modulo');
+        $permisosLista    = Permiso::pluck('nombre', 'permisoid')->toArray();
+        $permisosLista[0] = 'Todos';
 
+        $permisos = $this->choice(
+            'Selecciones los permisos del módulo',
+            $permisosLista,
+            null,
+            null, 
+            true
+        );
+
+        if (in_array('Todos', $permisos)) {
+            $permisos = Permiso::pluck('permisoid')->toArray();
+        } else {
+            $permisos = Permiso::whereIn('nombre', $permisos)->pluck('permisoid')->toArray();
+        }
+
+        $modulo['permisos'] = $permisos;
+
+        $this->addModuleSeeder($modulo);
+
+        if(Config::get('kitukizuri.multiTenants') === true) {
+            $this->info('El módulo se ha creado exitosamente, recuerde ejecutar el comando de artisan para crear el módulo en cada tenant');
+        } else {
+            $this->artisanCommand('db:seed', '--class=ModulosSeeder');
+            $this->info('El módulo se ha creado exitosamente.');
+        }
     }
 
     private function validateRoute($ruta)
@@ -99,4 +127,35 @@ class MakeModule extends Command
         return $ruta;
     }
 
+    private function addModuleSeeder($modulo)
+    {
+        $seederPath = base_path('database/seeders/ModulosSeeder.php');
+        $seederContent = file_get_contents($seederPath);
+
+        $oldMethod = '$this->saveData();';
+        $newMethod = '$this->saveModuleData();';
+
+        // validando la versión del seeder 
+        if(str_contains($seederContent, $oldMethod)) {
+            $posicion = strpos($seederContent, $oldMethod);
+            $prefix   = 'this->';
+            $method   = $oldMethod;
+        } else if (str_contains($seederContent, $newMethod)){
+            $posicion = strpos($seederContent, $newMethod);
+            $prefix   = '';
+            $method   = $newMethod;
+        }
+
+        if($posicion === false) {
+            $this->error('No se pudo encontrar la posición para agregar el módulo');
+            return false;
+        }
+
+        $posicionInsertar = strpos($seederContent, "\n", $posicion) - (strlen($method)+1);
+
+        $nuevaLinea = "\$".$prefix."modulos[] = ['nombre' => '".$modulo['nombre']."', 'ruta' => '".$modulo['ruta']."', 'permisos' => [".implode(',', $modulo['permisos'])."]];\n\t\t";
+        $nuevoContenido = substr($seederContent, 0, $posicionInsertar) . $nuevaLinea . substr($seederContent, $posicionInsertar);
+        file_put_contents($seederPath, $nuevoContenido);
+
+    }
 }
