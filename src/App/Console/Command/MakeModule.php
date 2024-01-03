@@ -67,13 +67,6 @@ class MakeModule extends Command
         // validando la ruta del módulo
         $ruta = $this->validateRoute(null);
 
-        // validando que la ruta no exista en la base de datos
-        $rutaExiste = Modulo::where('ruta', $ruta)->exists();
-        if($rutaExiste) {
-            $this->error('la ruta ya existe para otro módulo');
-            return;
-        }
-
         $icono  = $this->ask('Icono del modulo');
         
         $orden  = $this->ask('Orden del modulo');
@@ -86,7 +79,7 @@ class MakeModule extends Command
             $ruta = $this->ask('Ruta del módulo');
             return $this->validateRoute($ruta);
         } else {
-            if($route == '') { // validando que el nombre de la ruta no este vacía
+            if($ruta == '') { // validando que el nombre de la ruta no este vacía
                 $this->error('La ruta del módulo es obligatoria');
                 return $this->validateRoute(null);
             } 
@@ -102,6 +95,8 @@ class MakeModule extends Command
                 return $this->validateRoute(null);
             }
         }
+
+        return $ruta;
     }
 
 }
