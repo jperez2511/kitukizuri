@@ -56,7 +56,12 @@ class MakeModule extends Command
 
     private function makeModule()
     {
-        $módulo = [];
+
+        $this->warn('Al crear un módulo se modificarán los siguientes archivos: Seeders, Controller, Models, Routes. Por favor asegúrese de tener un respaldo de estos archivos antes de continuar.');
+
+        $módulo          = [];
+        $modelRoute      = null;
+        $controllerRoute = null;
 
         // validando nombre del módulo 
         $nombre = $this->ask('Nombre del módulo');
@@ -93,12 +98,35 @@ class MakeModule extends Command
 
         $this->addModuleSeeder($modulo);
 
+        $makeModel = $this->confirm('¿Desea crear el modelo del módulo?');
+        if($makeModel) {
+            $modelRoute = $this->ask('Ruta del modelo');
+            $this->artisanCommand('make:model', $modelRoute);
+        }
+
+        $makeController = $this->confirm('¿Desea crear el controlador del módulo?');
+        if($makeController) {
+            $controllerRoute = $this->ask('Ruta del controlador');
+            $this->artisanCommand('make:controller', $controllerRoute);
+
+            $makeWebRoute = $this->confirm('¿Crear las rutas web?');
+            if($makeWebRoute) {
+                $this->addRouteWeb($ruta, $controllerRoute);
+            }
+        }
+
+
+        
+
+
         if(Config::get('kitukizuri.multiTenants') === true) {
             $this->info('El módulo se ha creado exitosamente, recuerde ejecutar el comando de artisan para crear el módulo en cada tenant');
         } else {
             $this->artisanCommand('db:seed', '--class=ModulosSeeder');
             $this->info('El módulo se ha creado exitosamente.');
         }
+
+        
     }
 
     private function validateRoute($ruta)
@@ -156,6 +184,33 @@ class MakeModule extends Command
         $nuevaLinea = "\$".$prefix."modulos[] = ['nombre' => '".$modulo['nombre']."', 'ruta' => '".$modulo['ruta']."', 'permisos' => [".implode(',', $modulo['permisos'])."]];\n\t\t";
         $nuevoContenido = substr($seederContent, 0, $posicionInsertar) . $nuevaLinea . substr($seederContent, $posicionInsertar);
         file_put_contents($seederPath, $nuevoContenido);
+    }
 
+    private function addRouteWeb($ruta, $controllerRoute)
+    {
+        $webRoutePath    = base_path('routes/web.php');
+        $webRouteContent = file_get_contents($webRoutePath);
+        $flag            = '// Automatic injection routes don\'t remove this line';
+        $flagUse         = '// Automatic injection controllers don\'t remove this line';
+
+
+        if(!str_contains($webRouteContent, 'Automatic injection routes don\'t remove this line')) {
+            $this->error('No se pudo encontrar la posición para agregar la ruta. por favor agregue la siguiente línea en el archivo routes/web.php: // don\'t remove this line');
+            return false;
+        }
+
+        $flagPosition    = strpos($webRouteContent, $flag);
+        $flagUsePosition = strpos($webRouteContent, $flagUse);
+
+        $posicionInsertar    = strpos($webRouteContent, "\n", $flagPosition) - (strlen($flag)+1);
+        $posicionUseInsertar = strpos($webRouteContent, "\n", $flagUsePosition) - (strlen($flagUse)+1);
+
+        $nuevaLinea = "\tRoute::resource('".$ruta."', ".$controllerRoute."::class);\n";
+        $nuevaUse   = "\nuse App\Http\Controllers\\".$controllerRoute.";";
+
+        $nuevoContenido = substr($webRouteContent, 0, $posicionInsertar) . $nuevaLinea . substr($webRouteContent, $posicionInsertar);
+        $nuevoContenido = substr($nuevoContenido, 0, $posicionUseInsertar) . $nuevaUse . substr($nuevoContenido, $posicionUseInsertar);
+
+        file_put_contents($webRoutePath, $nuevoContenido);
     }
 }

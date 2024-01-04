@@ -137,7 +137,7 @@ return [
     |
     */
 
-    'iconFormat' => '<span class="has-icon"><i class="{{icono}}"></i></span>',
+    'iconFormat' => '<i {{icono}}></i>',
 
     /*
     |--------------------------------------------------------------------------
@@ -150,27 +150,27 @@ return [
 
     'menu' => [
         'ul' => [
-            'id' => '',
-            'class' => ''
+            'id' => 'side-menu',
+            'class' => 'metismenu list-unstyled mm-show',
         ],
         'li-parent' => [
             'class' => '',
             'layout' =>
                 '<a href="{{url}}" aria-expanded="false">
                     {{iconFormat}}
-                    <span class="nav-title">{{label}}</span>
+                    <span>{{label}}</span>
                 </a>',
             'layout-without-son' =>
-                '<a href="{{url}}">
+                '<a href="{{url}}" class="waves-effect">
                     {{iconFormat}}
-                    <span class="nav-title">{{label}}</span>
+                    <span>{{label}}</span>
                 </a>',
         ],
         'li-jr' => [
             'class' => '',
             'layout' =>
                 '<a href="{{url}}">
-                    <span class="nav-title">{{label}}</span>
+                    <span>{{label}}</span>
                 </a>',
         ],
         'ul-jr' => [

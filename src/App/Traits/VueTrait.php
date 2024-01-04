@@ -26,6 +26,8 @@ trait VueTrait
                 "\n" .
                 "// app.component('tag-component', ComponentName);\n" .
                 "\n" .
+                "// don't remove this line\n" .
+                "\n" .
                 "app.mount(\"#vue\");\n";
 
             // Agrega las configuraciones al final del archivo app.js
