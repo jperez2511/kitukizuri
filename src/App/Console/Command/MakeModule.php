@@ -13,6 +13,10 @@ use Icebearsoft\Kitukizuri\App\Models\ModuloPermiso;
 
 use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
 
+use function Laravel\Prompts\text;
+use function Laravel\Promps\confirm;
+use function Laravel\Prompts\multiselect;
+
 class MakeModule extends Command
 {    
 
@@ -64,7 +68,7 @@ class MakeModule extends Command
         $controllerRoute = null;
 
         // validando nombre del módulo 
-        $nombre = $this->ask('Nombre del módulo');
+        $nombre = text(label: 'Nombre del módulo', required: true);
 
         if($nombre == '') {
             $this->error('El nombre del módulo es obligatorio');
@@ -80,44 +84,35 @@ class MakeModule extends Command
         $permisosLista    = Permiso::pluck('nombre', 'permisoid')->toArray();
         $permisosLista[0] = 'Todos';
 
-        $permisos = $this->choice(
+        $permisos = multiselect(
             'Selecciones los permisos del módulo',
             $permisosLista,
-            null,
-            null, 
-            true
         );
 
         if (in_array('Todos', $permisos)) {
             $permisos = Permiso::pluck('permisoid')->toArray();
-        } else {
-            $permisos = Permiso::whereIn('nombre', $permisos)->pluck('permisoid')->toArray();
         }
 
         $modulo['permisos'] = $permisos;
 
         $this->addModuleSeeder($modulo);
 
-        $makeModel = $this->confirm('¿Desea crear el modelo del módulo?');
+        $makeModel = confirm('¿Desea crear el modelo del módulo?');
         if($makeModel) {
-            $modelRoute = $this->ask('Ruta del modelo');
+            $modelRoute = text(label: 'Ruta del modelo', required:true);
             $this->artisanCommand('make:model', $modelRoute);
         }
 
-        $makeController = $this->confirm('¿Desea crear el controlador del módulo?');
+        $makeController = confirm('¿Desea crear el controlador del módulo?');
         if($makeController) {
-            $controllerRoute = $this->ask('Ruta del controlador');
+            $controllerRoute = text(label: 'Ruta del controlador', required:true);
             $this->artisanCommand('make:controller', $controllerRoute);
 
-            $makeWebRoute = $this->confirm('¿Crear las rutas web?');
+            $makeWebRoute = confirm('¿Crear las rutas web?');
             if($makeWebRoute) {
                 $this->addRouteWeb($ruta, $controllerRoute);
             }
         }
-
-
-        
-
 
         if(Config::get('kitukizuri.multiTenants') === true) {
             $this->info('El módulo se ha creado exitosamente, recuerde ejecutar el comando de artisan para crear el módulo en cada tenant');
@@ -132,7 +127,7 @@ class MakeModule extends Command
     private function validateRoute($ruta)
     {
         if($ruta === null) {
-            $ruta = $this->ask('Ruta del módulo');
+            $ruta = text(label: 'Ruta del módulo', required: true);
             return $this->validateRoute($ruta);
         } else {
             if($ruta == '') { // validando que el nombre de la ruta no este vacía

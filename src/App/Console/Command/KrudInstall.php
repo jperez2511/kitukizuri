@@ -19,6 +19,8 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     LogTrait
 };
 
+use function Laravel\Promps\confirm;
+
 class KrudInstall extends Command
 {
     use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait, LogTrait;
@@ -54,11 +56,11 @@ class KrudInstall extends Command
      */
     public function handle()
     {
-        $ldapLogin   = $this->confirm('¿Login con LDAP?');
-        $vueConfig   = $this->confirm('¿Configurar Vue?');
-        $mongoConfig = $this->confirm('¿Configurar MongoDB?');
-        $trinoConfig = $this->confirm('¿Configurar Trino?');
-        $logConfig   = $this->confirm('¿Guardar Logs en base de datos?');
+        $ldapLogin   = confirm('¿Login con LDAP?');
+        $vueConfig   = confirm('¿Configurar Vue?');
+        $mongoConfig = confirm('¿Configurar MongoDB?');
+        $trinoConfig = confirm('¿Configurar Trino?');
+        $logConfig   = confirm('¿Guardar Logs en base de datos?');
 
         // instalación de jetstream
         $installed = $this->isPackageInstalled('laravel/jetstream');
