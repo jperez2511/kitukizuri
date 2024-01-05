@@ -14,7 +14,7 @@ use Icebearsoft\Kitukizuri\App\Models\ModuloPermiso;
 use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
 
 use function Laravel\Prompts\text;
-use function Laravel\Promps\confirm;
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 
 class MakeModule extends Command

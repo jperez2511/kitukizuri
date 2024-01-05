@@ -19,7 +19,7 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     LogTrait
 };
 
-use function Laravel\Promps\confirm;
+use function Laravel\Prompts\confirm;
 
 class KrudInstall extends Command
 {
