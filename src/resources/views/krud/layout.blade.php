@@ -40,12 +40,9 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    @if (useVite())
-        @vite(['resources/css/app.css', 'resources/js/app.js'])    
-    @else 
-        <script src="{{ mix('js/app.js') }}" defer></script>
+    @if (file_exists(public_path('build/manifest.json')))
+        @vite(['resources/js/app.js'])    
     @endif
-    
 </head>
 
 <body data-sidebar="{{$sideBar}}" class="sidebar-enable">
