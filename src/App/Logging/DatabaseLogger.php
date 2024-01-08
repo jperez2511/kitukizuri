@@ -29,6 +29,14 @@ class DatabaseLogger extends AbstractProcessingHandler
         $memory    = memory_get_peak_usage(true);
         $user      = Auth::check() ? Auth::id() : null;
 
+        $exception = [
+            'message'   => $record['context']['exception']->getMessage(),
+            'code'      => $record['context']['exception']->getCode(),
+            'file'      => $record['context']['exception']->getFile(),
+            'line'      => $record['context']['exception']->getLine(),
+            'trace'     => $record['context']['exception']->getTraceAsString(),
+        ];
+
         Log::create([
             'id_user' => $user,
             'params'  => $params,
@@ -39,7 +47,7 @@ class DatabaseLogger extends AbstractProcessingHandler
             'time'    => $time,
             'level'   => $record['level_name'],
             'message' => $record['message'],
-            'context' => json_encode($record['context']),
+            'context' => json_encode(['original' =>$record['context'], 'all' => $exception]),
         ]);
     }
 }
