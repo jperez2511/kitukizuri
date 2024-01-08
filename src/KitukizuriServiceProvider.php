@@ -39,6 +39,8 @@ class KitukizuriServiceProvider extends ServiceProvider
         $this->configureCommands();
         $this->configurePublishing();
         $this->configureRoutes();
+
+        require_once __DIR__ . '/App/Helpers/ViewHelper.php';
     }
 
     /**
