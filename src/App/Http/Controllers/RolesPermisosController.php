@@ -4,8 +4,9 @@ namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Crypt;
+use Log;
 use Auth;
+use Crypt;
 use App\Http\Controllers\Controller;
 
 //Models
@@ -26,7 +27,14 @@ class RolesPermisosController extends Controller
      */
     public function index(Request $request)
     {
-        $rolid = $request->get('id');
+
+        try {
+            $rolid = Crypt::decrypt($request->id);
+        } catch (Exception $e) {
+            Log::error($e);
+            abort(404);
+        }
+
         $modulos = Modulo::with('modulopermiso', 'modulopermiso.permisos')->orderBy('nombre')->get();
         $rmp = RolModuloPermiso::where('rolid', $rolid)->select('modulopermisoid')->pluck('modulopermisoid')->toArray();
         return view('kitukizuri::modulopermisos', [
