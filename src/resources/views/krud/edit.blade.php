@@ -14,7 +14,11 @@
     <form action="{{$action}}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
         <input type="hidden" name="id" id="id" value="{{$id}}">
-        <input type="hidden" name="{{$parent}}" id="{{$parent}}" value="{{$parentid}}">
+
+        @if (!empty($parent))
+            <input type="hidden" name="{{$parent}}" id="{{$parent}}" value="{{$parentid}}">    
+        @endif
+        
         @foreach($parents as $p)
             <input type="hidden" name="{{$p['nombre']}}" id="{{$p['nombre']}}">
         @endforeach

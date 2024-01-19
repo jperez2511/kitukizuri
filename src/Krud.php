@@ -712,6 +712,18 @@ class Krud extends Controller
             }
         }
 
+        if($this->parentid != null) {
+
+            try {
+                $parentValue = Crypt::decrypt($request->{$this->parentid});
+            } catch (Exception $e) {
+                \abort(404);
+            }
+
+            $this->model->{$this->parentid} = $parentValue;
+            $uriItems[] = 'parent='.$request->{$this->parentid};
+        }
+
         // recorriendo parents para agregar a la base de datos
         $uriQuery = '?';
         $uriItems = [];
