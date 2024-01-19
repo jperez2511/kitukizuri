@@ -712,6 +712,10 @@ class Krud extends Controller
             }
         }
 
+        // recorriendo parents para agregar a la base de datos
+        $uriQuery = '?';
+        $uriItems = [];
+
         if($this->parentid != null) {
 
             try {
@@ -723,10 +727,6 @@ class Krud extends Controller
             $this->model->{$this->parentid} = $parentValue;
             $uriItems[] = 'parent='.$request->{$this->parentid};
         }
-
-        // recorriendo parents para agregar a la base de datos
-        $uriQuery = '?';
-        $uriItems = [];
 
         foreach($this->parents as $parent) {
             if($parent['editable'] === true) {
