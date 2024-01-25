@@ -716,7 +716,7 @@ class Krud extends Controller
         $uriQuery = '?';
         $uriItems = [];
 
-        if($this->parentid != null && $request->has($this->parentid)) {
+        if($this->parentid != null && ($request->has($this->parentid) && $request->{$this->parentid} != null)) {
 
             try {
                 $parentValue = Crypt::decrypt($request->{$this->parentid});
