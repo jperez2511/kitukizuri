@@ -52,7 +52,7 @@ trait QueryBuilderTrait
         try {
             $result = call_user_func_array([$this->model, $method], $args);
             if ($result instanceof \Illuminate\Database\Eloquent\Builder) {
-                $this->queryBuilder = $result;
+                $this->queryBuilder = $this->queryBuilder->{$method}(...$args);
             }
             return $this;
         } catch (\BadMethodCallException $e) {
