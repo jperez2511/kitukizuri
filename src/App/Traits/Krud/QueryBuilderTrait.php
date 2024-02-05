@@ -57,7 +57,7 @@ trait QueryBuilderTrait
             return $this;
         } catch (\BadMethodCallException $e) {
             // Si el método no existe en ninguno, lanza una excepción
-            throw new \BadMethodCallException("Método {$method} no asfasd en la clase " . get_class($this));
+            throw new \BadMethodCallException("Método {$method} no se encontró en la clase " . get_class($this));
         }
     }
 
