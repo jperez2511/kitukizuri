@@ -6,13 +6,13 @@ use DB;
 
 trait SeederTrait
 {
-    protected function saveModuleData()
+    protected function saveModuleData($modulos)
     {
         try {
 			DB::statement('SET FOREIGN_KEY_CHECKS=0');
 			DB::table('modulos')->truncate();
 			
-			foreach($this->modulos as $modulo)	{
+			foreach($modulos as $modulo)	{
 				// validando si existe el modulo
 				$moduloid = DB::table('modulos')
 					->where('ruta',$modulo['ruta'])
