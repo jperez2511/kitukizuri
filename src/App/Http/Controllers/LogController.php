@@ -14,11 +14,10 @@ class LogController extends Controller
 
         if($channel == 'stack')
         {
-            $log = new LaravelLogReader();
-            $log = $log->get();
+            $file = storage_path('logs/laravel.log');
+            return response()->download($file, 'laravel.log', ['Content-Type' => 'text/plain']);
         } else if ($channel == 'database') {
             $log = Log::orderBy('id_log', 'desc')->get();
-            
         }
 
         
