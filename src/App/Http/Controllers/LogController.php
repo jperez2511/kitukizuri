@@ -3,13 +3,25 @@
 namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+
+use Icebearsoft\Kitukizuri\App\Models\Log;
 use Icebearsoft\Kitukizuri\App\Models\LaravelLogReader;
 class LogController extends Controller
 {
     public function index()
     {
-        $log = new LaravelLogReader();
-        $log = $log->get();
+        $channel = env('LOG_CHANNEL');
+
+        if($channel == 'stack')
+        {
+            $log = new LaravelLogReader();
+            $log = $log->get();
+        } else if ($channel == 'database') {
+            $log = Log::orderBy('id_log', 'desc')->get();
+            
+        }
+
+        
 
         return view('kitukizuri::log', [
             'logs'   => $log,
