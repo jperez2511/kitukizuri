@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Icebearsoft\Kitukizuri\App\Models\{
     Mysql,
+    Mongo,
     Tenants,
     Connection
 };
@@ -92,6 +93,10 @@ class DataBaseController extends Controller
 
         if($request->drv == 'mysql') {
             $tables = Mysql::getTables($database);
+        }
+
+        if($request->drv == 'mongodb') {
+            $tables = Mongo::getCollections($database);
         }
 
         if(!empty($tables)){
@@ -206,7 +211,7 @@ class DataBaseController extends Controller
 
         $connectionData = Tenants::find($tenantID);
 
-        if($driver == 'mysql'){
+        if($driver == 'mysql') {
             $connection = [
                 'driver'   => $driver,
                 'database' => $connectionData->db,
@@ -214,14 +219,19 @@ class DataBaseController extends Controller
                 'username' => $connectionData->db_username,
                 'password' => $connectionData->db_password,
             ];
+        } else if($driver == 'mongo') {
+            $connection = [
+                'driver'   => $driver,
+                'database' => $connectionData->mongo_db,
+                'host'     => $connectionData->mongo_db_host,
+                'username' => $connectionData->mongo_db_username,
+                'password' => $connectionData->mongo_db_password,
+            ];
         }
 
         Connection::setConnection($connection);
 
-        $tables = Mysql::getTables($connectionData->db);
-
         return view('kitukizuri::database.info', [
-            'tables'   => $tables,
             'driver'   => $connection['driver'],
             'database' => $connection['database'],
             'layout'   => 'krud::layout',
