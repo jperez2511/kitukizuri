@@ -35,7 +35,15 @@ trait QueryBuilderTrait
         $this->tableName    = $model->getTable();
         $this->keyName      = $model->getKeyName();
     }
-
+    
+    /**
+     * __call
+     * Permite llamar a métodos del modelo y del queryBuilder
+     *
+     * @param  mixed $method
+     * @param  mixed $args
+     * @return void
+     */
     public function __call($method, $args)
     {
         if (method_exists($this, $method)) {
@@ -58,6 +66,29 @@ trait QueryBuilderTrait
         } catch (\BadMethodCallException $e) {
             // Si el método no existe en ninguno, lanza una excepción
             throw new \BadMethodCallException("Método {$method} no se encontró en la clase " . get_class($this));
+        }
+    }
+    
+    /**
+     * searchBy
+     * Le indica al query builder que campos se utilizaran para buscar la data
+     *
+     * @param  mixed $column
+     * @return void
+     */
+    protected function searchBy($column)
+    {
+        if(is_array($column)) {
+
+            // validando que no sea un array asosiativo
+            if(array_values($column) !== $column){
+                $this->searchBy = $column;
+            } else {
+                // retornando mensaje de error
+                return $this->allowed($column, ['Array Simple'], ['Array asociativo no permitido']);
+            }
+        } else {
+            $this->searchBy = [$column];
         }
     }
 

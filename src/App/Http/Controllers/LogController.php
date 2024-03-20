@@ -20,8 +20,6 @@ class LogController extends Controller
             $log = Log::orderBy('id_log', 'desc')->get();
         }
 
-        
-
         return view('kitukizuri::log', [
             'logs'   => $log,
             'titulo' => 'Logs',

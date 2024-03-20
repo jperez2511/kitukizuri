@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Crypt;
 
 // librerías para base de datos
 use Illuminate\Database\QueryException;
+use \Illuminate\Database\Query\Expression;
 
 // Controllers
 use App\Http\Controllers\Controller;
@@ -438,15 +439,31 @@ class Krud extends Controller
         $offset  = $request->start ? $request->start : 0;
         $columns = $this->getColumnas($this->getSelectShow(), true);
         
-        if (!empty($request->search['value'])) {
+        if (!empty($request->search['value']) && empty($this->searchBy)) {
             $this->queryBuilder->where(function($q) use($columns, $request){
                 foreach ($columns as $column) {
-                    if (strpos($column, 'as')) {
+                    if (is_string($column) && strpos($column, 'as')) {
                         $column = trim(explode('as', $column)[0]);
+                    } else if($column instanceof Expression){
+                        $reflection = new \ReflectionObject($column);
+                        $property = $reflection->getProperty('value');
+                        $property->setAccessible(true); // Hace la propiedad accesible
+                        $value = $property->getValue($column);
+
+                        if(strpos($value, 'as')) {
+                            $column = trim(explode('as', str_replace('\'', '\\\'', $value))[0]);
+                        }
+
                     }
                     $q->orWhere($column, 'like', '%'.$request->search['value'].'%');
                 }
             });   
+        } else {
+            $this->queryBuilder->where(function($q) use($request){
+                foreach ($this->searchBy as $column) {
+                    $q->orWhere($column, 'like', '%'.$request->search['value'].'%');
+                }
+            });
         }
 
         // Obteniendo los datos de la tabla
