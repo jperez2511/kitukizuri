@@ -458,7 +458,7 @@ class Krud extends Controller
                     $q->orWhere($column, 'like', '%'.$request->search['value'].'%');
                 }
             });   
-        } else {
+        } else if(!empty($request->search['value']) && !empty($this->searchBy)){
             $this->queryBuilder->where(function($q) use($request){
                 foreach ($this->searchBy as $column) {
                     $q->orWhere($column, 'like', '%'.$request->search['value'].'%');
