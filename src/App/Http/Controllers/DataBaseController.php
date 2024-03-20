@@ -95,8 +95,8 @@ class DataBaseController extends Controller
             $tables = Mysql::getTables($database);
         }
 
-        if($request->drv == 'mongodb') {
-            $tables = Mongo::getCollections($database);
+        if($request->drv == 'mongo') {
+            $tables = Mongo::getTables($database);
         }
 
         if(!empty($tables)){
