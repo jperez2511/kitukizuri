@@ -13,7 +13,12 @@ trait TsTrait
 
     protected function addTsConfig()
     {
-        copy(__DIR__ . '/../../stubs/resources/ts/app.ts', base_path('resources/ts/app.ts'));
+        $destinationPath = base_path('resources/ts');
+        if (!is_dir($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+        copy(__DIR__ . '/../../stubs/resources/ts/app.ts', $destinationPath . '/app.ts');
+
         copy(__DIR__ . '/../../stubs/tsconfig.json', base_path('tsconfig.json'));
         copy(__DIR__ . '/../../stubs/tsconfig.vite-config.json', base_path('tsconfig.vite-config.json'));
     }
