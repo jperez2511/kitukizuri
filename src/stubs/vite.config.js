@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
@@ -13,7 +14,7 @@ export default defineConfig({
         }),
         vuetify({
             autoImport: true,
-            styles: { configFile: './resources/scss/variables.scss' }
+            styles: { configFile: 'resources/scss/variables.scss' }
         }),
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],

@@ -2,13 +2,15 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "resources/ts/**/*", "resources/ts/**/*.vue"],
   "compilerOptions": {
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove",
+    "verbatimModuleSyntax": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./resources/ts/*"]
     },
     "allowJs": true
   },
-
   "references": [
     {
       "path": "./tsconfig.vite-config.json"
