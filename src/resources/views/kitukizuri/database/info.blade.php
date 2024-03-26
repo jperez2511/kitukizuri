@@ -483,8 +483,11 @@
                 $('#charset').empty();
                 $('#tituloTabla').append(table);
 
-                $('#collation').append(response.information[0].collation);
-                $('#charset').append(response.information[0].charset);
+                if(response.information.length > 0) {
+                    $('#collation').append(response.information[0].collation);
+                    $('#charset').append(response.information[0].charset);
+                }
+                
                 $('#tableColumns').empty()
 
                 $('#tableColumns').append(`

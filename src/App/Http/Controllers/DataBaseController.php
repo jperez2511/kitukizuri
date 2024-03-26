@@ -16,11 +16,12 @@ class DataBaseController extends Controller
 {
 
     private $colors = [
-        'mysql'  => ['color' => 'primary',   'icono' => 'fa-duotone fa-dolphin'],
-        'sqlite' => ['color' => 'tertiary',  'icono' => 'fa-duotone fa-feather'],
-        'pgsql'  => ['color' => 'info',      'icono' => 'fa-duotone fa-elephant'],
-        'mongo'  => ['color' => 'success',   'icono' => 'fa-duotone fa-leaf'],
-        'sqlsrv' => ['color' => 'secondary', 'icono' => 'fa-brands fa-microsoft'],
+        'mysql'   => ['color' => 'primary',   'icono' => 'fa-duotone fa-dolphin'],
+        'sqlite'  => ['color' => 'tertiary',  'icono' => 'fa-duotone fa-feather'],
+        'pgsql'   => ['color' => 'info',      'icono' => 'fa-duotone fa-elephant'],
+        'mongo'   => ['color' => 'success',   'icono' => 'fa-duotone fa-leaf'],
+        'mongodb' => ['color' => 'success',   'icono' => 'fa-duotone fa-leaf'],
+        'sqlsrv'  => ['color' => 'secondary', 'icono' => 'fa-brands fa-microsoft'],
     ];
 
     public function index(Request $request)
@@ -95,7 +96,7 @@ class DataBaseController extends Controller
             $tables = Mysql::getTables($database);
         }
 
-        if($request->drv == 'mongo') {
+        if($request->drv == 'mongo' || $request->drv == 'mongodb') {
             $tables = Mongo::getTables($database);
         }
 
@@ -126,6 +127,10 @@ class DataBaseController extends Controller
             $getAllData = Mysql::getData($database, $tableName);
         }
 
+        if($request->driver == 'mongo' || $request->driver == 'mongodb') {
+            $getAllData = Mongo::getData($database, $tableName);
+        }
+
         return response()->json(['data' => $getAllData]);
 
     }
@@ -138,7 +143,9 @@ class DataBaseController extends Controller
             dd($e);
         }
 
-        $tableName = $request->table;
+        $tableInformation = [];
+        $tableColumns     = [];
+        $tableName        = $request->table;
 
         if($request->driver == 'mysql') {
             $tableInformation = Mysql::getTableProperties($database, $tableName);
@@ -170,12 +177,7 @@ class DataBaseController extends Controller
         ];
 
         if($statusConnection['status'] == true) {
-            if($connection['driver'] == 'mysql') {
-                $tables = Mysql::getTables($connection['database']);
-            }
-
             $params = [
-                'tables'   => $tables,
                 'driver'   => $connection['driver'],
                 'database' => $connection['database'],
                 'titulo'   => 'Gestor de base de datos',

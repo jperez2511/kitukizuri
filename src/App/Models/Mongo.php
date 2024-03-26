@@ -20,4 +20,10 @@ class Mongo extends Model
 
         return $tables;
     }
+
+    public static function getData($database, $tableName)
+    {
+        $data = DB::connection(self::$driver)->table($tableName)->take(1)->get();
+        return $data;
+    }
 }

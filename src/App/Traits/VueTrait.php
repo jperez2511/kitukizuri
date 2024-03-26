@@ -41,45 +41,8 @@ trait VueTrait
 
     protected function addViteConfig()
     {
-        $filePath    = base_path('vite.config.js');
-        $fileContent = file_get_contents($filePath);
-
-        $lines = explode("\n", $fileContent);
-
-        if(str_contains($fileContent, '@vitejs/plugin-vue')) {
-            $this->info('vite.config.js ya contiene la configuración de Vue');
-            return true;
-        }
-
-        if(count($lines) >= 3) {
-
-            $lines[2] = "import vue from '@vitejs/plugin-vue';\n" . $lines[2];
-
-            $pluginContent  = "        vue({\n";
-            $pluginContent .= "            template: {\n";
-            $pluginContent .= "                transformAssetUrls: {\n";
-            $pluginContent .= "                    base: null,\n";
-            $pluginContent .= "                    includeAbsolute: false,\n";
-            $pluginContent .= "                },\n";
-            $pluginContent .= "            },\n";
-            $pluginContent .= "        }),\n";
-
-            $lines[5] = $pluginContent . $lines[5];
-
-            $pluginContent  = "    resolve: {\n";
-            $pluginContent .= "        alias: {\n";
-            $pluginContent .= "            vue: 'vue/dist/vue.esm-bundler.js'\n";
-            $pluginContent .= "        },\n";
-            $pluginContent .= "    },\n";
-
-            $lines[count($lines)-2] = $pluginContent . $lines[count($lines)-2];
-
-            file_put_contents($filePath, implode("\n", $lines));
-        } else {
-            $this->error('El archivo vite.config.js contiene la configuración previa');
-            return false;
-        }
-
+        unlink(base_path('vite.config.js'));
+        copy(__DIR__ . '/../../stubs/vite.config.js', base_path('vite.config.js'));
         $this->info('La configuración de Vue en Vite fue agregada exitosamente');
     }
  }
