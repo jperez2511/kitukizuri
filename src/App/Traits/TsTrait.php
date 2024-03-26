@@ -27,7 +27,7 @@ trait TsTrait
     {
         $this->replaceInFile('vite build', 'vue-tsc --noEmit && vite build', base_path('package.json'));
 
-        $this->replaceInFile("'resources/css/app.css', 'resources/js/app.js'", "'resources/css/app.css', 'resources/js/app.js', resources/ts/app.ts", base_path('vite.config.js'));
+        $this->replaceInFile("'resources/css/app.css', 'resources/js/app.js'", "'resources/css/app.css', 'resources/js/app.js', 'resources/ts/app.ts'", base_path('vite.config.js'));
 
         $this->info('La configuración de TypeScript en Vite fue agregada exitosamente');
     }

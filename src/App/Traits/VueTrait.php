@@ -8,6 +8,7 @@ trait VueTrait
     {
         $this->runCommands(['npm install --save vue@latest'], base_path());
         $this->runCommands(['npm install --save @vitejs/plugin-vue'], base_path());
+        $this->runCommands(['npm install --save vuetify@3.5.3 vite-plugin-vuetify@2.0.1'], base_path());
         $this->addVueConfig();
         $this->addViteConfig();
     }
