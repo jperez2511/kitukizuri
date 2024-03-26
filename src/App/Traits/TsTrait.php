@@ -17,8 +17,8 @@ trait TsTrait
         if (!is_dir($destinationPath)) {
             mkdir($destinationPath, 0755, true);
         }
-        copy(__DIR__ . '/../../stubs/resources/ts/app.ts', $destinationPath . '/app.ts');
 
+        copy(__DIR__ . '/../../stubs/resources/ts/app.ts', $destinationPath . '/app.ts');
         copy(__DIR__ . '/../../stubs/tsconfig.json', base_path('tsconfig.json'));
         copy(__DIR__ . '/../../stubs/tsconfig.vite-config.json', base_path('tsconfig.vite-config.json'));
     }
@@ -27,15 +27,7 @@ trait TsTrait
     {
         $this->replaceInFile('vite build', 'vue-tsc --noEmit && vite build', base_path('package.json'));
 
-        $filePath = base_path('vite.config.js');
-        $fileContent = file_get_contents($filePath);
-
-        $newInput       = "    'resources/js/app.ts',\n";
-        $pattern        = '/(input: \[[^\]]+)(\s*\])/';
-        $replacement    = '$1' . $newInput . '$2';
-        $newFileContent = preg_replace($pattern, $replacement, $fileContent);
-
-        file_put_contents($filePath, $newFileContent);
+        $this->replaceInFile("'resources/css/app.css', 'resources/js/app.js'", "'resources/css/app.css', 'resources/js/app.js', resources/ts/app.ts", base_path('vite.config.js'));
 
         $this->info('La configuración de TypeScript en Vite fue agregada exitosamente');
     }
