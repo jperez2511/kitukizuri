@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.json",
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["env.d.ts", "resources/ts/**/*", "resources/ts/**/*.vue"],
   "compilerOptions": {
     "preserveValueImports": false,

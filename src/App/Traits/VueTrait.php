@@ -6,11 +6,22 @@ trait VueTrait
 {
     protected function configVue()
     {
-        $this->runCommands(['npm install --save vue@latest'], base_path());
-        $this->runCommands(['npm install --save @vitejs/plugin-vue'], base_path());
-        $this->runCommands(['npm install --save vuetify@3.5.3 vite-plugin-vuetify@2.0.1'], base_path());
+        $this->runCommands(['npm install --save vue@latest @vitejs/plugin-vue'], base_path());
         $this->addVueConfig();
         $this->addViteConfig();
+    }
+
+    protected function addVueUI()
+    {
+        $dependencies = [
+            'vuetify@3.5.3',
+            'vite-plugin-vuetify@2.0.1',
+            'vue3-perfect-scrollbar@1.6.1',
+            'vue-tabler-icons@2.21.0'
+        ];
+
+        $this->runCommands(['npm install --save '. implode(' ', $dependencies)], base_path());
+        
     }
 
     protected function addVueConfig()
