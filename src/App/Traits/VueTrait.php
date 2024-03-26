@@ -21,6 +21,10 @@ trait VueTrait
         ];
 
         $this->runCommands(['npm install --save '. implode(' ', $dependencies)], base_path());
+
+        copy(__DIR__ . '/../../stubs/resources/ts/app.ui.ts', base_path('resources/ts/app.ts'));
+        $this->copyDirectory('/../../stubs/resources/ts/plugins', base_path('resources/ts/'));
+        $this->copyDirectory('/../../stubs/resources/ts/Components', base_path('resources/ts/'));
         
     }
 
