@@ -2,6 +2,8 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits;
 
+use Illuminate\Filesystem\Filesystem;
+
 trait VueTrait
 {
     protected function configVue()
@@ -17,15 +19,17 @@ trait VueTrait
             'vuetify@3.5.3',
             'vite-plugin-vuetify@2.0.1',
             'vue3-perfect-scrollbar@1.6.1',
-            'vue-tabler-icons@2.21.0'
+            'vue-tabler-icons@2.21.0',
+            '@mdi/font@7.4.47',
+            'sass@1.70.0',
         ];
 
         $this->runCommands(['npm install --save '. implode(' ', $dependencies)], base_path());
 
         copy(__DIR__ . '/../../stubs/resources/ts/app.ui.ts', base_path('resources/ts/app.ts'));
-        $this->copyDirectory('/../../stubs/resources/ts/plugins', base_path('resources/ts/'));
-        $this->copyDirectory('/../../stubs/resources/ts/Components', base_path('resources/ts/'));
-        
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/resources/ts/plugins', base_path('resources/ts/plugins'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/resources/ts/Components', base_path('resources/ts/Components'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/resources/scss', base_path('resources/scss'));
     }
 
     protected function addVueConfig()
