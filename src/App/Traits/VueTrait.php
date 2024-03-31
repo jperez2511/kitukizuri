@@ -15,6 +15,11 @@ trait VueTrait
 
     protected function addVueUI()
     {
+        $destinationPath = base_path('resources/ts');
+        if (!is_dir($destinationPath)) {
+            $this->warning('ejecute primero el comando krud:ts-install');
+        }
+
         $dependencies = [
             'vuetify@3.5.3',
             'vite-plugin-vuetify@2.0.1',
@@ -25,6 +30,8 @@ trait VueTrait
         ];
 
         $this->runCommands(['npm install --save '. implode(' ', $dependencies)], base_path());
+
+        $this->artisanCommand('krud:ts-install');
 
         copy(__DIR__ . '/../../stubs/resources/ts/app.ui.ts', base_path('resources/ts/app.ts'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/resources/ts/plugins', base_path('resources/ts/plugins'));

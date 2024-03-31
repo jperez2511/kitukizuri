@@ -14,6 +14,8 @@ use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
 
 class DefaultData extends Command
 {
+    use UtilityTrait;
+
     /**
      * The name and signature of the console command.
      *
