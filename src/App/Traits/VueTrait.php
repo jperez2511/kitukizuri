@@ -8,7 +8,7 @@ trait VueTrait
 {
     protected function configVue()
     {
-        $this->runCommands(['npm install --save vue@latest @vitejs/plugin-vue'], base_path());
+        $this->runCommands(['npm install --save vue @vitejs/plugin-vue'], base_path());
         $this->addVueConfig();
         $this->addViteConfig();
     }
@@ -21,17 +21,15 @@ trait VueTrait
         }
 
         $dependencies = [
-            'vuetify@3.5.3',
-            'vite-plugin-vuetify@2.0.1',
-            'vue3-perfect-scrollbar@1.6.1',
-            'vue-tabler-icons@2.21.0',
-            '@mdi/font@7.4.47',
-            'sass@1.70.0',
+            'vuetify',
+            'vite-plugin-vuetify',
+            'vue3-perfect-scrollbar',
+            'vue-tabler-icons',
+            '@mdi/font',
+            'sass',
         ];
 
         $this->runCommands(['npm install --save '. implode(' ', $dependencies)], base_path());
-
-        $this->artisanCommand('krud:ts-install');
 
         copy(__DIR__ . '/../../stubs/resources/ts/app.ui.ts', base_path('resources/ts/app.ts'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/resources/ts/plugins', base_path('resources/ts/plugins'));
