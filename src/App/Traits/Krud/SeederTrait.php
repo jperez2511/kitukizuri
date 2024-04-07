@@ -6,7 +6,7 @@ use DB;
 
 trait SeederTrait
 {
-	private $menu;
+	private $menu = [];
 
 	protected function checkForeignKeys($value = 0) {
 		if(env('DB_CONNECTION') === 'mysql') {

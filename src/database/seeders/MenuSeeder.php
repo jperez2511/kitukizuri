@@ -11,8 +11,6 @@ class MenuSeeder extends Seeder
 {
 	use SeederTrait;
 
-	private $menu = [];
-
 	/**
 	 * run
 	 *

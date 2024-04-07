@@ -9,7 +9,7 @@ use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
 class PermisosSeeder extends Seeder 
 {
 	use SeederTrait;
-	
+
 	/**
 	 * run
 	 *
@@ -30,8 +30,6 @@ class PermisosSeeder extends Seeder
 
 		DB::statement('UPDATE permisos SET created_at='.$dateTime.', updated_at='.$dateTime);		
 
-		if($connectionName === 'mysql') {
-			$this->checkForeignKeys(1);
-		}
+		$this->checkForeignKeys(1);
 	}
 }
