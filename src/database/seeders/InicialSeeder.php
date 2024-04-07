@@ -4,11 +4,12 @@ namespace Database\Seeders;
 
 use DB;
 use Illuminate\Database\Seeder;
-
 use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
 
 class InicialSeeder extends Seeder 
 {
+	use SeederTrait;
+
 	/**
 	 * run
 	 *
@@ -16,7 +17,7 @@ class InicialSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$dateTime = $this->getDateTime();
+		$dateTime = $this->sqlDateTime();
 		$this->checkForeignKeys();
 
 		$empresa = DB::table('empresas')->select('empresaid')->where('empresaid', 1)->first();
@@ -53,7 +54,7 @@ class InicialSeeder extends Seeder
 		if(empty($roles)){
 			DB::table('roles')->insert([
 				['rolid' => 1,'nombre' => 'Super Usuario','descripcion' => 'Rol con todos los permisos',],
-				['rolid' => 2,'nombre' => 'Cliente','descripcion' => 'rol para todos clientes inciales',]
+				['rolid' => 2,'nombre' => 'Cliente','descripcion' => 'Rol para todos clientes iniciales',]
 			]);
 
 			$this->call(RolModuloPermisosSeeder::class);

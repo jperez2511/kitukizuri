@@ -4,9 +4,12 @@ namespace Database\Seeders;
 
 use DB;
 use Illuminate\Database\Seeder;
+use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
 
 class EmpresamodulosSeeder extends Seeder 
 {
+	use SeederTrait;
+
 	/**
 	 * run
 	 *
@@ -14,14 +17,8 @@ class EmpresamodulosSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$connectionName = env('DB_CONNECTION');
-
-		if($connectionName === 'mysql') {
-			DB::statement('SET FOREIGN_KEY_CHECKS=0');
-			$dateTime = 'NOW()';
-		} else if($connectionName === 'sqlite') {
-			$dateTime = 'datetime(\'now\')';
-		}
+		$dateTime = $this->sqlDateTime();
+		$this->checkForeignKeys();
 
 		DB::table('moduloEmpresas')->truncate();
 
@@ -41,13 +38,9 @@ class EmpresamodulosSeeder extends Seeder
 			['moduloempresaid' => 13, 'empresaid' => 1, 'moduloid' => 13, ],
 			['moduloempresaid' => 14, 'empresaid' => 1, 'moduloid' => 14, ],
 			['moduloempresaid' => 15, 'empresaid' => 1, 'moduloid' => 15, ],
-
 		]);
 
 		DB::statement('UPDATE moduloEmpresas SET created_at='.$dateTime.', updated_at='.$dateTime);
-		
-		if ($connectionName === 'mysql') {
-			DB::statement('SET FOREIGN_KEY_CHECKS=1');
-		}
+		$this->checkForeignKeys(1);
 	}
 }

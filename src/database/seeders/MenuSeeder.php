@@ -9,6 +9,7 @@ use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
 
 class MenuSeeder extends Seeder 
 {
+	use SeederTrait;
 
 	private $menu = [];
 

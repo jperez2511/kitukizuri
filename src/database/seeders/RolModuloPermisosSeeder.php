@@ -8,6 +8,8 @@ use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
 
 class RolModuloPermisosSeeder extends Seeder 
 {
+	use SeederTrait;
+	
 	/**
 	 * run
 	 *
@@ -15,7 +17,7 @@ class RolModuloPermisosSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$dateTime = $this->getDateTime();
+		$dateTime = $this->sqlDateTime();
 		$this->checkForeignKeys();
 		DB::table('rolModuloPermiso')->truncate();
 

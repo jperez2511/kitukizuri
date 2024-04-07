@@ -8,7 +8,6 @@ use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
 
 class ModulosSeeder extends Seeder 
 {
-
 	use SeederTrait;
 	
 	/**
