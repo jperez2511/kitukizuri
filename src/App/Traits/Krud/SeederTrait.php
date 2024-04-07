@@ -11,6 +11,8 @@ trait SeederTrait
 	protected function checkForeignKeys($value = 0) {
 		if(env('DB_CONNECTION') === 'mysql') {
 			DB::statement('SET FOREIGN_KEY_CHECKS='.$value);
+		} else if(env('DB_CONNECTION') === 'sqlite') {
+			DB::statement('PRAGMA foreign_keys = '.$value ? 'ON' : 'OFF');
 		}
 	}
 
