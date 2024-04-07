@@ -8,7 +8,7 @@ trait TsTrait
     {
         $this->runCommands(['npm install typescript vue-tsc @vue/tsconfig @vue/compiler-sfc --save-dev'], base_path());
         $this->addTsConfig();
-        $this->addViteConfig();
+        $this->addViteConfigTs();
     }
 
     protected function addTsConfig()
@@ -23,7 +23,7 @@ trait TsTrait
         copy(__DIR__ . '/../../stubs/tsconfig.vite-config.json', base_path('tsconfig.vite-config.json'));
     }
 
-    protected function addViteConfig()
+    protected function addViteConfigTs()
     {
         $this->replaceInFile('vite build', 'vue-tsc --noEmit && vite build', base_path('package.json'));
 
