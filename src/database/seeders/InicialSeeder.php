@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use DB;
 use Illuminate\Database\Seeder;
 
+use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
+
 class InicialSeeder extends Seeder 
 {
 	/**
@@ -14,7 +16,8 @@ class InicialSeeder extends Seeder
 	 */
 	public function run()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+		$dateTime = $this->getDateTime();
+		$this->checkForeignKeys();
 
 		$empresa = DB::table('empresas')->select('empresaid')->where('empresaid', 1)->first();
 
@@ -62,10 +65,11 @@ class InicialSeeder extends Seeder
 			]);
 		}
 
-		DB::statement('UPDATE users SET created_at=NOW(), updated_at=NOW()');
-		DB::statement('UPDATE roles SET created_at=NOW(), updated_at=NOW()');
-		DB::statement('UPDATE usuarioRol SET created_at=NOW(), updated_at=NOW()');
-		DB::statement('UPDATE empresas SET created_at=NOW(), updated_at=NOW()');
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
+		DB::statement('UPDATE users SET created_at='.$dateTime.', updated_at='.$dateTime);
+		DB::statement('UPDATE roles SET created_at='.$dateTime.', updated_at='.$dateTime);
+		DB::statement('UPDATE usuarioRol SET created_at='.$dateTime.', updated_at='.$dateTime);
+		DB::statement('UPDATE empresas SET created_at='.$dateTime.', updated_at='.$dateTime);
+		
+		$this->checkForeignKeys(1);
 	}
 }

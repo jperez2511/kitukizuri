@@ -6,10 +6,29 @@ use DB;
 
 trait SeederTrait
 {
+	private $menu;
+
+	protected function checkForeignKeys($value = 0) {
+		if(env('DB_CONNECTION') === 'mysql') {
+			DB::statement('SET FOREIGN_KEY_CHECKS='.$value);
+		}
+	}
+
+	protected function sqlDateTime() {
+		$connectionName = env('DB_CONNECTION');
+		if($connectionName === 'mysql') {
+			return 'NOW()';
+		} else if($connectionName === 'sqlite') {
+			return 'datetime(\'now\')';
+		}
+	}
+
     protected function saveModuleData($modulos)
     {
         try {
-			DB::statement('SET FOREIGN_KEY_CHECKS=0');
+			$dateTime = $this->sqlDateTime();
+			$this->checkForeignKeys();
+
 			DB::table('modulos')->truncate();
 			
 			foreach($modulos as $modulo)	{
@@ -63,11 +82,59 @@ trait SeederTrait
 				}
 			}
 	
-			DB::statement('UPDATE modulos SET created_at=NOW(), updated_at=NOW()');
-			DB::statement('UPDATE moduloPermiso SET created_at=NOW(), updated_at=NOW()');
-			DB::statement('SET FOREIGN_KEY_CHECKS=1');
+			DB::statement('UPDATE modulos SET created_at='.$dateTime.', updated_at='.$dateTime);
+			DB::statement('UPDATE moduloPermiso SET created_at='.$dateTime.', updated_at='.$dateTime);
+			$this->checkForeignKeys(1);
 		} catch (\Exception $e) {
 			dd($e->getMessage());
 		}
     }
+
+	protected function saveMenuData($menu = null, $padreID = null)
+	{
+		$dateTime = $this->sqlDateTime();
+
+		if (empty($menu)) {
+			$this->checkForeignKeys();
+			DB::table('menu')->truncate();
+		}
+
+		$menu = $menu ?? $this->menu;
+
+		foreach($menu as $item){
+			$modulo          = null;
+			$moduloPermisoID = null;
+
+			if(!empty($item['ruta'])) {
+				$modulo = DB::table('modulos')
+					->where('ruta', $item['ruta'])
+					->first();
+
+				$moduloPermisoID = DB::table('moduloPermiso')
+					->where('moduloid', $modulo->moduloid)
+					->where('permisoid', 2)
+					->value('modulopermisoid');
+			}
+
+			$menuID = DB::table('menu')->insertGetId([
+				'padreid'         => $padreID,
+				'modulopermisoid' => $moduloPermisoID,
+				'orden'           => $item['orden'],
+				'icono'           => $item['icono'],
+				'ruta'            => $item['ruta'],
+				'etiqueta'        => $item['etiqueta'] ?? $modulo->nombre,
+				'catalogo'        => $item['catalogo'],
+				'show'            => $item['show'],
+			]);
+
+			if(!empty($item['menu'])){
+				$this->saveMenuData($item['menu'], $menuID);
+			}
+		}
+
+		if (empty($menu)) {
+			DB::statement('UPDATE menu SET created_at='.$dateTime.', updated_at='.$dateTime);
+			$this->checkForeignKeys(1);
+		}
+	}
 }

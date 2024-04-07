@@ -14,7 +14,15 @@ class EmpresamodulosSeeder extends Seeder
 	 */
 	public function run()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+		$connectionName = env('DB_CONNECTION');
+
+		if($connectionName === 'mysql') {
+			DB::statement('SET FOREIGN_KEY_CHECKS=0');
+			$dateTime = 'NOW()';
+		} else if($connectionName === 'sqlite') {
+			$dateTime = 'datetime(\'now\')';
+		}
+
 		DB::table('moduloEmpresas')->truncate();
 
 		DB::table('moduloEmpresas')->insert([
@@ -36,7 +44,10 @@ class EmpresamodulosSeeder extends Seeder
 
 		]);
 
-		DB::statement('UPDATE moduloEmpresas SET created_at=NOW(), updated_at=NOW()');
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
+		DB::statement('UPDATE moduloEmpresas SET created_at='.$dateTime.', updated_at='.$dateTime);
+		
+		if ($connectionName === 'mysql') {
+			DB::statement('SET FOREIGN_KEY_CHECKS=1');
+		}
 	}
 }

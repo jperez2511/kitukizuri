@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use DB;
 use Illuminate\Database\Seeder;
 
+use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
+
 class MenuSeeder extends Seeder 
 {
 
@@ -30,52 +32,6 @@ class MenuSeeder extends Seeder
 		// 	]
 		// ];
 
-		$this->saveData();
-	}
-
-	private function saveData($menu = null, $padreID = null)
-	{
-		if (empty($menu)) {
-			DB::statement('SET FOREIGN_KEY_CHECKS=0');
-			DB::table('menu')->truncate();
-		}
-
-		$menu = $menu ?? $this->menu;
-
-		foreach($menu as $item){
-			$modulo          = null;
-			$moduloPermisoID = null;
-
-			if(!empty($item['ruta'])) {
-				$modulo = DB::table('modulos')
-					->where('ruta', $item['ruta'])
-					->first();
-
-				$moduloPermisoID = DB::table('moduloPermiso')
-					->where('moduloid', $modulo->moduloid)
-					->where('permisoid', 2)
-					->value('modulopermisoid');
-			}
-
-			$menuID = DB::table('menu')->insertGetId([
-				'padreid'         => $padreID,
-				'modulopermisoid' => $moduloPermisoID,
-				'orden'           => $item['orden'],
-				'icono'           => $item['icono'],
-				'ruta'            => $item['ruta'],
-				'etiqueta'        => $item['etiqueta'] ?? $modulo->nombre,
-				'catalogo'        => $item['catalogo'],
-				'show'            => $item['show'],
-			]);
-
-			if(!empty($item['menu'])){
-				$this->saveData($item['menu'], $menuID);
-			}
-		}
-
-		if (empty($menu)) {
-			DB::statement('UPDATE menu SET created_at=NOW(), updated_at=NOW()');
-			DB::statement('SET FOREIGN_KEY_CHECKS=1');
-		}
+		$this->saveMenuData();
 	}
 }

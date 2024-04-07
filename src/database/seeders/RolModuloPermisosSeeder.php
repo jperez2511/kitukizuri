@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use DB;
 use Illuminate\Database\Seeder;
+use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
 
 class RolModuloPermisosSeeder extends Seeder 
 {
@@ -14,7 +15,8 @@ class RolModuloPermisosSeeder extends Seeder
 	 */
 	public function run()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+		$dateTime = $this->getDateTime();
+		$this->checkForeignKeys();
 		DB::table('rolModuloPermiso')->truncate();
 
 		DB::table('rolModuloPermiso')->insert([
@@ -54,7 +56,7 @@ class RolModuloPermisosSeeder extends Seeder
 			['rolmodulopermisoid' => 34, 'rolid' => 1, 'modulopermisoid'=> 34],
 		]);
 
-		DB::statement('UPDATE rolModuloPermiso SET created_at=NOW(), updated_at=NOW()');
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
+		DB::statement('UPDATE rolModuloPermiso SET created_at='.$dateTime.', updated_at='.$dateTime);
+		$this->checkForeignKeys(1);
 	}
 }

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use DB;
 use Illuminate\Database\Seeder;
+use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
 
 class PermisosSeeder extends Seeder 
 {
@@ -14,7 +15,8 @@ class PermisosSeeder extends Seeder
 	 */
 	public function run()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+		$dateTime = $this->getDateTime();
+		$this->checkForeignKeys();
 		DB::table('permisos')->truncate();
 
 		DB::table('permisos')->insert([
@@ -24,7 +26,10 @@ class PermisosSeeder extends Seeder
 			['permisoid' => 4, 	'nombre' => 'Eliminar', 'nombreLaravel'=>'destroy', 'color' => 'has-danger'],
 		]);
 
-		DB::statement('UPDATE permisos SET created_at=NOW(), updated_at=NOW()');
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
+		DB::statement('UPDATE permisos SET created_at='.$dateTime.', updated_at='.$dateTime);		
+
+		if($connectionName === 'mysql') {
+			$this->checkForeignKeys(1);
+		}
 	}
 }
