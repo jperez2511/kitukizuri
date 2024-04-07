@@ -11,19 +11,20 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 use Icebearsoft\Kitukizuri\App\Traits\{
-    LdapTrait,
-    UtilityTrait,
+    TsTrait,
     VueTrait,
+    LogTrait,
+    LdapTrait,
     MongoTrait,
     TrinoTrait,
-    LogTrait
+    UtilityTrait
 };
 
 use function Laravel\Prompts\confirm;
 
 class KrudInstall extends Command
 {
-    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait, LogTrait;
+    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait, LogTrait, TsTrait;
 
     /**
      * The name and signature of the console command.
@@ -56,11 +57,16 @@ class KrudInstall extends Command
      */
     public function handle()
     {
+        $vueUi       = false;
         $ldapLogin   = confirm('¿Login con LDAP?');
         $vueConfig   = confirm('¿Configurar Vue?');
         $mongoConfig = confirm('¿Configurar MongoDB?');
         $trinoConfig = confirm('¿Configurar Trino?');
         $logConfig   = confirm('¿Guardar Logs en base de datos?');
+
+        if($vueConfig == true) {
+            $vueUi = confirm('¿Instalar la UI basada en Vue?');
+        }
 
         // instalación de jetstream
         $installed = $this->isPackageInstalled('laravel/jetstream');
@@ -75,6 +81,10 @@ class KrudInstall extends Command
         if($vueConfig == true) {
             // instalación de Vue en proyecto
             $this->configVue();
+            if($vueUi == true) {
+                $this->configTs();
+                $this->addVueUI();
+            }
         }
 
         if($mongoConfig == true) {
