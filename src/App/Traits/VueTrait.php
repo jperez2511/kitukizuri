@@ -27,6 +27,14 @@ trait VueTrait
             'vue-tabler-icons',
             '@mdi/font',
             'sass',
+            'vue-draggable-next',
+            'pinia',
+            'vue-router',
+            'lodash',
+            'axios-mock-adapter',
+            'apexcharts',
+            'vue3-apexcharts',
+            'vue-i18n'
         ];
 
         $this->runCommands(['npm install --save '. implode(' ', $dependencies)], base_path());
