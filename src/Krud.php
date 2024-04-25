@@ -487,7 +487,7 @@ class Krud extends Controller
                     data-toggle="tooltip" data-placement="left" title="Mas opciones" 
                     href="javascript:void(0)" 
                     class="btn btn-xs btn-sm '.$classBtnOptions.'" 
-                    onclick="opciones('.$item['__id__'].')">
+                    onclick="opciones(\''.Crypt::encrypt($item['__id__']).'\')">
                         <span class="'.$icnOptions.'"></span>
                     </a>';
             } else {
