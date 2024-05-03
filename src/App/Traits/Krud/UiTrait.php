@@ -344,6 +344,7 @@ trait UiTrait
 
         foreach ($data as $a) {
             foreach ($a as $k => $v) {
+                $data[$i][$k] = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
                 foreach ($this->campos as $cn => $cv) {
                     if($cv['campo'] instanceof Expression) {
                         $cv['campo'] = $cv['campoReal'];
