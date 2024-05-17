@@ -2,7 +2,9 @@
 
 namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 
+use Log;
 use Auth;
+use Crypt;
 use Illuminate\Http\Request;
 
 // Controllers
@@ -47,11 +49,18 @@ class ModuloEmpresasController extends Controller
      */
     public function store(Request $request)
     {
-    	ModuloEmpresas::where('empresaid', $request->empresa)->delete();
+        try {
+            $empresaID = Crypt::decrypt($request->empresa);
+        } catch (Exception $e) {
+            Log::error($e);
+            abort(404);
+        }
+
+    	ModuloEmpresas::where('empresaid', $empresaID)->delete();
 		foreach ($request->get('modulos', []) as $modulo) {
 			$me = new ModuloEmpresas;
 			$me->moduloid = $modulo;
-			$me->empresaid = $request->empresa;
+			$me->empresaid = $empresaID;
 			$me->save();
          }    	
          $ruta = route('moduloempresas.index');
