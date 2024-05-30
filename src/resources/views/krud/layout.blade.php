@@ -11,7 +11,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/svg" sizes="16x16" href="{{asset('kitukizuri/images/logo.svg')}}">
     <title>{{ $titulo ?? env('APP_NAME')}}</title>
-    
+
     @yield('styles')
     
     @stack('css')
@@ -21,18 +21,17 @@
         $sideBar = (!empty($isDark) || !empty(config('kitukizuri.darkSideBar')) ? 'dark' : null); 
     @endphp
 
-
     <!-- Bootstrap -->
     <link href="{{asset('/kitukizuri/libs/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/kitukizuri/css/bootstrap'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{asset('/kitukizuri/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-     <!-- App Css-->
-     <link href="{{asset('/kitukizuri/css/app'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{asset('/kitukizuri/css/app'.$isDark.'.min.css')}}" rel="stylesheet" type="text/css" />
 
-     <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('/kitukizuri/css/style.css')}}" rel="stylesheet" type="text/css" />
 
-     <link href="{{asset('/kitukizuri/fonts/fontawesome/css/all.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('/kitukizuri/fonts/fontawesome/css/all.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,6 +39,15 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    @if(!empty($template))
+        @foreach($template as $t)
+            @if(strpos($t, '.css') !== false)
+                <link href="{{asset($t)}}" rel="stylesheet" type="text/css" />
+            @endif
+        @endforeach
+    @endif
+
     @if (file_exists(public_path('build/manifest.json')))
         @vite(['resources/js/app.js'])    
     @endif
@@ -344,6 +352,14 @@
     <script src="{{asset('kitukizuri/libs/node-waves/waves.min.js')}}"></script>
 
     <script src="{{asset('kitukizuri/js/app.js')}}"></script>
+
+    @if(!empty($template))
+        @foreach($template as $t)
+            @if(strpos($t, '.js') !== false)
+                <script src="{{asset($t)}}"></script>
+            @endif
+        @endforeach
+    @endif
     
     @stack('js')
 

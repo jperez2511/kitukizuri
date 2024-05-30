@@ -150,7 +150,7 @@ class Krud extends Controller
     {
         $s = [];
         for ($i = 0; $i <count($campos); $i++) {
-            if ($campos[$i]['show'] == true) {
+            if ($campos[$i]['show'] == true || $campos[$i]['show'] == 'soft') {
                 array_push($s, $campos[$i]);
             }
         }
@@ -170,7 +170,7 @@ class Krud extends Controller
     {
         $s = [];
         for ($i = 0; $i <count($campos); $i++) {
-            if ($campos[$i]['show'] == true) {
+            if ($campos[$i]['show'] === true) {
                 array_push($s, $campos[$i]);
             }
         }

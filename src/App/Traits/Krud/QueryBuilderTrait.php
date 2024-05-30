@@ -8,6 +8,7 @@ trait QueryBuilderTrait
     protected $queryBuilder = null;
     protected $tableName    = null;
     protected $keyName      = null;
+    protected $searchInED   = [];
     protected $externalData = [];
     protected $campos       = [];
 
@@ -101,12 +102,18 @@ trait QueryBuilderTrait
      * @param  mixed $data
      * @return void
      */
-    protected function setExternalData($relation, $colName, $data){
+    protected function setExternalData($relation, $colName, $data)
+    {
         $this->externalData[] = [
             'relation' => $relation,
             'colName'  => $colName,
             'data'     => $data
         ];
+    }
+
+    protected function searchInExternalData($colname, $value)
+    {
+        $this->searchInED[] = ['colName' => $colName, 'value' => $value];
     }
 
     /**
@@ -299,6 +306,10 @@ trait QueryBuilderTrait
             }
         }
 
+        if(!empty($this->searchInED)) { 
+            $data = $this->filterExternalData($data);
+        }
+
         return [$data, $count];
     }
 
@@ -310,7 +321,21 @@ trait QueryBuilderTrait
      */
     protected function getSelectShow()
     {
-        return array_values(array_filter($this->campos, fn($campo) => $campo['show']));
+        return array_values(array_filter($this->campos, fn($campo) => $campo['show'] || $campo['show'] === 'soft'));
+    }
+
+    private function filterExternalData($data)
+    {
+        $control = $this->searchInED[0];
+        $data    = $data->filter(function($item) use ($control) {
+            return $item->{$control['colName']} == $control['value']; 
+        });
+
+        foreach($data as &$value) {
+            unset($value->{$control['colName']});
+        }
+
+        return $data;
     }
 
 }

@@ -92,6 +92,12 @@ trait UiTrait
         $this->titulo = $titulo;
     }
 
+    #[Alias('setPlantilla')] 
+    protected function setTitle($title)
+    {
+        $this->setTitle($title);
+    }
+
     /**
      * setView
      * Define el tipo de vista que se quiere utilizar
@@ -315,6 +321,18 @@ trait UiTrait
         }
         $this->campos[] = $params;
     }
+    
+    #[Alias('setCampo')] 
+    protected function setField($params)
+    {
+        $this->setCampo($params);
+    }
+
+    #[Alias('setControl')] 
+    protected function setControl($params)
+    {
+        $this->setCampo($params);
+    }
 
     /**
      * setValidationItem
@@ -394,6 +412,12 @@ trait UiTrait
         $this->botones[] = $params;
     }
 
+    #[Alias('setBoton')]
+    protected function setButton($params)
+    {
+        $this->setBoton($params);
+    }
+
     /**
      * setBotonDT
      * Permite definir botones adicionales en data table
@@ -408,6 +432,12 @@ trait UiTrait
         $this->botonesDT[] = $params;
     }
 
+    #[Alias('setBotonDT')]
+    protected function setButtonDT($params)
+    {
+        $this->setBotonDT($params);
+    }
+
     /**
      * setDefaultBotonDT
      * Visibilidad a los botones por defecto de dataTable
@@ -420,6 +450,12 @@ trait UiTrait
         $allowed = ['name'];
         $this->allowed($params, $allowed, $this->typeError[4]);
         $this->defaultBtnDT[] = $params['name'];
+    }
+
+    #[Alias('setDefaultBotonDT')]
+    protected function setDefaultButtonDT($params)
+    {
+        $this->setDefaultBotonDT($params);
     }
 
     /**
