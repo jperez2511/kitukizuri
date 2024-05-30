@@ -111,7 +111,7 @@ trait QueryBuilderTrait
         ];
     }
 
-    protected function searchInExternalData($colname, $value)
+    protected function searchInExternalData($colName, $value)
     {
         $this->searchInED[] = ['colName' => $colName, 'value' => $value];
     }
