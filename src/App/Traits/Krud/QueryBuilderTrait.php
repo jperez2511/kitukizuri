@@ -308,6 +308,7 @@ trait QueryBuilderTrait
 
         if(!empty($this->searchInED)) { 
             $data = $this->filterExternalData($data);
+            $count = $data->count();
         }
 
         return [$data, $count];
