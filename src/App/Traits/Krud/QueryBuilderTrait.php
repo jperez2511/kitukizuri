@@ -298,10 +298,13 @@ trait QueryBuilderTrait
 
         if(!empty($this->externalData)) {
             foreach ($data as $value) {
-                foreach($this->externalData as $extData){
+                foreach($this->externalData as $extData) {
                     $relation = $extData['relation'];
                     $tmp      = $extData['data']->firstWhere($relation, $value->{$relation});
-                    $value->{$extData['colName']} = $tmp[$extData['colName']] ?? '';
+
+                    if(!empty($value->{$extData['colName']})) {
+                        $value->{$extData['colName']} = $tmp[$extData['colName']] ?? '';
+                    }
                 }
             }
         }
@@ -322,7 +325,11 @@ trait QueryBuilderTrait
      */
     protected function getSelectShow()
     {
-        return array_values(array_filter($this->campos, fn($campo) => $campo['show'] || $campo['show'] === 'soft'));
+        if(!empty($this->searchInED)) {
+            return $this->campos = array_values(array_filter($this->campos, fn($campo) => $campo['show'] || $campo['show'] === 'soft'));
+        }
+
+        return array_values(array_filter($this->campos, fn($campo) => $campo['show'] === true));
     }
 
     private function filterExternalData($data)
