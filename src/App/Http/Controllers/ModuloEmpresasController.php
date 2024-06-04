@@ -27,7 +27,14 @@ class ModuloEmpresasController extends Controller
      */
     public function index(Request $request)
     {
-    	$select = ModuloEmpresas::select('moduloid')->where('empresaid', $request->parent)->pluck('moduloid');
+        try {
+            $parent = Crypt::decrypt($request->parent);
+        } catch (Exception $e) {
+            Log::error($e);
+            abort(404);
+        }
+
+    	$select = ModuloEmpresas::select('moduloid')->where('empresaid', $parent)->pluck('moduloid');
     	$modulos = Modulo::orderBy('nombre')->get();
 
     	return view('kitukizuri::moduloempresas', [
