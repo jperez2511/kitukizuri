@@ -360,9 +360,9 @@ trait UiTrait
         $i = 0;
         $prefixDefault = $this->getDefaultPrefix();
 
-        foreach ($data as $a) {
-            foreach ($a as $k => $v) {
-                $data[$i][$k] = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
+        foreach ($data as &$a) {
+            foreach ($a as $k => &$v) {
+                $v = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
                 foreach ($this->campos as $cn => $cv) {
                     if($cv['campo'] instanceof Expression) {
                         $cv['campo'] = $cv['campoReal'];
@@ -375,18 +375,15 @@ trait UiTrait
                         // agregando estilo visual a los campos booleanos
                         if ($cv['tipo'] == 'bool') {
                             $v = '<span class="'.($prefix != null && $prefix == $prefixDefault ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? __('Si') : 'No').'</span>';
-                            $data[$i][$k] = $v;
                         } else if ($cv['tipo'] == 'url') {
                             if($cv['format'] != '') {
                                 $v = str_replace('{value}', $v, $cv['format']);
                             }
                             $v = '<a href="'.$v.'">'.$v.'</a>';
-                            $data[$i][$k] = $v;
                         } else if($cv['tipo'] == 'date' || $cv['tipo'] == 'datetime') {
                             if(!empty($v)){
                                 $time = strtotime($v);
                                 $v = $cv['format'] != '' ? date($cv['format'], $time) : date('d/m/Y', $time);
-                                $data[$i][$k] = $v;
                             }
                         }
                     }
