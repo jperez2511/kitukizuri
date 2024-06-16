@@ -27,15 +27,12 @@ class RolesController extends Krud
         $this->setBoton(['nombre'=>'Asignar Permisos', 'url'=>route('rolpermisos.index').'?id={id}', 'class'=>'outline-warning', 'icon'=>'mdi mdi-lock-open-variant-outline']);
         $this->setLayout('krud::layout');
         
-        $this->middleware(function ($request, $next) {
-            if (!empty(Auth::user()->empresaid)) {
-                $usuarioRol = UsuarioRol::where('usuarioid', Auth::id())->get();
-                if ($usuarioRol->find(['rolid'=>1])->isEmpty()) {
-                    $empresaid = Auth::user()->empresaid;
-                    $this->setCampo(['nombre'=>'empresaid', 'campo'=>'empresaid', 'tipo' => 'hidden', 'value'=>$empresaid, 'show'=>false]);
-                }
+        if (!empty(Auth::user()->empresaid)) {
+            $usuarioRol = UsuarioRol::where('usuarioid', Auth::id())->get();
+            if ($usuarioRol->find(['rolid'=>1])->isEmpty()) {
+                $empresaid = Auth::user()->empresaid;
+                $this->setCampo(['nombre'=>'empresaid', 'campo'=>'empresaid', 'tipo' => 'hidden', 'value'=>$empresaid, 'show'=>false]);
             }
-            return $next($request);
-        });
+        }
     }
 }
