@@ -16,7 +16,8 @@ use Icebearsoft\Kitukizuri\App\Console\Command\{
     TsInstall,
     LogInstall,
     DefaultData,
-    SetDocker
+    SetDocker,
+    LibsInstall
 };
 
 class KitukizuriServiceProvider extends ServiceProvider
@@ -78,6 +79,7 @@ class KitukizuriServiceProvider extends ServiceProvider
                 LogInstall::class,
                 DefaultData::class,
                 SetDocker::class,
+                LibsInstall::class,
             ]);
         }
     }
