@@ -16,7 +16,7 @@ use Icebearsoft\Kitukizuri\App\Traits\{
 
 class LibsInstall extends Command
 {
-    use UtilityTrait, VueTrait;
+    use UtilityTrait;
 
     /**
      * The name and signature of the console command.
