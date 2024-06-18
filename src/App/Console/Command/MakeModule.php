@@ -156,7 +156,7 @@ class MakeModule extends Command
         $seederContent = file_get_contents($seederPath);
 
         $oldMethod = '$this->saveData();';
-        $newMethod = '$this->saveModuleData();';
+        $newMethod = '$this->saveModuleData($modulos);';
 
         // validando la versión del seeder 
         if(str_contains($seederContent, $oldMethod)) {

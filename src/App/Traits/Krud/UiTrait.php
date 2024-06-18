@@ -95,7 +95,7 @@ trait UiTrait
     #[Alias('setPlantilla')] 
     protected function setTitle($title)
     {
-        $this->setTitle($title);
+        $this->setTitulo($title);
     }
 
     /**
