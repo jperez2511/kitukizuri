@@ -18,7 +18,7 @@ class MenuSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$this->menu[] = ['orden' => 0, 'ruta' => 'home', 'icono' => 'class="fa fa-star"', 'catalogo' => false, 'show' => true];
+		$this->menu[] = ['orden' => 0, 'ruta' => 'home', 'icono' => 'class="fa fa-home"', 'catalogo' => false, 'show' => true];
 
 		// Ejemplo de elemento de menu con sub elementos
 
