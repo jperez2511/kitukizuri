@@ -22,6 +22,7 @@ class DataBaseController extends Controller
         'mongo'   => ['color' => 'success',   'icono' => 'fa-duotone fa-leaf'],
         'mongodb' => ['color' => 'success',   'icono' => 'fa-duotone fa-leaf'],
         'sqlsrv'  => ['color' => 'secondary', 'icono' => 'fa-brands fa-microsoft'],
+        'mariadb' => ['color' => 'warning',   'icono' => 'fa-brands fa-mdb'],
     ];
 
     public function index(Request $request)
