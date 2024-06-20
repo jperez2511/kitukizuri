@@ -4,8 +4,12 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+use Icebearsoft\Kitukizuri\App\Traits\Krud\SeederTrait;
+
 class Empresas extends Migration
 {
+    use SeederTrait;
+
     /**
      * up
      *
@@ -52,18 +56,26 @@ class Empresas extends Migration
      */
     public function down()
     {   
+        $this->checkForeignKeys();
+
         Schema::table('users', function($table) {
-            $table->dropForeign(['empresaid']);
+            if(env('DB_CONNECTION') !== 'sqlite') {
+                $table->dropForeign(['empresaid']);
+            }
             $table->dropColumn('empresaid');
         });
 
         Schema::table('roles', function($table) {
-            $table->dropForeign(['empresaid']);
+            if(env('DB_CONNECTION') !== 'sqlite') {
+                $table->dropForeign(['empresaid']);
+            }
             $table->dropColumn('empresaid');
         });
 
         Schema::drop('moduloEmpresas');
 
         Schema::drop('empresas');
+
+        $this->checkForeignKeys(1);
     }
 }
