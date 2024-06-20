@@ -12,7 +12,11 @@ trait SeederTrait
 		if(env('DB_CONNECTION') === 'mysql') {
 			DB::statement('SET FOREIGN_KEY_CHECKS='.$value);
 		} else if(env('DB_CONNECTION') === 'sqlite') {
-			DB::statement('PRAGMA foreign_keys = '.$value ? 'ON' : 'OFF');
+			if ($value === 1) {
+				DB::statement('PRAGMA foreign_keys = ON');	
+			} else {
+				DB::statement('PRAGMA foreign_keys = OFF');	
+			}
 		}
 	}
 
