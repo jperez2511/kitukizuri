@@ -2,7 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits;
 
-trait UiConfig
+trait UiConfigTrait
 {
     protected function configBootstrap()
     {

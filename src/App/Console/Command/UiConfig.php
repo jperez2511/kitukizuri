@@ -12,7 +12,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 use Icebearsoft\Kitukizuri\App\Traits\{
     UtilityTrait,
-    UiConfig
+    UiConfigTrait
 };
 
 class UiConfig extends Command
