@@ -1,0 +1,10 @@
+@use 'sass:math';
+
+@function abs($value) {
+  @if type-of($value) == percentage {
+    @return abs(#{100%});
+  }
+  @else {
+    @return math.abs($value);
+  }
+}
