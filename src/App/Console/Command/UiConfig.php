@@ -17,7 +17,7 @@ use Icebearsoft\Kitukizuri\App\Traits\{
 
 class UiConfig extends Command
 {
-    use UtilityTrait;
+    use UtilityTrait, UiConfigTrait;
 
     /**
      * The name and signature of the console command.
