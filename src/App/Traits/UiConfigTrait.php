@@ -20,7 +20,6 @@ trait UiConfigTrait
         $this->replaceInFile('tailwindcss: {},', '', base_path('postcss.config.js'));
         \unlink(base_path('tailwind.config.js'));
 
-        (new Filesystem)->copyDirectory(__DIR__.'/../../../resources/sass', base_path('resources/'));
-
+        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/sass', base_path('resources/sass/'));
     }
 }

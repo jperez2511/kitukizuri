@@ -107,25 +107,25 @@ class KrudInstall extends Command
 
 
         // instalación de dependencias Krud
-        $this->runCommands(['npm install'], __DIR__.'/../../../');
-        $this->runCommands(['npm install --save-dev gulp'], __DIR__.'/../../../');
-        $this->runCommands(['npx gulp build'], __DIR__.'/../../../');
-        $this->deleteDirectory(__DIR__.'/../../../node_modules');
+        // $this->runCommands(['npm install'], __DIR__.'/../../../');
+        // $this->runCommands(['npm install --save-dev gulp'], __DIR__.'/../../../');
+        // $this->runCommands(['npx gulp build'], __DIR__.'/../../../');
+        // $this->deleteDirectory(__DIR__.'/../../../node_modules');
         $this->info('instalación de dependencias Kitu Kizuri terminada exitosamente');
 
         // publicación de krud
         $this->artisanCommand('vendor:publish','--tag=krud-migrations');
         $this->artisanCommand('vendor:publish','--tag=krud-seeders');
         $this->artisanCommand('vendor:publish','--tag=krud-error');
-        $this->artisanCommand('vendor:publish','--tag=krud-views');
-        $this->artisanCommand('vendor:publish','--tag=krud-app');
+  //      $this->artisanCommand('vendor:publish','--tag=krud-views');
+//        $this->artisanCommand('vendor:publish','--tag=krud-app');
         $this->artisanCommand('vendor:publish','--tag=krud-config');
-        $this->artisanCommand('vendor:publish','--tag=krud-public');
+        //$this->artisanCommand('vendor:publish','--tag=krud-public');
 
-        unlink(base_path('routes/web.php'));
-        copy(__DIR__ . '/../../../stubs/Routes/web.php', base_path('routes/web.php'));
+//        unlink(base_path('routes/web.php'));
+//        copy(__DIR__ . '/../../../stubs/Routes/web.php', base_path('routes/web.php'));
 
-        copy(__DIR__ . '/../../../stubs/Controllers/HomeController.php', base_path('app/Http/Controllers/HomeController.php'));
+  //      copy(__DIR__ . '/../../../stubs/Controllers/HomeController.php', base_path('app/Http/Controllers/HomeController.php'));
         $this->info('Configuración de archivos terminada exitosamente !');
 
         if($ldapLogin) {
