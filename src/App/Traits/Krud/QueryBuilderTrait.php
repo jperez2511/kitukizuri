@@ -2,6 +2,8 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
+use Illuminate\Support\Collection;
+
 trait QueryBuilderTrait
 {
     protected $model        = null;
@@ -286,22 +288,16 @@ trait QueryBuilderTrait
         // Obteniendo el id de la tabla
         $data->addSelect($this->tableName.'.'.$this->keyName.' as '.$this->id);
 
+        // obteniendo la cantidad total de elementos en la tabla
         $count = $data->count();
-
-        // validando si existe un limite para obtenr los datos
-        $data->take($limit);
-
-        // validando si hay un offset a utilizar
-        $data->skip($offset);
-
-        $data = $data->get();
-
+        
+        // validando si existen data externa para adjuntar a la información obtenida en base de datos
         if(!empty($this->externalData)) {
+            $data = $data->get();
             foreach ($data as $value) {
                 foreach($this->externalData as $extData) {
                     $relation = $extData['relation'];
                     $tmp      = $extData['data']->firstWhere($relation, $value->{$relation});
-
                     if(!empty($value->{$extData['colName']})) {
                         $value->{$extData['colName']} = $tmp[$extData['colName']] ?? '';
                     }
@@ -309,9 +305,20 @@ trait QueryBuilderTrait
             }
         }
 
+        // validnado si existe algun elemento a filtrar que sea parte de external data
         if(!empty($this->searchInED)) { 
-            $data = $this->filterExternalData($data);
-            $count = $data->count();
+            $data = $this->filterExternalData($data, $offset, $limit);
+            $count    = $data['count'];
+            $data     = $data['data'];
+        } else {
+            // validando si hay un offset a utilizar
+            $data = $data->skip($offset);
+
+            // validando si existe un limite para obtenr los datos
+            $data = $data->take($limit);
+
+            
+            $data = $data instanceof Collection ? $data : $data->get();
         }
 
         return [$data, $count];
@@ -332,18 +339,25 @@ trait QueryBuilderTrait
         return array_values(array_filter($this->campos, fn($campo) => $campo['show'] === true));
     }
 
-    private function filterExternalData($data)
+    private function filterExternalData($data, $offset, $limit)
     {
         $control = $this->searchInED[0];
         $data    = $data->filter(function($item) use ($control) {
             return $item->{$control['colName']} == $control['value']; 
-        });
+        })->values();
 
         foreach($data as &$value) {
             unset($value->{$control['colName']});
         }
 
-        return $data;
+        $count = $data->count();
+        $data  = $data->skip($offset);
+        $data  = $data->take($limit);
+
+        return [
+            'data'  => $data,
+            'count' => $count,
+        ];
     }
 
 }
