@@ -9,7 +9,7 @@ trait UiConfigTrait
     protected function configBootstrap()
     {
         // Instalación de paquetes para Bootstrap
-        $this->runCommands(['npm install bootstrap@5.3.0 @popperjs/core clipboard --save'], base_path());
+        $this->runCommands(['npm install bootstrap@5.3.0 @popperjs/core clipboard jquery --save'], base_path());
         $this->runCommands(['npm install sass @vitejs/plugin-legacy --save-dev'], base_path());
 
         // configurando SASS

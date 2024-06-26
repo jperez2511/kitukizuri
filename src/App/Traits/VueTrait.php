@@ -13,38 +13,6 @@ trait VueTrait
         $this->addViteConfig();
     }
 
-    protected function addVueUI()
-    {
-        $destinationPath = base_path('resources/ts');
-        if (!is_dir($destinationPath)) {
-            $this->warning('ejecute primero el comando krud:ts-install');
-        }
-
-        $dependencies = [
-            'vuetify',
-            'vite-plugin-vuetify',
-            'vue3-perfect-scrollbar',
-            'vue-tabler-icons',
-            '@mdi/font',
-            'sass',
-            'vue-draggable-next',
-            'pinia',
-            'vue-router',
-            'lodash',
-            'axios-mock-adapter',
-            'apexcharts',
-            'vue3-apexcharts',
-            'vue-i18n'
-        ];
-
-        $this->runCommands(['npm install --save '. implode(' ', $dependencies)], base_path());
-
-        copy(__DIR__ . '/../../stubs/resources/ts/app.ui.ts', base_path('resources/ts/app.ts'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/resources/ts/plugins', base_path('resources/ts/plugins'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/resources/ts/Components', base_path('resources/ts/Components'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/resources/scss', base_path('resources/scss'));
-    }
-
     protected function addVueConfig()
     {
         $filePath    = base_path('resources/js/app.js');

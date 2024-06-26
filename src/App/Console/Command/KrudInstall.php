@@ -57,19 +57,12 @@ class KrudInstall extends Command
      */
     public function handle()
     {
-        $vueUi       = false;
         $ldapLogin   = confirm('¿Login con LDAP?');
         $vueConfig   = confirm('¿Configurar Vue?');
-
-        if($vueConfig == true) {
-            $vueUi = confirm('¿Instalar la UI basada en Vue?');
-        }
 
         $mongoConfig = confirm('¿Configurar MongoDB?');
         $trinoConfig = confirm('¿Configurar Trino?');
         $logConfig   = confirm('¿Guardar Logs en base de datos?');
-
-        
 
         // instalación de jetstream
         $installed = $this->isPackageInstalled('laravel/jetstream');
@@ -84,10 +77,6 @@ class KrudInstall extends Command
         if($vueConfig == true) {
             // instalación de Vue en proyecto
             $this->configVue();
-            if($vueUi == true) {
-                $this->configTs();
-                $this->addVueUI();
-            }
         }
 
         if($mongoConfig == true) {

@@ -24,7 +24,7 @@ class VueInstall extends Command
      *
      * @var string
      */
-    protected $signature = "krud:vue-install {--vite-config} {--vue-ui}";
+    protected $signature = "krud:vue-install {--vite-config}";
 
     /**
      * The console command description.
@@ -52,9 +52,6 @@ class VueInstall extends Command
     {
         if($this->option('vite-config')) {
             $this->addViteConfig();
-        } else if ($this->option('vue-ui')) {
-            $this->addVueUI();
-
         } else {
             $this->configVue();
         }
