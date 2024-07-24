@@ -38,6 +38,16 @@ trait QueryBuilderTrait
         $this->tableName    = $model->getTable();
         $this->keyName      = $model->getKeyName();
     }
+
+    /**
+     * getKeyName
+     * Retorna la llave primaria de la tabla
+     *
+     * @return void
+     */
+    protected function getKeyName() {
+        return $this->keyName;
+    }
     
     /**
      * __call
@@ -286,7 +296,7 @@ trait QueryBuilderTrait
         $data = $this->queryBuilder->select($this->getSelect($campos));
 
         // Obteniendo el id de la tabla
-        $data->addSelect($this->tableName.'.'.$this->keyName.' as '.$this->id);
+        $data->addSelect($this->tableName.'.'.$this->keyName);
 
         // obteniendo la cantidad total de elementos en la tabla
         $count = $data->count();

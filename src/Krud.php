@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
+
+use MongoDB\Laravel\Connection as MC;
+
 // librerías para base de datos
 use Illuminate\Database\QueryException;
 use \Illuminate\Database\Query\Expression;
@@ -37,9 +40,6 @@ class Krud extends Controller
 {
 
     use QueryBuilderTrait, UiTrait, HelpTrait;
-
-    // Variable remplazo id
-    private $id       = '__id__';
 
     // Variables de valor único
     private $editId   = null;
@@ -136,8 +136,6 @@ class Krud extends Controller
         return config('kitukizuri.routePrefix') ?? 'krud';
     }
 
-    
-
     /**
      * getSelect
      * retorna una lista de los campos a mostrar.
@@ -154,9 +152,16 @@ class Krud extends Controller
                 array_push($s, $campos[$i]);
             }
         }
-        return array_map(function ($c) {
-            return DB::raw($c['campo']);
-        }, $s);
+
+        if($this->model->getConnection() instanceof MC){
+            return array_map(function ($c) {
+                return $c['campo'];
+            }, $s);
+        } else {
+            return array_map(function ($c) {
+                return DB::raw($c['campo']);
+            }, $s);
+        }
     }
 
     /**
@@ -487,12 +492,12 @@ class Krud extends Controller
                     data-toggle="tooltip" data-placement="left" title="Mas opciones" 
                     href="javascript:void(0)" 
                     class="btn btn-xs btn-sm '.$classBtnOptions.'" 
-                    onclick="opciones(\''.Crypt::encrypt($item['__id__']).'\')">
+                    onclick="opciones(\''.Crypt::encrypt($item[$this->keyName]).'\')">
                         <span class="'.$icnOptions.'"></span>
                     </a>';
             } else {
                 foreach($this->botones as $boton) {
-                    $boton['url'] = str_replace('{id}', Crypt::encrypt($item['__id__']), $boton['url']);
+                    $boton['url'] = str_replace('{id}', Crypt::encrypt($item[$this->keyName]), $boton['url']);
                     $btns .= '<a 
                         data-toggle="tooltip" data-placement="left" title="'.$boton['nombre'].'" 
                         href="'.$boton['url'].'" 
@@ -507,7 +512,7 @@ class Krud extends Controller
                 $btns .= '<a 
                     href="javascript:void(0)"
                     data-toggle="tooltip" data-placement="left" title="'.__('Editar').'" 
-                    onclick="edit(\''.Crypt::encrypt($item['__id__']).'\')" 
+                    onclick="edit(\''.Crypt::encrypt($item[$this->keyName]).'\')" 
                     class="btn btn-xs btn-sm '.$classBtnEdit.'">
                         <span class="'.$icnEdit.'"></span>
                     </a>';
@@ -517,7 +522,7 @@ class Krud extends Controller
                 $btns .= '<a 
                     href="javascript:void(0)"
                     data-toggle="tooltip" data-placement="left" title="'.__('Eliminar').'" 
-                    onclick="destroy(\''.Crypt::encrypt($item['__id__']).'\')" 
+                    onclick="destroy(\''.Crypt::encrypt($item[$this->keyName]).'\')" 
                     class="btn btn-xs btn-sm '.$classBtnDelete.'">
                         <span class="'.$icnDelete.'"></span>
                     </a>';
@@ -525,7 +530,7 @@ class Krud extends Controller
             
             $item['btn'] = $btns;
 
-            unset($item['__id__']);
+            unset($item[$this->keyName]);
 
             $response['data'][] = array_values($item);
         }        
