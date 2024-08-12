@@ -2,7 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits;
 
-use Illuminate\Filesystem\Filesystem;
+use File;
 
 trait MultiTenantTrait
 {
