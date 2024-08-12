@@ -16,7 +16,7 @@ trait MultiTenantTrait
             $this->addTenantEnv('.env.example');
         }
 
-        $this->setDatabaseConfig();
+        $this->setDatabaseConfigTenant();
     }
 
     private function addTenantEnv($file)
@@ -43,7 +43,7 @@ trait MultiTenantTrait
         }
     }
 
-    private function setDatabaseConfig()
+    private function setDatabaseConfigTenant()
     {
         $path      = config_path('database.php');
         $contents  = File::get($path);
