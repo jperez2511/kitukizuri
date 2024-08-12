@@ -25,7 +25,7 @@ use function Laravel\Prompts\confirm;
 
 class KrudInstall extends Command
 {
-    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait, LogTrait, TsTrait;
+    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait, LogTrait, TsTrait, MultiTenantTrait;
 
     /**
      * The name and signature of the console command.
