@@ -56,7 +56,7 @@ trait MongoTrait
         $envPath = base_path($file);
         $envContent = file_get_contents($envPath);
 
-        // Verifica si las configuraciones LDAP ya existen para evitar duplicados
+        // Verifica si las configuraciones de Mongo ya existen para evitar duplicados
         if (!str_contains($envContent, 'DB_MONGO_CONNECTION')) {
             $ldapConfig = "\n" .
                 "DB_MONGO_CONNECTION=mongodb\n" .

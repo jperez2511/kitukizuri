@@ -17,7 +17,8 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     LdapTrait,
     MongoTrait,
     TrinoTrait,
-    UtilityTrait
+    UtilityTrait,
+    MultiTenantTrait
 };
 
 use function Laravel\Prompts\confirm;
@@ -57,6 +58,8 @@ class KrudInstall extends Command
      */
     public function handle()
     {
+        $multiTenant = confirm('¿Configurar aplicación para multi tenants?');
+
         $ldapLogin   = confirm('¿Login con LDAP?');
         $vueConfig   = confirm('¿Configurar Vue?');
 
@@ -72,6 +75,10 @@ class KrudInstall extends Command
             $this->info('instalación de Jetstream terminada exitosamente !');
         } else {
             $this->info('Jetstream ya está instalado');
+        }
+
+        if ($multiTenant == true) {
+            $this->configMultiTenant();
         }
 
         if($vueConfig == true) {

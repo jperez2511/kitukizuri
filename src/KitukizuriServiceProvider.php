@@ -3,6 +3,7 @@
 namespace Icebearsoft\Kitukizuri;
 
 use Illuminate\Routing\Router;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
@@ -18,7 +19,8 @@ use Icebearsoft\Kitukizuri\App\Console\Command\{
     DefaultData,
     SetDocker,
     LibsInstall,
-    UiConfig
+    UiConfig,
+    MigrateTTS
 };
 
 class KitukizuriServiceProvider extends ServiceProvider
@@ -28,7 +30,7 @@ class KitukizuriServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Router $router)
+    public function boot(Router $router, Kernel $kernel)
     {
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');
@@ -36,6 +38,8 @@ class KitukizuriServiceProvider extends ServiceProvider
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\App\Http\Middleware\KituKizurimd');
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\App\Http\Middleware\Menu');
         $router->aliasMiddleware('klang', 'Icebearsoft\Kitukizuri\App\Http\Middleware\SetLang');
+
+        $kernel->pushMiddleware(MiMiddleware::class);
 
         $this->configureViewsBladeComponents();
         $this->configureCommands();
@@ -81,7 +85,8 @@ class KitukizuriServiceProvider extends ServiceProvider
                 DefaultData::class,
                 SetDocker::class,
                 LibsInstall::class,
-                UiConfig::class
+                UiConfig::class,
+                MigrateTTS::class
             ]);
         }
     }
