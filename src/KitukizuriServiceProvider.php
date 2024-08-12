@@ -10,6 +10,8 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
+use Icebearsoft\Kitukizuri\App\Http\Middleware\Tenant;
+
 use Icebearsoft\Kitukizuri\App\Console\Command\{
     MakeModule,
     KrudInstall,
@@ -39,7 +41,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\App\Http\Middleware\Menu');
         $router->aliasMiddleware('klang', 'Icebearsoft\Kitukizuri\App\Http\Middleware\SetLang');
 
-        $kernel->pushMiddleware(MiMiddleware::class);
+        $kernel->pushMiddleware(Tenant::class);
 
         $this->configureViewsBladeComponents();
         $this->configureCommands();
