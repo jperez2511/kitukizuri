@@ -22,7 +22,8 @@ use Icebearsoft\Kitukizuri\App\Console\Command\{
     SetDocker,
     LibsInstall,
     UiConfig,
-    MigrateTTS
+    MigrateTTS,
+    SeedTTS
 };
 
 class KitukizuriServiceProvider extends ServiceProvider
@@ -88,7 +89,8 @@ class KitukizuriServiceProvider extends ServiceProvider
                 SetDocker::class,
                 LibsInstall::class,
                 UiConfig::class,
-                MigrateTTS::class
+                MigrateTTS::class,
+                SeedTTS::class
             ]);
         }
     }
