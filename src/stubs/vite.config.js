@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
-import vuetify from 'vite-plugin-vuetify';
 
 export default defineConfig({
     plugins: [
@@ -13,10 +12,6 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        }),
-        vuetify({
-            autoImport: true,
-            styles: { configFile: 'resources/scss/variables.scss' }
         }),
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
@@ -30,7 +25,6 @@ export default defineConfig({
         }
     },
     optimizeDeps: {
-        exclude: ['vuetify'],
         entries: ['./resources/**/*.vue']
     }
 });
