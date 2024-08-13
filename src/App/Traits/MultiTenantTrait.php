@@ -10,10 +10,15 @@ trait MultiTenantTrait
     {
         if(file_exists(base_path('.env'))) {
             $this->addTenantEnv('.env');
+            $this->replaceInFile('SESSION_DRIVER=database', 'SESSION_DRIVER=file', base_path('.env.example'));
+            $this->replaceInFile('CACHE_STORE=database', 'CACHE_STORE=file', base_path('.env.example'));
         }
         
         if(file_exists(base_path('.env.example'))) {
             $this->addTenantEnv('.env.example');
+            $this->replaceInFile('SESSION_DRIVER=database', 'SESSION_DRIVER=file', base_path('.env.example'));
+            $this->replaceInFile('CACHE_STORE=database', 'CACHE_STORE=file', base_path('.env.example'));
+            
         }
 
         $this->setDatabaseConfigTenant();
