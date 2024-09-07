@@ -1,22 +1,12 @@
 <x-guest-layout>
+    <div class="pt-4 bg-gray-100">
+        <div class="min-h-screen flex flex-col items-center pt-6 sm:pt-0">
+            <div>
+                <x-authentication-card-logo />
+            </div>
 
-    <div class="container-fluid">
-        <div class="nk-content-inner">
-            <div class="nk-content-body">
-                <div class="content-page wide-md m-auto">
-                    <div class="nk-block-head-content text-center">
-                        <x-authentication-card-logo />
-                    </div>
-                    <div class="nk-block">
-                        <div class="card card-bordered">
-                            <div class="card-inner card-inner-xl">
-                                <div class="entry mt-4">
-                                    {!! $terms !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="w-full sm:max-w-2xl mt-6 p-6 bg-white shadow-md overflow-hidden sm:rounded-lg prose">
+                {!! $terms !!}
             </div>
         </div>
     </div>

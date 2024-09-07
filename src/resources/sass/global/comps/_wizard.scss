@@ -16,10 +16,10 @@
         margin: -10px;
         padding-top: 20px;
         li{
+            padding:10px;
             &:first-child{
                 order: 1;
             }
-            padding:10px;
             a{
                 display: inline-block;
                 position: relative;

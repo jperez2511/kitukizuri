@@ -293,9 +293,6 @@
 @include media-breakpoint-up(lg){
     .nk-header{
         &-menu{
-            .nk-header-mobile{
-                display: none;
-            }
             position: static;
             background: transparent;
             height: auto;
@@ -305,6 +302,9 @@
             padding: 0;
             overflow: visible;
             transform: translateX(0) !important;
+            .nk-header-mobile{
+                display: none;
+            }
         }
     }
 }

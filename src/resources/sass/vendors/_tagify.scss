@@ -20,6 +20,18 @@
     $tag-inset-shadow-size   : 1.1em !default;
     $placeholder-color       : $tag-text-color !default;
 
+    display       : flex;
+    align-items   : flex-start;
+    flex-wrap     : wrap;
+    border        : 1px solid $tags-border-color;
+    padding       : 3px;
+    line-height   : 1.1;
+    cursor        : text;
+    outline       : none;
+    position      : relative;
+    transition    : .1s;
+    font-size     : 14px;
+
     @mixin placeholder( $show:true, $opacity:.7 ){
         transition:.2s ease-out;
         @if $show == true {
@@ -43,18 +55,6 @@
     @keyframes rotateLoader {
         to{ transform: rotate(1turn) }
     }
-
-    display       : flex;
-    align-items   : flex-start;
-    flex-wrap     : wrap;
-    border        : 1px solid $tags-border-color;
-    padding       : 3px;
-    line-height   : 1.1;
-    cursor        : text;
-    outline       : none;
-    position      : relative;
-    transition    : .1s;
-    font-size     : 14px;
 
     @media (max-width:576px) {
         padding: 4px;

@@ -14,7 +14,7 @@
         @livewireStyles
     </head>
 
-    <body class="nk-body npc-default has-apps-sidebar has-sidebar ">
+    <body class="nk-body npc-default has-apps-sidebar has-sidebar no-touch nk-nio-theme ">
         <div class="nk-app-root">
             <div class="nk-apps-sidebar is-dark">
                 <div class="nk-apps-brand text-center">
@@ -43,7 +43,6 @@
                     <div class="nk-header nk-header-fixed is-light">
                         <div class="container-fluid">
                             @livewire('navigation-menu')
-                            </div>
                         </div>
                     </div>
                     <div class="nk-sidebar" data-content="sidebarMenu">
@@ -58,7 +57,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="nk-content ">
+                    
                         <div class="container-fluid">
                             <div class="nk-content-inner">
                                 <div class="nk-content-body">
@@ -82,10 +81,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    
                 </div>
             </div>
-        </div>
         
         @stack('modals')
 

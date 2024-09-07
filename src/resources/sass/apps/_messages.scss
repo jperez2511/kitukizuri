@@ -95,10 +95,10 @@ $msg-body-gap-x-dsk :2.5rem;
     &-item{
         display: flex;
         padding:$msg-item-gap-y $msg-item-gap-x;
+        cursor: pointer;
         &:not(:last-child){
             border-bottom: 1px solid $border-light;
         }
-        cursor: pointer;
         &.active,&.current{
             background: $white;
             cursor: default;

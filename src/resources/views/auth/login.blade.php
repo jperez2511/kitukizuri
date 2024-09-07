@@ -25,24 +25,24 @@
             </div>
 
             <div class="form-group">
-                <div class="form-label-group">
-                    <x-label for="password" value="{{ __('Password') }}" />
-                    @if (Route::has('password.request'))
-                        <a class="link link-primary link-sm" href="{{ route('password.request') }}">
-                            {{ __('Forgot your password?') }}
-                        </a>
-                    @endif
-                </div>
+                <x-label for="password" value="{{ __('Password') }}" />
                 <div class="form-control-wrap">
                     <x-input id="password" class="form-control form-control-lg" type="password" name="password" required autocomplete="current-password" />
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
+                <div class="form-label-group">
+                    <label for="remember_me" class="flex items-center">
+                        <x-checkbox id="remember_me" name="remember" />
+                        <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                    </label>
+                    @if (Route::has('password.request'))
+                        <a class="link link-primary link-sm" href="{{ route('password.request') }}">
+                            {{ __('Forgot your password?') }}
+                        </a>
+                    @endif
+                </div>
             </div>
 
             <div class="form-group">

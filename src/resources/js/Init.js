@@ -403,25 +403,6 @@ var NioApp = (function (n, l) {
     }
   };
 
-  // BootStrap Specific Tab Open
-  NioApp.BS.tabfix = function (elm) {
-    var tab = elm ? elm : '[data-bs-toggle="modal"]';
-    $(tab).on('click', function () {
-      var _this = $(this),
-        target = _this.data('target'),
-        target_href = _this.attr('href'),
-        tg_tab = _this.data('tab-target');
-      var modal = target ? $body.find(target) : $body.find(target_href);
-      if (tg_tab && tg_tab !== '#' && modal) {
-        modal.find('[href="' + tg_tab + '"]').tab('show');
-      } else if (modal) {
-        var tabdef = modal.find('.nk-nav.nav-tabs');
-        var link = $(tabdef[0]).find('[data-toggle="tab"]');
-        $(link[0]).tab('show');
-      }
-    });
-  };
-
   // Dark Mode Switch @since v2.0
   NioApp.ModeSwitch = function () {
     var toggle = $('.dark-switch');
@@ -474,7 +455,6 @@ var NioApp = (function (n, l) {
     NioApp.BS.fileinput('.form-file-input');
     NioApp.BS.modalfix();
     NioApp.BS.ddfix();
-    NioApp.BS.tabfix();
   };
 
   // Toggler @v1

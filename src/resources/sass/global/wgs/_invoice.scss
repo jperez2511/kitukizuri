@@ -103,13 +103,13 @@ $invoice-margin-bottom: 1.5rem !default;
     	ul {
     		li {
                 padding:.5rem 0;
+				line-height: 1.3;
                 &:first-child {
                     padding-top: 0;
                 }
                 &:last-child {
                     padding-bottom: 0;
                 }
-                line-height: 1.3;
     		}
 
     		.icon {

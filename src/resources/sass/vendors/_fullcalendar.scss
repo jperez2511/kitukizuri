@@ -32,13 +32,13 @@
     border-collapse: collapse;
     border-spacing: 0;
     font-size: 1em; /* normalize cross-browser */
+    border-radius: $border-radius;
     th{
       border: 1px solid $border-color;
     }
     td{
       border: 1px solid $border-color;
     }
-    border-radius: $border-radius;
     thead th,thead td{
       border-bottom-width:0;
     }

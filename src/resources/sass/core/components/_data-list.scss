@@ -40,10 +40,10 @@
         border-radius: $border-radius;
         &.is-plain {
             margin-bottom: 0;
+            background-color: transparent;
             &:first-child{
                 margin-top: 1rem;
             }
-            background-color: transparent;
         }
         .title {
             color: $base-text;
