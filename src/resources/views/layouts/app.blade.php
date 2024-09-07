@@ -18,7 +18,7 @@
         <div class="nk-app-root">
             <div class="nk-apps-sidebar is-dark">
                 <div class="nk-apps-brand text-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('home.index') }}">
                         <x-application-mark style="width:50%; margin-top:10px;" />
                     </a>
                 </div>

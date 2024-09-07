@@ -17,7 +17,8 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified', 'kitukizuri', 'kmenu', 'klang'])->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('home.index');
     // Automatic injection routes don't remove this line
 });
 
