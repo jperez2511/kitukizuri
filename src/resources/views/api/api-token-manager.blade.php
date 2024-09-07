@@ -10,28 +10,35 @@
         </x-slot>
 
         <x-slot name="form">
-            <!-- Token Name -->
-            <div class="col-span-6 sm:col-span-4">
-                <x-label for="name" value="{{ __('Token Name') }}" />
-                <x-input id="name" type="text" class="mt-1 block w-full" wire:model="createApiTokenForm.name" autofocus />
-                <x-input-error for="name" class="mt-2" />
-            </div>
-
-            <!-- Token Permissions -->
-            @if (Laravel\Jetstream\Jetstream::hasPermissions())
-                <div class="col-span-6">
-                    <x-label for="permissions" value="{{ __('Permissions') }}" />
-
-                    <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)
-                            <label class="flex items-center">
-                                <x-checkbox wire:model="createApiTokenForm.permissions" :value="$permission"/>
-                                <span class="ms-2 text-sm text-gray-600">{{ $permission }}</span>
-                            </label>
-                        @endforeach
+            <div class="row">
+                <!-- Token Name -->
+                <div class="col-6">
+                    <div class="form-group">
+                        <x-label for="name" value="{{ __('Token Name') }}" />
+                        <x-input id="name" type="text" wire:model="createApiTokenForm.name" autofocus />
+                        <x-input-error for="name" class="mt-2" />
                     </div>
                 </div>
-            @endif
+    
+                <!-- Token Permissions -->
+                @if (Laravel\Jetstream\Jetstream::hasPermissions())
+                    <div class="col-6">
+                        <div class="form-group">
+                            <x-label for="permissions" value="{{ __('Permissions') }}" />
+                            <div class="g-3 align-center flex-wrap">
+                                @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)
+                                    <div class="g">
+                                        <div class="custom-control custom-control custom-checkbox mr-3">
+                                            <x-checkbox wire:model="createApiTokenForm.permissions" :id="$permission" :value="$permission"/>
+                                            <label class="custom-control-label" for="{{ $permission }}">{{ $permission }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </x-slot>
 
         <x-slot name="actions">
@@ -39,7 +46,7 @@
                 {{ __('Created.') }}
             </x-action-message>
 
-            <x-button>
+            <x-button class="btn-primary mt-3">
                 {{ __('Create') }}
             </x-button>
         </x-slot>
@@ -61,14 +68,14 @@
 
                 <!-- API Token List -->
                 <x-slot name="content">
-                    <div class="space-y-6">
+                    <div class="col-12">
                         @foreach ($this->user->tokens->sortBy('name') as $token)
-                            <div class="flex items-center justify-between">
-                                <div class="break-all">
+                            <div class="d-flex">
+                                <div class="me-auto p-2">
                                     {{ $token->name }}
                                 </div>
 
-                                <div class="flex items-center ms-2">
+                                <div class="p-2">
                                     @if ($token->last_used_at)
                                         <div class="text-sm text-gray-400">
                                             {{ __('Last used') }} {{ $token->last_used_at->diffForHumans() }}
@@ -76,12 +83,12 @@
                                     @endif
 
                                     @if (Laravel\Jetstream\Jetstream::hasPermissions())
-                                        <button class="cursor-pointer ms-6 text-sm text-gray-400 underline" wire:click="manageApiTokenPermissions({{ $token->id }})">
+                                        <button class="btn btn-link" wire:click="manageApiTokenPermissions({{ $token->id }})">
                                             {{ __('Permissions') }}
                                         </button>
                                     @endif
 
-                                    <button class="cursor-pointer ms-6 text-sm text-red-500" wire:click="confirmApiTokenDeletion({{ $token->id }})">
+                                    <button class="btn btn-link text-danger" wire:click="confirmApiTokenDeletion({{ $token->id }})">
                                         {{ __('Delete') }}
                                     </button>
                                 </div>
@@ -112,7 +119,7 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-secondary-button wire:click="$set('displayingToken', false)" wire:loading.attr="disabled">
+            <x-secondary-button class="btn-danger" wire:click="$set('displayingToken', false)" wire:loading.attr="disabled">
                 {{ __('Close') }}
             </x-secondary-button>
         </x-slot>
@@ -125,22 +132,24 @@
         </x-slot>
 
         <x-slot name="content">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)
-                    <label class="flex items-center">
-                        <x-checkbox wire:model="updateApiTokenForm.permissions" :value="$permission"/>
-                        <span class="ms-2 text-sm text-gray-600">{{ $permission }}</span>
-                    </label>
+            <div class="g-3 align-center flex-wrap">
+                @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)    
+                    <div class="g">
+                        <div class="custom-control custom-control custom-checkbox mr-3">
+                            <x-checkbox wire:model="updateApiTokenForm.permissions" :id="$permission" :value="$permission"/>
+                            <label class="custom-control-label" for="{{ $permission }}">{{ $permission }}</label>
+                        </div>
+                    </div>
                 @endforeach
             </div>
         </x-slot>
 
         <x-slot name="footer">
-            <x-secondary-button wire:click="$set('managingApiTokenPermissions', false)" wire:loading.attr="disabled">
+            <x-secondary-button class="btn-danger" wire:click="$set('managingApiTokenPermissions', false)" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-secondary-button>
 
-            <x-button class="ms-3" wire:click="updateApiToken" wire:loading.attr="disabled">
+            <x-button class="btn-success" wire:click="updateApiToken" wire:loading.attr="disabled">
                 {{ __('Save') }}
             </x-button>
         </x-slot>
@@ -157,11 +166,11 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-secondary-button wire:click="$toggle('confirmingApiTokenDeletion')" wire:loading.attr="disabled">
+            <x-secondary-button class="btn-primary" wire:click="$toggle('confirmingApiTokenDeletion')" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-secondary-button>
 
-            <x-danger-button class="ms-3" wire:click="deleteApiToken" wire:loading.attr="disabled">
+            <x-danger-button class="btn-danger" wire:click="deleteApiToken" wire:loading.attr="disabled">
                 {{ __('Delete') }}
             </x-danger-button>
         </x-slot>

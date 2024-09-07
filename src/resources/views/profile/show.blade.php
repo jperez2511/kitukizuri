@@ -1,5 +1,9 @@
 <x-app-layout>
-
+    <x-slot name="header">
+        <h3 class="title">
+            {{ __('Profile') }}
+        </h3>
+    </x-slot>
     <div class="nk-block">
         <div class="card card-bordered">
             <div class="card-aside-wrap">

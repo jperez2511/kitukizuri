@@ -47,6 +47,7 @@
                     </div>
                     <div class="nk-sidebar" data-content="sidebarMenu">
                         <div class="nk-sidebar-inner" data-simplebar>
+                            {!! session('menu') !!}
                             <ul class="nk-menu nk-menu-md">
                                 <li class="nk-menu-item">
                                     <a href="html/email-templates.html" class="nk-menu-link">
@@ -57,7 +58,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+                    <div class="nk-content ">
                         <div class="container-fluid">
                             <div class="nk-content-inner">
                                 <div class="nk-content-body">
@@ -81,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+                    </div>
                 </div>
             </div>
         

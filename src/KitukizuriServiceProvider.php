@@ -37,6 +37,8 @@ class KitukizuriServiceProvider extends ServiceProvider
     {
         $kernel->appendMiddlewareToGroup('web', Tenant::class);
         $kernel->prependMiddleware(Tenant::class);
+
+        $kernel->appendMiddlewareToGroup('web', Tenant::class);
         
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');
