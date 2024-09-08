@@ -17,14 +17,14 @@ trait SeederTrait
 			} else {
 				DB::statement('PRAGMA foreign_keys = OFF');	
 			}
-		} else if(env('TENANTS_CONNECTION')) {
+		} else if(!empty(env('TENANTS_CONNECTION'))) {
 			DB::statement('SET FOREIGN_KEY_CHECKS='.$value);
 		}
 	}
 
 	protected function sqlDateTime() {
 		$connectionName = env('DB_CONNECTION');
-		if($connectionName === 'mysql') {
+		if($connectionName === 'mysql' || !empty(env('TENANTS_CONNECTION'))) {
 			return 'NOW()';
 		} else if($connectionName === 'sqlite') {
 			return 'datetime(\'now\')';
