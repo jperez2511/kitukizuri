@@ -27,4 +27,19 @@ trait UiConfigTrait
 
         $this->runCommands(['npm run build'], base_path());
     }
+
+    protected function configPrevUI()
+    {
+        // instalación de dependencias Krud
+        $this->runCommands(['npm install'], __DIR__.'/../../../');
+        $this->runCommands(['npm install --save-dev gulp'], __DIR__.'/../../../');
+        $this->runCommands(['npx gulp build'], __DIR__.'/../../../');
+        $this->deleteDirectory(__DIR__.'/../../../node_modules');
+
+        $this->info('instalación de dependencias Kitu Kizuri terminada exitosamente');
+
+        $this->artisanCommand('vendor:publish','--tag=krud-views');
+        $this->artisanCommand('vendor:publish','--tag=krud-app');
+        $this->artisanCommand('vendor:publish','--tag=krud-public');
+    }
 }

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="nk-block-head nk-block-head-lg wide-xs mx-auto">
+    <div class="nk-block-head nk-block-head-lg mx-auto">
         <div class="nk-block-head-content text-center">
             <h2 class="nk-block-title fw-normal">{{__('Control Panel')}}</h2>
             <div class="nk-block-des">
@@ -68,8 +68,27 @@
     <div class="card">
         <div class="card-body mt-3 mb-3 text-center" onmouseover="pulse($(this))" onmouseout="removePulse($(this))">
             <a href="{{ route('roles.index') }}" style="color:#7c8a96;">
-                <i class="fa-duotone fa-user-shield fa-2xl mb-4"></i><br>
-                <strong>Roles de usuarios</strong>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" style="width: 15%;">
+                    <rect x="3" y="12.5" width="64" height="63.37" rx="7" ry="7" fill="#fff" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></rect>
+                    <path d="M10,13.49H60a6,6,0,0,1,6,6v3.9a0,0,0,0,1,0,0H4a0,0,0,0,1,0,0v-3.9A6,6,0,0,1,10,13.49Z" fill="#e3e7fe"></path>
+                    <rect x="3" y="23.39" width="64" height="1.98" fill="#6576ff"></rect>
+                    <path d="M65.37,31.31H76.81A12.24,12.24,0,0,0,87,42S88.12,66.31,65.37,77.5C42.62,66.31,43.75,42,43.75,42A12.23,12.23,0,0,0,53.93,31.31Z" fill="#fff" stroke="#6576ff" stroke-miterlimit="10" stroke-width="2"></path>
+                    <path d="M66,72.62c19-9.05,18.1-28.71,18.1-28.71s-7.47-.94-8.52-8.64H66Z" fill="#e3e7fe"></path>
+                    <polygon points="56 46.16 55 46.16 55 42.2 59 42.2 59 43.2 56 43.2 56 46.16" fill="#010863"></polygon>
+                    <polygon points="59 65.97 55 65.97 55 62.01 56 62.01 56 64.98 59 64.98 59 65.97" fill="#010863"></polygon>
+                    <polygon points="78 65.97 74 65.97 74 64.98 77 64.98 77 62.01 78 62.01 78 65.97" fill="#010863"></polygon>
+                    <polygon points="78 46.16 77 46.16 77 43.2 74 43.2 74 42.2 78 42.2 78 46.16" fill="#010863"></polygon>
+                    <path d="M70,51.12H62V48.86a3.74,3.74,0,0,1,3.17-3.57c2.56-.46,4.83,1.28,4.83,3.49Zm-7-1h6V48.56a2.78,2.78,0,0,0-2-2.63,3,3,0,0,0-4,2.64Z" fill="#6576ff"></path>
+                    <path d="M58,57.28V50.13H74V57.5c0,4.62-4.65,8.26-9.86,7.17A7.63,7.63,0,0,1,58,57.28Z" fill="#e5effe"></path>
+                    <path d="M59,51.12v6.7A7,7,0,0,0,73,58V51.12Z" fill="#6576ff"></path>
+                    <ellipse cx="66" cy="55.08" rx="2" ry="1.98" fill="#fff"></ellipse>
+                    <polygon points="68.91 62.01 63.84 62.01 65.18 56.07 67.57 56.07 68.91 62.01" fill="#fff"></polygon>
+                    <path d="M72,51.12H60V48.66a5.41,5.41,0,0,1,4.06-5.14c4.13-1.14,7.94,1.54,7.94,5Zm-11-1H71V48.49A4.69,4.69,0,0,0,67.08,44c-3.23-.6-6.08,1.58-6.08,4.33Z" fill="#6576ff"></path>
+                    <rect x="13" y="32.3" width="22" height="5.94" rx="1" ry="1" fill="none" stroke="#6576ff" stroke-miterlimit="10" stroke-width="2"></rect>
+                    <rect x="12" y="45.17" width="22" height="5.94" rx="1" ry="1" fill="none" stroke="#6576ff" stroke-miterlimit="10" stroke-width="2"></rect>
+                    <rect x="12" y="57.06" width="12" height="5.94" rx="1" ry="1" fill="none" stroke="#6576ff" stroke-miterlimit="10" stroke-width="2"></rect>
+                </svg><br>
+                <strong>{{ __('User Roles') }}</strong>
             </a>
         </div>
     </div>
@@ -79,7 +98,19 @@
     <div class="card">
         <div class="card-body mt-3 mb-3 text-center" onmouseover="pulse($(this))" onmouseout="removePulse($(this))">
             <a href="#" style="color:#7c8a96;" id="avanzado">
-                <i class="fa-duotone fa-window fa-2xl mb-4"></i><br>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" style="width: 15%;">
+                    <rect x="5" y="22" width="70" height="60" rx="7" ry="7" fill="#e3e7fe" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></rect>
+                    <path d="M12,23H68a6,6,0,0,1,6,6v6a0,0,0,0,1,0,0H6a0,0,0,0,1,0,0V29A6,6,0,0,1,12,23Z" fill="#b3c2ff"></path>
+                    <line x1="5" y1="35" x2="75" y2="35" fill="none" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                    <rect x="15" y="8" width="70" height="60" rx="7" ry="7" fill="#fff" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></rect>
+                    <path d="M22,9H78a6,6,0,0,1,6,6v6a0,0,0,0,1,0,0H16a0,0,0,0,1,0,0V15A6,6,0,0,1,22,9Z" fill="#e3e7fe"></path>
+                    <line x1="15" y1="22" x2="85" y2="22" fill="none" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                    <line x1="61" y1="15" x2="68" y2="15" fill="none" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                    <line x1="74" y1="15" x2="78" y2="15" fill="none" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                    <polyline points="60.49 51.07 67.06 44.5 60.49 37.93" fill="none" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
+                    <polyline points="41.51 37.93 34.94 44.5 41.51 51.07" fill="none" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
+                    <line x1="54.55" y1="34.5" x2="47.45" y2="54.5" fill="none" stroke="#c4cefe" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></line>
+                </svg><br>
                 <strong>Avanzado</strong>
             </a>
         </div>
