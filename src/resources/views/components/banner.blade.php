@@ -15,6 +15,6 @@
     <em x-show="style == 'danger'" class="icon ni ni-cross-circle"></em>
     <em x-show="style == 'warning'" class="icon ni ni-alert-circle"></em>
     
-    hola mundo
+    {{ $message }}
     <button class="close" x-on:click="show = false" data-bs-dismiss="alert"></button>
 </div>

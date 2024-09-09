@@ -76,7 +76,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         });
 
         $this->registerLivewireComponent([
-            'krud.dashboard' => 'Dashboard'
+            'krud.advancedOptions' => 'AdvancedOptions'
         ]);
     }
 
