@@ -39,7 +39,7 @@
     
 <div class="col-6">
     <div class="card">
-        <div class="card-body mt-3 mb-3 text-center" onmouseover="pulse($(this))" onmouseout="removePulse($(this))">
+        <div class="card-body mt-3 mb-3 text-center">
             <a href="{{ route('empresas.index') }}" style="color:#7c8a96;" >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" style="width: 15%;">
                     <rect x="5" y="5" width="53.97" height="69.95" rx="7" ry="7" fill="#e3e7fe" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
@@ -66,7 +66,7 @@
 
 <div class="col-6">
     <div class="card">
-        <div class="card-body mt-3 mb-3 text-center" onmouseover="pulse($(this))" onmouseout="removePulse($(this))">
+        <div class="card-body mt-3 mb-3 text-center">
             <a href="{{ route('roles.index') }}" style="color:#7c8a96;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" style="width: 15%;">
                     <rect x="3" y="12.5" width="64" height="63.37" rx="7" ry="7" fill="#fff" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></rect>
@@ -96,8 +96,8 @@
 
 <div class="col-6">
     <div class="card">
-        <div class="card-body mt-3 mb-3 text-center" onmouseover="pulse($(this))" onmouseout="removePulse($(this))">
-            <a href="#" style="color:#7c8a96;" id="avanzado">
+        <div class="card-body mt-3 mb-3 text-center">
+            <a href="#" style="color:#7c8a96;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" style="width: 15%;">
                     <rect x="5" y="22" width="70" height="60" rx="7" ry="7" fill="#e3e7fe" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></rect>
                     <path d="M12,23H68a6,6,0,0,1,6,6v6a0,0,0,0,1,0,0H6a0,0,0,0,1,0,0V29A6,6,0,0,1,12,23Z" fill="#b3c2ff"></path>
@@ -111,11 +111,36 @@
                     <polyline points="41.51 37.93 34.94 44.5 41.51 51.07" fill="none" stroke="#6576ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
                     <line x1="54.55" y1="34.5" x2="47.45" y2="54.5" fill="none" stroke="#c4cefe" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></line>
                 </svg><br>
-                <strong>Avanzado</strong>
+                <strong>{{ __('Advanced Options') }}</strong>
             </a>
         </div>
     </div>
 </div>
+
+<x-dialog-modal wire:model.live="displayingAdvancedOptions">
+    <x-slot name="title">
+        {{ __('AdvancedOptions') }}
+    </x-slot>
+
+    <x-slot name="content">
+        <div>
+            {{ __('Please copy your new API token. For your security, it won\'t be shown again.') }}
+        </div>
+
+        <x-input x-ref="plaintextToken" type="text" readonly :value="$plainTextToken"
+            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+            autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            @showing-token-modal.window="setTimeout(() => $refs.plaintextToken.select(), 250)"
+        />
+    </x-slot>
+
+    <x-slot name="footer">
+        <x-secondary-button class="btn-danger" wire:click="$set('displayingAdvancedOptions', false)" wire:loading.attr="disabled">
+            {{ __('Close') }}
+        </x-secondary-button>
+    </x-slot>
+</x-dialog-modal>
+
 
 <div class="modal fade" id="avanzadosModal" tabindex="-1" aria-labelledby="avanzadosModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -149,24 +174,5 @@
         </div>
     </div>
 </div>
-
-
-<script>
-
-    $('#avanzado').click(function (e) { 
-        $('#avanzadosModal').modal('show');
-    });
-
-    function pulse(element)
-    {
-        element.children('a').children('i').addClass('fa-fade');
-    }
-
-    function removePulse(element)
-    {
-        element.children('a').children('i').removeClass('fa-fade');
-    }
-
-</script>
 
 </x-app-layout>

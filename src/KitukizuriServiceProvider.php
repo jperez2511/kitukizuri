@@ -2,6 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri;
 
+use Livewire\Livewire;
 use Illuminate\Routing\Router;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Blade;
@@ -73,6 +74,10 @@ class KitukizuriServiceProvider extends ServiceProvider
             $this->registerComponent('table');
             $this->registerComponent('index-tree');
         });
+
+        $this->registerLivewireComponent([
+            'krud.dashboard' => 'Dashboard'
+        ]);
     }
 
     /**
@@ -159,6 +164,14 @@ class KitukizuriServiceProvider extends ServiceProvider
     {
         Blade::component('krud::components.'.$component, 'krud-'.$component);
         Blade::component('krud_prev::components.'.$component, 'krud-prev-'.$component);
+    }
+
+    protected function registerLivewireComponent($components)
+    {
+        $namespace = 'Icebearsoft\\Kitukizuri\\App\\Http\\Livewire\\';
+        foreach ($components as $alias => $className) {
+            Livewire::component($alias, $namespace.$className);
+        }
     }
 
     /**
