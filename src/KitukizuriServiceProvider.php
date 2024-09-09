@@ -61,8 +61,8 @@ class KitukizuriServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/resources/views/krud', 'krud');
         $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri', 'kitukizuri');
 
-        $this->loadViewsFrom(__DIR__.'/resources/views/krud', 'krud_prev');
-        $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri', 'kitukizuri_prev');
+        $this->loadViewsFrom(__DIR__.'/resources/views/krud_prev', 'krud_prev');
+        $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri_prev', 'kitukizuri_prev');
 
         $this->callAfterResolving(BladeCompiler::class, function () {
             $this->registerComponent('input');
@@ -158,6 +158,7 @@ class KitukizuriServiceProvider extends ServiceProvider
     protected function registerComponent($component)
     {
         Blade::component('krud::components.'.$component, 'krud-'.$component);
+        Blade::component('krud_prev::components.'.$component, 'krud-prev-'.$component);
     }
 
     /**
