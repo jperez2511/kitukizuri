@@ -21,9 +21,19 @@ class DashboardController extends Controller
      */
     public function index() 
     {
-        return view('kitukizuri::dashboard', [
-            'layout'   => 'krud::layout',
-            'titulo'   => __('Panel de administración'),
+
+        if(!empty(config('kitukizuri.prevUi')) && config('kitukizuri.prevUi') == true) {
+            $kitukizuri = 'kitukizuri_prev';
+            $krud       = 'krud_prev';
+        } else {
+            $kitukizuri = 'kitukizuri';
+            $krud       = 'krud';
+        }
+
+
+        return view($kitukizuri.'::dashboard', [
+            'layout'   => $krud.'::layout',
+            'titulo'   => __('Control Panel'),
             'dash'     => true,
             'kmenu'    => true,
         ]);
