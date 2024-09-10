@@ -31,7 +31,7 @@ class DashboardController extends Controller
         }
 
 
-        return view($kitukizuri.'::dashboard', [
+        return view($kitukizuri.'::dashboard.index', [
             'layout'   => $krud.'::layout',
             'titulo'   => __('Control Panel'),
             'dash'     => true,
