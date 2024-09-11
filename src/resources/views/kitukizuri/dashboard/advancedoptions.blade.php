@@ -28,18 +28,22 @@
         <x-slot name="content">
             <div>
                 <x-banner style="warning" message="{{ __('Caution: The following options may cause permanent changes within the application that cannot be undone. Please proceed carefully.') }}" />
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" style="width: 15%;">
-                    <ellipse cx="45" cy="25" rx="30" ry="15" fill="#e3e7fe" stroke="#6576ff" stroke-width="2"></ellipse>
-                    <rect x="15" y="25" width="60" height="40" rx="15" ry="15" fill="#fff" stroke="#6576ff" stroke-width="2"></rect>
-                    <line x1="15" y1="40" x2="75" y2="40" stroke="#6576ff" stroke-width="2"></line>
-                    <ellipse cx="45" cy="65" rx="30" ry="15" fill="#e3e7fe" stroke="#6576ff" stroke-width="2"></ellipse>
-                </svg>                
+                <div class="row">
+                    <div class="col-6">
+                        <a href="{{ route('database.index') }}" class="btn btn-lg btn-block btn-outline-primary">
+                            <em class="fa-duotone fa-solid fa-database"></em> <span class="p-1"> {{ __('Database management') }}</span>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="{{ route('logs.index') }}" class="btn btn-lg btn-block btn-outline-primary">
+                            <em class="fa-sharp-duotone fa-solid fa-receipt"></em> <span class="p-1"> {{ __('Log viwer') }}</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </x-slot>
     
-        <x-slot name="footer">
-            
-        </x-slot>
+        <x-slot name="footer"></x-slot>
     </x-dialog-modal>
 
 </div>
