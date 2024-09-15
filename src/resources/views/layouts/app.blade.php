@@ -12,6 +12,7 @@
 
         <!-- Styles -->
         @livewireStyles
+        @stack('styles')
     </head>
 
     <body class="nk-body npc-default has-apps-sidebar has-sidebar no-touch nk-nio-theme ">
@@ -77,9 +78,11 @@
                     </div>
                 </div>
             </div>
+        </div>
         
         @stack('modals')
-
+        @stack('scripts')
+        
         @livewireScripts
     </body>
 </html>

@@ -9,7 +9,17 @@ trait UiConfigTrait
     protected function configBootstrap()
     {
         // Instalación de paquetes para Bootstrap
-        $this->runCommands(['npm install bootstrap@5.3.3 @popperjs/core clipboard jquery --save'], base_path());
+        $components = [
+            'bootstrap@5.3.3', 
+            '@popperjs/core', 
+            'clipboard', 
+            'jquery', 
+            'datatables.net-dt', 
+            'datatables.net-responsive-dt',
+            'datatables.net-bs5'
+        ];
+
+        $this->runCommands(['npm install '.implode(' ',$components).' --save'], base_path());
         $this->runCommands(['npm install sass @vitejs/plugin-legacy --save-dev'], base_path());
 
         // configurando SASS
@@ -24,6 +34,7 @@ trait UiConfigTrait
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/js', base_path('resources/js/'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/sass', base_path('resources/sass/'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/fonts', base_path('resources/fonts/'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/views', base_path('resources/views/'));
 
         $this->runCommands(['npm run build'], base_path());
     }
