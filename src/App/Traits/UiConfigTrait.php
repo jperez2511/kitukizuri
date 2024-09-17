@@ -14,9 +14,15 @@ trait UiConfigTrait
             '@popperjs/core', 
             'clipboard', 
             'jquery', 
-            'datatables.net-dt', 
-            'datatables.net-responsive-dt',
-            'datatables.net-bs5'
+            'datatables.net',
+            'datatables.net-bs4',
+            'datatables.net-buttons-bs4',
+            'datatables.net-responsive',
+            'datatables.net-responsive-bs4',
+            'datatables.net-buttons',
+            'datatables.net-buttons-bs4',
+            'jszip',
+            'pdfmake'
         ];
 
         $this->runCommands(['npm install '.implode(' ',$components).' --save'], base_path());

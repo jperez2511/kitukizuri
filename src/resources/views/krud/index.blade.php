@@ -1,33 +1,75 @@
-@extends($layout)
 
-@section('styles')
-    <!-- Plugins -->
-    <link href="{{asset('kitukizuri/libs/datatables.net-bs'.$vBootstrap.'/css/dataTables.bootstrap'.$vBootstrap.'.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('kitukizuri/libs/datatables.net-buttons-bs'.$vBootstrap.'/css/buttons.bootstrap'.$vBootstrap.'.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('kitukizuri/libs/datatables.net-responsive-bs'.$vBootstrap.'/css/responsive.bootstrap'.$vBootstrap.'.min.css')}}" rel="stylesheet" type="text/css" />     
-@endsection
+<x-app-layout>
+    <x-slot name="header">
+        <h3 class="title">
+            {{ __($titulo) }}
+        </h2>
+    </x-slot>
+
+    <x-banner />
+    
+    <div class="card">
+        <div class="card-inner">    
+            <table id="table1" class="table table-bordered">
+                <thead>
+                    @foreach($columnas as $c)
+                        <th>{{ $c }}</th>
+                    @endforeach
+                    <th width="10%"></th>
+                </thead>
+                <tbody>                        
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var opt = {
+                    responsive: {
+                        details: true
+                    },
+                    buttons: ['copy', 'excel', 'csv', 'pdf']
+                };
+                var auto_responsive = $(this).data('auto-responsive'), has_export = (typeof (opt.buttons) !== 'undefined' && opt.buttons) ? true : false;
+                var btn = (has_export) ? '<"dt-export-buttons d-flex align-center"<"dt-export-title d-none d-md-inline-block">B>' : '', btn_cls = (has_export) ? ' with-export' : '';
+                var dom_normal = '<"row justify-between g-2' + btn_cls + '"<"col-7 col-sm-4 text-start"f><"col-5 col-sm-8 text-end"<"datatable-filter"<"d-flex justify-content-end g-2"' + btn + 'l>>>><"datatable-wrap my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-start text-md-end"i>>';
+                var dom_separate = '<"row justify-between g-2' + btn_cls + '"<"col-7 col-sm-4 text-start"f><"col-5 col-sm-8 text-end"<"datatable-filter"<"d-flex justify-content-end g-2"' + btn + 'l>>>><"my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-start text-md-end"i>>';
+                var dom = $(this).hasClass('is-separate') ? dom_separate : dom_normal;
+                $('#table1').DataTable({
+                    "ajax": {
+                        url:  "{{$ruta}}/0"+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''),
+                        type:  'GET',
+                    },
+                    'dom': dom,
+                    responsive: {
+                        details: true
+                    },
+                    buttons: ['copy', 'excel', 'csv', 'pdf'],
+                    autoWidth: false,
+                    language: {
+                        search: "",
+                        searchPlaceholder: "Type in to Search",
+                        lengthMenu: "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
+                        info: "_START_ -_END_ of _TOTAL_",
+                        infoEmpty: "0",
+                        infoFiltered: "( Total _MAX_  )",
+                        paginate: {
+                            "first": "First",
+                            "last": "Last",
+                            "next": "Next",
+                            "previous": "Prev"
+                        },
+                    }
+                })
+            });
+        </script>
+    @endpush
+
+</x-app-layout>
 
 @section('content')
-    @if (!empty(Session::get('type')) && !empty(Session::get('msg')))
-        <div class="alert alert-{{Session::get('type')}}" role="alert">
-            {{Session::get('msg')}}
-        </div>    
-    @endif
-    
-    <div class="col-md-12">
-        <table id="table1" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-            <thead>
-                <tr>
-                    @foreach($columnas as $c)
-                        <td>{{ $c }}</td>
-                    @endforeach
-                    <td width="10%"></td>
-                </tr>
-            </thead>
-            <tbody>                        
-            </tbody>
-        </table>
-    </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
