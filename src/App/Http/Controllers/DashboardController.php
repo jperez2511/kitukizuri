@@ -21,8 +21,10 @@ class DashboardController extends Controller
      */
     public function index() 
     {
-        return view($kitukizuri, [
-            'layout'   => $krud,
+        $vars = usePrevUi();
+
+        return view($vars['kitukizuri'], [
+            'layout'   => $vars['krud'],
             'titulo'   => __('Control Panel'),
             'dash'     => true,
             'kmenu'    => true,
