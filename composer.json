@@ -19,7 +19,7 @@
     	    "Icebearsoft\\Kitukizuri\\": "src"
     	},
         "files": [
-            "app/Helpers/krud_ui.php"
+            "src/App/Helpers/krud_ui.php"
         ]
     },
     "extra": {
