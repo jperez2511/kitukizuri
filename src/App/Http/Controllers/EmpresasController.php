@@ -16,6 +16,8 @@ class EmpresasController extends Krud
      */
     public function __construct()
     {
+        $vars = usePrevUi('default');
+
         $this->setModel(new Empresa);
         $this->setTitulo('Empresas');
         $this->setCampo(['nombre'=>'Nombre',    'campo'=>'nombre']);
@@ -32,6 +34,7 @@ class EmpresasController extends Krud
             'class'  => 'outline-success',
             'icon'   => 'mdi mdi-group'
         ]);
+        
         $this->setLayout($vars['krud']);
     }
 }
