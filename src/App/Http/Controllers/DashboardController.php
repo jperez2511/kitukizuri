@@ -21,7 +21,7 @@ class DashboardController extends Controller
      */
     public function index() 
     {
-        $vars = usePrevUi();
+        $vars = usePrevUi('dashbord');
 
         return view($vars['kitukizuri'], [
             'layout'   => $vars['krud'],
