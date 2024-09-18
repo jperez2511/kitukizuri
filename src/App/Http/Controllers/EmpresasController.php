@@ -16,8 +16,6 @@ class EmpresasController extends Krud
      */
     public function __construct()
     {
-        $vars = usePrevUi();
-
         $this->setModel(new Empresa);
         $this->setTitulo('Empresas');
         $this->setCampo(['nombre'=>'Nombre',    'campo'=>'nombre']);

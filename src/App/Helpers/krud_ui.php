@@ -6,15 +6,15 @@ if (!function_exists('usePrevUi')) {
         $view = $view ?? 'default';
 
         $viewNames = [
-            'dashboard' => ['default' => 'dashboard.index', 'prev' => 'dashboard'],
-            'default'   => ['default' => 'index', 'prev' => 'index'],
+            'dashboard' => ['location' => 'kitukizuri', 'default' => 'dashboard.index', 'prev' => 'dashboard'],
+            'default'   => ['location' => 'krud', 'default' => 'index', 'prev' => 'index'],
         ];
 
         if (!empty(config('kitukizuri.prevUi')) && config('kitukizuri.prevUi') == true) {
-            $kitukizuri = 'kitukizuri_prev::'.$viewNames[$view]['prev'];
+            $kitukizuri = $viewNames[$view]['location'].'_prev::'.$viewNames[$view]['prev'];
             $krud       = 'krud_prev::layout';
         } else {
-            $kitukizuri = 'kitukizuri::'.$viewNames[$view]['default'];
+            $kitukizuri = $viewNames[$view]['location'].'::'.$viewNames[$view]['default'];
             $krud       = 'krud::layout';
         }
 

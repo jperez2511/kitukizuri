@@ -361,7 +361,8 @@ class Krud extends Controller
         $prefixDefault = $this->getDefaultPrefix();
 
         if ($prefix != null && $prefix == $prefixDefault) {
-            $view       = 'krud::index';
+            $vars       = usePrevUi('default');
+            $view       = $vars['kitukizuri'];
             $dtBtnAdd   = 'btn btn-outline-success';
             $dtBtnLiner = 'btn btn-outline-secondary';
             $kmenu      = true;
