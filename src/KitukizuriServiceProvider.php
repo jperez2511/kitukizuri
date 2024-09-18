@@ -5,6 +5,7 @@ namespace Icebearsoft\Kitukizuri;
 use Livewire\Livewire;
 use Illuminate\Routing\Router;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
@@ -78,6 +79,21 @@ class KitukizuriServiceProvider extends ServiceProvider
         $this->registerLivewireComponent([
             'krud.advancedOptions' => 'AdvancedOptions'
         ]);
+
+        View::composer('*', function ($view) {
+            if (config('kitukizuri.prevUi') === true) {
+                $kitukizuri = 'kitukizuri_prev::dashboard';
+                $krud       = 'krud_prev::layout';
+            } else {
+                $kitukizuri = 'kitukizuri::dashboard.index';
+                $krud       = 'krud::layout';
+            }
+
+            $view->with([
+                'kitukizuri' => $kitukizuri,
+                'krud'       => $krud,
+            ]);
+        });
     }
 
     /**

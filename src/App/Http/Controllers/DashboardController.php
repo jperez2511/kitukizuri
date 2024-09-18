@@ -21,16 +21,6 @@ class DashboardController extends Controller
      */
     public function index() 
     {
-
-        if(!empty(config('kitukizuri.prevUi')) && config('kitukizuri.prevUi') == true) {
-            $kitukizuri = 'kitukizuri_prev::dashboard';
-            $krud       = 'krud_prev::layout';
-        } else {
-            $kitukizuri = 'kitukizuri::dashboard.index';
-            $krud       = 'krud::layout';
-        }
-
-
         return view($kitukizuri, [
             'layout'   => $krud,
             'titulo'   => __('Control Panel'),

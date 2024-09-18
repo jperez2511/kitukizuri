@@ -46,6 +46,7 @@ return [
     */
 
     'layout' => 'layouts.app',
+    'preUi'  => false,
 
 
     /*
