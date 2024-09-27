@@ -422,9 +422,9 @@ class Krud extends Controller
         $prefixDefault = $this->getDefaultPrefix();
 
         if ($prefix != null && $prefix == $prefixDefault) {
-            $icnEdit         = 'mdi mdi-pencil-outline';
-            $icnDelete       = 'mdi mdi-trash-can-outline';
-            $icnOptions      = 'mdi mdi-plus';
+            $icnEdit         = 'fa-duotone fa-solid fa-pencil';
+            $icnDelete       = 'fa-duotone fa-solid fa-trash-can';
+            $icnOptions      = 'fa-duotone fa-solid fa-grid';
             $classBtnEdit    = 'btn-outline-primary';
             $classBtnDelete  = 'btn-outline-danger';
             $classBtnOptions = 'btn-outline-warning';
@@ -435,7 +435,6 @@ class Krud extends Controller
         if(!empty($this->removePermisos)) {
             $permisos = array_values(array_diff($permisos, $this->removePermisos));
         }
-
 
         //Contador de datos para el render
         $response['draw'] = intval($request->draw);

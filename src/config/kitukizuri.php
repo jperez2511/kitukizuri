@@ -94,9 +94,9 @@ return [
     |
     */
 
-    'edit'    => 'mdi mdi-pencil',
-    'delete'  => 'mdi mdi-trash-can-outline',
-    'options' => 'fa fa-plus',
+    'edit'    => 'fa-duotone fa-solid fa-pencil',
+    'delete'  => 'fa-duotone fa-solid fa-trash-can',
+    'options' => 'fa-duotone fa-solid fa-grid-2',
 
     'classBtnEdit'    => 'btn-outline-primary',
     'classBtnDelete'  => 'btn-outline-danger',
