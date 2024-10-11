@@ -299,7 +299,8 @@ trait QueryBuilderTrait
         $data->addSelect($this->tableName.'.'.$this->keyName);
 
         // obteniendo la cantidad total de elementos en la tabla
-        $count = $data->count();
+        $dataQuery = clone $data;
+        $count = DB::table(DB::raw("({$dataQuery->toRawSql()}) as subquery"))->count();
         
         // validando si existen data externa para adjuntar a la información obtenida en base de datos
         if(!empty($this->externalData)) {
