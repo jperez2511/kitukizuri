@@ -2,6 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
+use DB;
 use Illuminate\Support\Collection;
 
 trait QueryBuilderTrait
