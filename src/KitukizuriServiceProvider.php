@@ -168,9 +168,11 @@ class KitukizuriServiceProvider extends ServiceProvider
 
     protected function registerLivewireComponent($components)
     {
-        $namespace = 'Icebearsoft\\Kitukizuri\\App\\Http\\Livewire\\';
-        foreach ($components as $alias => $className) {
-            Livewire::component($alias, $namespace.$className);
+        if(class_exists(\Livewire\Livewire::class)){
+            $namespace = 'Icebearsoft\\Kitukizuri\\App\\Http\\Livewire\\';
+            foreach ($components as $alias => $className) {
+                Livewire::component($alias, $namespace.$className);
+            }
         }
     }
 
