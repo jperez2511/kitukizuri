@@ -1,2 +1,2 @@
 import './bootstrap';
-import './Init.js';
+import './init.js';

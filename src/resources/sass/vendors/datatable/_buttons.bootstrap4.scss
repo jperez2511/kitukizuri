@@ -204,21 +204,30 @@ div.dt-buttons a.btn.processing:after {
   -moz-animation: dtb-spinner 1500ms infinite linear;
 }
 
-.dt-buttons .btn-secondary{
-  @extend .btn-outline-light;
+@mixin btn-custom-style($outline-class) {
   @extend .btn-white;
   @extend .btn-icon;
-  span{
+  @extend #{$outline-class}; // Usa la clase de outline específica
+  span {
     display: none;
   }
-  &:before{
+  &:before {
     font-size: 1.125rem;
     font-weight: normal;
     font-style: normal;
-    width: $btn-line-height + $btn-padding-y*2;
+    width: $btn-line-height + $btn-padding-y * 2;
     font-family: $nk-dashlite-font;
   }
 }
+
+.dt-buttons .btn-secondary {
+  @include btn-custom-style('.btn-outline-light');
+}
+
+.dt-buttons .btn-success {
+  @include btn-custom-style('.btn-outline-success');
+}
+
 .dt-export{
   &-title{
     margin-left: 0.5rem;
@@ -243,6 +252,9 @@ div.dt-buttons a.btn.processing:after {
   }
   &-colvis:before{
     content: $ni-view-col-sq;
+  }
+  &-create:before{
+    content: $ni-note-add-c;
   }
   &-columnVisibility{
     position: relative;
