@@ -167,7 +167,6 @@ trait QueryBuilderTrait
         }
 
         $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
-
         $this->queryBuilder = $this->queryBuilder->join($tabla, $v1, $operador, $v2);
     }
 
@@ -189,7 +188,6 @@ trait QueryBuilderTrait
         }
 
         $this->allowed($operador, $this->allowedOperator, $this->typeError[12]);
-
         $this->queryBuilder = $this->queryBuilder->leftJoin($tabla, $v1, $operador, $v2);
     }
 
@@ -215,7 +213,6 @@ trait QueryBuilderTrait
             }
 
             $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
-
             $this->queryBuilder = $this->queryBuilder->where($column, $op, $column2);
         }
     }
@@ -252,7 +249,6 @@ trait QueryBuilderTrait
         }
 
         $this->allowed($op, $this->allowedOperator, $this->typeError[12]);
-
         $this->queryBuilder = $this->queryBuilder->orWhere($column, $op, $column2);
     }
 
@@ -296,13 +292,16 @@ trait QueryBuilderTrait
         //consultando al modelo los campos a mostrar en la tabla
         $data = $this->queryBuilder->select($this->getSelect($campos));
 
-        // Obteniendo el id de la tabla
-        $data->addSelect($this->tableName.'.'.$this->keyName);
+        if ($data->getConnection()->getDriverName() === 'mysql') {
+            // Obteniendo el id de la tabla
+            $data->addSelect($this->tableName.'.'.$this->keyName);
+            // obteniendo la cantidad total de elementos en la tabla
+            $dataQuery = clone $data;
+            $count     = DB::table(DB::raw("({$dataQuery->toRawSql()}) as subquery"))->count();
+        } else {
+            $count = $data->count();
+        }
 
-        // obteniendo la cantidad total de elementos en la tabla
-        $dataQuery = clone $data;
-        $count = DB::table(DB::raw("({$dataQuery->toRawSql()}) as subquery"))->count();
-        
         // validando si existen data externa para adjuntar a la información obtenida en base de datos
         if(!empty($this->externalData)) {
             $data = $data->get();
@@ -319,17 +318,14 @@ trait QueryBuilderTrait
 
         // validnado si existe algun elemento a filtrar que sea parte de external data
         if(!empty($this->searchInED)) { 
-            $data = $this->filterExternalData($data, $offset, $limit);
-            $count    = $data['count'];
-            $data     = $data['data'];
+            $data  = $this->filterExternalData($data, $offset, $limit);
+            $count = $data['count'];
+            $data  = $data['data'];
         } else {
             // validando si hay un offset a utilizar
             $data = $data->skip($offset);
-
             // validando si existe un limite para obtenr los datos
             $data = $data->take($limit);
-
-            
             $data = $data instanceof Collection ? $data : $data->get();
         }
 
@@ -371,5 +367,4 @@ trait QueryBuilderTrait
             'count' => $count,
         ];
     }
-
 }
