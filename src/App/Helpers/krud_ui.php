@@ -8,6 +8,7 @@ if (!function_exists('usePrevUi')) {
         $viewNames = [
             'dashboard' => ['location' => 'kitukizuri', 'default' => 'dashboard.index', 'prev' => 'dashboard'],
             'default'   => ['location' => 'krud', 'default' => 'index', 'prev' => 'index'],
+            'edit'      => ['location' => 'krud', 'default' => 'edit', 'prev' => 'edit'],
         ];
 
         if (!empty(config('kitukizuri.prevUi')) && config('kitukizuri.prevUi') == true) {

@@ -6,6 +6,7 @@ use Krud;
 
 use Auth;
 
+use Illuminate\Http\Request;
 use Icebearsoft\Kitukizuri\App\Models\Usuario;
 
 class UsuariosController extends Krud
@@ -37,5 +38,10 @@ class UsuariosController extends Krud
                 $this->setCampo($campo);
             }
         }
+    }
+
+    public function edit($id, Request $request)
+    {
+        dd('here');
     }
 }

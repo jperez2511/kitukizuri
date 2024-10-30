@@ -4,6 +4,7 @@ namespace Icebearsoft\Kitukizuri;
 
 // Dependencias
 use DB;
+use Log;
 use Route;
 use Session;
 use Carbon\Carbon;
@@ -550,13 +551,12 @@ class Krud extends Controller
     {
         return $this->edit(Crypt::encrypt(0), $request);
     }
-
+        
     /**
      * edit
      *
      * @param  mixed $id
      * @param  mixed $request
-     *
      * @return void
      */
     public function edit($id, Request $request)
@@ -565,7 +565,8 @@ class Krud extends Controller
             $id       = Crypt::decrypt($id);
             $parentid = $request->get('parent');
         } catch (Exception $e) {
-            dd($e);
+            Log::error($e);
+            abort(404);
         }
         
         $this->editId = $id;
@@ -580,7 +581,7 @@ class Krud extends Controller
         }
 
         $url    = $this->getUrl($request->url());
-        $layout = $this->getLayout();
+        
 
         $prefix        = Route::current()->action['prefix'];
         $view          = 'krud.edit';
@@ -590,6 +591,14 @@ class Krud extends Controller
         if ($prefix != null && $prefix == $prefixDefault) {
             $view  = 'krud::edit';
             $kmenu = true;
+        }
+
+        if(config('kitukizuri.prevUi') === true) {
+            $vars = \usePrevUi('edit');
+            $view = $vars['kitukizuri'];
+            $layout = $vars['krud'];
+        } else {
+            $layout = $this->getLayout();
         }
 
         $uriQuery = '?';
