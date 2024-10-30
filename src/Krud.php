@@ -425,9 +425,9 @@ class Krud extends Controller
             $icnEdit         = 'fa-duotone fa-solid fa-pencil';
             $icnDelete       = 'fa-duotone fa-solid fa-trash-can';
             $icnOptions      = 'fa-duotone fa-solid fa-grid';
-            $classBtnEdit    = 'btn-outline-primary';
-            $classBtnDelete  = 'btn-outline-danger';
-            $classBtnOptions = 'btn-outline-warning';
+            $classBtnEdit    = 'btn-sm btn-outline-primary';
+            $classBtnDelete  = 'btn-sm btn-outline-danger';
+            $classBtnOptions = 'btn-sm btn-outline-warning';
         }
 
         $response = [];
@@ -491,7 +491,7 @@ class Krud extends Controller
                 $btns .= '<a
                     data-toggle="tooltip" data-placement="left" title="Mas opciones" 
                     href="javascript:void(0)" 
-                    class="btn btn-xs btn-sm '.$classBtnOptions.'" 
+                    class="btn '.$classBtnOptions.'" 
                     onclick="opciones(\''.Crypt::encrypt($item[$this->keyName]).'\')">
                         <span class="'.$icnOptions.'"></span>
                     </a>';
@@ -501,7 +501,7 @@ class Krud extends Controller
                     $btns .= '<a 
                         data-toggle="tooltip" data-placement="left" title="'.$boton['nombre'].'" 
                         href="'.$boton['url'].'" 
-                        class="btn btn-xs btn-sm btn-'.$boton['class'].'">
+                        class="btn btn-'.$boton['class'].'">
                             <span class="'.$boton['icon'].'"></span>
                         </a>';
                 }
@@ -513,7 +513,7 @@ class Krud extends Controller
                     href="javascript:void(0)"
                     data-toggle="tooltip" data-placement="left" title="'.__('Editar').'" 
                     onclick="edit(\''.Crypt::encrypt($item[$this->keyName]).'\')" 
-                    class="btn btn-xs btn-sm '.$classBtnEdit.'">
+                    class="btn '.$classBtnEdit.'">
                         <span class="'.$icnEdit.'"></span>
                     </a>';
             }
@@ -523,7 +523,7 @@ class Krud extends Controller
                     href="javascript:void(0)"
                     data-toggle="tooltip" data-placement="left" title="'.__('Eliminar').'" 
                     onclick="destroy(\''.Crypt::encrypt($item[$this->keyName]).'\')" 
-                    class="btn btn-xs btn-sm '.$classBtnDelete.'">
+                    class="btn '.$classBtnDelete.'">
                         <span class="'.$icnDelete.'"></span>
                     </a>';
             }

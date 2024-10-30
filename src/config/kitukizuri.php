@@ -98,9 +98,9 @@ return [
     'delete'  => 'fa-duotone fa-solid fa-trash-can',
     'options' => 'fa-duotone fa-solid fa-grid-2',
 
-    'classBtnEdit'    => 'btn-outline-primary',
-    'classBtnDelete'  => 'btn-outline-danger',
-    'classBtnOptions' => 'btn-outline-warning',
+    'classBtnEdit'    => 'btn-sm btn-outline-primary',
+    'classBtnDelete'  => 'btn-sm btn-outline-danger',
+    'classBtnOptions' => 'btn-sm btn-outline-warning',
 
     'dtBtnAdd'   => 'btn btn-outline-success',
     'dtBtnLiner' => 'btn btn-outline-secondary',
