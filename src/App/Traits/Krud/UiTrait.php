@@ -92,7 +92,7 @@ trait UiTrait
         $this->titulo = $titulo;
     }
 
-    #[Alias('setPlantilla')] 
+    #[Alias('setTitle')] 
     protected function setTitle($title)
     {
         $this->setTitulo($title);

@@ -3,13 +3,14 @@
     'inputClass'  => '',
     'type'        => 'text',
     'attr'        => [],
+    'id'          => '',
     'label'
 ])
 
 @php
     $checkboxValue = 0;
     if($type != 'checkbox') {
-        $inputClass = 'form-control';
+        $inputClass = 'form-control form-control-outlined';
     } else {
         if ($attributes['value'] == 1 || $attributes['value'] == 'on') {
             $attributes['checked'] = true;
@@ -28,12 +29,14 @@
 @endphp
 
 <div class="{{$columnClass}}">
-    <div class="form-group">
-        <label>{{ $label }}</label>
-        <input type="{{ $type }}" {!! $attributes->merge(['class' => $inputClass]) !!} />
-        @error($attributes['name'])
-            <small class="text-danger">{{$message}}</small>
-        @enderror
+    <div class="form-group mb-3">
+        <div class="form-control-wrap">
+            <label class="form-label-outlined" for="{{ $id }}">{{ $label }}</label>
+            <input type="{{ $type }}" id="{{ $id }}" {!! $attributes->merge(['class' => $inputClass]) !!} />
+            @error($attributes['name'])
+                <small class="text-danger">{{$message}}</small>
+            @enderror
+        </div>
     </div>
 </div>
 

@@ -22,7 +22,8 @@ trait UiConfigTrait
             'datatables.net-buttons',
             'datatables.net-buttons-bs4',
             'jszip',
-            'pdfmake'
+            'pdfmake',
+            'select2',
         ];
 
         $this->runCommands(['npm install '.implode(' ',$components).' --save'], base_path());

@@ -61,6 +61,7 @@
 @endsection
 @section('scripts')
     <script>
+
         // --------------------------------
         // Extrae las variables por URL
         // ---------------------------------

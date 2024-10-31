@@ -24,6 +24,7 @@ var NioApp = (function (n, l) {
         }),
         (n.BS = {}),
         (n.TGL = {}),
+        (n.Ani = {}),
         (n.Win = { height: t.height(), width: t.outerWidth() }),
         (n.Break = { mb: 420, sm: 576, md: 768, lg: 992, xl: 1200, xxl: 1540, any: 1 / 0 }),
         (n.Host = { name: window.location.hostname, locat: e.slice(-4) + e.slice(0, 4) }),
@@ -437,6 +438,72 @@ var NioApp = (function (n, l) {
     NioApp.SetHW('[data-width]', 'width');
   };
 
+  // Animate FormSearch @v1.0
+  NioApp.Ani.formSearch = function (elm, opt) {
+    var def = { active: 'active', timeout: 400, target: '[data-search]' }, attr = (opt) ? extend(def, opt) : def;
+    var $elem = $(elm), $target = $(attr.target);
+
+    if ($elem.exists()) {
+        $elem.on('click', function (e) {
+            e.preventDefault();
+            var $self = $(this), the_target = $self.data('target'),
+                $self_st = $('[data-search=' + the_target + ']'),
+                $self_tg = $('[data-target=' + the_target + ']');
+
+            if (!$self_st.hasClass(attr.active)) {
+                $self_tg.add($self_st).addClass(attr.active);
+                $self_st.find('input').focus();
+            } else {
+                $self_tg.add($self_st).removeClass(attr.active);
+                setTimeout(function () {
+                    $self_st.find('input').val('');
+                }, attr.timeout);
+            }
+        });
+
+        $doc.on({
+            keyup: function (e) {
+                if (e.key === "Escape") {
+                    $elem.add($target).removeClass(attr.active);
+                }
+            },
+            mouseup: function (e) {
+                if (!$target.find('input').val() && !$target.is(e.target) && $target.has(e.target).length === 0 && !$elem.is(e.target) && $elem.has(e.target).length === 0) {
+                    $elem.add($target).removeClass(attr.active);
+                }
+            }
+        });
+    }
+  };
+
+  // Animate FormElement @v1.0
+  NioApp.Ani.formElm = function (elm, opt) {
+    var def = { focus: 'focused' }, attr = (opt) ? extend(def, opt) : def;
+
+    if ($(elm).exists()) {
+      $(elm).each(function () {
+          var $self = $(this);
+
+          if ($self.val()) {
+              $self.parent().addClass(attr.focus);
+          }
+          $self.on({
+              focus: function () {
+                  $self.parent().addClass(attr.focus);
+              },
+              blur: function () {
+                  if (!$self.val()) { $self.parent().removeClass(attr.focus); }
+              }
+          });
+      });
+    }
+  };
+
+  NioApp.Ani.init = function () {
+    NioApp.Ani.formElm('.form-control-outlined');
+    NioApp.Ani.formSearch('.toggle-search');
+  };
+
   // BootstrapExtend Init @v1.0
   NioApp.BS.init = function () {
     NioApp.BS.menutip('a.nk-menu-link');
@@ -480,6 +547,7 @@ var NioApp = (function (n, l) {
     NioApp.coms.docReady.push(NioApp.OtherInit);
     NioApp.coms.docReady.push(NioApp.ColorBG);
     NioApp.coms.docReady.push(NioApp.ColorTXT);
+    NioApp.coms.docReady.push(NioApp.Ani.init);
     NioApp.coms.docReady.push(NioApp.TGL.init);
     NioApp.coms.docReady.push(NioApp.BS.init);
     NioApp.coms.winLoad.push(NioApp.ModeSwitch);

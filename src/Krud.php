@@ -573,11 +573,11 @@ class Krud extends Controller
 
         if ($id != 0) {
             $data   = $this->model->find($id);
-            $titulo = 'Editar '.$this->titulo;
+            $titulo = __('Edit').' '.$this->titulo;
             $this->makeArrayData($data);
         } else {
             $data   = null;
-            $titulo = 'Agregar '.$this->titulo;
+            $titulo = __('Create').' '.$this->titulo;
         }
 
         $url    = $this->getUrl($request->url());
