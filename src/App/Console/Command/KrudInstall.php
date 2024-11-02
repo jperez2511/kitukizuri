@@ -16,7 +16,6 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     LogTrait,
     LdapTrait,
     MongoTrait,
-    TrinoTrait,
     UtilityTrait,
     MultiTenantTrait
 };
@@ -25,7 +24,7 @@ use function Laravel\Prompts\confirm;
 
 class KrudInstall extends Command
 {
-    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, TrinoTrait, LogTrait, TsTrait, MultiTenantTrait;
+    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, LogTrait, TsTrait, MultiTenantTrait;
 
     /**
      * The name and signature of the console command.
@@ -64,7 +63,6 @@ class KrudInstall extends Command
         $vueConfig   = confirm('¿Configurar Vue?');
 
         $mongoConfig = confirm('¿Configurar MongoDB?');
-        $trinoConfig = confirm('¿Configurar Trino?');
         $logConfig   = confirm('¿Guardar Logs en base de datos?');
 
         // instalación de jetstream
@@ -89,11 +87,6 @@ class KrudInstall extends Command
         if($mongoConfig == true) {
             // Configuración de MongoDB
             $this->configMongoDB();
-        }
-
-        if($trinoConfig == true) {
-            // Configuración de Trino
-            $this->configTrino();
         }
 
         if($logConfig == true) {

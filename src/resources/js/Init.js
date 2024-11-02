@@ -565,6 +565,20 @@ var NioApp = (function (n, l) {
     });
   };
 
+  NioApp.Select2.init = function () {
+    NioApp.Select2('.js-select2');
+  };
+
+  NioApp.Addons.Init = function () {
+    NioApp.Knob.init();
+    NioApp.Range.init();
+    NioApp.Select2.init();
+    NioApp.Dropzone.init();
+    NioApp.Slider.init();
+    NioApp.DataTable.init();
+    NioApp.Tagify.init();
+  };
+
   // Initial by default
   /////////////////////////////
   NioApp.init = function () {

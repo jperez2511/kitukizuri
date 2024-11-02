@@ -49,16 +49,6 @@ services:
             - "MONGO_INITDB_ROOT_PASSWORD=rootPassword"
         ports:
             - "27017:27017"
-    trino:
-        build:
-            context: ./
-            dockerfile: dockerfiles/trino/trino.docker
-        restart: always
-        environment:
-            - "MYSQL_ROOT_PASSWORD=rootPassword"
-            - "MONGO_ROOT_PASSWORD=rootPassword"
-        ports:
-            - "8080:8080"
 volumes:
     mysql-data:
     mongo-data:
