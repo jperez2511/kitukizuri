@@ -9,10 +9,6 @@
     'label',
 ])
 
-@push('css')
-    <link href="{{asset('/kitukizuri/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
-@endpush
-
 @php
     if(!empty($collection)) {
         $collection = json_decode($collection);
@@ -59,11 +55,3 @@
         </select>
     </div>
 </div>
-
-
-@push('js')
-    <script src="{{asset('kitukizuri/libs/select2/js/select2.min.js')}}"></script>
-    <script>
-        $('.input-select2').select2();
-    </script>
-@endpush

@@ -1,5 +1,6 @@
 .DS_Store
 .vscode/
+.idea/
 node_modules/
 src/public/kitukizuri/libs/
 package-lock.json

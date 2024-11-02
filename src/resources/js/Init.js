@@ -25,6 +25,7 @@ var NioApp = (function (n, l) {
         (n.BS = {}),
         (n.TGL = {}),
         (n.Ani = {}),
+        (n.Addons = {}),
         (n.Win = { height: t.height(), width: t.outerWidth() }),
         (n.Break = { mb: 420, sm: 576, md: 768, lg: 992, xl: 1200, xxl: 1540, any: 1 / 0 }),
         (n.Host = { name: window.location.hostname, locat: e.slice(-4) + e.slice(0, 4) }),
@@ -206,6 +207,29 @@ var NioApp = (function (n, l) {
         }),
         (n.coreInit = function () {
             n.coms.onResize.push(n.StateUpdate), n.coms.docReady.push(n.ClassInit);
+        }),
+        (n.select2 = function(e ,a){
+          l(e).exists() && "function" == typeof l.fn.select2 && l(e).each(function() {
+            var e = l(this),
+                t = {
+                    placeholder: e.data("placeholder"),
+                    clear: e.data("clear"),
+                    search: e.data("search"),
+                    width: e.data("width"),
+                    theme: e.data("theme"),
+                    ui: e.data("ui")
+                },
+                e = (t.ui = t.ui ? " " + e.csskey(t.ui, "select2") : "", {
+                    theme: t.theme ? t.theme + " " + t.ui : "default" + t.ui,
+                    allowClear: t.clear || !1,
+                    placeholder: t.placeholder || "",
+                    dropdownAutoWidth: !(!t.width || "auto" !== t.width),
+                    minimumResultsForSearch: t.search && "on" === t.search ? 1 : -1,
+                    dir: n.State.isRTL ? "rtl" : "ltr"
+                }),
+                t = a ? d(e, a) : e;
+            l(this).select2(t)
+          })
         }),
         n.coreInit(),
         n
