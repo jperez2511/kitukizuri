@@ -384,19 +384,20 @@ class Krud extends Controller
         }
 
         return view($view, [
-            'titulo'     => $this->titulo,
-            'columnas'   => $this->getColumnas($this->getSelectShow()),
-            'botones'    => $botones,
-            'permisos'   => $permisos,
-            'ruta'       => $ruta,
-            'template'   => $this->template,
-            'layout'     => $layout,
-            'dtBtnAdd'   => $dtBtnAdd,
-            'dtBtnLiner' => $dtBtnLiner,
-            'embed'      => $this->indexEmbed,
-            'kmenu'      => $kmenu,
-            'vBootstrap' => $vBootstrap,
-            'botonesDT'  => $this->botonesDT
+            'titulo'       => $this->titulo,
+            'columnas'     => $this->getColumnas($this->getSelectShow()),
+            'botones'      => $botones,
+            'permisos'     => $permisos,
+            'ruta'         => $ruta,
+            'template'     => $this->template,
+            'layout'       => $layout,
+            'dtBtnAdd'     => $dtBtnAdd,
+            'dtBtnLiner'   => $dtBtnLiner,
+            'embed'        => $this->indexEmbed,
+            'kmenu'        => $kmenu,
+            'vBootstrap'   => $vBootstrap,
+            'botonesDT'    => $this->botonesDT,
+            'defaultBtnDT' => $this->defaultBtnDT,
         ]);
     }
 

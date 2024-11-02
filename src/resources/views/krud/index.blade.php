@@ -66,7 +66,11 @@
                     },
                     buttons: {
                         buttons: [
-                            'copy', 'excel', 'pdf', 'colvis',
+                            @if(!empty($defaultBtnDT))
+                                {{ implode(',', $defaultBtnDT) }}
+                            @else
+                                'copy', 'excel', 'pdf', 'colvis',
+                            @endif
                             @if(in_array('create', $permisos))
                                 {
                                     className: 'btn-success buttons-create',
