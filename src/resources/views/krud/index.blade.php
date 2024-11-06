@@ -67,7 +67,9 @@
                     buttons: {
                         buttons: [
                             @if(!empty($defaultBtnDT))
-                                {{ implode(',', $defaultBtnDT) }}
+                                @foreach($defaultBtnDT as $btn)
+                                    '{{ $btn }}',
+                                @endforeach
                             @else
                                 'copy', 'excel', 'pdf', 'colvis',
                             @endif
