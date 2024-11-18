@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('app.index');
+        return view('dashboard');
     }
 
     public function setLanguage($lang, Request $request)
