@@ -102,10 +102,10 @@ class KrudInstall extends Command
         $this->artisanCommand('vendor:publish','--tag=krud-config');
         
 
-//        unlink(base_path('routes/web.php'));
-//        copy(__DIR__ . '/../../../stubs/Routes/web.php', base_path('routes/web.php'));
+        unlink(base_path('routes/web.php'));
+        copy(__DIR__ . '/../../../stubs/Routes/web.php', base_path('routes/web.php'));
 
-  //      copy(__DIR__ . '/../../../stubs/Controllers/HomeController.php', base_path('app/Http/Controllers/HomeController.php'));
+        copy(__DIR__ . '/../../../stubs/Controllers/HomeController.php', base_path('app/Http/Controllers/HomeController.php'));
         $this->info('Configuración de archivos terminada exitosamente !');
 
         if($ldapLogin) {

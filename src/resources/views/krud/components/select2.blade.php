@@ -1,7 +1,7 @@
 @props([
     'json'        => '',
     'columnClass' => 'col-md-6',
-    'inputClass'  => 'form-control',
+    'inputClass'  => 'form-control js-select2',
     'type'        => '',
     'collection'  => [],
     'attr'        => [],
@@ -31,14 +31,14 @@
     }
 
     function isJson($string) {
-            json_decode($string);
-            return json_last_error() === JSON_ERROR_NONE;
-        }
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
+    }
     
 @endphp
 
 <div class="{{$columnClass}}">
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label>{{ $label }}</label>
         <select {!! $attributes->merge(['class' => $inputClass]) !!}>
             @foreach ($collection as $item)

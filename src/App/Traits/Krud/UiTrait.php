@@ -289,7 +289,7 @@ trait UiTrait
                 $this->setTemplate(['datetimepicker']);
             } else if ($tipo == 'icono') {
                 $this->setTemplate(['iconpicker']);
-            } else if($tipo == 'combobox') {
+            } else if($tipo == 'combobox' || $tipo == 'select2') {
                 if (empty($params['collect'])) {
                     $this->errors = ['tipo' => $this->typeError[7]];
                 } else {
