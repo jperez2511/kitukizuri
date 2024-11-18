@@ -291,11 +291,11 @@ trait QueryBuilderTrait
 
         //consultando al modelo los campos a mostrar en la tabla
         $data = $this->queryBuilder->select($this->getSelect($campos));
+        $drivers = ['mysql', 'sqlite'];
 
-        // Obteniendo el id de la tabla
-        $data->addSelect($this->tableName.'.'.$this->keyName);
-
-        if ($data->getConnection()->getDriverName() === 'mysql') {
+        if (in_array($data->getConnection()->getDriverName(), $drivers)) {
+            // Obteniendo el id de la tabla
+            $data->addSelect($this->tableName.'.'.$this->keyName);
             // obteniendo la cantidad total de elementos en la tabla
             $dataQuery = clone $data;
             $count     = DB::table(DB::raw("({$dataQuery->toRawSql()}) as subquery"))->count();
