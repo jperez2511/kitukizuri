@@ -10,7 +10,7 @@
     <x-slot name="header">
         <h3 class="title">
             {{ __($titulo) }}
-        </h2>
+        </h3>
     </x-slot>
 
     <x-banner />

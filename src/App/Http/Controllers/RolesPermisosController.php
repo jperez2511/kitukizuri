@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 
 //Models
 use Icebearsoft\Kitukizuri\App\Models\{
+    Rol,
     Modulo,
     UsuarioRol,
     RolModuloPermiso
@@ -36,12 +37,14 @@ class RolesPermisosController extends Controller
         }
 
         $modulos = Modulo::with('modulopermiso', 'modulopermiso.permisos')->orderBy('nombre')->get();
-        $rmp = RolModuloPermiso::where('rolid', $rolid)->select('modulopermisoid')->pluck('modulopermisoid')->toArray();
+        $rmp     = RolModuloPermiso::where('rolid', $rolid)->select('modulopermisoid')->pluck('modulopermisoid')->toArray();
+        $rolName = Rol::find($rolid)->nombre;
+
         return view('kitukizuri::modulopermisos', [
             'modulos' => $modulos,
             'rmp'     => $rmp,
             'layout'  => 'krud::layout',
-            'titulo'  => 'Permisos',
+            'titulo'  => __('Asignar permisos a: ').$rolName,
             'dash'    => true,
             'kmenu'   => true,
         ]);

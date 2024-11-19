@@ -1,61 +1,109 @@
-@extends($layout)
+<x-app-layout>
+    <x-slot name="header">
+        <h3 class="title">
+            {{ __($titulo) }}
+        </h3>
+    </x-slot>
 
-@section('content')
+    <x-banner />
+
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h3>Asignar Permisos</h3>
-                <hr>
-                <span>Todos los usuarios con este rol tendrán asignados los permisos que se seleccionen.</span>
                 <div class="col-md-12 text-right">
-                    <a href="javascript:void(0)" onclick="todos()" title="">Seleccionar Todos</a>
-                    |
-                    <a href="javascript:void(0)" onclick="ninguno()" title="">Ninguno</a>
+                    <a href="#" id="todos" title="">{{ __('Seleccionar Todos') }}</a> | 
+                    <a href="#" id="ninguno" title="">{{ __('Ninguno') }}</a> | 
+                    <a href="#" id="todosPermisos" title="">{{ __('Expandir Módulos') }}</a> | 
+                    <a href="#" id="ningunoPermisos" title="">{{ __('Contraer Módulos') }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body text-center">
+                <div class="row">
+                    <div id="accordion" class="accordion">
+                        @foreach ($modulos as $m)
+                            <div class="accordion-item">
+                                <a href="#" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-{{ $m->moduloid }}">
+                                    <h6 class="title">{{ $m->nombre }}</h6>
+                                    <span class="accordion-icon"></span>
+                                </a>
+                                <div class="accordion-body collapse" id="accordion-item-{{ $m->moduloid }}" data-bs-parent="#accordion">
+                                    <div class="accordion-inner">
+                                        <div class="row">
+                                            @foreach ($m->modulopermiso as $mp)
+                                                <div class="col-3">
+                                                    <input class="check" id="{{$mp->modulopermisoid}}" name="permisos[]" value="{{$mp->modulopermisoid}}" type="checkbox" {{in_array($mp->modulopermisoid, $rmp) ? 'checked' : ''}}>
+                                                    <label for="{{$mp->modulopermisoid}}"></label>    
+                                                    {{ $mp->permisos()->first()?->nombre }}
+                                                </div>
+                                            @endforeach          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="col-md-12 mt-5 text-center">
+                        <div class="form-group">
+                            <button class="btn btn-outline-success" id="guardar">{{ __('Guardar') }}</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <form method="post" style="width: 100%">
-        {{csrf_field()}}
-        @foreach($modulos as $m)
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <h4>{{$m->nombre}}</h4>
-                                <hr>
-                            </div>
-                            @foreach($m->modulopermiso()->get() as $mp)
-                                <?php $p = $mp->permisos()->first(); ?>
-                                <div class="col-3">
-                                    <input class="check" id="{{$mp->modulopermisoid}}" name="permisos[]" value="{{$mp->modulopermisoid}}" type="checkbox" {{in_array($mp->modulopermisoid, $rmp) ? 'checked' : ''}}>
-                                    <label for="{{$mp->modulopermisoid}}">{{$p->nombre}}</label>    
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach          
-        <div class="col-md-12 text-center">
-            <div class="form-group">
-                <input type="submit" class="btn btn-success" value="Guardar">
-            </div>
-        </div>
-    </form>
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                
+                $('#todos').click(function (e) { 
+                    e.preventDefault();
+                    $('.check').prop('checked', true);
+                });
 
-@stop
-@section('scripts')
-    <script>
-        function todos(){
-            $('.check').prop({
-                checked: 'true',
-            })
-        }
-        function ninguno(){
-            $('.check').removeProp('checked')
-        }
-    </script>
-@stop
+                $('#ninguno').click(function (e) { 
+                    $('.check').prop('checked', false);
+                });
+
+                $('#todosPermisos').click(function (e) { 
+                    e.preventDefault();
+                    $('.accordion-body').addClass('show');
+                });
+
+                $('#ningunoPermisos').click(function (e) { 
+                    e.preventDefault();
+                    $('.accordion-body').removeClass('show');
+                });
+
+                $('#guardar').click(function (e) { 
+                    e.preventDefault();
+                    let data = {};
+                    data.permisos = [];
+                    $('.check:checked').each(function() {
+                        data.permisos.push($(this).val());
+                    });
+                    data._token = '{{ csrf_token() }}';
+                    data.id = $.urlParam('id');
+                    $.post("{{ route('rolpermisos.store') }}", data, function(response) {
+                        window.location.href = "{{ route('roles.index') }}";
+                    });
+                });
+
+                $.urlParam = function(name){
+                    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                    if (results==null){
+                        return null;
+                    }
+                    else{
+                        return decodeURI(results[1]) || 0;
+                    }
+                }
+            });
+        </script>
+    @endpush
+
+</x-app-layout>
