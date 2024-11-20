@@ -160,6 +160,7 @@ trait UiTrait
 
         $allowed = [
             'campo',        // Campo de la base de datos
+            'field',        // Alias de campo
             'campoReal',    // Campo real de la base de datos donde se almacenará la DATA
             'column',       // Para el tipo combobox permite seleccionar las columnas a utilizar
             'columnClass',  // clase para columnas en html (bootstrap)
@@ -220,9 +221,11 @@ trait UiTrait
 
         // validando datos permitidos
         $this->allowed($params, $allowed, $this->typeError[2]);
-        if (!array_key_exists('campo', $params)) {
+        if (!array_key_exists('campo', $params) || !array_key_exists('field', $params)) {
             return $this->errors = ['tipo' => $this->typeError[1]];
         }
+
+        $params['campo'] = $params['campo'] ?? $params['field'];
 
          // capturando el nombre real del campo
          if($params['campo'] instanceof Expression) {

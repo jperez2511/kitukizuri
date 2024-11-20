@@ -152,23 +152,23 @@ return [
     'menu' => [
         'ul' => [
             'id' => 'side-menu',
-            'class' => 'metismenu list-unstyled mm-show',
+            'class' => 'nk-menu nk-menu-md',
         ],
         'li-parent' => [
-            'class' => '',
+            'class' => 'nk-menu-item has-sub',
             'layout' =>
-                '<a href="{{url}}" aria-expanded="false">
-                    {{iconFormat}}
-                    <span>{{label}}</span>
+                '<a href="{{url}}" class="nk-menu-link nk-menu-toggle">
+                    <span class="nk-menu-icon">{{iconFormat}}</span>
+                    <span class="nk-menu-text">{{label}}</span>
                 </a>',
             'layout-without-son' =>
-                '<a href="{{url}}" class="waves-effect">
-                    {{iconFormat}}
-                    <span>{{label}}</span>
+                '<a href="{{url}}" class="nk-menu-link">
+                    <span class="nk-menu-icon">{{iconFormat}}</span>
+                    <span class="nk-menu-text">{{label}}</span>
                 </a>',
         ],
         'li-jr' => [
-            'class' => '',
+            'class' => 'nk-menu-item',
             'layout' =>
                 '<a href="{{url}}">
                     <span>{{label}}</span>
@@ -176,7 +176,7 @@ return [
         ],
         'ul-jr' => [
             'aria-expanded'=>'false',
-            'class' => 'collapse in'
+            'class' => 'nk-menu-sub'
         ],
         'ul-jr-divStyle' => [
             'class' => ''
