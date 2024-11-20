@@ -93,9 +93,9 @@
                 @endif
             @endforeach
             
-            $.post('{{ $action }}', data, function(data){
+            $.post('{{ $action }}', data).done(response => {
                 location.href = '{{ $urlBack }}';
-            });    
+            }).fail(error => alert(error.responseJSON.message));
         });
 
         // --------------------------------
