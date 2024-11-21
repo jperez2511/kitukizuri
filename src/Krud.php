@@ -51,6 +51,7 @@ class Krud extends Controller
     private $editEmbed      = [];
     private $removePermisos = [];
     private $parents        = [];
+    private $storeFunctions = [];
 
     // viables únicas para vista calendario
     private $defaultCalendarView = null;
@@ -111,6 +112,17 @@ class Krud extends Controller
     public function embedEditView($controller, $relation, $request)
     {
        $this->editEmbed[] = [$controller, $relation, $request];
+    }
+    
+    /**
+     * setStoreFunction
+     *
+     * @param  mixed $function
+     * @return void
+     */
+    public function setStoreFunction(callable $function)
+    {
+        $this->storeFunctions[] = $function;
     }
 
     /**
@@ -775,6 +787,12 @@ class Krud extends Controller
             }
             
             $uriItems[] = $parent['value'].'='.$request->{$parent['nombre']};;
+        }
+
+        if(!empty($this->storeFunctions)) {
+            foreach($this->storeFunctions as $function) {
+                $function();
+            }
         }
 
         $uriQuery .= implode('&', $uriItems);
