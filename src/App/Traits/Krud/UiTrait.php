@@ -221,7 +221,7 @@ trait UiTrait
 
         // validando datos permitidos
         $this->allowed($params, $allowed, $this->typeError[2]);
-        if (!array_key_exists('campo', $params) || !array_key_exists('field', $params)) {
+        if (!array_key_exists('campo', $params) && !array_key_exists('field', $params)) {
             return $this->errors = ['tipo' => $this->typeError[1]];
         }
 
