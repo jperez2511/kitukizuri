@@ -162,6 +162,7 @@ trait UiTrait
             'campo',        // Campo de la base de datos
             'field',        // Alias de campo
             'campoReal',    // Campo real de la base de datos donde se almacenará la DATA
+            'realField',    // Alias de campo real
             'column',       // Para el tipo combobox permite seleccionar las columnas a utilizar
             'columnClass',  // clase para columnas en html (bootstrap)
             'collect',      // Colección de datos para el campo combobox
@@ -173,8 +174,10 @@ trait UiTrait
             'htmlAttr',     // Agrega atributos HTML a los campos definidos para editar
             'inputClass',   // añade clases CSS a campo a agregar.
             'nombre',       // es el label del campo que queremos que se muestre en la pantalla
+            'name',         // Alias de nombre
             'show',         // visibilidad del campo en la tabla de la vista index
             'tipo',         // Define el tipo de campo a utilizar
+            'type',         // Alias de tipo
             'target',       // Para los campos URL establece el target
             'unique',       // valida que el valor ingresado se único
             'value',        // Valor definido o predeterminado.
@@ -229,9 +232,10 @@ trait UiTrait
 
          // capturando el nombre real del campo
          if($params['campo'] instanceof Expression) {
-            if(!array_key_exists('campoReal', $params)) {
+            if(!array_key_exists('campoReal', $params) && !array_key_exists('realField', $params)) {
                 return $this->errors = ['tipo' => $this->typeError[17]];
             }
+            $params['campoReal'] = $params['campoReal'] ?? $params['realField'];
         } else if (!strpos($params['campo'], ')')) {
             $arr = explode('.', $params['campo']);
             if (count($arr)>=2) {
@@ -239,10 +243,10 @@ trait UiTrait
             }
         }
 
-        $params['nombre']      = $params['nombre'] ?? str_replace('_', ' ', ucfirst($params['campo']));
+        $params['nombre']      = $params['nombre'] ?? $params['name'] ?? str_replace('_', ' ', ucfirst($params['campo']));
         $params['edit']        = $params['edit'] ?? true;
         $params['show']        = $params['show'] ?? true;
-        $params['tipo']        = $params['tipo'] ?? 'string';
+        $params['tipo']        = $params['tipo'] ?? $params['type'] ?? 'string';
         $params['decimales']   = $params['decimales'] ?? 0;
         $params['format']      = $params['format'] ?? '';
         $params['unique']      = $params['unique'] ?? false;
