@@ -24,18 +24,16 @@
     </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Opciones</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Opciones</h5>
+                    <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close"><em class="icon ni ni-cross"></em></a>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="modalContent"></div>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="row" id="modalContent"></div>
-            </div>
-          </div>
         </div>
     </div>
 
@@ -126,7 +124,7 @@
                     id2 = '';
                 }
 
-                var confirmResult = confirm('¿Esta seguro de eliminar este elemento?');
+                var confirmResult = confirm('{{ __('Are you sure you want to delete this item?') }}');
 
                 if(confirmResult == true) {
                     $.post(url+'/'+id+id2,{_token:'{{csrf_token()}}', _method:'DELETE'}, function(data){
@@ -148,6 +146,7 @@
                 $('#modalContent').empty();
                 $('#modalContent').append(buttons);
                 var myModal = new bootstrap.Modal(document.getElementById('myModal'))
+                myModal.show()
             }
         </script>
     @endpush
