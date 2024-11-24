@@ -73,7 +73,7 @@ class MenuController
         $prefix = Route::current()->action['prefix'];
         $defaultPrefix = $this->getDefaultPrefix();
 
-        if($prefix == $defaultPrefix) {
+        if($prefix == $defaultPrefix && config('kitukizuri.preUi') == true) {
             $this->uiElements['ul.class']                     = $this->template['menu']['ul']['class'];
             $this->uiElements['ul.id']                        = $this->template['menu']['ul']['id'];
             $this->uiElements['ul-jr']                        = $this->template['menu']['ul-jr'];
@@ -94,10 +94,6 @@ class MenuController
 
             $this->vBootstrap = config('kitukizuri.vBootstrap');
         }
-        
-        
-        
-
 
         //abriendo tag ul con los estilos personalizables
         $this->tree .= '<ul class="'.$this->uiElements['ul.class'].'" id="'.$this->uiElements['ul.id'].'">';
