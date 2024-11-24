@@ -141,14 +141,13 @@
             function opciones(id) {
                 var buttons = '';
                 var botones = {!! $botones !!}
-                console.log(botones)
                 $.each(botones, function(index, val) {
                     var url = val.url.replace('{id}', id);
                     buttons += '<div class="col-md-6"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><span class="'+val.icon+'"></span> '+val.nombre+'</a></div>'
                 });
                 $('#modalContent').empty();
                 $('#modalContent').append(buttons);
-                $('#myModal').modal('show')
+                var myModal = new bootstrap.Modal(document.getElementById('myModal'))
             }
         </script>
     @endpush
