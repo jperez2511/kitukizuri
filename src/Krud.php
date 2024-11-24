@@ -503,7 +503,7 @@ class Krud extends Controller
             if (!empty($this->botones) && count($this->botones) > 1) {
                 //recorriendo todos los botones extras
                 $btns .= '<a
-                    data-toggle="tooltip" data-placement="left" title="Mas opciones" 
+                    data-toggle="tooltip" data-placement="left" title="'.__('Options').'" 
                     href="javascript:void(0)" 
                     class="btn '.$classBtnOptions.'" 
                     onclick="opciones(\''.Crypt::encrypt($item[$this->keyName]).'\')">
@@ -525,7 +525,7 @@ class Krud extends Controller
             if(in_array('edit', $permisos)) {
                 $btns .= '<a 
                     href="javascript:void(0)"
-                    data-toggle="tooltip" data-placement="left" title="'.__('Editar').'" 
+                    data-toggle="tooltip" data-placement="left" title="'.__('Edit').'" 
                     onclick="edit(\''.Crypt::encrypt($item[$this->keyName]).'\')" 
                     class="btn '.$classBtnEdit.'">
                         <i class="'.$icnEdit.'"></i>
@@ -535,7 +535,7 @@ class Krud extends Controller
             if(in_array('destroy', $permisos)) {
                 $btns .= '<a 
                     href="javascript:void(0)"
-                    data-toggle="tooltip" data-placement="left" title="'.__('Eliminar').'" 
+                    data-toggle="tooltip" data-placement="left" title="'.__('Delete').'" 
                     onclick="destroy(\''.Crypt::encrypt($item[$this->keyName]).'\')" 
                     class="btn '.$classBtnDelete.'">
                         <i class="'.$icnDelete.'"></i>

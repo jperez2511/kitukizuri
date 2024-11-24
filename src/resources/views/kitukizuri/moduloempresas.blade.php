@@ -1,37 +1,58 @@
-@extends($layout)
+<x-app-layout>
+    <x-slot name="header">
+        <h3 class="title">
+            {{ __($titulo) }}
+        </h3>
+    </x-slot>
+    
+    <div  class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 mb-5">
+                    <strong>{{ __('Modules') }}</strong> <br>
+                    <small> {{ __('the selected modules will be the only ones the company has access to.') }} </small>
+                </div>
 
-@section('content')
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="panel-heading panel-heading-divider">
-                Modulos de empresa
-                <span class="panel-subtitle">
-                    los modulos seleccionados seran los unicos a los que tiene acceso la empresa.
-                </span>
-                <br><br>
-            </div>
-            <form action="{{route('moduloempresas.store')}}" method="post">
-                {{csrf_field()}}
-                <input type="hidden" name="empresa" value="{{$empresa}}">
-                <div class="row">
-                    @foreach($modulos as $m)
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <div class="be-checkbox be-checkbox-color has-success inline">
-                                    <input id="{{$m->moduloid}}" name="modulos[]" value="{{$m->moduloid}}" type="checkbox" {{in_array($m->moduloid, $moduloEmpresas) ? 'checked' : ''}}>
-                                    <label for="{{$m->moduloid}}">{{$m->nombre}}</label>
-                                </div>
-                            </div>
+                @foreach($modulos as $m)
+                    <div class="col-md-3">
+                        <div class="form-group mb-3">
+                            <input id="{{$m->moduloid}}" name="modulos[]" value="{{$m->moduloid}}" type="checkbox" {{in_array($m->moduloid, $moduloEmpresas) ? 'checked' : ''}}>
+                            <label for="{{$m->moduloid}}">{{$m->nombre}}</label>
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
+
+                <div class="col-12 text-center">
+                    <button class="btn btn-outline-success" id="save">{{ __('Save') }}</button>
                 </div>
-                <div class="clearfix"></div>
-                <div style=" height: 20px;"></div>
-                <div class="col-md-12 text-center">
-                    <input type="submit" class="btn btn-success" value="Guardar">
-                </div>
-                
-            </form>
+            </div>
         </div>
     </div>
-@endsection
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $('#save').click(function() {
+                    var modulos = [];
+                    $('input[name="modulos[]"]:checked').each(function() {
+                        modulos.push($(this).val());
+                    });
+
+                    const data = {
+                        _token: "{{ csrf_token() }}",
+                        empresa: "{{$empresa}}",
+                        modulos: modulos
+                    };
+
+                    $.post("{{route('moduloempresas.store')}}", data).done(response => {
+                        location.replace("{{route('empresas.index')}}");
+                    }).fail(error => {
+                        alert(error);
+                    });
+                });
+            });
+        </script>
+    @endpush
+
+</x-app-layout>
+
