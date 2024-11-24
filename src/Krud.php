@@ -507,7 +507,7 @@ class Krud extends Controller
                     href="javascript:void(0)" 
                     class="btn '.$classBtnOptions.'" 
                     onclick="opciones(\''.Crypt::encrypt($item[$this->keyName]).'\')">
-                        <span class="'.$icnOptions.'"></span>
+                        <i class="'.$icnOptions.'"></i>
                     </a>';
             } else {
                 foreach($this->botones as $boton) {
@@ -516,7 +516,7 @@ class Krud extends Controller
                         data-toggle="tooltip" data-placement="left" title="'.$boton['nombre'].'" 
                         href="'.$boton['url'].'" 
                         class="btn btn-'.$boton['class'].'">
-                            <span class="'.$boton['icon'].'"></span>
+                            <i class="'.$boton['icon'].'"></i>
                         </a>';
                 }
             }
@@ -528,7 +528,7 @@ class Krud extends Controller
                     data-toggle="tooltip" data-placement="left" title="'.__('Editar').'" 
                     onclick="edit(\''.Crypt::encrypt($item[$this->keyName]).'\')" 
                     class="btn '.$classBtnEdit.'">
-                        <span class="'.$icnEdit.'"></span>
+                        <i class="'.$icnEdit.'"></i>
                     </a>';
             }
 
@@ -538,7 +538,7 @@ class Krud extends Controller
                     data-toggle="tooltip" data-placement="left" title="'.__('Eliminar').'" 
                     onclick="destroy(\''.Crypt::encrypt($item[$this->keyName]).'\')" 
                     class="btn '.$classBtnDelete.'">
-                        <span class="'.$icnDelete.'"></span>
+                        <i class="'.$icnDelete.'"></i>
                     </a>';
             }
             
