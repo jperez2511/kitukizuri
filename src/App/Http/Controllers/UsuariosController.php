@@ -39,9 +39,4 @@ class UsuariosController extends Krud
             }
         }
     }
-
-    public function edit($id, Request $request)
-    {
-        dd('here');
-    }
 }

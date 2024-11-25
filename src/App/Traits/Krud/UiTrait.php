@@ -183,6 +183,7 @@ trait UiTrait
             'value',        // Valor definido o predeterminado.
             'validation',   // Valida los campos según la nomenclatura de laravel,
             'destination',  // Aplica cuando es un select o un select 2
+            'multiple',     // Aplica cuando es un select o un select 2
         ];
         $tipos = [
             'bool',         // Muestra un checkbox en el edit y un si o no en el index
