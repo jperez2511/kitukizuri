@@ -36,7 +36,7 @@
                                     inputClass="{{$c['inputClass']}}"
                                     label="{{$c['nombre']}}"
                                     name="{!!$c['inputName']!!}"
-                                    id="{{$c['inputName']}}"
+                                    id="{{ $c['inputId'] ?? $c['inputName']}}"
                                     collection="{!! $c['collect'] !!}"
                                     type="{{$c['htmlType']}}"
                                     attr="{!! $c['htmlAttr'] !!}"
@@ -89,7 +89,11 @@
 
             @foreach($campos as $c)
                 @if($c['tipo'] != 'password')
-                    data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
+                    @if($c['component'] == 'select2')
+                        data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
+                    @else
+                        data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
+                    @endif
                 @endif
             @endforeach
             

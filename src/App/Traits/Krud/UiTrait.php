@@ -273,6 +273,7 @@ trait UiTrait
             }
 
             if($params['htmlAttr']->has('multiple')){
+                $params['inputId']   = $params['inputName'];
                 $params['inputName'] = $params['inputName'].'[]';
             }
         } else {
