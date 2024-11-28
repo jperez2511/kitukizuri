@@ -8,6 +8,7 @@ use Auth;
 
 use Illuminate\Http\Request;
 use Icebearsoft\Kitukizuri\App\Models\Usuario;
+use Icebearsoft\Kitukizuri\App\Models\Rol;
 
 class UsuariosController extends Krud
 {
@@ -23,12 +24,43 @@ class UsuariosController extends Krud
         $this->setModel(new Usuario);
         $this->setTitulo('Usuarios');
         
-        $this->setCampo(['nombre'=>'Email', 'campo'=>'email', 'unique' => true]);
-        $this->setCampo(['nombre'=>'Nombre', 'campo'=>'name']);
-        $this->setCampo(['nombre'=>'Constraseña', 'campo'=>'password', 'tipo'=>'password', 'show'=>false]);
+        $this->setCampo([
+            'nombre' => 'Email',
+            'campo'  => 'email',
+            'unique' => true
+        ]);
+        
+        $this->setCampo([
+            'nombre' => 'Nombre',
+            'campo'  => 'name'
+        ]);
+        
+        $this->setCampo([
+            'nombre' => 'Constraseña',
+            'campo'  => 'password',
+            'tipo'   => 'password',
+            'show'   => false
+        ]);
 
         if(config('kitukizuri.preUi') === true) {
-            $this->setBoton(['nombre'=>'Asignar roles', 'url'=>route('asignarpermiso.index').'?parent={id}', 'class'=>'outline-success btn-sm', 'icon'=>'mdi mdi-lock-open-variant-outline']);
+            $this->setBoton([
+                'nombre' => 'Asignar roles',
+                'url'    => route('asignarpermiso.index').'?parent={id}',
+                'class'  => 'outline-success btn-sm',
+                'icon'   => 'mdi mdi-lock-open-variant-outline'
+            ]);
+        } else {
+            $roles = Rol::select('rolid as id', 'nombre as value')->get();
+            $this->setCampo([
+                'name'     => __('Roles'),
+                'field'    => 'usuarioRol.rolid',
+                'show'     => false,
+                'type'     => 'select2',
+                'collect'  => $roles,
+                'htmlAttr' => [
+                    'multiple' => true
+                ]
+            ]);
         }
 
         // agregando campos custom

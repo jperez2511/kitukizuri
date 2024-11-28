@@ -16,6 +16,11 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons/js/buttons.print';
 
+// Select2
+import select2 from 'select2';
+import 'select2/dist/css/select2.min.css';
+
+
 import { loadFontsToBase64 } from './loadFonts';
 
 loadFontsToBase64().catch(error => console.error("Error cargando fuentes:", error));
@@ -33,3 +38,5 @@ window.pdfMake = pdfMake; // Necesario para exportar en PDF
 // Bootstrap
 import Bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 window.bootstrap = Bootstrap;
+
+select2($);

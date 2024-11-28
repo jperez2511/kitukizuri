@@ -789,16 +789,17 @@ class Krud extends Controller
             $uriItems[] = $parent['value'].'='.$request->{$parent['nombre']};;
         }
 
-        if(!empty($this->storeFunctions)) {
-            foreach($this->storeFunctions as $function) {
-                $function();
-            }
-        }
-
         $uriQuery .= implode('&', $uriItems);
 
         try {
             $this->model->save();
+            
+            if(!empty($this->storeFunctions)) {
+                foreach($this->storeFunctions as $function) {
+                    $function($this->model);
+                }
+            }
+
             Session::flash('type', 'success');
             Session::flash('msg', $this->getStoreMSG());
         } catch (Exception $e) {
