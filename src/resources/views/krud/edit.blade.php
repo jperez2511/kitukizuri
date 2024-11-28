@@ -89,11 +89,7 @@
 
             @foreach($campos as $c)
                 @if($c['tipo'] != 'password')
-                    @if($c['component'] == 'select2')
-                        data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
-                    @else
-                        data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
-                    @endif
+                    data['{{$c['inputId'] ?? $c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}').val();
                 @endif
             @endforeach
             
