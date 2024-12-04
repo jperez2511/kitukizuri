@@ -7,8 +7,9 @@ use Krud;
 use Auth;
 
 use Illuminate\Http\Request;
-use Icebearsoft\Kitukizuri\App\Models\Usuario;
 use Icebearsoft\Kitukizuri\App\Models\Rol;
+use Icebearsoft\Kitukizuri\App\Models\Empresa;
+use Icebearsoft\Kitukizuri\App\Models\Usuario;
 
 class UsuariosController extends Krud
 {
@@ -22,25 +23,34 @@ class UsuariosController extends Krud
     public function __construct()
     {
         $this->setModel(new Usuario);
-        $this->setTitulo('Usuarios');
+        $this->setTitle('Usuarios');
         
-        $this->setCampo([
+        $this->setField([
             'nombre' => 'Email',
             'campo'  => 'email',
             'unique' => true
         ]);
         
-        $this->setCampo([
+        $this->setField([
             'nombre' => 'Nombre',
             'campo'  => 'name'
         ]);
         
-        $this->setCampo([
+        $this->setField([
             'nombre' => 'Constraseña',
             'campo'  => 'password',
             'tipo'   => 'password',
             'show'   => false
         ]);
+
+        $this->setField([
+            'nombre'  => 'Empresa',
+            'campo'   => 'empresaid',
+            'tipo'    => 'select',
+            'collect' => Empresa::select('empresaid as id', 'nombre as value')->get(),
+            'shwo'    => false
+        ]);
+
 
         if(config('kitukizuri.preUi') === true) {
             $this->setBoton([
@@ -51,7 +61,7 @@ class UsuariosController extends Krud
             ]);
         } else {
             $roles = Rol::select('rolid as id', 'nombre as value')->get();
-            $this->setCampo([
+            $this->setField([
                 'name'     => __('Roles'),
                 'field'    => 'usuarioRol.rolid',
                 'show'     => false,
