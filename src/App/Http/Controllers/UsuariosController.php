@@ -46,9 +46,9 @@ class UsuariosController extends Krud
         $this->setField([
             'nombre'  => 'Empresa',
             'campo'   => 'empresaid',
-            'tipo'    => 'select',
+            'tipo'    => 'combobox',
             'collect' => Empresa::select('empresaid as id', 'nombre as value')->get(),
-            'shwo'    => false
+            'show'    => false
         ]);
 
 
