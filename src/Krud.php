@@ -228,6 +228,7 @@ class Krud extends Controller
                         if($data != null){
                             $value = $data->{$campoReal};
                             $this->campos[$i]['value'] =  json_encode($value);
+                            dump($this->campos[$i]['value']);
                         }
                     } else if ($this->campos[$i]['format'] == 'table') {
                         $table = $this->campos[$i]['destination'];
