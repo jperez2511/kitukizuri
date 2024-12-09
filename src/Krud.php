@@ -643,7 +643,7 @@ class Krud extends Controller
                         $campo['htmlAttr']->has('multiple') && 
                         $campo['htmlAttr']['multiple'] == true && 
                         ($campo['campo'] instanceof Expression) == false &&
-                        strrpos($parcampoams['campo'], '.') != false
+                        strrpos($campo['campo'], '.') != false
                     ) {
                         $locationTableArray =  explode('.', $campo['campo']);
                         $localTable = $this->model->getTable();
@@ -736,7 +736,7 @@ class Krud extends Controller
                     
                     $args[] = $value['column'];
                     $args[] = $value['value'];
-                    
+
                     SelectValues::save(...$args);
                 }
             }
