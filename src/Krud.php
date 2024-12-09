@@ -726,7 +726,7 @@ class Krud extends Controller
             if(!empty($dataOtherLocation)) {
                 foreach($dataOtherLocation as $values) {
                     $args = [
-                        $this->model->{$values['columnParent']},
+                        $this->model->getKey(),
                         $values['table'],
                         $values['columnParent']
                     ];

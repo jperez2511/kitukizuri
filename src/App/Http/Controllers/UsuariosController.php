@@ -67,7 +67,7 @@ class UsuariosController extends Krud
                 'show'     => false,
                 'type'     => 'select2',
                 'collect'  => $roles,
-                'columnParent' => 'id',
+                'columnParent' => 'usuarioid',
                 'htmlAttr' => [
                     'multiple' => true
                 ]
