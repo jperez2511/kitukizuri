@@ -321,6 +321,8 @@ trait UiTrait
                 } else if($locationTable == $localTable) {
                     $params['format'] = 'json';
                 }
+
+                $params['format'] = 'table';
             } 
         }
 
