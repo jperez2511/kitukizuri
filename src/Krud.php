@@ -281,17 +281,6 @@ class Krud extends Controller
     }
 
     /**
-     * getHelp
-     * Genera una vista de ayuda para usar el paquete
-     *
-     * @return void
-     */
-    public function help()
-    {
-        $this->viewHelp = true;
-    }
-
-    /**
      * index
      * Genera la vista principal del catalogo
      *
@@ -325,92 +314,6 @@ class Krud extends Controller
         }
         
         return $vista;
-    }
-
-    private function setCalendarView($prefix, $layout)
-    {
-        $view  = 'krud.calendar';
-        $kmenu = false;
-        $prefixDefault = $this->getDefaultPrefix();
-
-        if ($prefix != null && $prefix == $prefixDefault) {
-            $view = 'krud::calendar';
-            $kmenu = true;
-        }
-
-        $permisos = $this->getPermisos(Auth::id());
-
-        if (!empty($this->viewOptions)) {
-            if (in_array('public', $this->viewOptions) && $this->viewOptions['public'] == true) {
-                $permisos = [
-                    'create',
-                    'show',
-                    'edit',
-                    'destroy'
-                ];
-            }
-        }
-
-        return view($view, [
-            'layout'      => $layout,
-            'titulo'      => $this->titulo,
-            'permisos'    => $permisos,
-            'defaultView' => $this->defaultCalendarView,
-            'action'      => Route::currentRouteName(),
-            'campos'      => $this->campos,
-            'kmenu'       => $kmenu,
-        ]);
-    }
-
-    private function setTableView($prefix, $layout)
-    {
-        $botones       = json_encode($this->botones);
-        $ruta          = $this->getModuloRuta();
-        $view          = 'krud.index';
-        $dtBtnAdd      = config('kitukizuri.dtBtnAdd');
-        $dtBtnLiner    = config('kitukizuri.dtBtnLiner');
-        $kmenu         = false;
-        $vBootstrap    = config('kitukizuri.vBootstrap');
-        $prefixDefault = $this->getDefaultPrefix();
-
-        if ($prefix != null && $prefix == $prefixDefault) {
-            $vars       = usePrevUi('default');
-            $view       = $vars['kitukizuri'];
-            $dtBtnAdd   = 'btn btn-outline-success';
-            $dtBtnLiner = 'btn btn-outline-secondary';
-            $kmenu      = true;
-            $vBootstrap = 5;
-        }
-
-        // Validando versión de bootstrap
-        if(!empty($vBootstrap)) {
-            $vBootstrap = str_contains($vBootstrap, '.') ? explode('.', $vBootstrap)[0] : $vBootstrap;
-        } else {
-            $vBootstrap = 5;
-        }
-
-        $permisos = $this->getPermisos(Auth::id());
-
-        if(!empty($this->removePermisos)) {
-            $permisos = array_values(array_diff($permisos, $this->removePermisos));
-        }
-
-        return view($view, [
-            'titulo'       => $this->titulo,
-            'columnas'     => $this->getColumnas($this->getSelectShow()),
-            'botones'      => $botones,
-            'permisos'     => $permisos,
-            'ruta'         => $ruta,
-            'template'     => $this->template,
-            'layout'       => $layout,
-            'dtBtnAdd'     => $dtBtnAdd,
-            'dtBtnLiner'   => $dtBtnLiner,
-            'embed'        => $this->indexEmbed,
-            'kmenu'        => $kmenu,
-            'vBootstrap'   => $vBootstrap,
-            'botonesDT'    => $this->botonesDT,
-            'defaultBtnDT' => $this->defaultBtnDT,
-        ]);
     }
 
     /**
@@ -670,6 +573,7 @@ class Krud extends Controller
         // obteniendo valores enviados por el usuario
         $requestData     = $request->all();
         $camposDefinidos = collect($this->campos);
+        $dataOtherLocation = [];
 
         foreach ($requestData as $nombreCampo => $valor) {
             // Excluyendo campos de control
@@ -690,11 +594,9 @@ class Krud extends Controller
             // validando el campo segun el tipo de dato
             if ($campo['unique'] == true && $campo['edit'] == true && $id == 0) {
                 $validate = $this->model->where($nombreCampo, $valor)->exists();
-                if($validate) {
-                    Session::flash('type', 'danger');
-                    Session::flash('msg', 'El valor del campo '.$c['nombre'].' ya se encuentra registrado en la base de datos.');
-                    return redirect()->back();
-                } 
+                if($validate){
+                    return $this->buildMsg('danger', 'El valor del campo '.$c['nombre'].' ya se encuentra registrado en la base de datos.');
+                }
             } else if ($campo['tipo'] == 'date') {
                 $valor = $this->toDateMysql($valor);
             } else if ($campo['tipo'] == 'numeric') {
@@ -728,9 +630,13 @@ class Krud extends Controller
                 $this->model->{$nombreCampo} = $valor == 'userid' ? Auth::id() : $valor;
             } else if ($campo['tipo'] == 'select' || $campo['tipo'] == 'select2' || $campo['tipo'] == 'comobox') {
                 if($campo['htmlAttr']->has('multiple')) {
+                    // validando format
                     if($campo['format'] == 'json') {
                         $valor = array_map('intval', $valor);
                     }
+
+                    // validando si es para guardar en otra locacion
+                    
                 }
             }
             $this->model->{$nombreCampo} = $valor;

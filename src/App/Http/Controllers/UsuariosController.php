@@ -52,7 +52,7 @@ class UsuariosController extends Krud
         ]);
 
 
-        if(config('kitukizuri.preUi') === true) {
+        if(config('kitukizuri.prevUi') === true) {
             $this->setBoton([
                 'nombre' => 'Asignar roles',
                 'url'    => route('asignarpermiso.index').'?parent={id}',
@@ -67,6 +67,7 @@ class UsuariosController extends Krud
                 'show'     => false,
                 'type'     => 'select2',
                 'collect'  => $roles,
+                'columnParent' => 'id',
                 'htmlAttr' => [
                     'multiple' => true
                 ]

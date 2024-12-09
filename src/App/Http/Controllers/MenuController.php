@@ -73,7 +73,7 @@ class MenuController
         $prefix = Route::current()->action['prefix'];
         $defaultPrefix = $this->getDefaultPrefix();
 
-        if($prefix == $defaultPrefix && config('kitukizuri.preUi') == true) {
+        if($prefix == $defaultPrefix && config('kitukizuri.prevUi') == true) {
             $this->uiElements['ul.class']                     = $this->template['menu']['ul']['class'];
             $this->uiElements['ul.id']                        = $this->template['menu']['ul']['id'];
             $this->uiElements['ul-jr']                        = $this->template['menu']['ul-jr'];

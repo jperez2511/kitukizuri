@@ -23,7 +23,8 @@ trait HelpTrait
         'badWhereOperator',     // 14
         'badOrWhereOperator',   // 15
         'badColumnDefinition',  // 16
-        'needRealField'         // 17
+        'needRealField',        // 17
+        'needColumnParent'      // 18
     ];
     
     /**

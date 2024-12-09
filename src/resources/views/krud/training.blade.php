@@ -96,6 +96,11 @@
                 'titulo'     => 'When using <code>DB::raw()</code>, it is necessary to include the <code>CampoReal</code> parameter',
                 'comentario' => 'The parameter is included as follows:',
                 'code'       => '&lt;?php <br><br>namespace kitukizuri\&nbsp;raining; <br><br>use Krud; <br>use Icebearsoft\\Models\&nbsp;raining; <br><br>class ExapleController extends Krud<br>[<br>&nbsp;public function __construct()<br>&nbsp;[<br>&nbsp;&nbsp;$this->setModel(new Training);<br>&nbsp;&nbsp;$this->setCampo([\'nombre\'=>\'Label del campo\', \'campo\'=>DB::raw(\'now() as fecha_actual\'), \'campoReal\' => \'fecha_actual\']);<br>&nbsp;]<br>]'
+            ],
+            'needColumnParent' => [
+                'titulo'     => 'When using <code>Select2 multiple in another table</code>, it is necessary to include the <code>columnParent</code> parameter',
+                'comentario' => 'The parameter is included as follows:',
+                'code'       => '&lt;?php <br><br>namespace kitukizuri\&nbsp;raining; <br><br>use Krud; <br>use Icebearsoft\\Models\&nbsp;raining; <br><br>class ExapleController extends Krud<br>[<br>&nbsp;public function __construct()<br>&nbsp;[<br>&nbsp;&nbsp;$this->setModel(new Training);<br>&nbsp;&nbsp;$this->setCampo([\'nombre\'=>\'Label del campo\', \'campo\'=>\'tabla_b.columna\', \'columnParent\' => \'id\']);<br>&nbsp;]<br>]'
             ]
         ]
     @endphp

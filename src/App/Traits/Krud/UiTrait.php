@@ -21,6 +21,17 @@ trait UiTrait
     ];
 
     /**
+     * getHelp
+     * Genera una vista de ayuda para usar el paquete
+     *
+     * @return void
+     */
+    protected function help()
+    {
+        $this->viewHelp = true;
+    }
+
+    /**
      * setLayout
      * Define el layout a utilizar en el controller
      *
@@ -159,50 +170,50 @@ trait UiTrait
         }
 
         $allowed = [
-            'campo',        // Campo de la base de datos
-            'field',        // Alias de campo
-            'campoReal',    // Campo real de la base de datos donde se almacenará la DATA
-            'realField',    // Alias de campo real
-            'column',       // Para el tipo combobox permite seleccionar las columnas a utilizar
-            'columnClass',  // clase para columnas en html (bootstrap)
-            'collect',      // Colección de datos para el campo combobox
-            'edit',         // Valor boolean, muestra o no el input en el edit
-            'enumArray',    // array de datos para el tipo de dato enum
-            'filepath',     // dirección donde se almacenaran los archivos
-            'format',       // establece el formato para diferentes tipos de campos
-            'htmlType',     // establece el tipo de dato a utilizar en un input siempre que aplique
-            'htmlAttr',     // Agrega atributos HTML a los campos definidos para editar
-            'inputClass',   // añade clases CSS a campo a agregar.
-            'nombre',       // es el label del campo que queremos que se muestre en la pantalla
-            'name',         // Alias de nombre
-            'show',         // visibilidad del campo en la tabla de la vista index
-            'tipo',         // Define el tipo de campo a utilizar
-            'type',         // Alias de tipo
-            'target',       // Para los campos URL establece el target
-            'unique',       // valida que el valor ingresado se único
-            'value',        // Valor definido o predeterminado.
-            'validation',   // Valida los campos según la nomenclatura de laravel,
-            'destination',  // Aplica cuando es un select o un select 2
-            'multiple',     // Aplica cuando es un select o un select 2
+            'campo',         // Campo de la base de datos
+            'field',         // Alias de campo
+            'campoReal',     // Campo real de la base de datos donde se almacenará la DATA
+            'realField',     // Alias de campo real
+            'column',        // Para el tipo combobox permite seleccionar las columnas a utilizar
+            'columnClass',   // clase para columnas en html (bootstrap)
+            'collect',       // Colección de datos para el campo combobox
+            'edit',          // Valor boolean, muestra o no el input en el edit
+            'enumArray',     // array de datos para el tipo de dato enum
+            'filepath',      // dirección donde se almacenaran los archivos
+            'format',        // establece el formato para diferentes tipos de campos
+            'htmlType',      // establece el tipo de dato a utilizar en un input siempre que aplique
+            'htmlAttr',      // Agrega atributos HTML a los campos definidos para editar
+            'inputClass',    // añade clases CSS a campo a agregar.
+            'nombre',        // es el label del campo que queremos que se muestre en la pantalla
+            'name',          // Alias de nombre
+            'show',          // visibilidad del campo en la tabla de la vista index
+            'tipo',          // Define el tipo de campo a utilizar
+            'type',          // Alias de tipo
+            'target',        // Para los campos URL establece el target
+            'unique',        // valida que el valor ingresado se único
+            'value',         // Valor definido o predeterminado.
+            'validation',    // Valida los campos según la nomenclatura de laravel,
+            'columnParent',  // Aplica cuando es un select o un select 2 multiple
+            'multiple',      // Aplica cuando es un select o un select 2
         ];
         $tipos = [
-            'bool',         // Muestra un checkbox en el edit y un si o no en el index
-            'combobox',     // Muestra un select simple
+            'bool',          // Muestra un checkbox en el edit y un si o no en el index
+            'combobox',      // Muestra un select simple
             'select2',
-            'date',         // Input con formato tipo fecha
-            'datetime',     // Input en formato fecha y hora
-            'enum',         // Select con valores determinados
-            'file',         // Guarda un archivo en una ubicación definida
-            'file64',       // Guarda un archivo codificado en base64
-            'hidden',       // Muestra un campo hidden en el formulario edit.
-            'icono',        // Muestra un campo para seleccionar un icono
-            'image',        // Guarda una imagen en formato Base64
-            'numeric',      // Muestra un campo de tipo number en HTML y le da formato en el index
-            'password',     // Muestra dos campos contraseña y confirmar contraseña
-            'string',       // Tipo por defecto muestra un input tipo text
-            'text',         // La misma definición de string
-            'textarea',     // Muestra un campo textArea en el formulario edit
-            'url',          // Establece  una url con parámetros personalizados.
+            'date',          // Input con formato tipo fecha
+            'datetime',      // Input en formato fecha y hora
+            'enum',          // Select con valores determinados
+            'file',          // Guarda un archivo en una ubicación definida
+            'file64',        // Guarda un archivo codificado en base64
+            'hidden',        // Muestra un campo hidden en el formulario edit.
+            'icono',         // Muestra un campo para seleccionar un icono
+            'image',         // Guarda una imagen en formato Base64
+            'numeric',       // Muestra un campo de tipo number en HTML y le da formato en el index
+            'password',      // Muestra dos campos contraseña y confirmar contraseña
+            'string',        // Tipo por defecto muestra un input tipo text
+            'text',          // La misma definición de string
+            'textarea',      // Muestra un campo textArea en el formulario edit
+            'url',           // Establece  una url con parámetros personalizados.
         ];
         $component = [      // Nombre del componente a utilizar
             'combobox' => 'select',
@@ -281,12 +292,29 @@ trait UiTrait
         }
 
         // validando tipo y longitud de columns
-        if ($params['tipo'] == 'combobox' && !empty($params['column'])) {
-            $tipo = \is_array($params['column']);
-            $longitud = count($params['column']) == 2;
+        if ($params['tipo'] == 'combobox') {
 
-            if(!$tipo || !$longitud) {
-                return $this->errors = ['tipo' => $this->typeError[1]];
+            if(!empty($params['column'])) {
+                $tipo = \is_array($params['column']);
+                $longitud = count($params['column']) == 2;
+
+                if(!$tipo || !$longitud) {
+                    return $this->errors = ['tipo' => $this->typeError[1]];
+                }
+            }
+
+            // valiando si es un select multiple con diferente ubicación para 
+            if(
+                $params['htmlAttr']->has('multiple') && 
+                $params['htmlAttr']['multiple'] == true && 
+                ($params['campo'] instanceof Expression) == false &&
+                strrpos($params['campo'], '.') != false
+            ) {
+                $locationTable =  explode('.', $params['campo'])[0];
+                $localTable = $this->model->getTable();
+                if($locationTable != $localTable && empty($params['columnParent'])) {
+                    return $this->errors = ['tipo' => $this->typeError[17]];
+                }
             }
         }
 
@@ -462,6 +490,106 @@ trait UiTrait
     protected function setDefaultButtonDT($params)
     {
         $this->setDefaultBotonDT($params);
+    }
+
+    protected function setCalendarView($prefix, $layout)
+    {
+        $view  = 'krud.calendar';
+        $kmenu = false;
+        $prefixDefault = $this->getDefaultPrefix();
+
+        if ($prefix != null && $prefix == $prefixDefault) {
+            $view = 'krud::calendar';
+            $kmenu = true;
+        }
+
+        $permisos = $this->getPermisos(Auth::id());
+
+        if (!empty($this->viewOptions)) {
+            if (in_array('public', $this->viewOptions) && $this->viewOptions['public'] == true) {
+                $permisos = [
+                    'create',
+                    'show',
+                    'edit',
+                    'destroy'
+                ];
+            }
+        }
+
+        return view($view, [
+            'layout'      => $layout,
+            'titulo'      => $this->titulo,
+            'permisos'    => $permisos,
+            'defaultView' => $this->defaultCalendarView,
+            'action'      => Route::currentRouteName(),
+            'campos'      => $this->campos,
+            'kmenu'       => $kmenu,
+        ]);
+    }
+
+    protected function setTableView($prefix, $layout)
+    {
+        $botones       = json_encode($this->botones);
+        $ruta          = $this->getModuloRuta();
+        $view          = 'krud.index';
+        $dtBtnAdd      = config('kitukizuri.dtBtnAdd');
+        $dtBtnLiner    = config('kitukizuri.dtBtnLiner');
+        $kmenu         = false;
+        $vBootstrap    = config('kitukizuri.vBootstrap');
+        $prefixDefault = $this->getDefaultPrefix();
+
+        if ($prefix != null && $prefix == $prefixDefault) {
+            $vars       = usePrevUi('default');
+            $view       = $vars['kitukizuri'];
+            $dtBtnAdd   = 'btn btn-outline-success';
+            $dtBtnLiner = 'btn btn-outline-secondary';
+            $kmenu      = true;
+            $vBootstrap = 5;
+        }
+
+        // Validando versión de bootstrap
+        if(!empty($vBootstrap)) {
+            $vBootstrap = str_contains($vBootstrap, '.') ? explode('.', $vBootstrap)[0] : $vBootstrap;
+        } else {
+            $vBootstrap = 5;
+        }
+
+        $permisos = $this->getPermisos(Auth::id());
+
+        if(!empty($this->removePermisos)) {
+            $permisos = array_values(array_diff($permisos, $this->removePermisos));
+        }
+
+        return view($view, [
+            'titulo'       => $this->titulo,
+            'columnas'     => $this->getColumnas($this->getSelectShow()),
+            'botones'      => $botones,
+            'permisos'     => $permisos,
+            'ruta'         => $ruta,
+            'template'     => $this->template,
+            'layout'       => $layout,
+            'dtBtnAdd'     => $dtBtnAdd,
+            'dtBtnLiner'   => $dtBtnLiner,
+            'embed'        => $this->indexEmbed,
+            'kmenu'        => $kmenu,
+            'vBootstrap'   => $vBootstrap,
+            'botonesDT'    => $this->botonesDT,
+            'defaultBtnDT' => $this->defaultBtnDT,
+        ]);
+    }
+
+    protected function buildMsg($type, $msg)
+    {
+        if(config('kitukizuri.prevUi') === true ) {
+            Session::flash('type', $type);
+            Session::flash('msg', $msg);
+            return redirect()->back();
+        } else if(empty(config('kitikizuri.preUi')) || config('kitukizuri.prevUi') == false) {
+            return response()->json([
+                'type' => $type,
+                'msg' => $msg
+            ]);
+        }
     }
 
     /**
