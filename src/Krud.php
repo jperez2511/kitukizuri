@@ -239,7 +239,7 @@ class Krud extends Controller
                         ];
 
                         $values = SelectValues::values(...$args);
-                        $this->campos[$i]['value'] = $values;
+                        $this->campos[$i]['value'] = json_encode($values);
                     }
                 }
             } else if($data != null) {
