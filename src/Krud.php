@@ -230,10 +230,10 @@ class Krud extends Controller
                             $this->campos[$i]['value'] =  json_encode($value);
                         }
                     } else if ($this->campos[$i]['format'] == 'table') {
-                        $locationTableArray =  explode('.', $this->campos['campo']);
+                        $locationTableArray =  explode('.', $this->campos[$i]['campo']);
                         $args = [
                             $this->model->getKey(),
-                            $this->campos['idParent'],
+                            $this->campos[$i]['idParent'],
                             $locationTableArray[0],
                             $locationTableArray[1],
                         ];
