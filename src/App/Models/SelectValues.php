@@ -33,4 +33,13 @@ class SelectValues
             dd($e);
         }
     }
+
+    public static function values($idParent, $columnParent, $table, $column)
+    {
+        return DB::table($table)
+            ->select($column)
+            ->where($columnParent, $idParent)
+            ->pluck($column)
+            ->toArray();
+    }
 }

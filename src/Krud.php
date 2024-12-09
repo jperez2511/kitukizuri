@@ -228,10 +228,18 @@ class Krud extends Controller
                         if($data != null){
                             $value = $data->{$campoReal};
                             $this->campos[$i]['value'] =  json_encode($value);
-                            dump($this->campos[$i]['value']);
                         }
                     } else if ($this->campos[$i]['format'] == 'table') {
-                        $table = $this->campos[$i]['destination'];
+                        $locationTableArray =  explode('.', $params['campo']);
+                        $args = [
+                            $this->model->getKey(),
+                            $params['idParent'],
+                            $locationTableArray[0],
+                            $locationTableArray[1],
+                        ];
+
+                        $values = SelectValues::values(...$args);
+                        $this->campos[$i]['value'] = $values;
                     }
                 }
             } else if($data != null) {

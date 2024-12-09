@@ -316,8 +316,12 @@ trait UiTrait
                 $localTable = $this->model->getTable();
                 if($locationTable != $localTable && empty($params['columnParent'])) {
                     return $this->errors = ['tipo' => $this->typeError[17]];
+                } else if($locationTable != $localTable) {
+                    $params['format'] = 'table';
+                } else if($locationTable == $localTable) {
+                    $params['format'] = 'json';
                 }
-            }
+            } 
         }
 
         if (!in_array($params['tipo'], $tipos)) {
