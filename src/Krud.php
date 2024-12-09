@@ -28,6 +28,9 @@ use App\Http\Controllers\Controller;
 
 // Models
 use App\Models\Municipio;
+use Icebearsoft\Kitukizuri\App\Models\{
+    SelectValues
+};
 
 use Icebearsoft\Kitukizuri\App\Traits\Krud\{
     QueryBuilderTrait,
@@ -642,10 +645,18 @@ class Krud extends Controller
                         ($campo['campo'] instanceof Expression) == false &&
                         strrpos($parcampoams['campo'], '.') != false
                     ) {
-                        $locationTable =  explode('.', $campo['campo'])[0];
+                        $locationTableArray =  explode('.', $campo['campo']);
                         $localTable = $this->model->getTable();
-                        dump($localTable, $locationTable);
-                        continue;
+                        //validando si las tablas son difrentes o son las mismas 
+                        if($locationTableArray[0] != $localTable)
+                        {
+                            $dataOtherLocation[] = [
+                                'value' => $valor, 
+                                'table' => $locationTable[0],
+                                'column' => $locationTable[1],
+                            ];
+                            continue;
+                        }
                     }
                     
                 }
@@ -710,7 +721,26 @@ class Krud extends Controller
 
         try {
             $this->model->save();
-            
+
+            if(!empty($dataOtherLocation)) {
+                foreach($dataOtherLocation as $values) {
+                    $args = [
+                        $this->model->{$this->columnParent},
+                        $value['table'],
+                        $this->columnParent
+                    ];
+                    $existsElements = SelectValues::exists(...$args);
+                    if($existsElements === true){
+                        SelectValues::destroy(...$args);
+                    }
+                    
+                    $args[] = $value['column'];
+                    $args[] = $value['value'];
+                    
+                    SelectValues::save(...$args);
+                }
+            }
+
             if(!empty($this->storeFunctions)) {
                 foreach($this->storeFunctions as $function) {
                     $function($this->model);
