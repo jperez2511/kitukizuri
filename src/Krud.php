@@ -232,7 +232,7 @@ class Krud extends Controller
                     } else if ($this->campos[$i]['format'] == 'table') {
                         $locationTableArray =  explode('.', $this->campos[$i]['campo']);
                         $args = [
-                            $this->model->getKey(),
+                            $data->getKey(),
                             $this->campos[$i]['columnParent'],
                             $locationTableArray[0],
                             $locationTableArray[1],
