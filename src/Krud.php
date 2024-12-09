@@ -654,6 +654,7 @@ class Krud extends Controller
                                 'value' => $valor, 
                                 'table' => $locationTableArray[0],
                                 'column' => $locationTableArray[1],
+                                'columnParent' => $campo['columnParent']
                             ];
                             continue;
                         }
@@ -725,17 +726,17 @@ class Krud extends Controller
             if(!empty($dataOtherLocation)) {
                 foreach($dataOtherLocation as $values) {
                     $args = [
-                        $this->model->{$this->columnParent},
-                        $value['table'],
-                        $this->columnParent
+                        $this->model->{$values['columnParent']},
+                        $values['table'],
+                        $values['columnParent']
                     ];
                     $existsElements = SelectValues::exists(...$args);
                     if($existsElements === true){
                         SelectValues::destroy(...$args);
                     }
                     
-                    $args[] = $value['column'];
-                    $args[] = $value['value'];
+                    $args[] = $values['column'];
+                    $args[] = $values['value'];
 
                     SelectValues::save(...$args);
                 }
