@@ -293,7 +293,7 @@ trait UiTrait
         }
 
         // validando tipo y longitud de columns
-        if ($params['tipo'] == 'combobox') {
+        if ($params['tipo'] == 'combobox' || $params['tipo'] == 'select2') {
 
             if(!empty($params['column'])) {
                 $tipo = \is_array($params['column']);
