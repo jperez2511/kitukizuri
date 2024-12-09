@@ -233,7 +233,7 @@ class Krud extends Controller
                         $locationTableArray =  explode('.', $this->campos[$i]['campo']);
                         $args = [
                             $this->model->getKey(),
-                            $this->campos[$i]['idParent'],
+                            $this->campos[$i]['columnParent'],
                             $locationTableArray[0],
                             $locationTableArray[1],
                         ];
