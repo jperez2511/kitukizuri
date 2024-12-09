@@ -2,6 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
+use Auth;
 use Illuminate\Database\Query\Expression;
 
 trait UiTrait
