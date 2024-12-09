@@ -652,8 +652,8 @@ class Krud extends Controller
                         {
                             $dataOtherLocation[] = [
                                 'value' => $valor, 
-                                'table' => $locationTable[0],
-                                'column' => $locationTable[1],
+                                'table' => $locationTableArray[0],
+                                'column' => $locationTableArray[1],
                             ];
                             continue;
                         }
