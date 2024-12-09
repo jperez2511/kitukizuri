@@ -635,7 +635,18 @@ class Krud extends Controller
                         $valor = array_map('intval', $valor);
                     }
 
-                    // validando si es para guardar en otra locacion
+                    if(
+                        !empty($campo['htmlAttr']) && 
+                        $campo['htmlAttr']->has('multiple') && 
+                        $campo['htmlAttr']['multiple'] == true && 
+                        ($campo['campo'] instanceof Expression) == false &&
+                        strrpos($parcampoams['campo'], '.') != false
+                    ) {
+                        $locationTable =  explode('.', $campo['campo'])[0];
+                        $localTable = $this->model->getTable();
+                        dump($localTable, $locationTable);
+                        continue;
+                    }
                     
                 }
             }
