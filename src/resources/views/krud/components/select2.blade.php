@@ -5,7 +5,7 @@
     'type'        => '',
     'collection'  => [],
     'attr'        => [],
-    'value'       => '',
+    'value'       => null,
     'label',
 ])
 
