@@ -305,6 +305,7 @@ trait UiTrait
 
             // valiando si es un select multiple con diferente ubicación para 
             if(
+                !empty($params['htmlAttr']->has('multiple')) && 
                 $params['htmlAttr']->has('multiple') && 
                 $params['htmlAttr']['multiple'] == true && 
                 ($params['campo'] instanceof Expression) == false &&
