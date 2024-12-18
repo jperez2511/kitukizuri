@@ -215,6 +215,7 @@ trait UiTrait
             'text',          // La misma definición de string
             'textarea',      // Muestra un campo textArea en el formulario edit
             'url',           // Establece  una url con parámetros personalizados.
+            'table'          // Muestra una tabla con filas y columnas para que los usuarios ingresen información
         ];
         $component = [      // Nombre del componente a utilizar
             'combobox' => 'select',
@@ -222,6 +223,7 @@ trait UiTrait
             'select2'  => 'select2',
             'password' => 'password',
             'textarea' => 'textarea',
+            'table'    => 'table',
         ];
         $htmlType = [       // relación entre tipos de datos HTML y locales
             'string'   => 'text',
