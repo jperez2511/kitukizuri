@@ -21,7 +21,7 @@
         // Generar filas (los valores de cada objeto)
         $rows = array_map(function ($item) {
             return array_values($item);
-        }, $data)
+        }, $data);
     } 
 
 @endphp
