@@ -46,7 +46,10 @@
                                     @else
                                         <x-dynamic-component 
                                             :component="$c['component']" 
+                                            columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
+                                            inputClass="{{$c['inputClass']}}"
                                             nombre="{{$c['inputName']}}"
+                                            attr="{!! $c['htmlAttr'] !!}"
                                             label="{{$c['nombre']}}"
                                             type="{{$c['tipo']}}"
                                         />       
@@ -97,7 +100,7 @@
             @endforeach
 
             @foreach($campos as $c)
-                @if($c['tipo'] != 'password')
+                @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong']))
                     data['{{$c['inputId'] ?? $c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}').val();
                 @endif
             @endforeach
