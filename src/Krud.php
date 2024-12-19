@@ -239,8 +239,8 @@ class Krud extends Controller
                             $locationTableArray[1],
                         ];
 
-                        $collect = SelectValues::values(...$args);
-                        $this->campos[$i]['collect'] = json_encode($collect);
+                        $values = SelectValues::values(...$args);
+                        $this->campos[$i]['value'] = json_encode($values);
                     }
                 }
             } else if($this->campos[$i]['tipo'] == 'table') {
@@ -253,7 +253,7 @@ class Krud extends Controller
                 ];
 
                 $values = TableValues::values(...$args);
-                $this->campos[$i]['value'] = json_encode($values);
+                $this->campos[$i]['collect'] = json_encode($values);
             } else if($data != null) {
                 $value = $data->{$campoReal};
                 $this->campos[$i]['value'] = is_array($value) ? json_encode($value) : $value;
