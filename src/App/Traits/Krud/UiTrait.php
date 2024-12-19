@@ -214,8 +214,12 @@ trait UiTrait
             'string',        // Tipo por defecto muestra un input tipo text
             'text',          // La misma definición de string
             'textarea',      // Muestra un campo textArea en el formulario edit
+            'table',         // Muestra una tabla con filas y columnas para que los usuarios ingresen información,
+            'h1',            // Muestra un h1 en la vista edit
+            'h2',            // Muestra un h2 en la vista edit
+            'h3',            // Muestra un h3 en la vista edit
+            'h4',            // Muestra un h4 en la vista edit
             'url',           // Establece  una url con parámetros personalizados.
-            'table'          // Muestra una tabla con filas y columnas para que los usuarios ingresen información
         ];
         $component = [      // Nombre del componente a utilizar
             'combobox' => 'select',
@@ -224,6 +228,10 @@ trait UiTrait
             'password' => 'password',
             'textarea' => 'textarea',
             'table'    => 'table',
+            'title'    => 'h1',
+            'title'    => 'h2',
+            'title'    => 'h3',
+            'title'    => 'h4',
         ];
         $htmlType = [       // relación entre tipos de datos HTML y locales
             'string'   => 'text',
@@ -239,7 +247,12 @@ trait UiTrait
 
         // validando datos permitidos
         $this->allowed($params, $allowed, $this->typeError[2]);
-        if (!array_key_exists('campo', $params) && !array_key_exists('field', $params)) {
+
+        $params['tipo'] = $params['tipo'] ?? $params['type'] ?? 'string';
+        $excludeField   = ['h1', 'h2', 'h3', 'h4'];
+
+
+        if (!in_array($params['tipo'], $excludeField) && (!array_key_exists('campo', $params) && !array_key_exists('field', $params))) {
             return $this->errors = ['tipo' => $this->typeError[1]];
         }
 
@@ -261,7 +274,7 @@ trait UiTrait
         $params['nombre']      = $params['nombre'] ?? $params['name'] ?? str_replace('_', ' ', ucfirst($params['campo']));
         $params['edit']        = $params['edit'] ?? true;
         $params['show']        = $params['show'] ?? true;
-        $params['tipo']        = $params['tipo'] ?? $params['type'] ?? 'string';
+        
         $params['decimales']   = $params['decimales'] ?? 0;
         $params['format']      = $params['format'] ?? '';
         $params['unique']      = $params['unique'] ?? false;
