@@ -1,10 +1,10 @@
 @props([
     'columnClass' => 'col-md-6',
     'inputClass'  => '',
-    'label'      => '',
+    'label'       => '',
     'type'        => 'h1',
 ])
 
 <div class="{{ $columnClass }}">
-    {!! '<'.$tipo' class="'.$inputClass.'">'.$label.'</'.$tipo.'>' !!}
+    {!! '<'.$tipo.' class="'.$inputClass.'">'.$label.'</'.$tipo.'>' !!}
 </div>

@@ -219,6 +219,7 @@ trait UiTrait
             'h2',            // Muestra un h2 en la vista edit
             'h3',            // Muestra un h3 en la vista edit
             'h4',            // Muestra un h4 en la vista edit
+            'strong',        // Muestra un strong en la vista edit
             'url',           // Establece  una url con parámetros personalizados.
         ];
         $component = [      // Nombre del componente a utilizar
@@ -228,10 +229,11 @@ trait UiTrait
             'password' => 'password',
             'textarea' => 'textarea',
             'table'    => 'table',
-            'title'    => 'h1',
-            'title'    => 'h2',
-            'title'    => 'h3',
-            'title'    => 'h4',
+            'h1'       => 'title',
+            'h2'       => 'title',
+            'h3'       => 'title',
+            'h4'       => 'title',
+            'strong'   => 'title',
         ];
         $htmlType = [       // relación entre tipos de datos HTML y locales
             'string'   => 'text',
@@ -249,7 +251,7 @@ trait UiTrait
         $this->allowed($params, $allowed, $this->typeError[2]);
 
         $params['tipo'] = $params['tipo'] ?? $params['type'] ?? 'string';
-        $excludeField   = ['h1', 'h2', 'h3', 'h4'];
+        $excludeField   = ['h1', 'h2', 'h3', 'h4', 'strong'];
 
 
         if (!in_array($params['tipo'], $excludeField) && (!array_key_exists('campo', $params) && !array_key_exists('field', $params))) {

@@ -30,8 +30,7 @@
                     @foreach($campos as $c)
                         @if ($c['edit'] === true)
                             @if($c['tipo'] != 'password' )
-                                {!! dump(in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4'])) !!}
-                                @if (!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4']))
+                                @if (!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong']))
                                     <x-dynamic-component 
                                         :component="$c['component']" 
                                         columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
