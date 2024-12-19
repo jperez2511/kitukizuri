@@ -239,11 +239,11 @@ class Krud extends Controller
                             $locationTableArray[1],
                         ];
 
-                        $values = SelectValues::values(...$args);
-                        $this->campos[$i]['value'] = json_encode($values);
+                        $collect = SelectValues::values(...$args);
+                        $this->campos[$i]['collect'] = json_encode($collect);
                     }
                 }
-            } else if($this->cmapos[$i]['tipo'] == 'table') {
+            } else if($this->campos[$i]['tipo'] == 'table') {
                 $locationTableArray =  explode('.', $this->campos[$i]['campo']);
                 $args = [
                     $data->getKey(),
