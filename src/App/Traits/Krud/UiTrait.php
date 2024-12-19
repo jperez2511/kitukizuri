@@ -256,7 +256,7 @@ trait UiTrait
             return $this->errors = ['tipo' => $this->typeError[1]];
         }
 
-        $params['campo'] = $params['campo'] ?? $params['field'];
+        $params['campo'] = $params['campo'] ?? $params['field'] ?? null;
 
          // capturando el nombre real del campo
          if($params['campo'] instanceof Expression) {

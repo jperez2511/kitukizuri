@@ -21,7 +21,7 @@
 @endphp
 
 <div class="{{$columnClass}}">
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label>{{ $label }}</label>
         <select {!! $attributes->merge(['class' => $inputClass]) !!}>
             @foreach ($collection as $item)

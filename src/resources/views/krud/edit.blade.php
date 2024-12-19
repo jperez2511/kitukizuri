@@ -29,26 +29,29 @@
                 <div class="row">
                     @foreach($campos as $c)
                         @if ($c['edit'] === true)
-                            @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4']))
-                                <x-dynamic-component 
-                                    :component="$c['component']" 
-                                    columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
-                                    inputClass="{{$c['inputClass']}}"
-                                    label="{{$c['nombre']}}"
-                                    name="{!!$c['inputName']!!}"
-                                    id="{{ $c['inputId'] ?? $c['inputName']}}"
-                                    collection="{!! $c['collect'] !!}"
-                                    type="{{$c['htmlType']}}"
-                                    attr="{!! $c['htmlAttr'] !!}"
-                                    value="{{$c['value']}}"
-                                />
-                            @elseif($c['tipo'] != 'password' &&  !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4']))
-                                <x-dynamic-component 
-                                    :component="$c['component']" 
-                                    nombre="{{$c['inputName']}}"
-                                    label="{{$c['nombre']}}"
-                                    type="{{$c['tipo']}}"
-                                />
+                            @if($c['tipo'] != 'password' )
+                                {!! dump(in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4'])) !!}
+                                @if (!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4']))
+                                    <x-dynamic-component 
+                                        :component="$c['component']" 
+                                        columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
+                                        inputClass="{{$c['inputClass']}}"
+                                        label="{{$c['nombre']}}"
+                                        name="{!!$c['inputName']!!}"
+                                        id="{{ $c['inputId'] ?? $c['inputName']}}"
+                                        collection="{!! $c['collect'] !!}"
+                                        type="{{$c['htmlType']}}"
+                                        attr="{!! $c['htmlAttr'] !!}"
+                                        value="{{$c['value']}}"
+                                    />
+                                    @else
+                                        <x-dynamic-component 
+                                            :component="$c['component']" 
+                                            nombre="{{$c['inputName']}}"
+                                            label="{{$c['nombre']}}"
+                                            type="{{$c['tipo']}}"
+                                        />       
+                                    @endif
                             @else
                                 <x-dynamic-component 
                                     :component="$c['component']" 
