@@ -11,6 +11,7 @@ class TableValues
         return DB::table($table)
             ->select($column)
             ->where($columnParent, $idParent)
+            ->get()
             ->toArray();
     }
 }

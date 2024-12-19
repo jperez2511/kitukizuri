@@ -9,18 +9,18 @@
 
 @php
     if(!empty($collection)) {
-        $collection = json_decode($collection);
+        $data = json_decode($collection);
         
         if (!is_array($data) || empty($data)) {
             return response()->json(['error' => 'Invalid JSON data']);
         }
 
         // Generar headers (las claves del primer objeto)
-        $headers = array_keys($data[0]);
+        $headers = array_keys(get_object_vars($data[0]));
 
         // Generar filas (los valores de cada objeto)
         $rows = array_map(function ($item) {
-            return array_values($item);
+            return array_values(get_object_vars($item));
         }, $data);
     } 
 
