@@ -6,5 +6,5 @@
 ])
 
 <div class="{{ $columnClass }}">
-    {!! '<'.$tipo.' class="'.$inputClass.'">'.$label.'</'.$tipo.'>' !!}
+    {!! '<'.$type.' class="'.$inputClass.'">'.$label.'</'.$type.'>' !!}
 </div>
