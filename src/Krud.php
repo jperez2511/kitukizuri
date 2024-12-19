@@ -29,7 +29,8 @@ use App\Http\Controllers\Controller;
 // Models
 use App\Models\Municipio;
 use Icebearsoft\Kitukizuri\App\Models\{
-    SelectValues
+    SelectValues,
+    TableValues
 };
 
 use Icebearsoft\Kitukizuri\App\Traits\Krud\{
@@ -242,6 +243,17 @@ class Krud extends Controller
                         $this->campos[$i]['value'] = json_encode($values);
                     }
                 }
+            } else if($this->cmapos[$i]['tipo'] == 'table') {
+                $locationTableArray =  explode('.', $this->campos[$i]['campo']);
+                $args = [
+                    $data->getKey(),
+                    $this->campos[$i]['columnParent'],
+                    $locationTableArray[0],
+                    $locationTableArray[1],
+                ];
+
+                $values = TableValues::values(...$args);
+                $this->campos[$i]['value'] = json_encode($values);
             } else if($data != null) {
                 $value = $data->{$campoReal};
                 $this->campos[$i]['value'] = is_array($value) ? json_encode($value) : $value;
