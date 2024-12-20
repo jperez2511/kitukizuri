@@ -625,6 +625,9 @@ class Krud extends Controller
                 $valor = $this->toDateMysql($valor);
             } else if ($campo['tipo'] == 'numeric') {
                 $valor = str_replace(',', '', $valor);
+                if($valor = '') {
+					$valor = null;
+				}
             } else if ($campo['tipo'] == 'password') {
                 $valor = !empty($valor) ? bcrypt($valor) : $this->model->{$nombreCampo};
             } else if ($campo['tipo'] == 'image' || $campo['tipo'] == 'file64') {
