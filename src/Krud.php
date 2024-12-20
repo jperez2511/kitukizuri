@@ -625,7 +625,7 @@ class Krud extends Controller
                 $valor = $this->toDateMysql($valor);
             } else if ($campo['tipo'] == 'numeric') {
                 $valor = str_replace(',', '', $valor);
-                if($valor = '') {
+                if($valor == '') {
 					$valor = null;
 				}
             } else if ($campo['tipo'] == 'password') {
