@@ -42,7 +42,7 @@
                                         type="{{$c['htmlType']}}"
                                         attr="{!! $c['htmlAttr'] !!}"
                                         value="{{$c['value']}}"
-                                        dependencies="{!! $c['dependencies'] !!}"
+                                        dependencies="{!! json_encode($c['dependencies']) !!}"
                                     />
                                     @else
                                         <x-dynamic-component 
@@ -53,7 +53,7 @@
                                             attr="{!! $c['htmlAttr'] !!}"
                                             label="{{$c['nombre']}}"
                                             type="{{$c['tipo']}}"
-                                            dependencies="{!! $c['dependencies'] !!}"
+                                            dependencies="{!! json_encode($c['dependencies']) !!}"
                                         />       
                                     @endif
                             @else

@@ -55,4 +55,15 @@ trait HelpTrait
             }
         }
     }
+    
+    /**
+     * showErrors
+     *
+     * @param  mixed $error
+     * @return void
+     */
+    protected function showErrors($error)
+    {
+        return view('krud::training', $error);
+    }
 }

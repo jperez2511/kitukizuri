@@ -4,6 +4,7 @@ namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
 trait FieldTrait
 {
+    use HelpTrait;
 
     protected $fieldOptions = [
         'campo',         // Campo de la base de datos
@@ -95,7 +96,7 @@ trait FieldTrait
     protected function setCampo($params)
     {
         if(!is_array($params)) {
-            return $this->errors = ['tipo' => $this->typeError[1]];
+            return $this->showErrors(['tipo' => $this->typeError[1]]);
         }
 
         // validando datos permitidos
