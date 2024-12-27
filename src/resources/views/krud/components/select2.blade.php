@@ -1,11 +1,12 @@
 @props([
-    'json'        => '',
-    'columnClass' => 'col-md-6',
-    'inputClass'  => 'form-select',
-    'type'        => '',
-    'collection'  => [],
-    'attr'        => [],
-    'value'       => null,
+    'json'         => '',
+    'columnClass'  => 'col-md-6',
+    'inputClass'   => 'form-select',
+    'type'         => '',
+    'collection'   => [],
+    'attr'         => [],
+    'dependendies' => [],
+    'value'        => null,
     'label',
 ])
 

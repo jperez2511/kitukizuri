@@ -1,8 +1,9 @@
 @props([
-    'columnClass' => 'col-md-6',
-    'inputClass'  => '',
-    'label'       => '',
-    'type'        => 'h1',
+    'columnClass'  => 'col-md-6',
+    'inputClass'   => '',
+    'label'        => '',
+    'type'         => 'h1',
+    'dependencies' => []
 ])
 
 <div class="{{ $columnClass }}">

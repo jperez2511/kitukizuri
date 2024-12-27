@@ -53,6 +53,7 @@
                                             attr="{!! $c['htmlAttr'] !!}"
                                             label="{{$c['nombre']}}"
                                             type="{{$c['tipo']}}"
+                                            dependencies="{!! $c['dependencies'] !!}"
                                         />       
                                     @endif
                             @else

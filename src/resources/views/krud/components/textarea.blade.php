@@ -1,7 +1,8 @@
 @props([
-    'columnClass' => 'col-md-6',
-    'inputClass'  => '',
-    'attr'        => [],
+    'columnClass'  => 'col-md-6',
+    'inputClass'   => '',
+    'attr'         => [],
+    'dependencies' => [],
     'label',
     'value' => ''
 ])

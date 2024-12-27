@@ -1,10 +1,11 @@
 <!-- el tipo tabla por el momento solo muestra elementos ordenados -->
 
 @props([
-    'columnClass' => 'col-md-6',
-    'collection'  => [],
-    'headers'     => [],
-    'rows'        => [],
+    'columnClass'  => 'col-md-6',
+    'collection'   => [],
+    'headers'      => [],
+    'rows'         => [],
+    'dependencies' => []
 ])
 
 @php
