@@ -42,6 +42,7 @@
                                         type="{{$c['htmlType']}}"
                                         attr="{!! $c['htmlAttr'] !!}"
                                         value="{{$c['value']}}"
+                                        dependencies="{!! $c['dependencies'] !!}"
                                     />
                                     @else
                                         <x-dynamic-component 

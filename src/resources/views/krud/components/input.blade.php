@@ -1,9 +1,10 @@
 @props([
-    'columnClass' => 'col-md-6',
-    'inputClass'  => '',
-    'type'        => 'text',
-    'attr'        => [],
-    'id'          => '',
+    'columnClass'  => 'col-md-6',
+    'inputClass'   => '',
+    'type'         => 'text',
+    'attr'         => [],
+    'id'           => '',
+    'dependencies' => [],
     'label'
 ])
 
@@ -40,4 +41,11 @@
     </div>
 </div>
 
+@push('scripts')
 
+    @if(!empty($dependencies))
+        <script>
+            
+        </script>
+    @endif
+@endpush

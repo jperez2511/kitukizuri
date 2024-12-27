@@ -25,3 +25,24 @@ if (!function_exists('usePrevUi')) {
         ];
     }
 }
+
+if (!function_exists('typeArray')) {
+    function typeArray(array $array): int|false {
+        return match (true) {
+            // Estructura 1: Array de arrays asociativos
+            is_array(reset($array)) && array_reduce($array, fn($carry, $item) => $carry && isset($item['input'], $item['value']), true) => 1,
+    
+            // Estructura 2: Array de arrays secuenciales
+            is_array(reset($array)) && array_reduce($array, fn($carry, $item) => $carry && array_keys($item) === [0, 1], true) => 2,
+    
+            // Estructura 3: Array simple secuencial
+            array_keys($array) === [0, 1] => 3,
+    
+            // Estructura 4: Array simple asociativo
+            array_keys($array) === ['input', 'value'] => 4,
+    
+            // No coincide con ninguna estructura
+            default => false,
+        };
+    }
+}

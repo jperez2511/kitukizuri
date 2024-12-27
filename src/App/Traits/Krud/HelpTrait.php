@@ -24,7 +24,8 @@ trait HelpTrait
         'badOrWhereOperator',   // 15
         'badColumnDefinition',  // 16
         'needRealField',        // 17
-        'needColumnParent'      // 18
+        'needColumnParent',     // 18
+        'badDependencies'       // 19  
     ];
     
     /**
