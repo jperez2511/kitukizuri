@@ -115,6 +115,8 @@ trait FieldTrait
             if($typeArray === false) {
                 return $this->errors = ['tipo' => $this->typeError[16]];
             }
+        } else {
+            $params['dependencies'] = null;
         }
 
         $params['campo'] = $params['campo'] ?? $params['field'] ?? null;

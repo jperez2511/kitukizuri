@@ -32,7 +32,7 @@
 <div class="{{$columnClass}}">
     <div class="form-group mb-3">
         <div class="form-control-wrap">
-            <label class="form-label-outlined" for="{{ $id }}">{{ $label }}</label>
+            <label class="{!! $type != 'checkbox' ? 'form-label-outlined' : null !!}" for="{{ $id }}">{{ $label }}</label>
             <input type="{{ $type }}" id="{{ $id }}" {!! $attributes->merge(['class' => $inputClass]) !!} />
             @error($attributes['name'])
                 <small class="text-danger">{{$message}}</small>
