@@ -509,6 +509,10 @@ class Krud extends Controller
             abort(404);
         }
         
+        if (!empty($this->errors)) {
+            return view('krud::training', $this->errors);
+        }
+
         $this->editId = $id;
 
         if ($id != 0) {

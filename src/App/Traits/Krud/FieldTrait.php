@@ -4,7 +4,6 @@ namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
 trait FieldTrait
 {
-    use HelpTrait;
 
     protected $fieldOptions = [
         'campo',         // Campo de la base de datos
@@ -13,6 +12,7 @@ trait FieldTrait
         'columnClass',   // clase para columnas en html (bootstrap)
         'collect',       // Colección de datos para el campo combobox
         'columnParent',  // Aplica cuando es un select o un select 2 multiple
+        'dependencies',  // Dependencias de un campo
         'edit',          // Valor boolean, muestra o no el input en el edit
         'enumArray',     // array de datos para el tipo de dato enum
         'field',         // Alias de campo
@@ -96,7 +96,7 @@ trait FieldTrait
     protected function setCampo($params)
     {
         if(!is_array($params)) {
-            return $this->showErrors(['tipo' => $this->typeError[1]]);
+            return $this->errors = ['tipo' => $this->typeError[1]];
         }
 
         // validando datos permitidos
