@@ -21,7 +21,7 @@ trait FieldTrait
         'htmlType',      // establece el tipo de dato a utilizar en un input siempre que aplique
         'htmlAttr',      // Agrega atributos HTML a los campos definidos para editar
         'inputClass',    // añade clases CSS a campo a agregar.
-        'inputId',        // Identificador único para el campo
+        'inputId',       // Identificador único para el campo
         'multiple',      // Aplica cuando es un select o un select 2
         'nombre',        // es el label del campo que queremos que se muestre en la pantalla
         'name',          // Alias de nombre

@@ -63,7 +63,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             $('.js-select2').select2({
-                placeholder: "Selecciona una opción",
+                placeholder: "{{ __('select an option') }}",
                 allowClear: false,
                 width: "resolve",
                 theme: "default"

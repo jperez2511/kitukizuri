@@ -22,6 +22,7 @@ import 'select2/dist/css/select2.min.css';
 
 
 import { loadFontsToBase64 } from './loadFonts';
+import { hideElements } from './hideElements';
 
 loadFontsToBase64().catch(error => console.error("Error cargando fuentes:", error));
 
@@ -30,13 +31,14 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 // jQuery & Lodash
-window.$ = $;
-window.jQuery = $;
-window.JSZip = JSZip;  // Necesario para exportar en Excel
-window.pdfMake = pdfMake; // Necesario para exportar en PDF
+window.$       = $;
+window.jQuery  = $;
+window.JSZip   = JSZip;    // Necesario para exportar en Excel
+window.pdfMake = pdfMake;  // Necesario para exportar en PDF
 
 // Bootstrap
 import Bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js';
-window.bootstrap = Bootstrap;
+window.bootstrap    = Bootstrap;
+window.hideElements = hideElements;
 
 select2($);
