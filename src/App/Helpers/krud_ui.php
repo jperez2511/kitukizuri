@@ -28,7 +28,11 @@ if (!function_exists('usePrevUi')) {
 
 if (!function_exists('typeArray')) {
     function typeArray(array $array): int|false {
+
         return match (true) {
+            // Estructura 0: Array de objetos
+            is_array($array) && array_reduce($array, fn($carry, $item) => $carry && is_object($item), true) => 5,
+
             // Estructura 1: Array de arrays asociativos
             is_array(reset($array)) && array_reduce($array, fn($carry, $item) => $carry && isset($item['input'], $item['value']), true) => 1,
     

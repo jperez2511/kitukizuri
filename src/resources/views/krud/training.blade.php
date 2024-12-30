@@ -111,7 +111,7 @@
                 <div></div>
             @else
                 <div class="text-center">
-                    <h4 class="text-danger">{!! str_replace('{bad}',$bad,  $data[$tipo]['titulo']) !!}</h4>
+                    <h4 class="text-danger">{!! !empty($bad) ? str_replace('{bad}',$bad,  $data[$tipo]['titulo']) : $data[$tipo]['titulo'] !!}</h4>
                     <hr>
                 </div>
                 <div class="text-justify mb-4">
