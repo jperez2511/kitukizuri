@@ -49,7 +49,7 @@
                                             :component="$c['component']" 
                                             columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
                                             inputClass="{{$c['inputClass']}}"
-                                            name="{{$c['inputName']}}"
+                                            name="{{ $c['inputId'] ?? $c['inputName']}}"
                                             attr="{!! $c['htmlAttr'] !!}"
                                             label="{{$c['nombre']}}"
                                             type="{{$c['tipo']}}"

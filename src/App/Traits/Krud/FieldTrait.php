@@ -115,7 +115,10 @@ trait FieldTrait
             $typeArray = \typeArray($params['dependencies']);
             if($typeArray === false) {
                 return $this->errors = ['tipo' => $this->typeError[16]];
+            } else {
+                $params['dependencies'] = \normalizeArray($params['dependencies']);
             }
+
         } else {
             $params['dependencies'] = null;
         }
