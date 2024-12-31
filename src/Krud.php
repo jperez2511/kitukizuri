@@ -656,7 +656,8 @@ class Krud extends Controller
                     $valor = $this->model->{$nombreCampo};
                 }
             } else if ($campo['tipo'] == 'bool') {
-                $valor = $valor == 'on' || $valor == 0 || $valor == 1 ;
+                $valor = ($valor === 'on') || ($valor === 1) || ($valor === '1') || ($valor === true);
+                $valor = $valor ? true : false;
             } else if ($campo['tipo'] == 'hidden') {
                 $this->model->{$nombreCampo} = $valor == 'userid' ? Auth::id() : $valor;
             } else if ($campo['tipo'] == 'select' || $campo['tipo'] == 'select2' || $campo['tipo'] == 'comobox') {
