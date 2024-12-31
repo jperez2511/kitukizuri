@@ -111,8 +111,10 @@
                 @endforeach
 
                 @foreach($campos as $c)
-                    @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong']))
+                    @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong', 'bool']))
                         data['{{$c['inputId'] ?? $c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}').val();
+                    @elseif($c['tipo'] == 'bool')
+                        data['{{$c['inputId'] ?? $c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}').is(':checked') ? 1 : 0;
                     @endif
                 @endforeach
                 

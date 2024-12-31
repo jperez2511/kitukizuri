@@ -201,7 +201,7 @@ trait UiTrait
                             if(!empty($prevUi) && $prevUi == true) {
                                 $v = '<span class="'.($prefix != null && $prefix == $prefixDefault ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? __('Si') : 'No').'</span>';
                             } else {
-                                $v = '<span class="'.config('kitukizuri.badge').'-'.($v ? 'success' : 'default').'">'.($v ? __('Si') : 'No').'</span>';
+                                $v = '<span class="'.config('kitukizuri.badge').'-'.($v ? 'success' : 'gray').'">'.($v ? __('Si') : 'No').'</span>';
                             }
                         } else if ($cv['tipo'] == 'url') {
                             if($cv['format'] != '') {
