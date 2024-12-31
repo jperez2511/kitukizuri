@@ -52,41 +52,46 @@ if (!function_exists('typeArray')) {
 }
 
 if (!function_exists('normalizeArray')) {
-    function normalizeArray(array $array): array {
+    function normalizeArray(array $array, $inputName): array {
         $type = typeArray($array);
     
         return match ($type) {
             // Estructura 0: Array de objetos
             5 => array_map(fn($item) => [
-                'input' => $item->input ?? null,
-                'value' => $item->value ?? null
+                'input'     => $item->input ?? null,
+                'value'     => $item->value ?? null,
+                'dependent' => $inputName,
             ], $array),
     
             // Estructura 1: Array de arrays asociativos
             1 => array_map(fn($item) => [
-                'input' => $item['input'] ?? null,
-                'value' => $item['value'] ?? null
+                'input'     => $item['input'] ?? null,
+                'value'     => $item['value'] ?? null,
+                'dependent' => $inputName,
             ], $array),
     
             // Estructura 2: Array de arrays secuenciales
             2 => array_map(fn($item) => [
-                'input' => $item[0] ?? null,
-                'value' => $item[1] ?? null
+                'input'     => $item[0] ?? null,
+                'value'     => $item[1] ?? null,
+                'dependent' => $inputName,
             ], $array),
     
             // Estructura 3: Array simple secuencial
             3 => [
                 [
-                    'input' => $array[0] ?? null,
-                    'value' => $array[1] ?? null
+                    'input'     => $array[0] ?? null,
+                    'value'     => $array[1] ?? null,
+                    'dependent' => $inputName,
                 ]
             ],
     
             // Estructura 4: Array simple asociativo
             4 => [
                 [
-                    'input' => $array['input'] ?? null,
-                    'value' => $array['value'] ?? null
+                    'input'     => $array['input'] ?? null,
+                    'value'     => $array['value'] ?? null,
+                    'dependent' => $inputName,
                 ]
             ],
     

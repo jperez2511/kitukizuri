@@ -27,9 +27,18 @@
                 @endforeach
 
                 <div class="row">
+                    @php $mergeDependencies = []; @endphp
                     @foreach($campos as $c)
                         @if ($c['edit'] === true)
                             @if($c['tipo'] != 'password' )
+
+
+                                @php
+                                    if (!empty($c['dependencies'])) {
+                                        $mergeDependencies = array_merge($mergeDependencies, $c['dependencies']);        
+                                    }
+                                @endphp
+
                                 @if (!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong']))
                                     <x-dynamic-component 
                                         :component="$c['component']" 
@@ -81,36 +90,68 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        // --------------------------------
-        // Almacenando valores
-        // ---------------------------------
+            // --------------------------------
+            // Almacenando valores
+            // ---------------------------------
 
-        $('#guardar').click(function (e) { 
-            e.preventDefault();
-            
-            var data = {};
+            $('#guardar').click(function (e) { 
+                e.preventDefault();
+                
+                var data = {};
 
-            data['_token'] = '{{ csrf_token() }}';
-            data['id']     = '{{ $id }}';
+                data['_token'] = '{{ csrf_token() }}';
+                data['id']     = '{{ $id }}';
 
-            @if (!empty($parent))
-                data['{{$parent}}'] = $('#{{$parent}}').val();
-            @endif
-
-            @foreach($parents as $c)
-                data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
-            @endforeach
-
-            @foreach($campos as $c)
-                @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong']))
-                    data['{{$c['inputId'] ?? $c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}').val();
+                @if (!empty($parent))
+                    data['{{$parent}}'] = $('#{{$parent}}').val();
                 @endif
+
+                @foreach($parents as $c)
+                    data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
+                @endforeach
+
+                @foreach($campos as $c)
+                    @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong']))
+                        data['{{$c['inputId'] ?? $c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}').val();
+                    @endif
+                @endforeach
+                
+                $.post('{{ $action }}', data).done(response => {
+                    location.href = '{{ $urlBack }}';
+                }).fail(error => alert(error.responseJSON.message));
+            });
+
+            // --------------------------------
+            // Validando campos dependientes
+            // ---------------------------------
+
+            @foreach ($mergeDependencies as $dependency)
+                // Escucha el cambio en el input especificado
+                $('#{{ $dependency['input'] }}').on('change', function (e) { 
+                    // Verifica el valor actual del input
+                    const inputValue = $(this).is(':checkbox') ? $(this).is(':checked') : $(this).val();
+
+                    // Compara con el valor esperado
+                    if (inputValue == '{{ $dependency['value'] }}') {
+                        $('#{{ $dependency['dependent'] }}').show(); // Muestra el campo dependiente
+                    } else {
+                        $('#{{ $dependency['dependent'] }}').hide(); // Oculta el campo dependiente
+                    }
+                });
+
+                // Inicializa el estado al cargar la página
+                const initialInputValue = $('#{{ $dependency['input'] }}').is(':checkbox') 
+                    ? $('#{{ $dependency['input'] }}').is(':checked') 
+                    : $('#{{ $dependency['input'] }}').val();
+
+                if (initialInputValue == '{{ $dependency['value'] }}') {
+                    $('#{{ $dependency['dependent'] }}').show(); // Muestra el campo dependiente
+                } else {
+                    $('#{{ $dependency['dependent'] }}').hide(); // Oculta el campo dependiente
+                }
             @endforeach
-            
-            $.post('{{ $action }}', data).done(response => {
-                location.href = '{{ $urlBack }}';
-            }).fail(error => alert(error.responseJSON.message));
-        });
+
+        
 
         // --------------------------------
         // Extrae las variables por URL

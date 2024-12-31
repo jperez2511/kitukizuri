@@ -102,28 +102,15 @@ trait FieldTrait
         // validando datos permitidos
         $this->allowed($params, $this->fieldOptions, $this->typeError[2]);
 
-        $params['tipo'] = $params['tipo'] ?? $params['type'] ?? 'string';
+        $params['tipo']      = $params['tipo'] ?? $params['type'] ?? 'string';
+        $params['campo']     = $params['campo'] ?? $params['field'] ?? null;
+
         $excludeField   = ['h1', 'h2', 'h3', 'h4', 'strong'];
 
 
         if (!in_array($params['tipo'], $excludeField) && (!array_key_exists('campo', $params) && !array_key_exists('field', $params))) {
             return $this->errors = ['tipo' => $this->typeError[1]];
         }
-
-        // validando si existen dependencias
-        if(!empty($params['dependencies'])) {
-            $typeArray = \typeArray($params['dependencies']);
-            if($typeArray === false) {
-                return $this->errors = ['tipo' => $this->typeError[16]];
-            } else {
-                $params['dependencies'] = \normalizeArray($params['dependencies']);
-            }
-
-        } else {
-            $params['dependencies'] = null;
-        }
-
-        $params['campo'] = $params['campo'] ?? $params['field'] ?? null;
 
          // capturando el nombre real del campo
          if($params['campo'] instanceof Expression) {
@@ -138,6 +125,21 @@ trait FieldTrait
             }
         }
 
+        $params['inputName'] = $params['campoReal'] ?? $params['campo'];
+
+        // validando si existen dependencias
+        if(!empty($params['dependencies'])) {
+            $typeArray = \typeArray($params['dependencies']);
+            if($typeArray === false) {
+                return $this->errors = ['tipo' => $this->typeError[16]];
+            } else {
+                $params['dependencies'] = \normalizeArray($params['dependencies'], ($params['inputName'] ?? $params['inputId']));
+            }
+
+        } else {
+            $params['dependencies'] = null;
+        }
+
         $params['nombre']      = $params['nombre'] ?? $params['name'] ?? str_replace('_', ' ', ucfirst($params['campo']));
         $params['edit']        = $params['edit'] ?? true;
         $params['show']        = $params['show'] ?? true;
@@ -145,7 +147,6 @@ trait FieldTrait
         $params['format']      = $params['format'] ?? '';
         $params['unique']      = $params['unique'] ?? false;
         $params['input']       = $this->components[$params['tipo']] ?? 'input';
-        $params['inputName']   = $params['campoReal'] ?? $params['campo'];
         $params['component']   = "krud-".$params['input'];
         $params['columnClass'] = $params['columnClass'] ?? 'col-md-6';
         $params['inputClass']  = $params['inputClass'] ?? null ;
