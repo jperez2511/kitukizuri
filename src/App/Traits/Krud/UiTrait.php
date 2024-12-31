@@ -182,6 +182,7 @@ trait UiTrait
     {
         $i = 0;
         $prefixDefault = $this->getDefaultPrefix();
+        $prevUi = config('kitukizuri.prevUi');
 
         foreach ($data as &$a) {
             foreach ($a as $k => &$v) {
@@ -197,7 +198,11 @@ trait UiTrait
                     if ($k == $cv['campo']) {
                         // agregando estilo visual a los campos booleanos
                         if ($cv['tipo'] == 'bool') {
-                            $v = '<span class="'.($prefix != null && $prefix == $prefixDefault ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? __('Si') : 'No').'</span>';
+                            if(!empty($prevUi) && $prevUi == true) {
+                                $v = '<span class="'.($prefix != null && $prefix == $prefixDefault ? 'label label' : config('kitukizuri.badge')).'-'.($v ? 'success' : 'default').'">'.($v ? __('Si') : 'No').'</span>';
+                            } else {
+                                $v = '<span class="'.config('kitukizuri.badge').'-'.($v ? 'success' : 'default').'">'.($v ? __('Si') : 'No').'</span>';
+                            }
                         } else if ($cv['tipo'] == 'url') {
                             if($cv['format'] != '') {
                                 $v = str_replace('{value}', $v, $cv['format']);
