@@ -54,26 +54,10 @@ class Krud extends Controller
     // Variables en array
     private $editEmbed      = [];
     private $removePermisos = [];
-    private $parents        = [];
     private $storeFunctions = [];
 
     // viables únicas para vista calendario
     private $defaultCalendarView = null;
-
-    /**
-     * setParents
-     * Define el valor padre por url para recibirlo un controller hijo
-     *
-     * @param  mixed $nombre
-     * @param  mixed $value
-     *
-     * @return void
-     */
-    protected function setParents($nombre, $value, $editable = null)
-    {
-        $editable = $editable === true;
-        $this->parents[] = ['nombre' => $nombre, 'value'=>$value, 'editable' => $editable];
-    }
 
     /**
      * getPermisos
@@ -809,6 +793,20 @@ class Krud extends Controller
         } catch (Exception $e) {
             return $e;
         }
+
+
+        // validando si el elemento tiene relaciones a otras tablas
+        $item = $this->model->find($id);
+        if(!$item) {
+            $this->buildMsg('danger', 'El elemento no existe en la base de datos.');
+            return 1;
+        }
+
+        if($item->relatedItems()->exists()) {
+            $this->buildMsg('danger', 'El elemento tiene relaciones con otros datos.');
+            return 1;
+        }
+
         try {
             $this->model->destroy($id);
             Session::flash('type', 'success');
@@ -850,7 +848,5 @@ class Krud extends Controller
         $ff = new Carbon($aFechaFin);
 
         return $ff->diffInMonths($fi);
-    }
-
-    
+    }    
 }

@@ -4,7 +4,7 @@ namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
 trait FieldTrait
 {
-
+    protected $parents      = [];
     protected $fieldOptions = [
         'campo',         // Campo de la base de datos
         'campoReal',     // Campo real de la base de datos donde se almacenará la DATA
@@ -259,5 +259,20 @@ trait FieldTrait
     protected function setControl($params)
     {
         $this->setCampo($params);
+    }
+
+    /**
+     * setParents
+     * Define el valor padre por url para recibirlo un controller hijo
+     *
+     * @param  mixed $nombre
+     * @param  mixed $value
+     *
+     * @return void
+     */
+    protected function setParents($nombre, $value, $editable = null)
+    {
+        $editable = $editable === true;
+        $this->parents[] = ['nombre' => $nombre, 'value'=>$value, 'editable' => $editable];
     }
 }
