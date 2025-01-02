@@ -3,6 +3,7 @@
 @props([
     'columnClass'  => 'col-md-6',
     'name'         => '',
+    'id'           => '',
     'collection'   => [],
     'headers'      => [],
     'rows'         => [],
@@ -28,7 +29,7 @@
 
 @endphp
 
-<div class="{{$columnClass}} mb-3" id="{{$name}}">
+<div class="{{$columnClass}} mb-3" id="{{$id}}">
     <table class="table">
         <thead>
             <tr>

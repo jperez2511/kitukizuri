@@ -4,6 +4,7 @@
     'type'         => 'text',
     'attr'         => [],
     'id'           => '',
+    'name'         => '',
     'dependencies' => [],
     'label'
 ])
@@ -29,11 +30,11 @@
 
 @endphp
 
-<div class="{{$columnClass}}">
+<div class="{{$columnClass}}" id="{{$id}}">
     <div class="form-group mb-3">
         <div class="form-control-wrap">
-            <label class="{!! $type != 'checkbox' ? 'form-label-outlined' : null !!}" for="{{ $id }}">{{ $label }}</label>
-            <input type="{{ $type }}" id="{{ $id }}" {!! $attributes->merge(['class' => $inputClass]) !!} />
+            <label class="{!! $type != 'checkbox' ? 'form-label-outlined' : null !!}" for="{{ $name }}">{{ $label }}</label>
+            <input type="{{ $type }}" id="{{ $name }}" {!! $attributes->merge(['class' => $inputClass]) !!} />
             @error($attributes['name'])
                 <small class="text-danger">{{$message}}</small>
             @enderror

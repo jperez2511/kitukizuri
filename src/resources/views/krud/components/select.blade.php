@@ -2,6 +2,7 @@
     'columnClass'  => 'col-md-6',
     'inputClass'   => 'form-control',
     'name'         => '',
+    'id'           => '',
     'collection'   => [],
     'attr'         => [],
     'dependencies' => [],
@@ -22,7 +23,7 @@
     }
 @endphp
 
-<div class="{{$columnClass}}">
+<div class="{{$columnClass}}" id="{{$id}}">
     <div class="form-group mb-3">
         <label>{{ $label }}</label>
         <select {!! $attributes->merge(['class' => $inputClass]) !!}>

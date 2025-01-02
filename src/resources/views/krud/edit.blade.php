@@ -39,32 +39,20 @@
                                     }
                                 @endphp
 
-                                @if (!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong']))
-                                    <x-dynamic-component 
-                                        :component="$c['component']" 
-                                        columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
-                                        inputClass="{{$c['inputClass']}}"
-                                        label="{{$c['nombre']}}"
-                                        name="{!!$c['inputName']!!}"
-                                        id="{{ $c['inputId'] ?? $c['inputName']}}"
-                                        collection="{!! $c['collect'] !!}"
-                                        type="{{$c['htmlType']}}"
-                                        attr="{!! $c['htmlAttr'] !!}"
-                                        value="{{$c['value']}}"
-                                        dependencies="{!! json_encode($c['dependencies']) !!}"
-                                    />
-                                    @else
-                                        <x-dynamic-component 
-                                            :component="$c['component']" 
-                                            columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
-                                            inputClass="{{$c['inputClass']}}"
-                                            name="{{ $c['inputId'] ?? $c['inputName']}}"
-                                            attr="{!! $c['htmlAttr'] !!}"
-                                            label="{{$c['nombre']}}"
-                                            type="{{$c['tipo']}}"
-                                            dependencies="{!! json_encode($c['dependencies']) !!}"
-                                        />       
-                                    @endif
+                                <x-dynamic-component 
+                                    :component="$c['component']" 
+                                    columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
+                                    inputClass="{{$c['inputClass']}}"
+                                    label="{{$c['nombre']}}"
+                                    name="{!!$c['inputName']!!}"
+                                    id="{{ $c['inputId']}}"
+                                    collection="{!! $c['collect'] !!}"
+                                    type="{{$c['htmlType']}}"
+                                    attr="{!! $c['htmlAttr'] !!}"
+                                    value="{{$c['value']}}"
+                                    dependencies="{!! json_encode($c['dependencies']) !!}"
+                                />
+                                
                             @else
                                 <x-dynamic-component 
                                     :component="$c['component']" 

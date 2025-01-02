@@ -2,6 +2,7 @@
     'columnClass'  => 'col-md-6',
     'inputClass'   => '',
     'name'         => '',
+    'id'           => '',
     'attr'         => [],
     'dependencies' => [],
     'label',
@@ -20,7 +21,7 @@
 
 @endphp
 
-<div class="{{$columnClass}}" id="{{$name}}">
+<div class="{{$columnClass}}" id="{{$id}}">
     <div class="form-group">
         <label>{{ $label }}</label>
         <textarea 

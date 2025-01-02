@@ -126,6 +126,7 @@ trait FieldTrait
         }
 
         $params['inputName'] = $params['campoReal'] ?? $params['campo'];
+        $params['inputId']   =  $params['inputId'] ?? $params['inputName'];
 
         // validando si existen dependencias
         if(!empty($params['dependencies'])) {
@@ -133,7 +134,7 @@ trait FieldTrait
             if($typeArray === false) {
                 return $this->errors = ['tipo' => $this->typeError[16]];
             } else {
-                $params['dependencies'] = \normalizeArray($params['dependencies'], ($params['inputName'] ?? $params['inputId']));
+                $params['dependencies'] = \normalizeArray($params['dependencies'], ($params['inputId'] ?? $params['inputName']));
             }
 
         } else {
@@ -167,7 +168,6 @@ trait FieldTrait
             }
 
             if($params['htmlAttr']->has('multiple')){
-                $params['inputId']   = $params['inputName'];
                 $params['inputName'] = $params['inputName'].'[]';
             }
         } else {

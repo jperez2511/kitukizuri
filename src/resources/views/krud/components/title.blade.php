@@ -2,7 +2,8 @@
     'columnClass'  => 'col-md-6',
     'inputClass'   => '',
     'label'        => '',
-    'name'        => '',
+    'name'         => '',
+    'id'           => '',
     'type'         => 'h1',
     'dependencies' => []
 ])

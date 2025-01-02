@@ -4,6 +4,7 @@
     'inputClass'   => 'form-select',
     'type'         => '',
     'name'         => '',
+    'id'           => '',
     'collection'   => [],
     'attr'         => [],
     'dependendies' => [],
@@ -39,7 +40,7 @@
     
 @endphp
 
-<div class="{{$columnClass}}" id="{{$name}}">
+<div class="{{$columnClass}}" id="{{$id}}">
     <div class="form-group mb-3">
         <label>{{ $label }}</label>
         <div class="form-control-wrap">
