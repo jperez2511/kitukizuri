@@ -40,12 +40,3 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-
-    @if(!empty($dependencies))
-        <script>
-            
-        </script>
-    @endif
-@endpush

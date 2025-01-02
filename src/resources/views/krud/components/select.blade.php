@@ -1,6 +1,7 @@
 @props([
     'columnClass'  => 'col-md-6',
     'inputClass'   => 'form-control',
+    'name'         => '',
     'collection'   => [],
     'attr'         => [],
     'dependencies' => [],

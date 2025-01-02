@@ -1,6 +1,7 @@
 @props([
     'columnClass'  => 'col-md-6',
     'inputClass'   => '',
+    'name'         => '',
     'attr'         => [],
     'dependencies' => [],
     'label',
@@ -19,7 +20,7 @@
 
 @endphp
 
-<div class="{{$columnClass}}">
+<div class="{{$columnClass}}" id="{{$name}}">
     <div class="form-group">
         <label>{{ $label }}</label>
         <textarea 
