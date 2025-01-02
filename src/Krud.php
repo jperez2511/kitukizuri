@@ -802,10 +802,7 @@ class Krud extends Controller
             return 1;
         }
 
-        if($item->relatedItems()->exists()) {
-            $this->buildMsg('danger', 'El elemento tiene relaciones con otros datos.');
-            return 1;
-        }
+        $this->getForeignKeys($this->model);
 
         try {
             $this->model->destroy($id);
