@@ -8,7 +8,7 @@
     'dependencies' => []
 ])
 
-<div class="{{ $columnClass }}" id="{{ $name }}">
+<div class="{{ $columnClass }}" id="{{ $id }}-container">
     {!! '<'.$type.' class="'.$inputClass.'">'.$label.'</'.$type.'>' !!}
 </div>
 

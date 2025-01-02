@@ -23,10 +23,10 @@
     }
 @endphp
 
-<div class="{{$columnClass}}" id="{{$id}}">
+<div class="{{$columnClass}}" id="{{$id}}-container">
     <div class="form-group mb-3">
         <label>{{ $label }}</label>
-        <select {!! $attributes->merge(['class' => $inputClass]) !!} id="{{ $name }}">
+        <select {!! $attributes->merge(['class' => $inputClass]) !!} id="{{ $id }}-element" name="{{ $name }}">
             @foreach ($collection as $item)
                 <option value="{{$item->id}}" {{$value == $item->id ? 'selected' : null}}>{{$item->value}}</option>
             @endforeach

@@ -21,13 +21,13 @@
 
 @endphp
 
-<div class="{{$columnClass}}" id="{{$id}}">
+<div class="{{$columnClass}}" id="{{$id}}-container">
     <div class="form-group">
         <label>{{ $label }}</label>
         <textarea 
             {!! $attributes->merge(['class' => $inputClass]) !!} 
             cols="30" 
             rows="10"
-            id={{ $name }}lue}}</textarea>
+            id="{{ $id }}-element">{{ $value }}</textarea>
     </div>
 </div>

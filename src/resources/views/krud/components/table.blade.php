@@ -29,7 +29,7 @@
 
 @endphp
 
-<div class="{{$columnClass}} mb-3" id="{{$id}}">
+<div class="{{$columnClass}} mb-3" id="{{$id}}-container" name="{{$name}}">
     <table class="table">
         <thead>
             <tr>

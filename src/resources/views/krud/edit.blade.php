@@ -45,14 +45,14 @@
                                     inputClass="{{$c['inputClass']}}"
                                     label="{{$c['nombre']}}"
                                     name="{!!$c['inputName']!!}"
-                                    id="{{ $c['inputId']}}"
+                                    id="{{ $c['inputId'] ?? $c['inputName']}}"
                                     collection="{!! $c['collect'] !!}"
                                     type="{{$c['htmlType']}}"
                                     attr="{!! $c['htmlAttr'] !!}"
                                     value="{{$c['value']}}"
                                     dependencies="{!! json_encode($c['dependencies']) !!}"
                                 />
-                                
+
                             @else
                                 <x-dynamic-component 
                                     :component="$c['component']" 
@@ -100,9 +100,9 @@
 
                 @foreach($campos as $c)
                     @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong', 'bool']))
-                        data['{{$c['inputId'] ?? $c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}').val();
+                        data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').val();
                     @elseif($c['tipo'] == 'bool')
-                        data['{{$c['inputId'] ?? $c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}').is(':checked') ? 1 : 0;
+                        data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').is(':checked') ? 1 : 0;
                     @endif
                 @endforeach
                 
