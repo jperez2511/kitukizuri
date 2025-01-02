@@ -27,6 +27,7 @@
         <textarea 
             {!! $attributes->merge(['class' => $inputClass]) !!} 
             cols="30" 
-            rows="10">{{$value}}</textarea>
+            rows="10"
+            id={{ $name }}lue}}</textarea>
     </div>
 </div>
