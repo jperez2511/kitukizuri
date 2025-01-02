@@ -117,27 +117,27 @@
 
             @foreach ($mergeDependencies as $dependency)
                 // Escucha el cambio en el input especificado
-                $('#{{ $dependency['input'] }}').on('change', function (e) { 
+                $('#{{ $dependency['input'] }}-element').on('change', function (e) { 
                     // Verifica el valor actual del input
                     const inputValue = $(this).is(':checkbox') ? $(this).is(':checked') : $(this).val();
 
                     // Compara con el valor esperado
                     if (inputValue == '{{ $dependency['value'] }}') {
-                        $('#{{ $dependency['dependent'] }}').show(); // Muestra el campo dependiente
+                        $('#{{ $dependency['dependent'] }}-container').show(); // Muestra el campo dependiente
                     } else {
-                        $('#{{ $dependency['dependent'] }}').hide(); // Oculta el campo dependiente
+                        $('#{{ $dependency['dependent'] }}-container').hide(); // Oculta el campo dependiente
                     }
                 });
 
                 // Inicializa el estado al cargar la página
-                const initialInputValue = $('#{{ $dependency['input'] }}').is(':checkbox') 
-                    ? $('#{{ $dependency['input'] }}').is(':checked') 
-                    : $('#{{ $dependency['input'] }}').val();
+                const initialInputValue = $('#{{ $dependency['input'] }}-element').is(':checkbox') 
+                    ? $('#{{ $dependency['input'] }}-element').is(':checked') 
+                    : $('#{{ $dependency['input'] }}-element').val();
 
                 if (initialInputValue == '{{ $dependency['value'] }}') {
-                    $('#{{ $dependency['dependent'] }}').show(); // Muestra el campo dependiente
+                    $('#{{ $dependency['dependent'] }}-container').show(); // Muestra el campo dependiente
                 } else {
-                    $('#{{ $dependency['dependent'] }}').hide(); // Oculta el campo dependiente
+                    $('#{{ $dependency['dependent'] }}-container').hide(); // Oculta el campo dependiente
                 }
             @endforeach
 

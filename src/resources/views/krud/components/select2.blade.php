@@ -40,11 +40,11 @@
     
 @endphp
 
-<div class="{{$columnClass}}" id="{{$id}}">
+<div class="{{$columnClass}}" id="{{$id}}-container">
     <div class="form-group mb-3">
         <label>{{ $label }}</label>
         <div class="form-control-wrap">
-            <select {!! $attributes->merge(['class' => $inputClass]) !!} id="{{ $id }}" name="{{ $name }}">
+            <select {!! $attributes->merge(['class' => $inputClass]) !!} id="{{ $id }}-element" name="{{ $name }}">
                 @foreach ($collection as $item)
                     @php
                         $selected = null;
