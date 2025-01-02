@@ -98,10 +98,26 @@
                     data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
                 @endforeach
 
+                @php $initialValues = [] @endphp
                 @foreach($campos as $c)
                     @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong', 'bool']))
-                        data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').val();
-                    @elseif($c['tipo'] == 'bool')
+                        @if(!empty($c['dependencies']))
+                            @foreach($c['dependencies'] as $dependency)
+                                @if(!in_array($dependency['input'], $initialValues))
+                                    const {{ $dependency['input'] }}_initial = $('#{{ $dependency['input'] }}-element').is(':checkbox') 
+                                        ? $('#{{ $dependency['input'] }}-element').is(':checked') 
+                                        : $('#{{ $dependency['input'] }}-element').val();
+                                    @php $initialValues[] = $dependency['input'] @endphp
+                                @endif
+
+                                if ({{ $dependency['input'] }}_initial == '{{ $dependency['value'] }}') {
+                                    data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').val();
+                                }
+                            @endforeach
+                        @else
+                            data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').val();
+                        @endif
+                    @elseif($c['tipo'] == 'bool' && empty($c['dependencies']))
                         data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').is(':checked') ? 1 : 0;
                     @endif
                 @endforeach
@@ -115,6 +131,7 @@
             // Validando campos dependientes
             // ---------------------------------
 
+            @php $initialValues = [] @endphp
             @foreach ($mergeDependencies as $dependency)
                 // Escucha el cambio en el input especificado
                 $('#{{ $dependency['input'] }}-element').on('change', function (e) { 
@@ -130,11 +147,14 @@
                 });
 
                 // Inicializa el estado al cargar la página
-                const initialInputValue = $('#{{ $dependency['input'] }}-element').is(':checkbox') 
-                    ? $('#{{ $dependency['input'] }}-element').is(':checked') 
-                    : $('#{{ $dependency['input'] }}-element').val();
+                @if(!in_array($dependency['input'], $initialValues))
+                    const {{ $dependency['input'] }}_initial = $('#{{ $dependency['input'] }}-element').is(':checkbox') 
+                        ? $('#{{ $dependency['input'] }}-element').is(':checked') 
+                        : $('#{{ $dependency['input'] }}-element').val();
+                    @php $initialValues[] = $dependency['input'] @endphp
+                @endif
 
-                if (initialInputValue == '{{ $dependency['value'] }}') {
+                if ({{ $dependency['input'] }}_initial == '{{ $dependency['value'] }}') {
                     $('#{{ $dependency['dependent'] }}-container').show(); // Muestra el campo dependiente
                 } else {
                     $('#{{ $dependency['dependent'] }}-container').hide(); // Oculta el campo dependiente

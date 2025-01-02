@@ -3,6 +3,7 @@
 namespace Icebearsoft\Kitukizuri\App\Models;
 
 use DB;
+use Log;
 
 class SelectValues 
 {
