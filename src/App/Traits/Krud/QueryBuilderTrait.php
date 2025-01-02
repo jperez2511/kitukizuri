@@ -348,34 +348,7 @@ trait QueryBuilderTrait
 
         return array_values(array_filter($this->campos, fn($campo) => $campo['show'] === true));
     }
-        
-    /**
-     * getForeignKeys
-     *
-     * @param  mixed $model
-     * @return void
-     */
-    protected function getForeignKeys($model)
-    {
-        $table = $model->getTable(); // Obtener la tabla asociada al modelo
-        $connection = Schema::getConnection()->getDoctrineSchemaManager();
-        $connection->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-
-        // Obtener claves foráneas de la tabla
-        $foreignKeys = $connection->listTableForeignKeys($table);
-
-        $relations = [];
-        foreach ($foreignKeys as $foreignKey) {
-            $relations[] = [
-                'table' => $foreignKey->getForeignTableName(),
-                'foreign_key' => $foreignKey->getLocalColumns()[0],
-            ];
-        }
-
-        return $relations;
-    }
-
-
+    
     /**
      * filterExternalData
      *

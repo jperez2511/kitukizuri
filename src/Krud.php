@@ -802,8 +802,6 @@ class Krud extends Controller
             return 1;
         }
 
-        $this->getForeignKeys($this->model);
-
         try {
             $this->model->destroy($id);
             Session::flash('type', 'success');
