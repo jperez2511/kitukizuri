@@ -32,7 +32,6 @@
                         @if ($c['edit'] === true)
                             @if($c['tipo'] != 'password' )
 
-
                                 @php
                                     if (!empty($c['dependencies'])) {
                                         $mergeDependencies = array_merge($mergeDependencies, $c['dependencies']);        
@@ -122,9 +121,19 @@
                     @endif
                 @endforeach
                 
+                $(this).prop('disabled', true);
+                const text = $(this).text();
+                $(this).empty();
+                $(this).append('<i class="fa-light fa-arrows-rotate-reverse fa-spin fa-spin-reverse"></i>');
+
                 $.post('{{ $action }}', data).done(response => {
                     location.href = '{{ $urlBack }}';
-                }).fail(error => alert(error.responseJSON.message));
+                }).fail(error => {
+                    alert(error.responseJSON.message)
+                    $(this).prop('disabled', false);
+                    $(this).empty();
+                    $(this).append(text);
+                });
             });
 
             // --------------------------------
