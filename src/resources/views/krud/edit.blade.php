@@ -129,6 +129,9 @@
                 $.post('{{ $action }}', data).done(response => {
                     location.href = '{{ $urlBack }}';
                 }).fail(error => {
+                    if (error.status == 422) {
+                        $('#msgError').show();
+                    }
                     alert(error.responseJSON.message)
                     $(this).prop('disabled', false);
                     $(this).empty();

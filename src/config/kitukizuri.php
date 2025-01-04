@@ -219,6 +219,19 @@ return [
     //     ['nombre' => 'nit', 'campo' => 'nit']
     // ],
 
+    /*
+    |
+    |--------------------------------------------------------------------------
+    | Agregar campos custom para empresasController
+    |--------------------------------------------------------------------------
+    |
+    | Esta opción permite definir valores custom para el controlador de empresas
+    |
+    */
+
+    // 'companiesCustomField' => [
+    //     ['name' => 'nit', 'field' => 'nit']
+    // ],
 
 
 ];

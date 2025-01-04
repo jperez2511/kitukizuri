@@ -36,5 +36,12 @@ class EmpresasController extends Krud
         ]);
         
         $this->setLayout($vars['krud']);
+
+        $camposCustom = config('kitukizuri.companiesCustomField') ?? null;
+        if($camposCustom != null) {
+            foreach($camposCustom as $campo) {
+                $this->setCampo($campo);
+            }
+        }
     }
 }
