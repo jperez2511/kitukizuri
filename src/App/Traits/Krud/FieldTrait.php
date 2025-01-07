@@ -191,8 +191,10 @@ trait FieldTrait
             // valiando si es un select multiple con diferente ubicación para 
             if(
                 !empty($params['htmlAttr']) && 
-                $params['htmlAttr']->has('multiple') && 
-                $params['htmlAttr']['multiple'] == true && 
+                (
+                    ( $params['htmlAttr']->has('multiple') && $params['htmlAttr']['multiple'] == true ) || 
+                    ( $this->components[$params['tipo']] == 'select')
+                ) && 
                 ($params['campo'] instanceof Expression) == false &&
                 strrpos($params['campo'], '.') != false
             ) {
