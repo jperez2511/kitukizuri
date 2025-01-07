@@ -27,16 +27,8 @@
     }
 
     if (!empty($value)) {
-        $isJson = isJson($value);
-        if($isJson == true) {
-            $value = json_decode($value);
-        }        
+        $value = json_decode($value);
     }
-
-    function isJson($string) {
-            json_decode($string);
-            return json_last_error() === JSON_ERROR_NONE;
-        }
     
 @endphp
 
