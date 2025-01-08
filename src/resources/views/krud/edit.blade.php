@@ -31,10 +31,9 @@
                     @foreach($campos as $c)
                         @if ($c['edit'] === true)
                             @if($c['tipo'] != 'password' )
-
                                 @php
                                     if (!empty($c['dependencies'])) {
-                                        $mergeDependencies = array_merge($mergeDependencies, $c['dependencies']);        
+                                        $mergeDependencies[] = $c['dependencies'];        
                                     }
                                 @endphp
 
@@ -129,9 +128,6 @@
                 $.post('{{ $action }}', data).done(response => {
                     location.href = '{{ $urlBack }}';
                 }).fail(error => {
-                    if (error.status == 422) {
-                        $('#msgError').show();
-                    }
                     alert(error.responseJSON.message)
                     $(this).prop('disabled', false);
                     $(this).empty();
@@ -144,35 +140,38 @@
             // ---------------------------------
 
             @php $initialValues = [] @endphp
-            @foreach ($mergeDependencies as $dependency)
-                // Escucha el cambio en el input especificado
-                $('#{{ $dependency['input'] }}-element').on('change', function (e) { 
-                    // Verifica el valor actual del input
-                    const inputValue = $(this).is(':checkbox') ? $(this).is(':checked') : $(this).val();
 
-                    // Compara con el valor esperado
-                    if (inputValue == '{{ $dependency['value'] }}') {
-                        $('#{{ $dependency['dependent'] }}-container').show(); // Muestra el campo dependiente
-                    } else {
-                        $('#{{ $dependency['dependent'] }}-container').hide(); // Oculta el campo dependiente
-                    }
-                });
+            @foreach ($mergeDependencies as $dependencyArray)
+                @php
+                    $condicion = '';    
+                @endphp    
+                @foreach ($dependencyArray as $dependency)
+                    @php
+                        if($condicion == '') {
+                            $condicion = "$('#{$dependency['input']}-element').val() == '{$dependency['value']}'";
+                        } else {
+                            $condicion .= " && $('#{$dependency['input']}-element').val() == '{$dependency['value']}'";
+                        }
+                    @endphp
+                @endforeach
 
-                // Inicializa el estado al cargar la página
-                @if(!in_array($dependency['input'], $initialValues))
-                    const {{ $dependency['input'] }}_initial = $('#{{ $dependency['input'] }}-element').is(':checkbox') 
-                        ? $('#{{ $dependency['input'] }}-element').is(':checked') 
-                        : $('#{{ $dependency['input'] }}-element').val();
-                    @php $initialValues[] = $dependency['input'] @endphp
-                @endif
+                @foreach ($dependencyArray as $dependency)
+                    $('#{{ $dependency['input'] }}-element').on('change', function (e) { 
+                        // Verifica el valor actual del input
+                        const inputValue = $(this).is(':checkbox') ? $(this).is(':checked') : $(this).val();
 
-                if ({{ $dependency['input'] }}_initial == '{{ $dependency['value'] }}') {
-                    $('#{{ $dependency['dependent'] }}-container').show(); // Muestra el campo dependiente
-                } else {
-                    $('#{{ $dependency['dependent'] }}-container').hide(); // Oculta el campo dependiente
-                }
+                        // Compara con el valor esperado
+                        if ({!! $condicion !!}) {
+                            $('#{{ $dependency['dependent'] }}-container').show(); // Muestra el campo dependiente
+                        } else {
+                            $('#{{ $dependency['dependent'] }}-element').val('');
+                            $('#{{ $dependency['dependent'] }}-container').hide(); // Oculta el campo dependiente
+                        }
+                    });
+
+                    $('#{{ $dependency['input'] }}-element').trigger('change');
+                @endforeach
             @endforeach
-
         
 
         // --------------------------------
