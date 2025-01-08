@@ -675,15 +675,28 @@ class Krud extends Controller
                         if($locationTableArray[0] != $localTable)
                         {
                             $dataOtherLocation[] = [
-                                'value' => $valor, 
-                                'table' => $locationTableArray[0],
-                                'column' => $locationTableArray[1],
+                                'value'        => $valor,
+                                'table'        => $locationTableArray[0],
+                                'column'       => $locationTableArray[1],
+                                'columnParent' => $campo['columnParent']
+                            ];
+                            continue;
+                        }
+                    } else if (($campo['campo'] instanceof Expression) == false && strrpos($campo['campo'], '.') != false) {
+                        $locationTableArray =  explode('.', $campo['campo']);
+                        $localTable = $this->model->getTable();
+                        //validando si las tablas son difrentes o son las mismas 
+                        if($locationTableArray[0] != $localTable)
+                        {
+                            $dataOtherLocation[] = [
+                                'value'        => $valor,
+                                'table'        => $locationTableArray[0],
+                                'column'       => $locationTableArray[1],
                                 'columnParent' => $campo['columnParent']
                             ];
                             continue;
                         }
                     }
-                    
                 }
             }
             $this->model->{$nombreCampo} = $valor;

@@ -208,8 +208,16 @@ trait FieldTrait
                 }
 
                 $params['format'] = 'table';
-            } 
-        }
+            } else if (($params['campo'] instanceof Expression) == false && strrpos($params['campo'], '.') != false) {
+                $locationTable =  explode('.', $params['campo'])[0];
+                $localTable = $this->model->getTable();
+                if($locationTable != $localTable && empty($params['columnParent'])) {
+                    return $this->errors = ['tipo' => $this->typeError[17]];
+                } else if($locationTable != $localTable) {
+                    $params['format'] = 'table';
+                }
+            }
+        } 
 
         if (!in_array($params['tipo'], $this->fieldTypes)) {
             $this->errors = ['tipo' => $this->typeError[2], 'bad' => $params['tipo'], 'permitidos' => $this->fieldTypes];
