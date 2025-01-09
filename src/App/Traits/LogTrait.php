@@ -13,7 +13,7 @@ trait LogTrait
 
         if(strpos($contents, 'database')) {
             $this->info('los logs ya fueron agregados en el config para almacenarse en la base de datos');
-
+        } else {
             $newConfig = <<<EOD
                 \n
                     'database' => [
