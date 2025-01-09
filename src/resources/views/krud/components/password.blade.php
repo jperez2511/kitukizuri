@@ -14,11 +14,11 @@
 <div class="col-md-6">
     <div class="form-group mb-3">
         <div class="form-control-wrap">
-            <label class="form-label-outlined" for="{{ $nombre }}">{{$label}}</label>
+            <label class="form-label-outlined" for="{{ $nombre }}-element">{{$label}}</label>
             <input 
                 type="password" 
                 name="{{$nombre}}"
-                id="{{$nombre}}"
+                id="{{$nombre}}-element"
                 onkeyup="comparar('{{$nombre}}')" 
                 class="form-control form-control-outlined">
         </div>
@@ -45,7 +45,7 @@
         // para validar las contraseñas
         // ---------------------------------
         function comparar(nombre){
-            if($('#'+nombre).val() != $('#'+nombre+'_2').val()){
+            if($('#'+nombre+'-element').val() != $('#'+nombre+'_2').val()){
                 $('#msgError').show();
                 $('#guardar').hide();
             }else{
