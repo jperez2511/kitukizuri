@@ -47,7 +47,7 @@ class UsuariosController extends Krud
             'nombre'  => 'Empresa',
             'campo'   => 'empresaid',
             'tipo'    => 'combobox',
-            'collect' => Empresa::select('empresaid as id', 'nombre as value')->get(),
+            'collect' => Empresa::select('empresaid as id', 'nombre as value')->orderBy('nombre', 'asc')->get(),
             'show'    => false
         ]);
 
