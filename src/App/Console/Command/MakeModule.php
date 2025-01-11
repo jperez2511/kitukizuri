@@ -200,8 +200,16 @@ class MakeModule extends Command
         $posicionInsertar    = strpos($webRouteContent, "\n", $flagPosition) - (strlen($flag)+1);
         $posicionUseInsertar = strpos($webRouteContent, "\n", $flagUsePosition) - (strlen($flagUse)+1);
 
+        // validando si la ruta contiene diagonal para dejar solo el ultimo elmeento
+        $controllerRouteLast = null;
+        if (str_contains($controllerRoute, '/')) {
+            $controllerRouteLast = end(explode('/', $controllerRoute));
+        } else {
+            $controllerRouteLast = $controllerRoute;
+        }
+
         $nuevaLinea = "\tRoute::resource('".$ruta."', ".$controllerRoute."::class);\n";
-        $nuevaUse   = "\nuse App\Http\Controllers\\".$controllerRoute.";";
+        $nuevaUse   = "\nuse App\Http\Controllers\\".str_replace('/', '\\', $controllerRoute).";";
 
         $nuevoContenido = substr($webRouteContent, 0, $posicionInsertar) . $nuevaLinea . substr($webRouteContent, $posicionInsertar);
         $nuevoContenido = substr($nuevoContenido, 0, $posicionUseInsertar) . $nuevaUse . substr($nuevoContenido, $posicionUseInsertar);
