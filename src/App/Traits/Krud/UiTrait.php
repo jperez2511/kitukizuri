@@ -123,7 +123,7 @@ trait UiTrait
      */
     protected function setView($view, $options = [])
     {
-        $allowed = ['table', 'calendar'];
+        $allowed = ['table', 'calendar', 'chart'];
 
         if(!in_array($view, $allowed)){
             $this->errors = ['tipo' => $this->typeError[5], 'bad' => $view, 'permitidos' => $allowed];
@@ -366,6 +366,16 @@ trait UiTrait
             'vBootstrap'   => $vBootstrap,
             'botonesDT'    => $this->botonesDT,
             'defaultBtnDT' => $this->defaultBtnDT,
+        ]);
+    }
+
+    protected function setChartView($pefix, $layout)
+    {
+        $view = 'krud.chart';
+        
+        return view($view, [
+            'layout' => $layout,
+            'titulo' => $this->titulo,
         ]);
     }
 

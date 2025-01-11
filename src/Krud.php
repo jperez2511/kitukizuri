@@ -325,8 +325,14 @@ class Krud extends Controller
             $prefix = Route::current()->action['prefix'];
             $layout = $this->getLayout();
 
-            if (!empty($this->view) && $this->view == 'calendar') {
-                $vista = $this->setCalendarView($prefix, $layout);
+            $functions = [
+                'table'    => 'setTableView',
+                'calendar' => 'setCalendarView',
+                'chart'    => 'setChartView'
+            ];
+
+            if (!empty($this->view)) {
+                $vista = $this->{$functions[$this->view]}($prefix, $layout);
             } else {
                 $vista = $this->setTableView($prefix, $layout);
             }
