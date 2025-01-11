@@ -20,6 +20,10 @@ import 'datatables.net-buttons/js/buttons.print';
 import select2 from 'select2';
 import 'select2/dist/css/select2.min.css';
 
+// Highcharts
+import Highcharts from 'highcharts';
+import Exporting from 'highcharts/modules/exporting';
+import Accessibility from 'highcharts/modules/accessibility';
 
 import { loadFontsToBase64 } from './loadFonts';
 import { hideElements } from './hideElements';
@@ -41,4 +45,8 @@ import Bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 window.bootstrap    = Bootstrap;
 window.hideElements = hideElements;
 
+// Select to init
 select2($);
+
+// Highcharts init
+window.Highcharts = Highcharts;
