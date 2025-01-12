@@ -7,7 +7,7 @@ use Illuminate\Database\Query\Expression;
 
 trait UiTrait
 {
-    use FieldTrait;
+    use FieldTrait, ChartTrait;
     
     protected $layout       = null;
     protected $storeMsg     = null;
@@ -372,10 +372,13 @@ trait UiTrait
     protected function setChartView($pefix, $layout)
     {
         $view = 'krud.chart';
-        
+
+        $data = $this->getData();
+
         return view($view, [
             'layout' => $layout,
             'titulo' => $this->titulo,
+            'data'   => $data,
         ]);
     }
 
