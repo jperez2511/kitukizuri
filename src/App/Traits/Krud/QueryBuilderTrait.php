@@ -325,9 +325,14 @@ trait QueryBuilderTrait
             $data  = $data['data'];
         } else {
             // validando si hay un offset a utilizar
-            $data = $data->skip($offset);
+            if ($offset !== null) {
+                $data = $data->skip($offset);
+            }
             // validando si existe un limite para obtenr los datos
-            $data = $data->take($limit);
+            if ($limit !== null) {
+                $data = $data->take($limit);
+            }
+
             $data = $data instanceof Collection ? $data : $data->get();
         }
 
@@ -369,8 +374,13 @@ trait QueryBuilderTrait
         }
 
         $count = $data->count();
-        $data  = $data->skip($offset);
-        $data  = $data->take($limit);
+        if ($offset != null) {
+            $data  = $data->skip($offset);
+        }
+
+        if ($limit != null) {
+            $data  = $data->take($limit);
+        }
 
         return [
             'data'  => $data,
