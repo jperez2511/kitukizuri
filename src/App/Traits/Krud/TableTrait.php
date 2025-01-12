@@ -3,6 +3,8 @@
 namespace Icebearsoft\Kitukizuri\App\Traits\Krud;
 
 use Auth;
+use Crypt;
+use Route;
 use Illuminate\Database\Query\Expression;
 
 trait TableTrait

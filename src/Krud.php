@@ -46,7 +46,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 class Krud extends Controller
 {
 
-    use QueryBuilderTrait, UiTrait, HelpTrait;
+    use QueryBuilderTrait, UiTrait, HelpTrait, ChartTrait, TableTrait;
 
     // Variables de valor único
     private $editId   = null;
