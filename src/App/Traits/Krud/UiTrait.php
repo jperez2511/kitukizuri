@@ -375,16 +375,13 @@ trait UiTrait
 
         // filtrando los campos que filtros
         $campos = array_filter($this->campos, function($c) {
-            return $c['isFilter'] == true;
+            return !empty($c['isFilter']) && $c['isFilter'] == true;
         });
-
-        $data = $this->getData();
-
+        
         return view($view, [
             'layout' => $layout,
             'titulo' => $this->titulo,
-            'data'   => $data,
-            'campso' => $campos,
+            'campos' => $campos,
         ]);
     }
 
