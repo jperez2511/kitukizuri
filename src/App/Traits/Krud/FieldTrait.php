@@ -101,6 +101,10 @@ trait FieldTrait
             return $this->errors = ['tipo' => $this->typeError[1]];
         }
 
+        if($this->view == 'chart') {
+            $this->fieldOptions[] = 'isFilter';
+        }
+
         // validando datos permitidos
         $this->allowed($params, $this->fieldOptions, $this->typeError[2]);
 
