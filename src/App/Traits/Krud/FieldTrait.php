@@ -40,6 +40,7 @@ trait FieldTrait
         'bool',          // Muestra un checkbox en el edit y un si o no en el index
         'combobox',      // Muestra un select simple
         'date',          // Input con formato tipo fecha
+        'dateRange',     // Input con formato tipo rango de fecha
         'datetime',      // Input en formato fecha y hora
         'enum',          // Select con valores determinados
         'file',          // Guarda un archivo en una ubicación definida
@@ -62,17 +63,18 @@ trait FieldTrait
         'url',           // Establece  una url con parámetros personalizados.
     ];
     protected $components   = [
-        'combobox' => 'select',
-        'enum'     => 'select',
-        'select2'  => 'select2',
-        'password' => 'password',
-        'textarea' => 'textarea',
-        'table'    => 'table',
-        'h1'       => 'title',
-        'h2'       => 'title',
-        'h3'       => 'title',
-        'h4'       => 'title',
-        'strong'   => 'title',
+        'combobox'  => 'select',
+        'enum'      => 'select',
+        'select2'   => 'select2',
+        'password'  => 'password',
+        'textarea'  => 'textarea',
+        'table'     => 'table',
+        'h1'        => 'title',
+        'h2'        => 'title',
+        'h3'        => 'title',
+        'h4'        => 'title',
+        'strong'    => 'title',
+        'dateRange' => 'daterange',
     ];
     protected $htmlTypes    = [
         'string'   => 'text',
