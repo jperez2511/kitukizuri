@@ -66,7 +66,9 @@ class KitukizuriServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register(CommandRegistrar::class);
         $this->app->register(BladeServiceProvider::class);
+        
         $this->app->singleton(Tenant::class);
         $this->app->singleton('kitukizuri', function ($app) {
             return new KituKizuri;

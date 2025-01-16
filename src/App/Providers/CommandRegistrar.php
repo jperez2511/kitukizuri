@@ -2,14 +2,14 @@
 
 namespace Icebearsoft\Kitukizuri\App\Providers;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\ServiceProvider;
 
-Class CommandRegistrar
+Class CommandRegistrar extends ServiceProvider
 {
-    public static function register(Application $app)
+    public function boot()
     {
-        if ($app->runningInConsole()) {
-            $app->make('Illuminate\Contracts\Console\Kernel')->commands([
+        if ($this->app->runningInConsole()) {
+            $app->commands([
                 \Icebearsoft\Kitukizuri\App\Console\Command\MakeModule::class,
                 \Icebearsoft\Kitukizuri\App\Console\Command\KrudInstall::class,
                 \Icebearsoft\Kitukizuri\App\Console\Command\VueInstall::class,
