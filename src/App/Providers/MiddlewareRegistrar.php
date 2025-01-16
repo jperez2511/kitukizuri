@@ -12,7 +12,7 @@ class MiddlewareRegistrar
      * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
-    public function register(Router $router)
+    public static function register(Router $router)
     {
         $router->aliasMiddleware('kitukizuri', 'Icebearsoft\Kitukizuri\App\Http\Middleware\KituKizurimd');
         $router->aliasMiddleware('kmenu', 'Icebearsoft\Kitukizuri\App\Http\Middleware\Menu');
