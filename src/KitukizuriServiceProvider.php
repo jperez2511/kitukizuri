@@ -2,14 +2,11 @@
 
 namespace Icebearsoft\Kitukizuri;
 
-use Livewire\Livewire;
 use Illuminate\Routing\Router;
 use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
 
 use Icebearsoft\Kitukizuri\App\Http\Middleware\Tenant;
 use Icebearsoft\Kitukizuri\App\Providers\RouteRegistrar;

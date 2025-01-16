@@ -2,7 +2,10 @@
 
 namespace Icebearsoft\Kitukizuri\App\Providers;
 
+use Livewire\Livewire;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 class BladeServiceProvider extends ServiceProvider
 {
