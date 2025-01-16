@@ -26,7 +26,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         $kernel->pushMiddleware(Tenant::class);
         MiddlewareRegistrar::register($router);
         RouteRegistrar::register();
-        CommandRegistrar::register($this);
+        CommandRegistrar::register($this->app);
         
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');
