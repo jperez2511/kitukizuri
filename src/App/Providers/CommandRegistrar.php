@@ -9,7 +9,7 @@ Class CommandRegistrar extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            $app->commands([
+            $this->commands([
                 \Icebearsoft\Kitukizuri\App\Console\Command\MakeModule::class,
                 \Icebearsoft\Kitukizuri\App\Console\Command\KrudInstall::class,
                 \Icebearsoft\Kitukizuri\App\Console\Command\VueInstall::class,
