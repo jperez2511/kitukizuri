@@ -16,11 +16,12 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/resources/views/krud', 'krud');
-        $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri', 'kitukizuri');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views/krud', 'krud');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views/kitukizuri', 'kitukizuri');
+        
+        $this->loadViewsFrom(__DIR__.'/../../resources/views/krud_prev', 'krud_prev');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views/kitukizuri_prev', 'kitukizuri_prev');
 
-        $this->loadViewsFrom(__DIR__.'/resources/views/krud_prev', 'krud_prev');
-        $this->loadViewsFrom(__DIR__.'/resources/views/kitukizuri_prev', 'kitukizuri_prev');
 
         $this->callAfterResolving(BladeCompiler::class, function () {
             $components = [
