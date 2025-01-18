@@ -7,7 +7,7 @@
     'id'           => '',
     'collection'   => [],
     'attr'         => [],
-    'dependendies' => [],
+    'dependencies' => [],
     'value'        => null,
     'label',
 ])
@@ -17,51 +17,53 @@
         $collection = json_decode($collection);
     }
 
-    if(empty($inputClass)) {
-        $inputClass = 'form-select js-select2';
-    }
-    
     if(!empty($attr)) {
         $attr = (array) json_decode($attr);
         $attributes = $attributes->merge($attr);
     }
-
-    if (!empty($value)) {
-        $value = json_decode($value);
-    }
     
 @endphp
 
-<div class="{{$columnClass}}" id="{{$id}}-container">
-    <div class="form-group mb-3">
-        <label>{{ $label }}</label>
-        <div class="form-control-wrap">
-            <select {!! $attributes->merge(['class' => $inputClass]) !!} id="{{ $id }}-element" name="{{ $name }}">
-                @foreach ($collection as $item)
-                    @php
-                        $selected = null;
-                        if(is_array($value) && in_array($item->id, $value)) {
-                            $selected = 'selected';
-                        } else if(!is_array($value) && $value == $item->id) {
-                            $selected = 'selected';
-                        }        
-                    @endphp
-                    <option value="{{$item->id}}" {{$selected}}>{{$item->value}}</option>
-                @endforeach
-            </select>
-        </div>        
-    </div>
-</div>
+<x-dynamic-component 
+    component="krud-input" 
+    columnClass="{{$columnClass}} {{$editClass}}" 
+    inputClass="{{$inputClass}}"
+    label="{{__('Start Date')}}"
+    name="{!!$name!!}"
+    id="{{$id}}-startDate"
+    collection="{!! $collection !!}"
+    type="date"
+    attr="{!! $attr !!}"
+    value="{{$value}}"
+    dependencies="{!! json_encode($dependencies) !!}"
+/>
+
+<x-dynamic-component 
+    component="krud-input" 
+    columnClass="{{$columnClass}} {{$editClass}}" 
+    inputClass="{{$inputClass}}"
+    label="{{__('End Date')}}"
+    name="{!!$name!!}"
+    id="{{$id}}-endDate"
+    collection="{!! $collection !!}"
+    type="date"
+    attr="{!! $attr !!}"
+    value="{{$value}}"
+    dependencies="{!! json_encode($dependencies) !!}"
+/>
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            $('.js-select2').select2({
-                placeholder: "{{ __('select an option') }}",
-                allowClear: false,
-                width: "resolve",
-                theme: "default"
-            });
+        //validaciones entre fechas
+        document.addEventlistener('change', function() {
+            let startDate = document.getElementById('{{$id}}-startDate-element').value;
+            let endDate = document.getElementById('{{$id}}-endDate-element').value;
+            if (startDate > endDate) {
+                alert('La fecha de inicio no puede ser mayor a la fecha de fin');
+                document.getElementById('{{$id}}-startDate').value = '';
+            } else {
+                console.log(startDate, endDate);
+            }
         });
     </script>
 @endpush

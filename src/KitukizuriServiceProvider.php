@@ -30,7 +30,7 @@ class KitukizuriServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Kitukizuri', 'Icebearsoft\Kitukizuri\KituKizuri');
         AliasLoader::getInstance()->alias('Krud', 'Icebearsoft\Kitukizuri\Krud');
 
-        $this->configurePublishing();        
+        $this->configurePublishing();
     }
 
     /**

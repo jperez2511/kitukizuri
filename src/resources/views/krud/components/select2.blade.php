@@ -7,7 +7,7 @@
     'id'           => '',
     'collection'   => [],
     'attr'         => [],
-    'dependendies' => [],
+    'dependencies' => [],
     'value'        => null,
     'label',
 ])
