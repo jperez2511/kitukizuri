@@ -382,6 +382,7 @@ trait UiTrait
             'layout' => $layout,
             'titulo' => $this->titulo,
             'campos' => $campos,
+            'ruta'   => $this->getModuloRuta()
         ]);
     }
 
