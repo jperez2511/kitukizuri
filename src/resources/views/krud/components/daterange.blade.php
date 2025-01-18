@@ -26,7 +26,7 @@
 
 <x-dynamic-component 
     component="krud-input" 
-    columnClass="{{$columnClass}} {{$editClass}}" 
+    columnClass="{{$columnClass}}" 
     inputClass="{{$inputClass}}"
     label="{{__('Start Date')}}"
     name="{!!$name!!}"
@@ -40,7 +40,7 @@
 
 <x-dynamic-component 
     component="krud-input" 
-    columnClass="{{$columnClass}} {{$editClass}}" 
+    columnClass="{{$columnClass}}" 
     inputClass="{{$inputClass}}"
     label="{{__('End Date')}}"
     name="{!!$name!!}"
@@ -55,15 +55,17 @@
 @push('scripts')
     <script>
         //validaciones entre fechas
-        document.addEventlistener('change', function() {
-            let startDate = document.getElementById('{{$id}}-startDate-element').value;
-            let endDate = document.getElementById('{{$id}}-endDate-element').value;
-            if (startDate > endDate) {
-                alert('La fecha de inicio no puede ser mayor a la fecha de fin');
-                document.getElementById('{{$id}}-startDate').value = '';
-            } else {
-                console.log(startDate, endDate);
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventlistener('change', function() {
+                let startDate = document.getElementById('{{$id}}-startDate-element').value;
+                let endDate = document.getElementById('{{$id}}-endDate-element').value;
+                if (startDate > endDate) {
+                    alert('La fecha de inicio no puede ser mayor a la fecha de fin');
+                    document.getElementById('{{$id}}-startDate').value = '';
+                } else {
+                    console.log(startDate, endDate);
+                }
+            });
         });
     </script>
 @endpush
