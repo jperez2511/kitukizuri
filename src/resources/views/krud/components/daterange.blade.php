@@ -1,115 +1,72 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h3 class="nk-block-title page-title">
-            {{ __($titulo) }}
-        </h3>
-    </x-slot>
+@props([
+    'json'         => '',
+    'columnClass'  => 'col-md-6',
+    'inputClass'   => 'form-select',
+    'type'         => '',
+    'name'         => '',
+    'id'           => '',
+    'collection'   => [],
+    'attr'         => [],
+    'dependencies' => [],
+    'value'        => null,
+    'label',
+])
 
-    <div class="components-preview wide-xl mx-auto">
-        <div class="card card-bordered card-preview">
-            <div class="card-inner">
-                <div class="row">
-                    @foreach($campos as $c)
-                        @if ($c['edit'] === true)
-                            @if($c['tipo'] != 'password' )
-                                @php
-                                    if (!empty($c['dependencies'])) {
-                                        $mergeDependencies[] = $c['dependencies'];        
-                                    }
-                                @endphp
+@php
+    if(!empty($collection)) {
+        $collection = json_decode($collection);
+    }
+
+    if(!empty($attr)) {
+        $attr = (array) json_decode($attr);
+        $attributes = $attributes->merge($attr);
+    }
     
-                                <x-dynamic-component 
-                                    :component="$c['component']" 
-                                    columnClass="{{$c['columnClass']}} {{$c['editClass']}}" 
-                                    inputClass="{{$c['inputClass']}}"
-                                    label="{{$c['nombre']}}"
-                                    name="{!!$c['inputName']!!}"
-                                    id="{{ $c['inputId'] ?? $c['inputName']}}"
-                                    collection="{!! $c['collect'] !!}"
-                                    type="{{$c['htmlType']}}"
-                                    attr="{!! $c['htmlAttr'] !!}"
-                                    value="{{$c['value']}}"
-                                    dependencies="{!! json_encode($c['dependencies']) !!}"
-                                />
-    
-                            @else
-                                <x-dynamic-component 
-                                    :component="$c['component']" 
-                                    nombre="{{$c['inputName']}}"
-                                    label="{{$c['nombre']}}"
-                                />
-                            @endif
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="highcharts-container" style="width: 100%; height: 600px;"></div>
+@endphp
 
-    @push('scripts')
-        <script>
-            // Asegúrate de que Highcharts está disponible (desde bootstrap.js)
-            document.addEventListener('DOMContentLoaded', () => {
-                const chart = Highcharts.chart('highcharts-container', {
-                    chart: {
-                        type: 'line',
-                    },
-                    title: {
-                        text: 'Ejemplo de Highcharts en JS Puro',
-                    },
-                    xAxis: {
-                        categories: [],
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Valores',
-                        },
-                    },
-                    series: [],
-                });
+<x-dynamic-component 
+    component="krud-input" 
+    columnClass="{{$columnClass}}" 
+    inputClass="{{$inputClass}}"
+    label="{{__('Start Date')}}"
+    name="{!!$name!!}"
+    id="{{$id}}-startDate"
+    collection="{!! $collection !!}"
+    type="date"
+    attr="{!! $attr !!}"
+    value="{{$value}}"
+    dependencies="{!! json_encode($dependencies) !!}"
+/>
 
-                function updateChartData() {
-                    
-                    let data = [];
+<x-dynamic-component 
+    component="krud-input" 
+    columnClass="{{$columnClass}}" 
+    inputClass="{{$inputClass}}"
+    label="{{__('End Date')}}"
+    name="{!!$name!!}"
+    id="{{$id}}-endDate"
+    collection="{!! $collection !!}"
+    type="date"
+    attr="{!! $attr !!}"
+    value="{{$value}}"
+    dependencies="{!! json_encode($dependencies) !!}"
+/>
 
-                    @foreach($campos as $c)
-                        @if($c['tipo'] != 'password' && !in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong', 'bool']))
-                            @if(!empty($c['dependencies']))
-                                @foreach($c['dependencies'] as $dependency)
-                                    @if(!in_array($dependency['input'], $initialValues))
-                                        const {{ $dependency['input'] }}_initial = $('#{{ $dependency['input'] }}-element').is(':checkbox') 
-                                            ? $('#{{ $dependency['input'] }}-element').is(':checked') 
-                                            : $('#{{ $dependency['input'] }}-element').val();
-                                        @php $initialValues[] = $dependency['input'] @endphp
-                                    @endif
+@push('scripts')
+    <script>
+        //validaciones entre fechas
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('change', function() {
+                let startDate = document.getElementById('{{$id}}-startDate-element').value;
+                let endDate = document.getElementById('{{$id}}-endDate-element').value;
 
-                                    if ({{ $dependency['input'] }}_initial == '{{ $dependency['value'] }}') {
-                                        data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').val();
-                                    }
-                                @endforeach
-                            @else
-                                data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').val();
-                            @endif
-                        @elseif($c['tipo'] == 'bool' && empty($c['dependencies']))
-                            data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').is(':checked') ? 1 : 0;
-                        @endif
-                    @endforeach
-                    
-                    fetch(`{{$ruta}}?startDate=${startDate}&endDate=${endDate}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            chart.update({
-                                xAxis: {
-                                    categories: data.categories,
-                                },
-                                series: data.series,
-                            });
-                        });
+                if ((startDate != '' && endDate != '') && startDate > endDate) {
+                    alert('La fecha de inicio no puede ser mayor a la fecha de fin');
+                    document.getElementById('{{$id}}-startDate-element').value = '';
+                } else {
+                    console.log(startDate, endDate);
                 }
             });
-
-        </script>
-    @endpush
-</x-app-layout>
+        });
+    </script>
+@endpush
