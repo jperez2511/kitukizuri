@@ -35,7 +35,7 @@ trait ChartTrait
 
         $result = $this->getData();
 
-        $result = $this->transformData($result);
+        $result = $this->transformDataHC($result);
 
         return response()->json($result);   
     }
@@ -46,7 +46,7 @@ trait ChartTrait
      * @param  mixed $data
      * @return void
      */
-    private function transformData($data)
+    private function transformDataHC($data)
     {
         
     }
