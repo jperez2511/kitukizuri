@@ -170,8 +170,9 @@ return [
         'li-jr' => [
             'class' => 'nk-menu-item',
             'layout' =>
-                '<a href="{{url}}">
-                    <span>{{label}}</span>
+                '<a href="{{url}}" class="nk-menu-link">
+                    <span class="nk-menu-icon">{{iconFormat}}</span>
+                    <span style="font-size:12px;">{{label}}</span>
                 </a>',
         ],
         'ul-jr' => [

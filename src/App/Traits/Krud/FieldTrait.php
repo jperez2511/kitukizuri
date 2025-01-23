@@ -105,6 +105,7 @@ trait FieldTrait
 
         if($this->view == 'chart') {
             $this->fieldOptions[] = 'isFilter';
+            $this->fieldOptions[] = 'isCategory';
         }
 
         // validando datos permitidos
