@@ -54,13 +54,10 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const chart = Highcharts.chart('highcharts-container', {
                     chart: {
-                        type: 'line',
+                        type: 'bar',
                     },
                     title: {
                         text: 'Ejemplo de Highcharts en JS Puro',
-                    },
-                    xAxis: {
-                        categories: [],
                     },
                     yAxis: {
                         title: {
@@ -107,12 +104,20 @@
                     fetch(`{{$ruta}}/0?data=`+JSON.stringify(data))
                         .then(response => response.json())
                         .then(data => {
-                            chart.update({
-                                xAxis: {
-                                    categories: data.categories,
-                                },
-                                series: data.series,
+                            console.log(data);
+
+                            while (chart.series.length > 0) {
+                                chart.series[0].remove(false); // Elimina sin redibujar
+                            }
+
+                            // Actualiza las categorías dinámicamente
+                            chart.xAxis[0].setCategories(data.categories, false);
+
+                            data.series.forEach(series => {
+                                chart.addSeries(series, false); // No redibujes inmediatamente
                             });
+
+                            chart.redraw();
                         });
                 }
             });

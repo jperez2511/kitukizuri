@@ -26,27 +26,50 @@ trait ChartTrait
                 if($campo['tipo'] == 'dateRange') {
                     $range = $data[$campo['inputName']];
                     if($range['startDate'] != '' && $range['endDate'] != '') {
-                        $this->model = $this->model->whereBetween($campo['campo'], [$range['startDate'], $range['endDate']]);
+                        $this->queryBuilder = $this->queryBuilder->whereBetween($campo['campo'], [$range['startDate'], $range['endDate']]);
                     } else if ($range['startDate'] != '') {
-                        $this->model = $this->model->where($campo['campo'], '>=', $range['startDate']);
+                        $this->queryBuilder = $this->queryBuilder->where($campo['campo'], '>=', $range['startDate']);
                     } else if ($range['endDate'] != '') {
-                        $this->model = $this->model->where($campo['campo'], '<=', $range['endDate']);
+                        $this->queryBuilder = $this->queryBuilder->where($campo['campo'], '<=', $range['endDate']);
                     }
                 }
             }
 
-            if($campo['isCategory'] == true) {
+            if(!empty($campo['isCategory']) && $campo['isCategory'] == true) {
                 $categoryColumn = $campo['campo'];
             }
         }
 
         $result = $this->getData();
+        $result[0] = $this->formatDataChart($result[0]);
 
-        $seriesColumns = $this->getSelectShow();
+        $seriesColumns = collect($this->getSelectShow())->pluck('campo')->toArray();
+        $seriesColumns = array_values(array_diff($seriesColumns, [$categoryColumn]));
 
-        $result = $this->transformDataHC($result, $campo['campo'], ['']);
+        $result = $this->transformDataHC($result[0], $categoryColumn, $seriesColumns);
 
         return response()->json($result);   
+    }
+
+    private function formatDataChart($data) 
+    {
+        foreach ($data as &$a) {
+            $tempArray = $a->toArray();
+            foreach ($tempArray as $k => &$v) {
+                $v = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
+                foreach ($this->campos as $cn => $cv) {
+                    if ($k == $cv['campo']) {
+                        if ($cv['tipo'] == 'date' || $cv['tipo'] == 'datetime' || $cv['tipo'] == 'dateRange') {
+                            if (!empty($v)) {
+                                $time = strtotime($v);
+                                $a->{$k} = $cv['format'] != '' ? date($cv['format'], $time) : date('d-m-Y', $time);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $data;
     }
     
     /**
@@ -68,15 +91,42 @@ trait ChartTrait
         // Generar categorías
         $result['categories'] = $grouped->keys()->toArray();
     
-        // Generar series dinámicas
-        foreach ($seriesColumns as $column) {
-            $seriesData = $grouped->map(fn($group) => $group->sum($column))->toArray();
-    
-            $result['series'][] = [
-                'name' => ucfirst(str_replace('_', ' ', $column)),
-                'data' => array_values($seriesData)
-            ];
+        // Inicializar las series
+    $seriesData = [];
+
+    foreach ($seriesColumns as $seriesColumn) {
+        // Detectar todos los valores únicos de la columna actual
+        $uniqueValues = $data->pluck($seriesColumn)->unique();
+
+        foreach ($uniqueValues as $value) {
+            // Crear una serie para cada valor único
+            $seriesKey = $seriesColumn . ': ' . $value;
+            if (!isset($seriesData[$seriesKey])) {
+                $seriesData[$seriesKey] = [
+                    'name' => ucfirst(str_replace('_', ' ', $seriesKey)),
+                    'data' => []
+                ];
+            }
         }
+    }
+
+    // Contar los valores únicos en cada categoría
+    foreach ($grouped as $category => $items) {
+        foreach ($seriesColumns as $seriesColumn) {
+            $uniqueValues = $data->pluck($seriesColumn)->unique();
+
+            foreach ($uniqueValues as $value) {
+                $seriesKey = $seriesColumn . ': ' . $value;
+
+                // Contar cuántos elementos tienen el valor actual en la categoría
+                $count = $items->where($seriesColumn, $value)->count();
+                $seriesData[$seriesKey]['data'][] = $count;
+            }
+        }
+    }
+
+    // Añadir las series al resultado
+    $result['series'] = array_values($seriesData);
     
         return $result;
     }
