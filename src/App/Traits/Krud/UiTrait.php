@@ -235,7 +235,7 @@ trait UiTrait
         $allowed = ['nombre', 'name', 'url', 'class', 'icon', 'routeName'];
         $this->allowed($params, $allowed, $this->typeError[4]);
 
-        if($params['routeName'] != null) {
+        if(!empty($params['routeName']) && $params['routeName'] != null) {
             $params['url'] = route($params['routeName']);
         }
 
