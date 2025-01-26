@@ -66,4 +66,18 @@ trait HelpTrait
     {
         return view('krud::training', $error);
     }
+    
+    /**
+     * executeDynamicClassMethod
+     *
+     * @param  mixed $class
+     * @return void
+     */
+    protected function executeDynamicClassMethod($class)
+    {
+        $methods = get_class_methods($class);
+        foreach ($methods as $method) {
+            $class->$method();
+        }
+    }
 }
