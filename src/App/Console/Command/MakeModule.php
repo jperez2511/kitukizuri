@@ -57,7 +57,12 @@ class MakeModule extends Command
             $this->makeModule();
         }
     }
-
+    
+    /**
+     * makeModule
+     *
+     * @return void
+     */
     private function makeModule()
     {
 
@@ -101,12 +106,34 @@ class MakeModule extends Command
         if($makeModel) {
             $modelRoute = text(label: 'Ruta del modelo', required:true);
             $this->artisanCommand('make:model', $modelRoute);
+            // agregando variables al modelo
+            $modelFile = \file_get_contents(base_path('app/Models/'.$modelRoute.'.php'));
+            $modelFile = str_replace('//', "\n\tprotected \$table = '';\n\tprotected \$primaryKey = '';\n\tprotected \$guarded = '';\n", $modelFile);
+            \file_put_contents(base_path('app/Models/'.$modelRoute.'.php'), $modelFile);
         }
 
         $makeController = confirm('¿Desea crear el controlador del módulo?');
         if($makeController) {
             $controllerRoute = text(label: 'Ruta del controlador', required:true);
             $this->artisanCommand('make:controller', $controllerRoute);
+
+            $modelName = \explode('/', $modelRoute);
+            $modelName = end($modelName);
+
+            $filePath = base_path('app/Http/Controllers/'.$controllerRoute.'.php');
+            $construct = <<<EOD
+                \n
+                    public function __construct(){
+                        \$this->setModel(new $modelName);
+                    }
+            EOD;
+
+            $modelImport = "use Illuminate\Http\Request;\nuse App\Models\\".$modelRoute.";";
+        
+            $this->replaceInFile('use App\Http\Controllers\Controller;', 'use Krud;', $filePath);
+            $this->replaceInFile('extends Controller', 'extends Krud;', $filePath);
+            $this->replaceInFile('//', $construct, $filePath);
+            $this->replaceInFile('use Illuminate\Http\Request;', $modelImport, $filePath);
 
             $makeWebRoute = confirm('¿Crear las rutas web?');
             if($makeWebRoute) {
@@ -120,10 +147,14 @@ class MakeModule extends Command
             $this->artisanCommand('db:seed', '--class=ModulosSeeder');
             $this->info('El módulo se ha creado exitosamente.');
         }
-
-        
     }
-
+    
+    /**
+     * validateRoute
+     *
+     * @param  mixed $ruta
+     * @return void
+     */
     private function validateRoute($ruta)
     {
         if($ruta === null) {
@@ -149,7 +180,13 @@ class MakeModule extends Command
 
         return $ruta;
     }
-
+    
+    /**
+     * addModuleSeeder
+     *
+     * @param  mixed $modulo
+     * @return void
+     */
     private function addModuleSeeder($modulo)
     {
         $seederPath = base_path('database/seeders/ModulosSeeder.php');
@@ -180,7 +217,14 @@ class MakeModule extends Command
         $nuevoContenido = substr($seederContent, 0, $posicionInsertar) . $nuevaLinea . substr($seederContent, $posicionInsertar);
         file_put_contents($seederPath, $nuevoContenido);
     }
-
+    
+    /**
+     * addRouteWeb
+     *
+     * @param  mixed $ruta
+     * @param  mixed $controllerRoute
+     * @return void
+     */
     private function addRouteWeb($ruta, $controllerRoute)
     {
         $webRoutePath    = base_path('routes/web.php');
@@ -209,7 +253,7 @@ class MakeModule extends Command
             $controllerRouteLast = $controllerRoute;
         }
 
-        $nuevaLinea = "\tRoute::resource('".$ruta."', ".$controllerRoute."::class);\n";
+        $nuevaLinea = "\tRoute::resource('".$ruta."', ".$controllerRouteLast."::class);\n";
         $nuevaUse   = "\nuse App\Http\Controllers\\".str_replace('/', '\\', $controllerRoute).";";
 
         $nuevoContenido = substr($webRouteContent, 0, $posicionInsertar) . $nuevaLinea . substr($webRouteContent, $posicionInsertar);
