@@ -234,7 +234,7 @@ return [
     //     ['name' => 'nit', 'field' => 'nit']
     // ],
 
-    // 'companiesCustomButtons' => [
+    // 'companiesCustomButton' => [
     //     ['name' => 'nit', 'url' => 'nit', 'icon' => 'fa fa-eye', 'class' => 'btn btn-outline-primary']
     // ],
 

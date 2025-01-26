@@ -141,7 +141,7 @@
                 var botones = {!! $botones !!}
                 $.each(botones, function(index, val) {
                     var url = val.url.replace('{id}', id);
-                    buttons += '<div class="col-md-6"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><i class="'+val.icon+'"></i> '+val.nombre+'</a></div>'
+                    buttons += '<div class="col-md-6 mb-3"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><i class="'+val.icon+'"></i> '+val.nombre+'</a></div>'
                 });
                 $('#modalContent').empty();
                 $('#modalContent').append(buttons);

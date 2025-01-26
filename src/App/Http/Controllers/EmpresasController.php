@@ -45,8 +45,8 @@ class EmpresasController extends Krud
         }
 
         $customButtons = config('kitukizuri.companiesCustomButton') ?? null;
-        if($custonButtons != null) {
-            foreach($custonButtons as $button) {
+        if($customButtons != null) {
+            foreach($customButtons as $button) {
                 $this->setBoton($button);
             }
         }
