@@ -44,7 +44,7 @@ class EmpresasController extends Krud
             }
         }
 
-        $classes = config('kitukizuri.clasess.empresas');
+        $classes = config('kitukizuri.classes.empresas');
         if(!empty($classes)) {
             foreach ($classes as $class) {
                 $this->executeDynamicClassMethod($class);

@@ -27,6 +27,8 @@ trait HelpTrait
         'needColumnParent',     // 18
         'badDependencies'       // 19  
     ];
+
+    protected $auxInstance = [];
     
     /**
      * allowed
@@ -75,9 +77,16 @@ trait HelpTrait
      */
     protected function executeDynamicClassMethod($class)
     {
-        $methods = get_class_methods($class);
-        foreach ($methods as $method) {
-            $class->$method();
+        $methods  = get_class_methods($class);
+        $instance = app($class);
+
+        $childMethods = array_diff(
+            $methods,
+            get_class_methods(self::class)   // Métodos de la clase padre
+        );
+
+        foreach ($childMethods as $method) {
+            $this->auxInstances[] = new $instance;
         }
     }
 }

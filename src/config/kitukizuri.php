@@ -234,5 +234,11 @@ return [
     //     ['name' => 'nit', 'field' => 'nit']
     // ],
 
+    // 'classes' => [
+    //     'empresas' => [
+    //         App\Http\Controllers\Aux\EmpresaController::class
+    //     ],
+    // ],
+
 
 ];

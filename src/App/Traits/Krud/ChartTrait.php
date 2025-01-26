@@ -14,7 +14,7 @@ trait ChartTrait
      * @param  mixed $request
      * @return void
      */
-    protected function show Chart($id, $request)
+    protected function showChart($id, $request)
     {
         $data = $request->data;
         $data = json_decode($data, true);
