@@ -232,11 +232,13 @@ trait UiTrait
      */
     protected function setBoton($params)
     {
-        $allowed = ['nombre', 'name', 'url', 'class', 'icon', 'routeName'];
+        $allowed = ['nombre', 'name', 'url', 'class', 'icon', 'routeName', 'id'];
         $this->allowed($params, $allowed, $this->typeError[4]);
 
         if(!empty($params['routeName']) && $params['routeName'] != null) {
+            $id = !empty($params['id']) && $params['id'] == true ? '?parent={id}' : '';
             $params['url'] = route($params['routeName']);
+            $params['url'] .= $id;
         }
 
         $this->botones[] = $params;
