@@ -203,7 +203,8 @@ class MakeModule extends Command
         // validando si la ruta contiene diagonal para dejar solo el ultimo elmeento
         $controllerRouteLast = null;
         if (str_contains($controllerRoute, '/')) {
-            $controllerRouteLast = end(explode('/', $controllerRoute));
+            $tmp = explode('/', $controllerRoute);
+            $controllerRouteLast = end($tmp);
         } else {
             $controllerRouteLast = $controllerRoute;
         }
