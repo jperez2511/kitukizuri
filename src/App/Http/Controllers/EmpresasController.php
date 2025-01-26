@@ -44,10 +44,10 @@ class EmpresasController extends Krud
             }
         }
 
-        $classes = config('kitukizuri.classes.empresas');
-        if(!empty($classes)) {
-            foreach ($classes as $class) {
-                $this->executeDynamicClassMethod($class);
+        $customButtons = config('kitukizuri.companiesCustomButton') ?? null;
+        if($custonButtons != null) {
+            foreach($custonButtons as $button) {
+                $this->setBoton($button);
             }
         }
     }

@@ -234,10 +234,8 @@ return [
     //     ['name' => 'nit', 'field' => 'nit']
     // ],
 
-    // 'classes' => [
-    //     'empresas' => [
-    //         App\Http\Controllers\Aux\EmpresaController::class
-    //     ],
+    // 'companiesCustomButtons' => [
+    //     ['name' => 'nit', 'url' => 'nit', 'icon' => 'fa fa-eye', 'class' => 'btn btn-outline-primary']
     // ],
 
 

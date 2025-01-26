@@ -65,12 +65,6 @@ trait QueryBuilderTrait
             return call_user_func_array([$this, $method], $args);
         }
 
-        foreach ($this->auxInstances as $auxInstance) {
-            if (method_exists($auxInstance, $method)) {
-                return call_user_func_array([$auxInstance, $method], $arguments);
-            }
-        }
-
         // Luego, delega al queryBuilder si el método existe allí
         if (method_exists($this->queryBuilder, $method)) {
             $this->queryBuilder = call_user_func_array([$this->queryBuilder, $method], $args);
