@@ -123,12 +123,13 @@ class MakeModule extends Command
             $filePath = base_path('app/Http/Controllers/'.$controllerRoute.'.php');
             $construct = <<<EOD
                 \n
-                    public function __construct(){
+                    public function __construct()
+                    {
                         \$this->setModel(new $modelName);
                     }
             EOD;
 
-            $modelImport = "use Illuminate\Http\Request;\nuse App\Models\\".$modelRoute.";";
+            $modelImport = "use Illuminate\Http\Request;\n\nuse App\Models\\".$modelRoute.";";
         
             $this->replaceInFile('use App\Http\Controllers\Controller;', 'use Krud;', $filePath);
             $this->replaceInFile('extends Controller', 'extends Krud;', $filePath);
