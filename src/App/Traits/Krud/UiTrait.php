@@ -232,7 +232,7 @@ trait UiTrait
      */
     protected function setBoton($params)
     {
-        $allowed = ['nombre', 'url', 'class', 'icon'];
+        $allowed = ['nombre', 'name', 'url', 'class', 'icon'];
         $this->allowed($params, $allowed, $this->typeError[4]);
         $this->botones[] = $params;
     }
