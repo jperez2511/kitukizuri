@@ -39,7 +39,8 @@
 
     @push('scripts')
         <script>
-           document.addEventListener('DOMContentLoaded', function() {
+            var uriArgs = (String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : '');
+            document.addEventListener('DOMContentLoaded', function() {
                 $('#table1').DataTable({
                     language: {
                         search           : "",
@@ -59,7 +60,7 @@
                     serverSide: true,
                     processing: true,
                     ajax      : {
-                        url : "{{$ruta}}/0"+(String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : ''),
+                        url : "{{$ruta}}/0"+uriArgs,
                         type: 'GET',
                     },
                     buttons: {
@@ -78,7 +79,7 @@
                                         title: '{{ __('Create') }}' // Tooltip en el botón
                                     },
                                     action: function ( e, dt, node, config ) {
-                                        window.location.href = '{{$ruta}}/create';
+                                        window.location.href = '{{$ruta}}/create'+uriArgs;
                                     }
                                 },
                             @endif

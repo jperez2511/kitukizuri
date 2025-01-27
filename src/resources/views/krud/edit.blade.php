@@ -89,7 +89,7 @@
                 @endif
 
                 @foreach($parents as $c)
-                    data['{{$c['nombre']}}'] = $.urlParam('{{$p['value']}}');
+                    data['{{$c['nombre']}}'] = $.urlParam('{{$c['value']}}');
                 @endforeach
 
                 @php $initialValues = [] @endphp
@@ -182,14 +182,6 @@
                 return decodeURI(results[1]) || 0;
             }
         }
-
-        // --------------------------------
-        // Estableciendo los valores de los
-        // valores padres. 
-        // ---------------------------------
-        @foreach($parents as $p)
-            $('#{{$p['nombre']}}').val($.urlParam('{{$p['value']}}'))
-        @endforeach
 
         // --------------------------------
         // estableciendo libreria para 

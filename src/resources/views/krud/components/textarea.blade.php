@@ -22,7 +22,7 @@
 @endphp
 
 <div class="{{$columnClass}}" id="{{$id}}-container">
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label>{{ $label }}</label>
         <textarea 
             {!! $attributes->merge(['class' => $inputClass]) !!} 
