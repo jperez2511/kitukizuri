@@ -22,10 +22,6 @@
                     <input type="hidden" name="{{$parent}}" id="{{$parent}}" value="{{$parentid}}">    
                 @endif
 
-                @foreach($parents as $p)
-                    <input type="hidden" name="{{$p['nombre']}}" id="{{$p['nombre']}}" value="{{$parentid}}">
-                @endforeach
-
                 <div class="row">
                     @php $mergeDependencies = []; @endphp
                     @foreach($campos as $c)
@@ -93,7 +89,7 @@
                 @endif
 
                 @foreach($parents as $c)
-                    data['{{$c['inputName']}}'] = $('#{{$c['inputName']}}').val();
+                    data['{{$c['nombre']}}'] = $.urlParam('{{$p['value']}}');
                 @endforeach
 
                 @php $initialValues = [] @endphp

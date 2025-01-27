@@ -108,7 +108,7 @@ class MakeModule extends Command
             $this->artisanCommand('make:model', $modelRoute);
             // agregando variables al modelo
             $modelFile = \file_get_contents(base_path('app/Models/'.$modelRoute.'.php'));
-            $modelFile = str_replace('//', "\n\tprotected \$table = '';\n\tprotected \$primaryKey = '';\n\tprotected \$guarded = '';\n", $modelFile);
+            $modelFile = str_replace('//', "\tprotected \$table = '';\n\tprotected \$primaryKey = '';\n\tprotected \$guarded = '';\n", $modelFile);
             \file_put_contents(base_path('app/Models/'.$modelRoute.'.php'), $modelFile);
         }
 
@@ -122,17 +122,17 @@ class MakeModule extends Command
 
             $filePath = base_path('app/Http/Controllers/'.$controllerRoute.'.php');
             $construct = <<<EOD
-                \n
-                    public function __construct()
-                    {
-                        \$this->setModel(new $modelName);
-                    }
+                public function __construct()
+                {
+                    \$this->setModel(new $modelName);
+                    \$this->setTitulo('{$modulo['nombre']}');
+                }
             EOD;
 
             $modelImport = "use Illuminate\Http\Request;\n\nuse App\Models\\".$modelRoute.";";
         
             $this->replaceInFile('use App\Http\Controllers\Controller;', 'use Krud;', $filePath);
-            $this->replaceInFile('extends Controller', 'extends Krud;', $filePath);
+            $this->replaceInFile('extends Controller', 'extends Krud', $filePath);
             $this->replaceInFile('//', $construct, $filePath);
             $this->replaceInFile('use Illuminate\Http\Request;', $modelImport, $filePath);
 
