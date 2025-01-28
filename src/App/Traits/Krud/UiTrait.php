@@ -339,6 +339,7 @@ trait UiTrait
         if ($prefix != null && $prefix == $prefixDefault) {
             $vars       = usePrevUi('default');
             $view       = $vars['kitukizuri'];
+            $layout     = $vars['krud'];
             $dtBtnAdd   = 'btn btn-outline-success';
             $dtBtnLiner = 'btn btn-outline-secondary';
             $kmenu      = true;
