@@ -37,7 +37,12 @@ class ModuloEmpresasController extends Controller
     	$select = ModuloEmpresas::select('moduloid')->where('empresaid', $parent)->pluck('moduloid');
     	$modulos = Modulo::orderBy('nombre')->get();
 
-    	return view('kitukizuri::moduloempresas', [
+        $view = 'kitukizuri';
+        if (config('kitukizuri.prevUi') == true) {
+            $view .= '_prev';
+        }
+
+    	return view($view.'::moduloempresas', [
             'layout'         => 'krud::layout',
             'titulo'         => 'Modulos asignados a la Empresa',
             'modulos'        => $modulos,
