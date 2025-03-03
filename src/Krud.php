@@ -424,7 +424,7 @@ class Krud extends Controller
             $kmenu = true;
         }
 
-        if(config('kitukizuri.prevUi') === true) {
+        if(config('kitukizuri.prevUi') === true && $prefix != null && $prefix == $prefixDefault) {
             $vars = \usePrevUi('edit');
             $view = $vars['kitukizuri'];
             $layout = $vars['krud'];
