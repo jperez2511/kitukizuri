@@ -1,3 +1,5 @@
+@props(['dash' => false])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -40,17 +42,19 @@
                 </div>
             </div>
             <div class="nk-main ">
-                <div class="nk-wrap ">
+                <div class="{{ !empty($dash) && $dash == true ? '' : 'nk-wrap' }} ">
                     <div class="nk-header nk-header-fixed is-light">
                         <div class="container-fluid">
                             @livewire('navigation-menu')
                         </div>
                     </div>
-                    <div class="nk-sidebar" data-content="sidebarMenu">
-                        <div class="nk-sidebar-inner" data-simplebar>
-                            {!! session('menu') !!}
+                    @if (empty($dash) && $dash == false)
+                        <div class="nk-sidebar" data-content="sidebarMenu">
+                            <div class="nk-sidebar-inner" data-simplebar>
+                                {!! session('menu') !!}
+                            </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="nk-content ">
                         <div class="container-fluid">
                             <div class="nk-content-inner">
