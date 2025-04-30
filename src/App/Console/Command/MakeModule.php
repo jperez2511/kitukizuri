@@ -108,7 +108,7 @@ class MakeModule extends Command
             $this->artisanCommand('make:model', $modelRoute);
             // agregando variables al modelo
             $modelFile = \file_get_contents(base_path('app/Models/'.$modelRoute.'.php'));
-            $modelFile = str_replace('//', "\tprotected \$table = '';\n\tprotected \$primaryKey = '';\n\tprotected \$guarded = '';\n", $modelFile);
+            $modelFile = str_replace('//', "protected \$table = '';\n\tprotected \$primaryKey = '';\n\tprotected \$guarded = [''];\n", $modelFile);
             \file_put_contents(base_path('app/Models/'.$modelRoute.'.php'), $modelFile);
         }
 
@@ -129,7 +129,8 @@ class MakeModule extends Command
                 }
             EOD;
 
-            $modelImport = "use Illuminate\Http\Request;\n\nuse App\Models\\".$modelRoute.";";
+            $modelInsertPath = srt_replace('/', '\\', $modelRoute);
+            $modelImport = "use Illuminate\Http\Request;\n\nuse App\Models\\".$modelInsertPath.";";
         
             $this->replaceInFile('use App\Http\Controllers\Controller;', 'use Krud;', $filePath);
             $this->replaceInFile('extends Controller', 'extends Krud', $filePath);
