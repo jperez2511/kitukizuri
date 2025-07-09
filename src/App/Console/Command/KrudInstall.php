@@ -112,8 +112,6 @@ class KrudInstall extends Command
             $this->configLdap();
         }
 
-        $this->artisanCommand('krud:ui-config');
-
         // validando conexion a base de datos
         try {
             DB::connection()->getPDO();
