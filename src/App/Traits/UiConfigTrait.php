@@ -37,7 +37,10 @@ trait UiConfigTrait
 
         // Eliminando Tailwind
         $this->replaceInFile('tailwindcss: {},', '', base_path('postcss.config.js'));
-        \unlink(base_path('tailwind.config.js'));
+        
+        if(file_exists(base_path('tailwind.config.js'))) {
+            \unlink(base_path('tailwind.config.js'));
+        }
 
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/js', base_path('resources/js/'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources/sass', base_path('resources/sass/'));
