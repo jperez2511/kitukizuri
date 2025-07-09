@@ -61,7 +61,6 @@
     "select2": "^4.1.0-rc.0",
     "simplebar": "^5.3.9",
     "sweetalert2": "11.4.8",
-    "themify-icons": "^1.0.0",
-    "toastr": "^2.1.4"
+    "themify-icons": "^1.0.0"
   }
 }
