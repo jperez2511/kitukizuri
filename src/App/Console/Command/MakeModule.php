@@ -129,7 +129,7 @@ class MakeModule extends Command
                 }
             EOD;
 
-            $modelInsertPath = srt_replace('/', '\\', $modelRoute);
+            $modelInsertPath = str_replace('/', '\\', $modelRoute);
             $modelImport = "use Illuminate\Http\Request;\n\nuse App\Models\\".$modelInsertPath.";";
         
             $this->replaceInFile('use App\Http\Controllers\Controller;', 'use Krud;', $filePath);
