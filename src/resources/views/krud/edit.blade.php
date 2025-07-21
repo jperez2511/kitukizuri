@@ -95,7 +95,7 @@
                 @php $initialValues = [] @endphp
                 @foreach($campos as $c)
 
-                    @if(!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong', 'bool']))
+                    @if(!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong', 'bool', 'file64']))
                         @if(!empty($c['dependencies']))
                             @foreach($c['dependencies'] as $dependency)
                                 @if(!in_array($dependency['input'], $initialValues))
