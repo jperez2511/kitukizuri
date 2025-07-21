@@ -94,6 +94,7 @@
 
                 @php $initialValues = [] @endphp
                 @foreach($campos as $c)
+
                     @if(!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong', 'bool']))
                         @if(!empty($c['dependencies']))
                             @foreach($c['dependencies'] as $dependency)
@@ -111,6 +112,19 @@
                         @else
                             data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').val();
                         @endif
+                    @elseif($c['tipo'] == 'file64')
+                        const fileInput = document.getElementById('{{ $c['inputId'] ?? $c['inputName'] }}-element');
+                        const file = fileInput.files[0];
+
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                data['{{$c['inputName']}}'] = e.target.result; // Imagen en Base64
+                            };
+                            reader.readAsDataURL(file); // Convierte a base64
+                        } else {
+                            data['{{$c['inputName']}}'] = null; // Si no hay archivo
+                        }
                     @elseif($c['tipo'] == 'bool' && empty($c['dependencies']))
                         data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').is(':checked') ? 1 : 0;
                     @endif
