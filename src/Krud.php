@@ -526,6 +526,8 @@ class Krud extends Controller
                     $file  = $request->file($nombreCampo);
                     $file  = 'data:image/'.strtolower($file->getClientOriginalExtension()).';base64,'.base64_encode(file_get_contents($file));
                     $valor = $file;
+                } else if(!empty($valor)) {
+                    $this->model->{$nombreCampo} = $valor;
                 } else {
                     $valor = $this->model->{$nombreCampo};
                 }
@@ -539,6 +541,8 @@ class Krud extends Controller
                     }
                     $file->move($path, $filename);
                     $valor = $file;
+                } else if(!empty($valor)) {
+                    $this->model->{$nombreCampo} = $valor;
                 } else {
                     $valor = $this->model->{$nombreCampo};
                 }
