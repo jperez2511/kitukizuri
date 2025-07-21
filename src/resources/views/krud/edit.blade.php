@@ -76,10 +76,12 @@
             // Almacenando valores
             // ---------------------------------
 
-            $('#guardar').click(function (e) { 
+            $('#guardar').click(async function (e) { 
                 e.preventDefault();
                 
                 var data = {};
+                let fileInputs = [];
+
 
                 data['_token'] = '{{ csrf_token() }}';
                 data['id']     = '{{ $id }}';
@@ -92,7 +94,10 @@
                     data['{{$c['nombre']}}'] = $.urlParam('{{$c['value']}}');
                 @endforeach
 
-                @php $initialValues = [] @endphp
+                @php 
+                    $initialValues = [];
+                    $fileIndex = 0;
+                @endphp
                 @foreach($campos as $c)
 
                     @if(!in_array($c['tipo'], ['h1', 'h2', 'h3', 'h4', 'strong', 'bool', 'file64']))
@@ -113,22 +118,17 @@
                             data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').val();
                         @endif
                     @elseif($c['tipo'] == 'file64')
-                        const fileInput = document.getElementById('{{ $c['inputId'] ?? $c['inputName'] }}-element');
-                        const file = fileInput.files[0];
+                        fileInputs.push({
+                            elementId: '{{ $c['inputId'] ?? $c['inputName'] }}-element',
+                            fieldName: '{{$c['inputName']}}'
+                        });
 
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                data['{{$c['inputName']}}'] = e.target.result; // Imagen en Base64
-                            };
-                            reader.readAsDataURL(file); // Convierte a base64
-                        } else {
-                            data['{{$c['inputName']}}'] = null; // Si no hay archivo
-                        }
                     @elseif($c['tipo'] == 'bool' && empty($c['dependencies']))
                         data['{{$c['inputName']}}'] = $('#{{$c['inputId'] ?? $c['inputName']}}-element').is(':checked') ? 1 : 0;
                     @endif
                 @endforeach
+
+                data = await processFilesSequentially(fileInputs, data);
                 
                 $(this).prop('disabled', true);
                 const text = $(this).text();
@@ -245,6 +245,35 @@
 
             return amount_parts.join('.');
         }
+
+        // --------------------------------
+        // Generando imagen a base64
+        // ---------------------------------
+        async function processFilesSequentially(fileInputs, data) {
+            for (const fileInput of fileInputs) {
+                const element = document.getElementById(fileInput.elementId);
+                const file = element.files[0];
+                
+                if (file) {
+                    const base64 = await fileToBase64(file);
+                    data[fileInput.fieldName] = base64;
+                } else {
+                    data[fileInput.fieldName] = null;
+                }
+            }
+            return data;
+        }
+
+        // Tu función existente
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(e);
+                reader.readAsDataURL(file);
+            });
+        }
+
     });
     </script>    
 @endpush
