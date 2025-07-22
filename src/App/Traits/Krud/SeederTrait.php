@@ -53,33 +53,36 @@ trait SeederTrait
 			$dateTime = $this->sqlDateTime();
 			$this->checkForeignKeys();
 
-			$connection= env('DB_CONNECTION');
+			$connection = env('DB_CONNECTION');
+			$schema = '';
 
 			if ($connection === 'pgsql') {
 				DB::statement('TRUNCATE TABLE modulos RESTART IDENTITY CASCADE');
+				$schema = config('database.connections.pgsql.search_path', 'public'). '.';
+
 			} else {
 				DB::table('modulos')->truncate();
 			}
 			
 			foreach($modulos as $modulo)	{
 				// validando si existe el modulo
-				$moduloid = DB::table('modulos')
+				$moduloid = DB::table($schema.'modulos')
 					->where('ruta',$modulo['ruta'])
 					->value('moduloid');
 	
 				if(empty($moduloid)) {
-					$moduloid = DB::table('modulos')->insertGetId([
+					$moduloid = DB::table($schema.'modulos')->insertGetId([
 						'nombre' => $modulo['nombre'],
 						'ruta'   => $modulo['ruta']
 					], 'moduloid');
 				} else {
-					DB::table('modulos')
+					DB::table($schema.'modulos')
 						->where('moduloid',$moduloid)
 						->update(['nombre' => $modulo['nombre'], 'ruta' => $modulo['ruta']]);
 				} 
 	
 				// validando permisos
-				$permisosActuales = DB::table('moduloPermiso')
+				$permisosActuales = DB::table($schema.'moduloPermiso')
 					->select('modulopermisoid', 'permisoid')
 					->where('moduloid', $moduloid)
 					->get();
@@ -88,13 +91,13 @@ trait SeederTrait
 				foreach($permisosActuales as $permisoActual) {
 					if(!in_array($permisoActual->permisoid, $modulo['permisos'])) {
 						
-						DB::table('moduloPermiso')
+						DB::table($schema.'moduloPermiso')
 							->where('moduloid', $moduloid)
 							->where('permisoid', $permisoActual->permisoid)
 							->delete();
 						
 						// quitando asignación de permiso al rol
-						DB::table('rolModuloPermiso')
+						DB::table($schema.'rolModuloPermiso')
 							->where('modulopermisoid', $permisoActual->modulopermisoid)
 							->delete();
 					}
@@ -104,7 +107,7 @@ trait SeederTrait
 				$actuales = $permisosActuales->pluck('permisoid')->toArray();
 				foreach($modulo['permisos'] as  $permiso) {
 					if(!in_array($permiso, $actuales)) {
-						DB::table('moduloPermiso')->insert([
+						DB::table($schema.'moduloPermiso')->insert([
 							'moduloid' => $moduloid,
 							'permisoid' => $permiso
 						]);
@@ -155,7 +158,7 @@ trait SeederTrait
 				'etiqueta'        => $item['etiqueta'] ?? $modulo->nombre,
 				'catalogo'        => $item['catalogo'],
 				'show'            => $item['show'],
-			]);
+			], 'menuid');
 
 			if(!empty($item['menu'])){
 				$this->saveMenuData($item['menu'], $menuID);
