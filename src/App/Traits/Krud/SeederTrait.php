@@ -71,7 +71,7 @@ trait SeederTrait
 					$moduloid = DB::table('modulos')->insertGetId([
 						'nombre' => $modulo['nombre'],
 						'ruta'   => $modulo['ruta']
-					]);
+					], 'moduloid');
 				} else {
 					DB::table('modulos')
 						->where('moduloid',$moduloid)
