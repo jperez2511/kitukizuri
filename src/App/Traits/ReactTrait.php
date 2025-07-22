@@ -4,7 +4,7 @@ namespace Icebearsoft\Kitukizuri\App\Traits;
 
 use Illuminate\Filesystem\Filesystem;
 
-trait VueTrait
+trait ReactTrait
 {
     protected function configReact()
     {
