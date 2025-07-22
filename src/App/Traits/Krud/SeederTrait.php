@@ -19,6 +19,19 @@ trait SeederTrait
 			}
 		} else if(!empty(env('TENANTS_CONNECTION'))) {
 			DB::statement('SET FOREIGN_KEY_CHECKS='.$value);
+		} else if ($connection === 'pgsql') {
+			$schema = config('database.connections.pgsql.search_path', 'public');
+			$tables = DB::select("SELECT tablename FROM pg_tables WHERE schemaname = ?", [$schema]);
+
+			foreach ($tables as $table) {
+				$tableName = $table->tablename;
+
+				if ($value === 0) {
+					DB::statement("ALTER TABLE \"$schema\".\"$tableName\" DISABLE TRIGGER ALL");
+				} else {
+					DB::statement("ALTER TABLE \"$schema\".\"$tableName\" ENABLE TRIGGER ALL");
+				}
+			}
 		}
 	}
 
