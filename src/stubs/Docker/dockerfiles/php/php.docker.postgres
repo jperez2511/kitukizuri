@@ -1,0 +1,21 @@
+FROM php:8-fpm
+
+RUN apt-get update \
+    && apt-get install -y ca-certificates gnupg libxml2-dev libmagickwand-dev --no-install-recommends libmcrypt-dev mcrypt zlib1g-dev libzip-dev libpng-dev libssl-dev libldap2-dev libcurl4-openssl-dev pkg-config \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+    && docker-php-ext-install ldap pdo_pgsql pgsql zip gd bcmath soap \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-enable soap
+
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+ADD ./dockerfiles/php/limits.conf /usr/local/etc/php-fpm.d/limits.conf
+
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_24.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install -y nodejs
+
+WORKDIR /var/www

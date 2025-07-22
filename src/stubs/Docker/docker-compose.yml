@@ -68,10 +68,10 @@ services:
         ports:
             - "27017:27017"
 volumes:
-    #start mysql vol
+    #start mysql_vol
     mysql-data:
-    #end mysql vol
-    #start postgres vol
+    #end mysql_vol
+    #start postgres_vol
     postgres-data:
-    #end postgres vol
+    #end postgres_vol
     mongo-data:

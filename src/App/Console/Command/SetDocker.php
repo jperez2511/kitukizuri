@@ -65,11 +65,15 @@ class SetDocker extends Command
         if($databaseEngine === 'MySQL') {
             $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mysql', base_path('/dockerfiles/mysql'));
             $this->removeDockerBlock(base_path('docker-compose.yml'), 'postgres');
-            $this->removeDockerBlock(base_path('docker-compose.yml'), 'postgres vol');
+            $this->removeDockerBlock(base_path('docker-compose.yml'), 'postgres_vol');
+            \unlink(base_path('/dockerfiles/php/php.docker.postgres'));
+            \rename(base_path('/dockerfiles/php/php.docker.mysql'), base_path('/dockerfiles/php/php.docker'));
         } else if($databaseEngine === 'PostgreSQL') {
             $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/postgresql', base_path('/dockerfiles/postgresql'));
             $this->removeDockerBlock(base_path('docker-compose.yml'), 'mysql');
-            $this->removeDockerBlock(base_path('docker-compose.yml'), 'mysql vol');
+            $this->removeDockerBlock(base_path('docker-compose.yml'), 'mysql_vol');
+            \unlink(base_path('/dockerfiles/php/php.docker.mysql'));
+            \rename(base_path('/dockerfiles/php/php.docker.postgres'), base_path('/dockerfiles/php/php.docker'));
         }
 
         $this->info('Archivos configurados correctamente!');
