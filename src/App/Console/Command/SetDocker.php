@@ -56,8 +56,8 @@ class SetDocker extends Command
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/nginx', base_path('/dockerfiles/nginx'));
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mongo', base_path('/dockerfiles/mongo'));
         copy(__DIR__.'/../../../stubs/Docker/docker-compose.yml', base_path('docker-compose.yml'));
-        
-        $databaseEngine = $this->choice([
+
+        $databaseEngine = $this->choice('¿Qué base de datos se va a utilizar?', [
             'MySQL',
             'PostgreSQL',
         ]);
