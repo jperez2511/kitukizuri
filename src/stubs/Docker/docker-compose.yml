@@ -9,8 +9,6 @@ services:
         restart: always
         ports:
             - "80:80"
-        links:
-            - php
     php:
         build:
             context: ./
@@ -18,8 +16,6 @@ services:
         volumes:
             - ./:/var/www
         restart: always
-        links:
-            - mysql
         environment:
             - "DB_PORT=3306"
             - "DB_HOST=mysql"
@@ -68,10 +64,10 @@ services:
         ports:
             - "27017:27017"
 volumes:
-    #start mysql_vol
+    #start vol_ms
     mysql-data:
-    #end mysql_vol
-    #start postgres_vol
+    #end vol_ms
+    #start vol_pg
     postgres-data:
-    #end postgres_vol
+    #end vol_pg
     mongo-data:
