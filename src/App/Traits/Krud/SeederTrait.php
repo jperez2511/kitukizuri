@@ -57,9 +57,10 @@ trait SeederTrait
 			$schema = '';
 
 			if ($connection === 'pgsql') {
-				$schema = config('database.connections.pgsql.search_path', 'public'). '.';
+				$schema = config('database.connections.pgsql.search_path', 'public');
 				DB::statement('SET search_path TO '.$schema.', public');
 				DB::statement('TRUNCATE TABLE modulos RESTART IDENTITY CASCADE');
+				$schema = $schema.'.';
 			} else {
 				DB::table('modulos')->truncate();
 			}
