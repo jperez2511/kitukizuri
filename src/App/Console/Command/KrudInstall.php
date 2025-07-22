@@ -15,6 +15,7 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     VueTrait,
     LogTrait,
     LdapTrait,
+    ReactTrait,
     MongoTrait,
     UtilityTrait,
     MultiTenantTrait
@@ -24,7 +25,7 @@ use function Laravel\Prompts\confirm;
 
 class KrudInstall extends Command
 {
-    use UtilityTrait, LdapTrait, VueTrait, MongoTrait, LogTrait, TsTrait, MultiTenantTrait;
+    use UtilityTrait, LdapTrait, VueTrait, ReactTrait, MongoTrait, LogTrait, TsTrait, MultiTenantTrait;
 
     /**
      * The name and signature of the console command.
@@ -61,6 +62,7 @@ class KrudInstall extends Command
 
         $ldapLogin   = confirm('¿Login con LDAP?');
         $vueConfig   = confirm('¿Configurar Vue?');
+        $reactConfig = confirm('¿Configurar React?');
 
         $mongoConfig = confirm('¿Configurar MongoDB?');
         $logConfig   = confirm('¿Guardar Logs en base de datos?');
@@ -82,6 +84,11 @@ class KrudInstall extends Command
         if($vueConfig == true) {
             // instalación de Vue en proyecto
             $this->configVue();
+        }
+
+        if($reactConfig == true) {
+            // instalación de React en proyecto
+            $this->configReact();
         }
 
         if($mongoConfig == true) {
