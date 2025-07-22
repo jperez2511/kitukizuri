@@ -13,6 +13,11 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
 
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\text;
+use function Laravel\Prompts\info;
+
 class SetDocker extends Command
 {
     use UtilityTrait;
@@ -50,14 +55,14 @@ class SetDocker extends Command
     {
 
         // 1. preguntando que base de datos se va a utilizar
-        $this->info('Configurando Docker...');
+        info('Configurando Docker...');
 
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/php', base_path('/dockerfiles/php'));
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/nginx', base_path('/dockerfiles/nginx'));
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mongo', base_path('/dockerfiles/mongo'));
         copy(__DIR__.'/../../../stubs/Docker/docker-compose.yml', base_path('docker-compose.yml'));
 
-        $databaseEngine = $this->choice('¿Qué base de datos se va a utilizar?', [
+        $databaseEngine = select('¿Qué base de datos se va a utilizar?', [
             'MySQL',
             'PostgreSQL',
         ]);
@@ -76,12 +81,12 @@ class SetDocker extends Command
             \rename(base_path('/dockerfiles/php/php.docker.postgres'), base_path('/dockerfiles/php/php.docker'));
         }
 
-        $this->info('Archivos configurados correctamente!');
+        info('Archivos configurados correctamente!');
 
-        if($this->confirm('¿Configurar base de datos?')) {           
+        if(confirm('¿Configurar base de datos?')) {           
 
-            $database = $this->ask('Nombre: ');
-            $pass = $this->ask('Contraseña: ');
+            $database = text('Nombre: ');
+            $pass = text('Contraseña: ');
 
             // Update docker-compose.yml
             if($databaseEngine === 'MySQL') {
@@ -123,25 +128,25 @@ class SetDocker extends Command
                 $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env'));
             }
             
-            $this->info('La base de datos se ha configurado correctamente!');
+            info('La base de datos se ha configurado correctamente!');
         }
 
-        if($this->confirm('¿Configurar puertos?')) {
-            $http  = $this->ask('HTTP: ');
+        if(confirm('¿Configurar puertos?')) {
+            $http  = text('HTTP: ');
             $this->replaceInFile('"80:80"', '"'.$http.':80"', base_path('docker-compose.yml'));
 
             if($databaseEngine === 'MySQL') {
-                $mysql = $this->ask('MySQL: ');
+                $mysql = text('MySQL: ');
                 $this->replaceInFile('"3306:3306"', '"'.$mysql.':3306"', base_path('docker-compose.yml'));
             } else {
-                $mysql = $this->ask('PostgreSQL: ');
+                $mysql = text('PostgreSQL: ');
                 $this->replaceInFile('"5432:5432"', '"'.$mysql.':5432"', base_path('docker-compose.yml'));
             }
 
-            $mongo = $this->ask('Mongo: ');
+            $mongo = text('Mongo: ');
             $this->replaceInFile('"27017:27017"', '"'.$mongo.':27017"', base_path('docker-compose.yml'));
             
-            $this->info('Los puertos se han configurado correctamente!');
+            info('Los puertos se han configurado correctamente!');
         }
     }
 }
