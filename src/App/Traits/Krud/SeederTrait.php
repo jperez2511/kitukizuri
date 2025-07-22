@@ -9,9 +9,12 @@ trait SeederTrait
 	private $menu = [];
 
 	protected function checkForeignKeys($value = 0) {
-		if(!empty(env('DB_CONNECTION')) && env('DB_CONNECTION') === 'mysql') {
+
+		$connection = env('DB_CONNECTION', 'mysql');
+
+		if(!empty($connection) && $connection === 'mysql') {
 			DB::statement('SET FOREIGN_KEY_CHECKS='.$value);
-		} else if(env('DB_CONNECTION') === 'sqlite') {
+		} else if($connection === 'sqlite') {
 			if ($value === 1) {
 				DB::statement('PRAGMA foreign_keys = ON');	
 			} else {
