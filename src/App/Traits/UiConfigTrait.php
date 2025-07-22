@@ -28,6 +28,7 @@ trait UiConfigTrait
         ];
 
         $this->runCommands(['npm install '.implode(' ',$components).' --save'], base_path());
+        $this->runCommands(['npm install -D sass-embedded'], base_path());
         $this->runCommands(['npm install sass @vitejs/plugin-legacy --save-dev'], base_path());
 
         // configurando SASS
