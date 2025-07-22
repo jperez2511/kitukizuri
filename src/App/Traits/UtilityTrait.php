@@ -96,4 +96,24 @@ trait UtilityTrait
 
         return isset($packages['require'][$package]);
     }
+
+    protected function removeDockerBlock(string $filePath, string $blockName): bool
+    {
+        if (!file_exists($filePath)) {
+            throw new Exception("El archivo no existe: $filePath");
+        }
+
+        $content = file_get_contents($filePath);
+
+        $pattern = "/#start\s+$blockName(.*?)#end\s+$blockName/s";
+
+        if (preg_match($pattern, $content)) {
+            $newContent = preg_replace($pattern, '', $content);
+            file_put_contents($filePath, $newContent);
+            return true;
+        }
+
+        return false; // No encontró el bloque
+    }
+
 }

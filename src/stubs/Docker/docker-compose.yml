@@ -25,6 +25,7 @@ services:
             - "DB_HOST=mysql"
             - "REDIS_PORT=6379"
             - "REDIS_HOST=cache"
+    #start mysql
     mysql:
         build:
             context: ./
@@ -37,6 +38,23 @@ services:
             - "MYSQL_DATABASE=DataBaseName"
         ports:
             - "3306:3306"
+    #end mysql
+    
+    #start potgres
+    porgres:
+        build:
+            context: ./
+            dockerfile: dockerfiles/postgresql/postgresql.docker
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        restart: always
+        environment:
+            - "POSTGRES_USER=root"
+            - "POSTGRES_PASSWORD=rootPassword"
+            - "POSTGRES_DB=DataBaseName"
+        ports:
+            - "5432:5432"
+    #end postgres
     mongo:
         build:
             context: ./
@@ -50,5 +68,10 @@ services:
         ports:
             - "27017:27017"
 volumes:
+    #start mysql vol
     mysql-data:
+    #end mysql vol
+    #start postgres vol
+    postgres-data:
+    #end postgres vol
     mongo-data:
