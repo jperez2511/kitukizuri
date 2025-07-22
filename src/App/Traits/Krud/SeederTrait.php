@@ -52,8 +52,12 @@ trait SeederTrait
         try {
 			$dateTime = $this->sqlDateTime();
 			$this->checkForeignKeys();
-
-			DB::table('modulos')->truncate();
+			
+			if ($connection === 'pgsql') {
+				DB::statement('TRUNCATE TABLE modulos RESTART IDENTITY CASCADE');
+			} else {
+				DB::table('modulos')->truncate();
+			}
 			
 			foreach($modulos as $modulo)	{
 				// validando si existe el modulo
