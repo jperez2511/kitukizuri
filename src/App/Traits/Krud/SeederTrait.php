@@ -54,9 +54,11 @@ trait SeederTrait
 			$this->checkForeignKeys();
 
 			$connection= env('DB_CONNECTION');
+			$schema = '';
 
 			if ($connection === 'pgsql') {
-				DB::statement('SET search_path TO '.config('database.connections.pgsql.schema', 'app').', public');
+				$schema = config('database.connections.pgsql.search_path', 'public'). '.';
+				DB::statement('SET search_path TO '.$schema.', public');
 				DB::statement('TRUNCATE TABLE modulos RESTART IDENTITY CASCADE');
 			} else {
 				DB::table('modulos')->truncate();
@@ -114,7 +116,7 @@ trait SeederTrait
 			}
 	
 			DB::statement('UPDATE modulos SET created_at='.$dateTime.', updated_at='.$dateTime);
-			DB::statement('UPDATE moduloPermiso SET created_at='.$dateTime.', updated_at='.$dateTime);
+			DB::statement('UPDATE '.$schema.'"moduloPermiso" SET created_at='.$dateTime.', updated_at='.$dateTime);
 			$this->checkForeignKeys(1);
 		} catch (\Exception $e) {
 			dd($e->getMessage());
