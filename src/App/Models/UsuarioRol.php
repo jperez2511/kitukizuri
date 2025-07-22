@@ -15,7 +15,7 @@ class UsuarioRol extends Model
 
     public static function getPermisosAsignados($usuarioId, $moduloId, $permisoId = null)
     {
-        $query =  DB::table('usuarioRol as uR')
+        $query =  DB::table('usuarioRol', 'uR')
             ->select('p.nombreLaravel')
             ->leftJoin('roles as r', 'r.rolid', 'uR.rolid')
             ->leftJoin('rolModuloPermiso as rMP', 'r.rolid', 'rMP.rolid')
@@ -34,7 +34,7 @@ class UsuarioRol extends Model
 
     public static function getModuloPermisoID($usuarioId, $nombreLaravel) 
     {
-        return DB::table('usuarioRol as uR')
+        return DB::table('usuarioRol', 'uR')
             ->select('mP.modulopermisoid')
             ->leftJoin('roles as r', 'r.rolid', 'uR.rolid')
             ->leftJoin('rolModuloPermiso as rMP', 'r.rolid', 'rMP.rolid')
