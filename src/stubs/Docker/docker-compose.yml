@@ -16,11 +16,7 @@ services:
         volumes:
             - ./:/var/www
         restart: always
-        environment:
-            - "DB_PORT=3306"
-            - "DB_HOST=mysql"
-            - "REDIS_PORT=6379"
-            - "REDIS_HOST=cache"
+    
     #start mysql
     mysql:
         build:
@@ -36,8 +32,8 @@ services:
             - "3306:3306"
     #end mysql
     
-    #start potgres
-    porgres:
+    #start postgres
+    postgres:
         build:
             context: ./
             dockerfile: dockerfiles/postgresql/postgresql.docker
