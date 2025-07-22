@@ -24,7 +24,7 @@ trait SeederTrait
 
 	protected function sqlDateTime() {
 		$connectionName = env('DB_CONNECTION');
-		if($connectionName === 'mysql' || !empty(env('TENANTS_CONNECTION'))) {
+		if($connectionName === 'pgsql' || $connectionName === 'mysql' || !empty(env('TENANTS_CONNECTION'))) {
 			return 'NOW()';
 		} else if($connectionName === 'sqlite') {
 			return 'datetime(\'now\')';
