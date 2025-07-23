@@ -552,7 +552,7 @@ class Krud extends Controller
             } else if ($campo['tipo'] == 'hidden') {
                 $this->model->{$nombreCampo} = $valor == 'userid' ? Auth::id() : $valor;
             } else if ($campo['tipo'] == 'select' || $campo['tipo'] == 'select2' || $campo['tipo'] == 'comobox') {
-                if($campo['htmlAttr']->has('multiple')) {
+                if(!empty($campo['htmlAttr']) && $campo['htmlAttr']->has('multiple')) {
                     // validando format
                     if($campo['format'] == 'json') {
                         $valor = array_map('intval', $valor);
@@ -593,9 +593,10 @@ class Krud extends Controller
                             continue;
                         }
                     }
+                } else {
+                    $this->model->{$nombreCampo} = $valor;
                 }
             }
-            $this->model->{$nombreCampo} = $valor;
         }
 
         // validando campos sin valor 
