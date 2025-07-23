@@ -597,6 +597,7 @@ class Krud extends Controller
                     $this->model->{$nombreCampo} = $valor;
                 }
             }
+            $this->model->{$nombreCampo} = $valor;
         }
 
         // validando campos sin valor 
