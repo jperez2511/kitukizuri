@@ -293,14 +293,19 @@ trait QueryBuilderTrait
         //consultando al modelo los campos a mostrar en la tabla
         $data = $this->queryBuilder->select($this->getSelect($campos));
         $drivers = ['mysql', 'sqlite'];
+        $driver = $data->getConnection()->getDriverName();
 
-        if (in_array($data->getConnection()->getDriverName(), $drivers)) {
+        if (in_array($driver, $drivers)) {
             // Obteniendo el id de la tabla
             $data->addSelect($this->tableName.'.'.$this->keyName);
             // obteniendo la cantidad total de elementos en la tabla
             $dataQuery = clone $data;
             $count     = DB::table(DB::raw("({$dataQuery->toRawSql()}) as subquery"))->count();
-        } else {
+        } else  {
+            // PostgreSQL: verificar si ya está incluido el campo clave
+            if (!in_array($this->keyName, $data->getQuery()->columns ?? [])) {
+                $data->addSelect($this->keyName);
+            }
             $count = $data->count();
         }
 

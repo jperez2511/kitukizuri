@@ -117,7 +117,14 @@ trait SeederTrait
 			}
 	
 			DB::statement('UPDATE modulos SET created_at='.$dateTime.', updated_at='.$dateTime);
-			DB::statement('UPDATE '.$schema.'"moduloPermiso" SET created_at='.$dateTime.', updated_at='.$dateTime);
+
+			if ($connection === 'pgsql') {
+				// Actualizando las fechas de creación y actualización de la tabla moduloPermiso
+				DB::statement('UPDATE '.$schema.'"moduloPermiso" SET created_at='.$dateTime.', updated_at='.$dateTime);
+			} else {
+				DB::table('moduloPermiso')->update(['created_at' => now(), 'updated_at' => now()]);
+			}
+			
 			$this->checkForeignKeys(1);
 		} catch (\Exception $e) {
 			dd($e->getMessage());
