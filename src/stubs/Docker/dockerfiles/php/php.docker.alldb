@@ -1,0 +1,61 @@
+# start common #
+FROM php:8.2-fpm AS base
+
+# Variables comunes
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_HOME=/composer
+
+# Paquetes base (comunes)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git curl unzip zip libzip-dev libssl-dev nano \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install zip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Extensiones PHP comunes
+RUN docker-php-ext-install pcntl
+
+# MongoDB (común a todos)
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb
+
+# Composer (común)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Node.js (opcional común, si todos lo usan)
+# Si prefieres NO instalarlo globalmente aquí, muévelo a cada bloque DB.
+RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www
+# end common #
+
+# start mysql #
+FROM base AS mysql
+
+# Dependencias específicas de MySQL
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+# end mysql #
+
+# start postgres #
+FROM base AS postgres
+
+# Dependencias específicas de PostgreSQL
+RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+# end postgres #
+
+# start sqlserver #
+FROM base AS sqlserver
+
+# Repos y drivers de SQL Server
+RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 unixodbc-dev \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 \
+    && echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> /etc/profile \
+    && pecl install sqlsrv pdo_sqlsrv \
+    && docker-php-ext-enable sqlsrv pdo_sqlsrv \
+    && rm -rf /var/lib/apt/lists/*
+# end sqlserver #

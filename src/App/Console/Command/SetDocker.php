@@ -62,23 +62,48 @@ class SetDocker extends Command
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mongo', base_path('/dockerfiles/mongo'));
         copy(__DIR__.'/../../../stubs/Docker/docker-compose.yml', base_path('docker-compose.yml'));
 
-        $databaseEngine = select('¿Qué base de datos se va a utilizar?', [
+        $databaseEngine = select('¿Que gestor de base de datos se va a utilizar?', [
             'MySQL',
             'PostgreSQL',
+            'SQLServer'
         ]);
 
-        if($databaseEngine === 'MySQL') {
-            $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mysql', base_path('/dockerfiles/mysql'));
-            $this->removeDockerBlock(base_path('docker-compose.yml'), 'postgres');
-            $this->removeDockerBlock(base_path('docker-compose.yml'), 'vol_pg');
-            \unlink(base_path('/dockerfiles/php/php.docker.postgres'));
-            \rename(base_path('/dockerfiles/php/php.docker.mysql'), base_path('/dockerfiles/php/php.docker'));
-        } else if($databaseEngine === 'PostgreSQL') {
-            $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/postgresql', base_path('/dockerfiles/postgresql'));
-            $this->removeDockerBlock(base_path('docker-compose.yml'), 'mysql');
-            $this->removeDockerBlock(base_path('docker-compose.yml'), 'vol_ms');
-            \unlink(base_path('/dockerfiles/php/php.docker.mysql'));
-            \rename(base_path('/dockerfiles/php/php.docker.postgres'), base_path('/dockerfiles/php/php.docker'));
+        $databaseFiles = [
+            'MySQL' => [
+                __DIR__.'/../../../stubs/Docker/dockerfiles/mysql',
+                base_path('/dockerfiles/mysql'),
+                'mysql',
+                'vol_ms',
+                base_path('/dockerfiles/php/php.docker.mysql'),
+            ],
+            'PostgreSQL' => [
+                __DIR__.'/../../../stubs/Docker/dockerfiles/postgresql',
+                base_path('/dockerfiles/postgresql'),
+                'postgres',
+                'vol_pg',
+                base_path('/dockerfiles/php/php.docker.postgres'),
+            ],
+            'SQLServer' => [
+                __DIR__.'/../../../stubs/Docker/dockerfiles/sqlserver',
+                base_path('/dockerfiles/sqlserver'),
+                'sqlserver',
+                'vol_sql',
+                base_path('/dockerfiles/php/php.docker.sqlserver'),
+            ]
+        ];
+
+        // 2. copiando los archivos de configuración de docker
+        $this->copyDirectory($databaseEngineFiles[$databaseEngine][0], $databaseEngineFiles[$databaseEngine][1]);
+        $this->removeDockerBlock(base_path('docker-compose.yml'), $databaseEngineFiles[$databaseEngine][2]);
+        $this->removeDockerBlock(base_path('docker-compose.yml'), $databaseEngineFiles[$databaseEngine][3]);
+        \rename($databaseEngineFiles[$databaseEngine][4], base_path('/dockerfiles/php/php.docker'));
+
+        // 3. eliminando archivos innecesarios
+        foreach ($dataFiles as $key => $value) {
+            if($key == $databaseEngine) {
+                continue;
+            }
+            \unlink($value[4]);
         }
 
         info('Archivos configurados correctamente!');

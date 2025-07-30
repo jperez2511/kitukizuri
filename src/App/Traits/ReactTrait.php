@@ -16,29 +16,8 @@ trait ReactTrait
 
     protected function addReactConfig()
     {
-        $filePath    = base_path('resources/js/app.js');
-        $fileContent = file_get_contents($filePath);
-
-        // Verifica si las configuraciones LDAP ya existen para evitar duplicados
-        if (!str_contains($fileContent, 'import react from \'@vitejs/plugin-react\';')) {
-            $vueConfig = "\n" .
-                "import { createApp } from 'vue';\n" .
-                "\n" .
-                "const app  = createApp({});\n" .
-                "\n" .
-                "// app.component('tag-component', ComponentName);\n" .
-                "\n" .
-                "// don't remove this line\n" .
-                "\n" .
-                "app.mount(\"#vue\");\n";
-
-            // Agrega las configuraciones al final del archivo app.js
-            file_put_contents($filePath, $fileContent . $vueConfig);
-
-            $this->info('La configuración para Vue fue agregada exitosamente');
-        } else {
-            $this->info('Las configuración para Vue ya existen en el app.js');
-        }
+       copy(__DIR__ . '/../../stubs/resources/js/app.jsx', base_path('resources/js/app.jsx'));
+        $this->info('La configuración para React fue agregada exitosamente');
     }
 }
 

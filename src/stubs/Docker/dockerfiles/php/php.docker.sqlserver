@@ -1,0 +1,32 @@
+FROM php:8-fpm
+
+RUN echo 'alias migrate="php artisan migrate"' >> ~/.bashrc
+RUN echo 'alias rollback="php artisan migrate:rollback"' >> ~/.bashrc
+RUN echo 'alias seed="php artisan db:seed"' >> ~/.bashrc
+
+RUN apt-get update \ 
+    && apt-get install -y libmcrypt-dev mariadb-client mcrypt git zlib1g-dev libzip-dev libpng-dev libldap2-dev libcurl4-openssl-dev pkg-config libssl-dev \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+    && docker-php-ext-install pdo_mysql zip gd ldap bcmath
+
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
+RUN apt-get update && apt-get install -my wget gnupg
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y msodbcsql17 \
+    && ACCEPT_EULA=Y apt-get install -y mssql-tools
+
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+
+RUN apt-get install -y unixodbc-dev libgssapi-krb5-2
+
+RUN docker-php-ext-install pdo \
+    && pecl install sqlsrv pdo_sqlsrv xdebug \
+    && docker-php-ext-enable sqlsrv pdo_sqlsrv xdebug
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR /var/www
