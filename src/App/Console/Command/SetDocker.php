@@ -57,16 +57,20 @@ class SetDocker extends Command
         // 1. preguntando que base de datos se va a utilizar
         info('Configurando Docker...');
 
+        $baseDockerCompose = base_path('docker-compose.yml');
+
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/php', base_path('/dockerfiles/php'));
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/nginx', base_path('/dockerfiles/nginx'));
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mongo', base_path('/dockerfiles/mongo'));
-        copy(__DIR__.'/../../../stubs/Docker/docker-compose.yml', base_path('docker-compose.yml'));
+        copy(__DIR__.'/../../../stubs/Docker/docker-compose.yml', $baseDockerCompose);
 
         $databaseEngine = select('¿Que gestor de base de datos se va a utilizar?', [
             'MySQL',
             'PostgreSQL',
             'SQLServer'
         ]);
+
+        
 
         $databaseFiles = [
             'MySQL' => [
@@ -75,6 +79,17 @@ class SetDocker extends Command
                 'mysql',
                 'vol_ms',
                 base_path('/dockerfiles/php/php.docker.mysql'),
+                [
+                    '"MYSQL_DATABASE=DataBaseName"',
+                    '"MYSQL_DATABASE=ReplaceDataBaseName"',
+                    $baseDockerCompose
+                ],
+                [
+                    '"MYSQL_ROOT_PASSWORD=rootPassword"',
+                    '"MYSQL_ROOT_PASSWORD=ReplaceRootPassword"',
+                    $baseDockerCompose
+                ],
+                'DB_HOST=mysql'
             ],
             'PostgreSQL' => [
                 __DIR__.'/../../../stubs/Docker/dockerfiles/postgresql',
@@ -82,6 +97,20 @@ class SetDocker extends Command
                 'postgres',
                 'vol_pg',
                 base_path('/dockerfiles/php/php.docker.postgres'),
+                [
+                    '"POSTGRES_DB=DataBaseName"',
+                    '"POSTGRES_DB=ReplaceDataBaseName"',
+                    $baseDockerCompose
+                ],
+                [
+                    '"POSTGRES_PASSWORD=rootPassword"',
+                    '"POSTGRES_PASSWORD=ReplaceRootPassword"',
+                    $baseDockerCompose
+                ],
+                'DB_HOST=pgsql',
+                [
+                    '"5432:5432"', '"replacePort:5432"', $baseDockerCompose
+                ]
             ],
             'SQLServer' => [
                 __DIR__.'/../../../stubs/Docker/dockerfiles/sqlserver',
@@ -89,13 +118,24 @@ class SetDocker extends Command
                 'sqlserver',
                 'vol_sql',
                 base_path('/dockerfiles/php/php.docker.sqlserver'),
+                [
+                    '"MSSQL_DATABASE=DataBaseName"',
+                    '"MSSQL_DATABASE=ReplaceDataBaseName"',
+                    $baseDockerCompose
+                ],
+                [
+                    '"SA_PASSWORD=rootPassword"',
+                    '"SA_PASSWORD=ReplaceRootPassword"',
+                    $baseDockerCompose
+                ],
+                'DB_HOST=sqlsrv'
             ]
         ];
 
         // 2. copiando los archivos de configuración de docker
         $this->copyDirectory($databaseFiles[$databaseEngine][0], $databaseFiles[$databaseEngine][1]);
-        $this->removeDockerBlock(base_path('docker-compose.yml'), $databaseFiles[$databaseEngine][2]);
-        $this->removeDockerBlock(base_path('docker-compose.yml'), $databaseFiles[$databaseEngine][3]);
+        $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$databaseEngine][2]);
+        $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$databaseEngine][3]);
         \rename($databaseFiles[$databaseEngine][4], base_path('/dockerfiles/php/php.docker'));
 
         // 3. eliminando archivos innecesarios
@@ -113,17 +153,13 @@ class SetDocker extends Command
             $database = text('Nombre: ');
             $pass = text('Contraseña: ');
 
+            $databaseFiles[$databaseEngine][5][1] = str_replace('ReplaceDataBaseName', $database, $databaseFiles[$databaseEngine][5][1]);
+            $databaseFiles[$databaseEngine][6][1] = str_replace('ReplaceRootPassword', $database, $databaseFiles[$databaseEngine][6][1]);
+
             // Update docker-compose.yml
-            if($databaseEngine === 'MySQL') {
-                $this->replaceInFile('"MYSQL_DATABASE=DataBaseName"', '"MYSQL_DATABASE='.$database.'"', base_path('docker-compose.yml'));
-                $this->replaceInFile('"MYSQL_ROOT_PASSWORD=rootPassword"', '"MYSQL_ROOT_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
-            } else if($databaseEngine === 'PostgreSQL') {
-                $this->replaceInFile('"POSTGRES_DB=DataBaseName"', '"POSTGRES_DB='.$database.'"', base_path('docker-compose.yml'));
-                $this->replaceInFile('"POSTGRES_PASSWORD=rootPassword"', '"POSTGRES_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
-            } else if ($databaseEngine === 'SQLServer') {
-                $this->replaceInFile('"MSSQL_DATABASE=DataBaseName"', '"MSSQL_DATABASE='.$database.'"', base_path('docker-compose.yml'));
-                $this->replaceInFile('"MSSQL_SA_PASSWORD=rootPassword"', '"MSSQL_SA_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
-            }
+            $this->replaceInFile(...$databaseFiles[$databaseEngine][5]);
+            $this->replaceInFile(...$databaseFiles[$databaseEngine][6]);
+
 
             $this->replaceInFile('"MONGO_INITDB_ROOT_PASSWORD=rootPassword"', '"MONGO_INITDB_ROOT_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
             $this->replaceInFile('"MONGO_ROOT_PASSWORD=rootPassword"', '"MONGO_ROOT_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
@@ -131,29 +167,14 @@ class SetDocker extends Command
             // Update .env y .env.example
             if(file_exists(base_path('.env.example'))) {
 
-                if($databaseEngine === 'MySQL') {
-                    $this->replaceInFile('DB_CONNECTION=mysql', 'DB_CONNECTION=mysql', base_path('.env.example'));
-                    $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=mysql', base_path('.env.example'));
-                } else if($databaseEngine === 'PostgreSQL') {
-                    $this->replaceInFile('DB_CONNECTION=pgsql', 'DB_CONNECTION=pgsql', base_path('.env.example'));
-                    $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=pgsql', base_path('.env.example'));
-                } else if($databaseEngine === 'SQLServer') {
-                    $this->replaceInFile('DB_CONNECTION=sqlsrv', 'DB_CONNECTION=sqlsrv', base_path('.env.example'));
-                    $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=sqlsrv', base_path('.env.example'));
-                }
+                $this->replaceInFile('DB_HOST=127.0.0.1', $databaseFiles[$databaseEngine][7], base_path('.env.example'));
 
                 $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env.example'));
                 $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env.example'));
             }
 
             if(file_exists(base_path('.env'))) {
-                if($databaseEngine === 'MySQL') {
-                    $this->replaceInFile('DB_CONNECTION=mysql', 'DB_CONNECTION=mysql', base_path('.env'));
-                    $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=mysql', base_path('.env'));
-                } else {
-                    $this->replaceInFile('DB_CONNECTION=pgsql', 'DB_CONNECTION=pgsql', base_path('.env'));
-                    $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=pgsql', base_path('.env'));
-                }
+                $this->replaceInFile('DB_HOST=127.0.0.1', $databaseFiles[$databaseEngine][7], base_path('.env'));
 
                 $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env'));
                 $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env'));
@@ -166,13 +187,9 @@ class SetDocker extends Command
             $http  = text('HTTP: ');
             $this->replaceInFile('"80:80"', '"'.$http.':80"', base_path('docker-compose.yml'));
 
-            if($databaseEngine === 'MySQL') {
-                $mysql = text('MySQL: ');
-                $this->replaceInFile('"3306:3306"', '"'.$mysql.':3306"', base_path('docker-compose.yml'));
-            } else {
-                $mysql = text('PostgreSQL: ');
-                $this->replaceInFile('"5432:5432"', '"'.$mysql.':5432"', base_path('docker-compose.yml'));
-            }
+            $portDB = text($databaseEngine.': ');
+            
+            $this->replaceInFile('"3306:3306"', '"'.$portDB.':3306"', base_path('docker-compose.yml'));
 
             $mongo = text('Mongo: ');
             $this->replaceInFile('"27017:27017"', '"'.$mongo.':27017"', base_path('docker-compose.yml'));
