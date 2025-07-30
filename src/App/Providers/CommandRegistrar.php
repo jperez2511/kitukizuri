@@ -2,26 +2,24 @@
 
 namespace Icebearsoft\Kitukizuri\App\Providers;
 
+use Illuminate\Console\Command;
 use Illuminate\Support\ServiceProvider;
 
 Class CommandRegistrar extends ServiceProvider
 {
     public function boot()
     {
+        $directory = __DIR__ . '/../../App/Console/Command';
+        $commands  = collect(glob($directory . '/*.php'))
+            ->map(function ($file) {
+                $class = 'Icebearsoft\Kitukizuri\App\Console\Command\\' . basename($file, '.php');
+                return \class_exists($class) && \is_subclass_of($class, Command::class) ? $class : null;
+            })->filter()
+            ->values()
+            ->all();
+
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                \Icebearsoft\Kitukizuri\App\Console\Command\MakeModule::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\KrudInstall::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\VueInstall::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\TsInstall::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\LogInstall::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\DefaultData::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\SetDocker::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\LibsInstall::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\UiConfig::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\MigrateTTS::class,
-                \Icebearsoft\Kitukizuri\App\Console\Command\SeedTTS::class,
-            ]);
+            $this->commands($commands);
         }
     }
 }
