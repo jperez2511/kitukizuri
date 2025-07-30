@@ -47,6 +47,22 @@ services:
         ports:
             - "5432:5432"
     #end postgres
+
+    #start sqlserver
+    sqlserver:
+        build:
+            context: ./
+            dockerfile: dockerfiles/sqlserver/sqlserver.docker
+        volumes:
+            - sqlserver-data:/var/opt/mssql
+        restart: always
+        environment:
+            - "ACCEPT_EULA=Y"
+            - "SA_PASSWORD=rootPassword"
+            - "MSSQL_DATABASE=DataBaseName"
+        ports:
+            - "1433:1433"
+    #end sqlserver
     mongo:
         build:
             context: ./
@@ -66,4 +82,7 @@ volumes:
     #start vol_pg
     postgres-data:
     #end vol_pg
+    #start vol_sql
+    sqlserver-data:
+    #end vol_sql
     mongo-data:

@@ -117,9 +117,12 @@ class SetDocker extends Command
             if($databaseEngine === 'MySQL') {
                 $this->replaceInFile('"MYSQL_DATABASE=DataBaseName"', '"MYSQL_DATABASE='.$database.'"', base_path('docker-compose.yml'));
                 $this->replaceInFile('"MYSQL_ROOT_PASSWORD=rootPassword"', '"MYSQL_ROOT_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
-            } else {
+            } else if($databaseEngine === 'PostgreSQL') {
                 $this->replaceInFile('"POSTGRES_DB=DataBaseName"', '"POSTGRES_DB='.$database.'"', base_path('docker-compose.yml'));
                 $this->replaceInFile('"POSTGRES_PASSWORD=rootPassword"', '"POSTGRES_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
+            } else if ($databaseEngine === 'SQLServer') {
+                $this->replaceInFile('"MSSQL_DATABASE=DataBaseName"', '"MSSQL_DATABASE='.$database.'"', base_path('docker-compose.yml'));
+                $this->replaceInFile('"MSSQL_SA_PASSWORD=rootPassword"', '"MSSQL_SA_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
             }
 
             $this->replaceInFile('"MONGO_INITDB_ROOT_PASSWORD=rootPassword"', '"MONGO_INITDB_ROOT_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
@@ -131,11 +134,14 @@ class SetDocker extends Command
                 if($databaseEngine === 'MySQL') {
                     $this->replaceInFile('DB_CONNECTION=mysql', 'DB_CONNECTION=mysql', base_path('.env.example'));
                     $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=mysql', base_path('.env.example'));
-                } else {
+                } else if($databaseEngine === 'PostgreSQL') {
                     $this->replaceInFile('DB_CONNECTION=pgsql', 'DB_CONNECTION=pgsql', base_path('.env.example'));
                     $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=pgsql', base_path('.env.example'));
+                } else if($databaseEngine === 'SQLServer') {
+                    $this->replaceInFile('DB_CONNECTION=sqlsrv', 'DB_CONNECTION=sqlsrv', base_path('.env.example'));
+                    $this->replaceInFile('DB_HOST=127.0.0.1', 'DB_HOST=sqlsrv', base_path('.env.example'));
                 }
-                
+
                 $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env.example'));
                 $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env.example'));
             }
