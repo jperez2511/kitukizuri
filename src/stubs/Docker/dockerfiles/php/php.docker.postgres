@@ -1,7 +1,19 @@
 FROM php:8-fpm
 
 RUN apt-get update \
-    && apt-get install -y ca-certificates gnupg libxml2-dev libmagickwand-dev --no-install-recommends libmcrypt-dev mcrypt zlib1g-dev libzip-dev libpng-dev libssl-dev libldap2-dev libcurl4-openssl-dev pkg-config \
+    && apt-get install -y ca-certificates \
+    gnupg \
+    libxml2-dev \
+    libmagickwand-dev --no-install-recommends \
+    libmcrypt-dev \
+    mcrypt \
+    zlib1g-dev \
+    libzip-dev \
+    libpng-dev \
+    libssl-dev \
+    libldap2-dev \
+    libcurl4-openssl-dev \
+    pkg-config \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap pdo_pgsql pgsql zip gd bcmath soap \
     && rm -rf /var/lib/apt/lists/*

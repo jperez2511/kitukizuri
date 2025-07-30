@@ -1,61 +1,73 @@
+FROM php:8.4-fpm
+
 # start common #
-FROM php:8.2-fpm AS base
-
-# Variables comunes
-ENV COMPOSER_ALLOW_SUPERUSER=1 \
-    COMPOSER_HOME=/composer
-
-# Paquetes base (comunes)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git curl unzip zip libzip-dev libssl-dev nano \
-    && docker-php-ext-configure zip \
-    && docker-php-ext-install zip \
+RUN apt-get update \
+    && apt-get install -y ca-certificates \
+        gnupg \
+        libxml2-dev \
+        libmagickwand-dev --no-install-recommends \
+        libmcrypt-dev \
+        mcrypt \
+        zlib1g-dev \
+        libzip-dev \
+        libpng-dev \
+        libssl-dev \
+        libldap2-dev \
+        libcurl4-openssl-dev \
+        pkg-config \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+    && docker-php-ext-install ldap zip gd bcmath soap \
     && rm -rf /var/lib/apt/lists/*
 
-# Extensiones PHP comunes
-RUN docker-php-ext-install pcntl
-
-# MongoDB (común a todos)
-RUN pecl install mongodb \
-    && docker-php-ext-enable mongodb
-
-# Composer (común)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Node.js (opcional común, si todos lo usan)
-# Si prefieres NO instalarlo globalmente aquí, muévelo a cada bloque DB.
-RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /var/www
-# end common #
 
 #start mysql
-FROM base AS mysql
-
-# Dependencias específicas de MySQL
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN apt-get update && apt-get install -y --no-install-recommends mariadb-client \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install pdo pdo_mysql
 #end mysql
 
-#start postgres
-FROM base AS postgres
 
-# Dependencias específicas de PostgreSQL
+#start postgres
 RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo pdo_pgsql pgsql
 #end postgres
 
 #start sqlserver
-FROM base AS sqlserver
-
-# Repos y drivers de SQL Server
-RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 unixodbc-dev \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-    && apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 \
-    && echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> /etc/profile \
-    && pecl install sqlsrv pdo_sqlsrv \
-    && docker-php-ext-enable sqlsrv pdo_sqlsrv \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apt-transport-https \
+    unixodbc-dev \
+    libc6 \
+    libgcc-s1 \
+    libstdc++6 \
+    libgssapi-krb5-2 \
+    libssl3 \
+    libodbc1 \
+    odbcinst \
+    unixodbc \
+    curl \
+    gnupg2 && \
+    curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl -sSL https://packages.microsoft.com/config/debian/11/prod.list -o /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && \
+    ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 && \
+    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> /etc/profile && \
+    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc && \
+    pecl install sqlsrv pdo_sqlsrv && \
+    docker-php-ext-enable sqlsrv pdo_sqlsrv && \
+    rm -rf /var/lib/apt/lists/*
 #end sqlserver
+
+RUN docker-php-ext-enable soap
+
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+ADD ./dockerfiles/php/limits.conf /usr/local/etc/php-fpm.d/limits.conf
+
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_24.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install -y nodejs
+
+WORKDIR /var/www
