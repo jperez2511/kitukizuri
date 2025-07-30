@@ -145,8 +145,8 @@ class SetDocker extends Command
 
         foreach ($dbs as $db) {
             if($db != $databaseEngine) {
-                $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$databaseEngine][2]);
-                $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$databaseEngine][3]);
+                $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$db][2]);
+                $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$db][3]);
             }
         }
         
