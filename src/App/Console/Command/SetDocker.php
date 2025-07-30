@@ -191,6 +191,8 @@ class SetDocker extends Command
 
             if(file_exists(base_path('.env'))) {
                 $this->replaceInFile('DB_HOST=127.0.0.1', $databaseFiles[$databaseEngine][7], base_path('.env'));
+                $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env'));
+                $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env'));
 
                 $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env'));
                 $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env'));

@@ -19,13 +19,11 @@ RUN apt-get update \
     && docker-php-ext-install ldap zip gd bcmath soap \
     && rm -rf /var/lib/apt/lists/*
 
-
 #start mysql
 RUN apt-get update && apt-get install -y --no-install-recommends mariadb-client \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo pdo_mysql
 #end mysql
-
 
 #start postgres
 RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev \
