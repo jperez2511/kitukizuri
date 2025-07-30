@@ -51,7 +51,7 @@ class ReactInstall extends Command
     public function handle()
     {
         if($this->option('vite-config')) {
-            $this->addViteConfig();
+            $this->addReactConfig();
         } else {
             $this->configReact();
         }

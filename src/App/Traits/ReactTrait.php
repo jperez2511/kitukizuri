@@ -11,7 +11,6 @@ trait ReactTrait
         $this->runCommands(['npm install --save react react-dom'], base_path());
         $this->runCommands(['npm install --save-dev @vitejs/plugin-react'], base_path());
         $this->addReactConfig();
-        $this->addViteConfig();
     }
 
     protected function addReactConfig()
