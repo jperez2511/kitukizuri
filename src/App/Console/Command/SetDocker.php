@@ -220,8 +220,8 @@ class SetDocker extends Command
 
             $portDB = text($databaseEngine.': ');
 
-            $databaseFiles[$databaseEngine][7] = str_replace('replacePort', $portDB, $databaseFiles[$databaseEngine][7]);
-            $this->replaceInFile(...$databaseFiles[$databaseEngine][7]);
+            $databaseFiles[$databaseEngine][8][1] = str_replace('replacePort', $portDB, $databaseFiles[$databaseEngine][8][1]);
+            $this->replaceInFile(...$databaseFiles[$databaseEngine][8]);
 
             $mongo = text('Mongo: ');
             $this->replaceInFile('"27017:27017"', '"'.$mongo.':27017"', base_path('docker-compose.yml'));
