@@ -13,6 +13,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 use Icebearsoft\Kitukizuri\App\Traits\UtilityTrait;
 
+use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
@@ -64,13 +65,13 @@ class SetDocker extends Command
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mongo', base_path('/dockerfiles/mongo'));
         copy(__DIR__.'/../../../stubs/Docker/docker-compose.yml', $baseDockerCompose);
 
-        $databaseEngine = select('¿Que gestor de base de datos se va a utilizar?', [
+        $dbs = [
             'MySQL',
             'PostgreSQL',
             'SQLServer'
-        ]);
+        ];
 
-        
+        $databaseEngine = select('¿Que gestor de base de datos se va a utilizar?', $dbs);
 
         $databaseFiles = [
             'MySQL' => [
@@ -89,7 +90,10 @@ class SetDocker extends Command
                     '"MYSQL_ROOT_PASSWORD=ReplaceRootPassword"',
                     $baseDockerCompose
                 ],
-                'DB_HOST=mysql'
+                'DB_HOST=mysql',
+                [
+                    '"3306:3306"', '"replacePort:3306"', $baseDockerCompose
+                ]
             ],
             'PostgreSQL' => [
                 __DIR__.'/../../../stubs/Docker/dockerfiles/postgresql',
@@ -128,7 +132,10 @@ class SetDocker extends Command
                     '"SA_PASSWORD=ReplaceRootPassword"',
                     $baseDockerCompose
                 ],
-                'DB_HOST=sqlsrv'
+                'DB_HOST=sqlsrv',
+                [
+                    '"1433:1433"', '"replacePort:1433"', $baseDockerCompose
+                ]
             ]
         ];
 
@@ -148,6 +155,8 @@ class SetDocker extends Command
 
         info('Archivos configurados correctamente!');
 
+
+        // 4 configurando base de datos principal
         if(confirm('¿Configurar base de datos?')) {           
 
             $database = text('Nombre: ');
@@ -183,13 +192,36 @@ class SetDocker extends Command
             info('La base de datos se ha configurado correctamente!');
         }
 
+        // 5. configurando otros clientes 
+        if(confirm('¿Configurar otros clientes de DB?')) {
+
+            $dbClients = $dbs;
+            unset($dbClients[array_search($databaseEngine, $dbClients)]);
+
+            $dbClientsSelected = multiselect('¿Que gestor de base de datos se va a utilizar?', $dbClients);
+            $dbClientsSelected[] = $databaseEngine;
+
+            $phpDockerFile = base_path('/dockerfiles/php/php.docker');
+
+            \unlink($phpDockerFile);
+            copy(__DIR__.'/../../../stubs/Docker/dockerfiles/php/php.docker.alldb', $phpDockerFile);
+
+            foreach ($dbs as $db) {
+                if(!in_array($db, $dbClientsSelected)) {
+                    $this->removeDockerBlock($phpDockerFile, $databaseFiles[$db][2]);
+                }
+            }
+        }
+
+        // 6. configurando puertos
         if(confirm('¿Configurar puertos?')) {
             $http  = text('HTTP: ');
             $this->replaceInFile('"80:80"', '"'.$http.':80"', base_path('docker-compose.yml'));
 
             $portDB = text($databaseEngine.': ');
-            
-            $this->replaceInFile('"3306:3306"', '"'.$portDB.':3306"', base_path('docker-compose.yml'));
+
+            $databaseFiles[$databaseEngine][7] = str_replace('replacePort', $portDB, $databaseFiles[$databaseEngine][7]);
+            $this->replaceInFile(...$databaseFiles[$databaseEngine][7]);
 
             $mongo = text('Mongo: ');
             $this->replaceInFile('"27017:27017"', '"'.$mongo.':27017"', base_path('docker-compose.yml'));
