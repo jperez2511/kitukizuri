@@ -30,23 +30,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm \
 WORKDIR /var/www
 # end common #
 
-# start mysql #
+#start mysql
 FROM base AS mysql
 
 # Dependencias específicas de MySQL
 RUN docker-php-ext-install pdo pdo_mysql mysqli
-# end mysql #
+#end mysql
 
-# start postgres #
+#start postgres
 FROM base AS postgres
 
 # Dependencias específicas de PostgreSQL
 RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo pdo_pgsql pgsql
-# end postgres #
+#end postgres
 
-# start sqlserver #
+#start sqlserver
 FROM base AS sqlserver
 
 # Repos y drivers de SQL Server
@@ -58,4 +58,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 unixodbc
     && pecl install sqlsrv pdo_sqlsrv \
     && docker-php-ext-enable sqlsrv pdo_sqlsrv \
     && rm -rf /var/lib/apt/lists/*
-# end sqlserver #
+#end sqlserver

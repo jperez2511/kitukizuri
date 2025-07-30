@@ -64,6 +64,7 @@ class SetDocker extends Command
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/nginx', base_path('/dockerfiles/nginx'));
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mongo', base_path('/dockerfiles/mongo'));
         copy(__DIR__.'/../../../stubs/Docker/docker-compose.yml', $baseDockerCompose);
+        \unlink(base_path('/dockerfiles/php/php..docker.alldb'));
 
         $dbs = [
             'MySQL',
