@@ -133,7 +133,7 @@ class SetDocker extends Command
                     '"SA_PASSWORD=ReplaceRootPassword"',
                     $baseDockerCompose
                 ],
-                'DB_HOST=sqlsrv',
+                'DB_HOST=sqlserver',
                 [
                     '"1433:1433"', '"replacePort:1433"', $baseDockerCompose
                 ]
