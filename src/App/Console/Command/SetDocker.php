@@ -99,7 +99,7 @@ class SetDocker extends Command
         \rename($databaseFiles[$databaseEngine][4], base_path('/dockerfiles/php/php.docker'));
 
         // 3. eliminando archivos innecesarios
-        foreach ($dataFiles as $key => $value) {
+        foreach ($databaseFiles as $key => $value) {
             if($key == $databaseEngine) {
                 continue;
             }
