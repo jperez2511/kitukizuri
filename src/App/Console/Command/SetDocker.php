@@ -64,7 +64,7 @@ class SetDocker extends Command
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/nginx', base_path('/dockerfiles/nginx'));
         $this->copyDirectory(__DIR__.'/../../../stubs/Docker/dockerfiles/mongo', base_path('/dockerfiles/mongo'));
         copy(__DIR__.'/../../../stubs/Docker/docker-compose.yml', $baseDockerCompose);
-        \unlink(base_path('/dockerfiles/php/php..docker.alldb'));
+        \unlink(base_path('/dockerfiles/php/php.docker.alldb'));
 
         $dbs = [
             'MySQL',
@@ -142,8 +142,14 @@ class SetDocker extends Command
 
         // 2. copiando los archivos de configuración de docker
         $this->copyDirectory($databaseFiles[$databaseEngine][0], $databaseFiles[$databaseEngine][1]);
-        $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$databaseEngine][2]);
-        $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$databaseEngine][3]);
+
+        foreach ($dbs as $db) {
+            if($db != $databaseEngine) {
+                $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$databaseEngine][2]);
+                $this->removeDockerBlock($baseDockerCompose, $databaseFiles[$databaseEngine][3]);
+            }
+        }
+        
         \rename($databaseFiles[$databaseEngine][4], base_path('/dockerfiles/php/php.docker'));
 
         // 3. eliminando archivos innecesarios
