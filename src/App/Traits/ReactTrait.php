@@ -15,7 +15,18 @@ trait ReactTrait
 
     protected function addReactConfig()
     {
-       copy(__DIR__ . '/../../stubs/resources/js/app.jsx', base_path('resources/js/app.jsx'));
+        if (file_exists(base_path('resources/js/app.jsx'))) {
+            unlink(base_path('resources/js/app.jsx'));
+        }
+
+        copy(__DIR__ . '/../../stubs/resources/js/app.jsx', base_path('resources/js/app.jsx'));
+        
+        if(file_exists(base_path('vite.config.js'))) {
+            unlink(base_path('vite.config.js'));
+        }
+
+        copy(__DIR__ . '/../../stubs/vite.config.js', base_path('vite.config.js'));
+        
         $this->info('La configuración para React fue agregada exitosamente');
     }
 }
