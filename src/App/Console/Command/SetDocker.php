@@ -93,10 +93,10 @@ class SetDocker extends Command
         ];
 
         // 2. copiando los archivos de configuración de docker
-        $this->copyDirectory($databaseEngineFiles[$databaseEngine][0], $databaseEngineFiles[$databaseEngine][1]);
-        $this->removeDockerBlock(base_path('docker-compose.yml'), $databaseEngineFiles[$databaseEngine][2]);
-        $this->removeDockerBlock(base_path('docker-compose.yml'), $databaseEngineFiles[$databaseEngine][3]);
-        \rename($databaseEngineFiles[$databaseEngine][4], base_path('/dockerfiles/php/php.docker'));
+        $this->copyDirectory($databaseFiles[$databaseEngine][0], $databaseFiles[$databaseEngine][1]);
+        $this->removeDockerBlock(base_path('docker-compose.yml'), $databaseFiles[$databaseEngine][2]);
+        $this->removeDockerBlock(base_path('docker-compose.yml'), $databaseFiles[$databaseEngine][3]);
+        \rename($databaseFiles[$databaseEngine][4], base_path('/dockerfiles/php/php.docker'));
 
         // 3. eliminando archivos innecesarios
         foreach ($dataFiles as $key => $value) {
