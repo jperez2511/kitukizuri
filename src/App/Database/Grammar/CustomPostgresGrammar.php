@@ -2,8 +2,8 @@
 
 namespace App\Database\Grammar;
 
-use Iluminate\Database\Query\Grammars\PostgresGrammar; 
-use Iluminate\Database\Connection;
+use Illuminate\Database\Query\Grammars\PostgresGrammar; 
+use Illuminate\Database\Connection;
 
 class CustomPostgresGrammar extends PostgresGrammar
 {
