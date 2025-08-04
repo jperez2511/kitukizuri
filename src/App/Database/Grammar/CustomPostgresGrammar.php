@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Database\Grammar;
+namespace Icebearsoft\Kitukizuri\App\Database\Grammar;
 
 use Illuminate\Database\Query\Grammars\PostgresGrammar; 
 use Illuminate\Database\Connection;
