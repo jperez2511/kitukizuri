@@ -3,18 +3,19 @@
 namespace Icebearsoft\Kitukizuri\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Events\ConnectionCreated;
 use Icebearsoft\Kitukizuri\App\Database\Grammar\{
     CustomPostgresGrammar
 };
 
 class PostgresGrammarProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
-        if(config('database.default') === 'pgsql') {
-            $connection = DB::connection();
-            $connection->setQueryGrammar(new CustomPostgresGrammar($connection));
-        }
+        $this->app['events']->listen(ConnectionCreated::class, function($event){
+            if ($event->connection->getDriverName() === 'pgsql') {
+                $event->connection->setQueryGrammar(new CustomPostgresGrammar($event->connection));
+            }
+        });
     }
 }
