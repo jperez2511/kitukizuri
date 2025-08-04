@@ -1,6 +1,6 @@
 <?php
 
-namespace Icebearsoft\Kitukizuri\App\Traits;
+namespace Icebearsoft\Kitukizuri\App\Traits\Database;
 
 use File;
 

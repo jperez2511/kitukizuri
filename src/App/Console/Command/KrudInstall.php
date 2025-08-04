@@ -16,9 +16,12 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     LogTrait,
     LdapTrait,
     ReactTrait,
-    MongoTrait,
     UtilityTrait,
     MultiTenantTrait
+};
+
+use Icebearsoft\Kitukizuri\App\Traits\Database\{
+    MongoTrait
 };
 
 use function Laravel\Prompts\confirm;
@@ -101,13 +104,11 @@ class KrudInstall extends Command
             $this->configLogChanel();
         }
 
-
         // publicación de krud
         $this->artisanCommand('vendor:publish','--tag=krud-migrations');
         $this->artisanCommand('vendor:publish','--tag=krud-seeders');
         $this->artisanCommand('vendor:publish','--tag=krud-error');
         $this->artisanCommand('vendor:publish','--tag=krud-config');
-        
 
         unlink(base_path('routes/web.php'));
         copy(__DIR__ . '/../../../stubs/Routes/web.php', base_path('routes/web.php'));

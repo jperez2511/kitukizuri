@@ -25,7 +25,9 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Icebearsoft\\Kitukizuri\\KitukizuriServiceProvider"
+                "Icebearsoft\\Kitukizuri\\KitukizuriServiceProvider",
+                "Icebearsoft\\Kitukizuri\\App\\Providers\\PostgresGrammarProvider",
+                "Icebearsoft\\Kitukizuri\\App\\Providers\\ForceHttpsProvider"
             ]
         }
     }
