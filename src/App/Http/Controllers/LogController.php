@@ -23,7 +23,7 @@ class LogController extends Krud
             $this->setField(['name' => 'URL', 'field' => DB::raw('SUBSTRING(url, 1, 50)'), 'campoReal' => 'url', 'htmlAttr' => ['disabled' => true]]);
             $this->setField(['name' => 'Métodos', 'field' => 'method']);
             $this->setField(['name' => 'Nivel', 'field' => 'level']);
-            $this->setField(['name' => 'Mensaje', 'field' => 'message']);
+            $this->setField(['name' => 'Mensaje', 'field' => 'message', 'type' => 'textarea', 'htmlAttr' => ['disabled' => true]]);
             $this->leftJoin('users as u', 'u.id', '=', 'logs.id_user');
             $this->orderBy('id_log', 'desc');
             $this->setButton(['nombre' => 'Ver', 'url' => 'logs/{id}', 'class' => 'btn btn-outline-primary', 'icon' => 'fa fa-eye']);

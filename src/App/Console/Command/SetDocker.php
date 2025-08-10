@@ -162,7 +162,6 @@ class SetDocker extends Command
 
         info('Archivos configurados correctamente!');
 
-
         // 4 configurando base de datos principal
         if(confirm('¿Configurar base de datos?')) {           
 
