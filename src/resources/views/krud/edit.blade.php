@@ -136,7 +136,13 @@
                 $(this).append('<i class="fa-light fa-arrows-rotate-reverse fa-spin fa-spin-reverse"></i>');
 
                 $.post('{{ $action }}', data).done(response => {
-                    location.href = '{{ $urlBack }}';
+                    let params = ''
+
+                    @foreach($parents as $c)
+                        params += '{{ $c['nombre'] }}='+ $.urlParam('{{$c['value']}}')+'&'
+                    @endforeach
+
+                    location.href = '{{ $urlBack }}?'+params;
                 }).fail(error => {
                     alert(error.responseJSON.message)
                     $(this).prop('disabled', false);

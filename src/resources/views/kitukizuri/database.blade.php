@@ -114,36 +114,3 @@
     @endpush
 
 </x-app-layout>
-
-
-
-@section('content')
-    <div class="row">
-        
-        
-    </div>
-
-
-    @if (!empty($tenants))
-        <div class="col-12 text-center">
-            <strong>Conexiones encontradas en tenants</strong>
-            <hr>
-        </div>
-
-        @foreach ($tenants as $connection)
-            <div class="col-6">
-                <a href="javascript:void(0)" class="btn btn-block btn-primary" onclick="goTenants('{{ encrypt($connection->tenant_id) }}', '{{ encrypt('mysql') }}')">
-                    <i class="fa-duotone fa-server fa-xl"></i> <br>
-                    {{ $connection->db }}
-                </a>
-                @if (!empty($connection->mongo_db))
-                    <a href="javascript:void(0)" class="btn btn-block btn-success" onclick="goTenants('{{ encrypt($connection->tenant_id)}}', '{{ encrypt('mongo') }}')">
-                        <i class="fa-duotone fa-server fa-xl"></i> <br>
-                        {{ $connection->mongo_db }}
-                    </a>
-                @endif
-            </div>
-        @endforeach
-    @endif
-
-@endsection
