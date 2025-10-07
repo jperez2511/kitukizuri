@@ -2,7 +2,7 @@
 
 namespace App\Logging;
 
-use App\Models\LogEntry; // evita colisión con Facade Log
+use App\Models\Log as LogEntry; // evita colisión con Facade Log
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
