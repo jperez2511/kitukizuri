@@ -510,7 +510,7 @@ class Krud extends Controller
             if ($campo['unique'] == true && $campo['edit'] == true && $id == 0) {
                 $validate = $this->model->where($nombreCampo, $valor)->exists();
                 if($validate){
-                    return $this->buildMsg('danger', 'El valor del campo '.$c['nombre'].' ya se encuentra registrado en la base de datos.');
+                    return $this->buildMsg('danger', 'El valor del campo '.$campo['nombre'].' ya se encuentra registrado en la base de datos.');
                 }
             } else if ($campo['tipo'] == 'date') {
                 $valor = $this->toDateMysql($valor);
