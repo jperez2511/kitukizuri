@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Logging;
+namespace Icebearsoft\Kitukizuri\App\Logging;
 
 use App\Models\Log as LogEntry; // evita colisión con Facade Log
 use Closure;
