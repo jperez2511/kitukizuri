@@ -47,89 +47,138 @@ trait SeederTrait
 		}
 	}
 
-    protected function saveModuleData($modulos)
-    {
-        try {
-			$dateTime = $this->sqlDateTime();
-			$this->checkForeignKeys();
-
-			$connection= env('DB_CONNECTION');
-			$schema = '';
-
-			if ($connection === 'pgsql') {
-				$schema = config('database.connections.pgsql.search_path', 'public');
-				DB::statement('SET search_path TO '.$schema.', public');
-				DB::statement('TRUNCATE TABLE modulos');
-				$schema = $schema.'.';
-			} else {
-				DB::table('modulos')->truncate();
+   	protected function saveModuleData($modulos)
+	{
+		try {
+			DB::beginTransaction();
+			
+			$dateTime = now();
+			$driver = DB::connection()->getDriverName();
+			
+			// 1. DETECTAR Y ELIMINAR MÓDULOS HUÉRFANOS
+			// Obtener todas las rutas del array de entrada
+			$rutasEnviadas = collect($modulos)->pluck('ruta')->toArray();
+			
+			// Encontrar módulos en BD que no están en el array
+			$modulosHuerfanos = DB::table('modulos')
+				->whereNotIn('ruta', $rutasEnviadas)
+				->get(['moduloid']);
+			
+			foreach ($modulosHuerfanos as $moduloHuerfano) {
+				// Obtener los modulopermisoid que pertenecen a este módulo
+				$moduloPermisosIds = DB::table('moduloPermiso')
+					->where('moduloid', $moduloHuerfano->moduloid)
+					->pluck('modulopermisoid')
+					->toArray();
+				
+				// Eliminar registros en rolModuloPermiso asociados a estos modulopermisoid
+				if (!empty($moduloPermisosIds)) {
+					DB::table('rolModuloPermiso')
+						->whereIn('modulopermisoid', $moduloPermisosIds)
+						->delete();
+				}
+				
+				// Eliminar registros en moduloPermiso
+				DB::table('moduloPermiso')
+					->where('moduloid', $moduloHuerfano->moduloid)
+					->delete();
+				
+				// Finalmente eliminar el módulo
+				DB::table('modulos')
+					->where('moduloid', $moduloHuerfano->moduloid)
+					->delete();
 			}
 			
-			foreach($modulos as $modulo)	{
-				// validando si existe el modulo
-				$moduloid = DB::table('modulos')
-					->where('ruta',$modulo['ruta'])
-					->value('moduloid');
-	
-				if(empty($moduloid)) {
-					$moduloid = DB::table('modulos')->insertGetId([
-						'nombre' => $modulo['nombre'],
-						'ruta'   => $modulo['ruta']
-					], 'moduloid');
-				} else {
-					DB::table('modulos')
-						->where('moduloid',$moduloid)
-						->update(['nombre' => $modulo['nombre'], 'ruta' => $modulo['ruta']]);
-				} 
-	
-				// validando permisos
-				$permisosActuales = DB::table('moduloPermiso')
-					->select('modulopermisoid', 'permisoid')
-					->where('moduloid', $moduloid)
-					->get();
+			// 2. ACTUALIZAR O INSERTAR MÓDULOS Y SINCRONIZAR PERMISOS
+			foreach ($modulos as $modulo) {
+				// Buscar si el módulo existe por ruta
+				$moduloExistente = DB::table('modulos')
+					->where('ruta', $modulo['ruta'])
+					->first(['moduloid']);
 				
-				// eliminando permisos si ya no existen
-				foreach($permisosActuales as $permisoActual) {
-					if(!in_array($permisoActual->permisoid, $modulo['permisos'])) {
-						
-						DB::table('moduloPermiso')
-							->where('moduloid', $moduloid)
-							->where('permisoid', $permisoActual->permisoid)
-							->delete();
-						
-						// quitando asignación de permiso al rol
-						DB::table('rolModuloPermiso')
-							->where('modulopermisoid', $permisoActual->modulopermisoid)
-							->delete();
-					}
-				}
-	
-				// agregando nuevos permisos
-				$actuales = $permisosActuales->pluck('permisoid')->toArray();
-				foreach($modulo['permisos'] as  $permiso) {
-					if(!in_array($permiso, $actuales)) {
-						DB::table('moduloPermiso')->insert([
-							'moduloid' => $moduloid,
-							'permisoid' => $permiso
+				if ($moduloExistente) {
+					// Actualizar módulo existente
+					$moduloid = $moduloExistente->moduloid;
+					
+					DB::table('modulos')
+						->where('moduloid', $moduloid)
+						->update([
+							'nombre' => $modulo['nombre'],
+							'ruta' => $modulo['ruta'],
+							'updated_at' => $dateTime
+						]);
+				} else {
+					// Crear nuevo módulo - Compatible con todos los drivers
+					if ($driver === 'pgsql') {
+						$moduloid = DB::table('modulos')->insertGetId([
+							'nombre' => $modulo['nombre'],
+							'ruta' => $modulo['ruta'],
+							'created_at' => $dateTime,
+							'updated_at' => $dateTime
+						], 'moduloid');
+					} else {
+						// MySQL y SQLite usan auto_increment
+						$moduloid = DB::table('modulos')->insertGetId([
+							'nombre' => $modulo['nombre'],
+							'ruta' => $modulo['ruta'],
+							'created_at' => $dateTime,
+							'updated_at' => $dateTime
 						]);
 					}
 				}
-			}
-	
-			DB::statement('UPDATE modulos SET created_at='.$dateTime.', updated_at='.$dateTime);
-
-			if ($connection === 'pgsql') {
-				// Actualizando las fechas de creación y actualización de la tabla moduloPermiso
-				DB::statement('UPDATE '.$schema.'"moduloPermiso" SET created_at='.$dateTime.', updated_at='.$dateTime);
-			} else {
-				DB::table('moduloPermiso')->update(['created_at' => now(), 'updated_at' => now()]);
+				
+				// 3. SINCRONIZAR PERMISOS DEL MÓDULO
+				// Obtener permisos actuales en BD
+				$permisosActuales = DB::table('moduloPermiso')
+					->where('moduloid', $moduloid)
+					->get(['modulopermisoid', 'permisoid']);
+				
+				$permisosActualesIds = $permisosActuales->pluck('permisoid')->toArray();
+				$permisosEnviados = $modulo['permisos'];
+				
+				// Identificar permisos a eliminar (están en BD pero no en el array)
+				$permisosAEliminar = $permisosActuales->filter(function ($permisoActual) use ($permisosEnviados) {
+					return !in_array($permisoActual->permisoid, $permisosEnviados);
+				});
+				
+				foreach ($permisosAEliminar as $permisoEliminar) {
+					// Primero eliminar en rolModuloPermiso
+					DB::table('rolModuloPermiso')
+						->where('modulopermisoid', $permisoEliminar->modulopermisoid)
+						->delete();
+					
+					// Luego eliminar en moduloPermiso
+					DB::table('moduloPermiso')
+						->where('modulopermisoid', $permisoEliminar->modulopermisoid)
+						->delete();
+				}
+				
+				// Identificar permisos a agregar (están en el array pero no en BD)
+				$permisosAAgregar = array_diff($permisosEnviados, $permisosActualesIds);
+				
+				foreach ($permisosAAgregar as $permisoNuevo) {
+					DB::table('moduloPermiso')->insert([
+						'moduloid' => $moduloid,
+						'permisoid' => $permisoNuevo,
+						'created_at' => $dateTime,
+						'updated_at' => $dateTime
+					]);
+				}
 			}
 			
-			$this->checkForeignKeys(1);
+			DB::commit();
+			
+			return true;
+			
 		} catch (\Exception $e) {
-			dd($e->getMessage());
+			DB::rollBack();
+			
+			// Loguear el error o manejarlo según tus necesidades
+			\Log::error('Error en saveModuleData: ' . $e->getMessage());
+			
+			throw $e;
 		}
-    }
+	}
 
 	protected function saveMenuData($menu = null, $padreID = null)
 	{
