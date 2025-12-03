@@ -18,7 +18,9 @@ trait LdapTrait
         unlink(base_path('config/auth.php'));
         copy(__DIR__ . '/../../stubs/Config/ldap.php', base_path('config/auth.php'));
 
-        unlink(base_path('app/Providers/AuthServiceProvider.php'));
+        if (file_exists(base_path('app/Providers/AuthServiceProvider.php'))) {
+            unlink(base_path('app/Providers/AuthServiceProvider.php'));
+        }
         copy(__DIR__ . '/../../stubs/Ldap/AuthServiceProvider.stub', base_path('app/Providers/AuthServiceProvider.php'));
 
         unlink(base_path('app/Models/User.php'));
