@@ -31,7 +31,7 @@ trait ReactTrait
         // 2. Integrando a template de app.blade.php
         $filePath = base_path('resources/views/layouts/app.blade.php');
 
-        $this->replaceInFile($filePath, "@vite(['resources/sass/app.scss', 'resources/js/app.js'])", "@viteReactRefresh\n@vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/app.jsx'])");
+        //$this->replaceInFile($filePath, "@vite(['resources/sass/app.scss', 'resources/js/app.js'])", "@viteReactRefresh\n@vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/app.jsx'])");
 
         $this->info('La configuración para React fue agregada exitosamente');
     }
