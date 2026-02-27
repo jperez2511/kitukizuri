@@ -48,6 +48,24 @@ return [
     'layout' => 'layouts.app',
     'preUi'  => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | DashLite Body Classes
+    |--------------------------------------------------------------------------
+    |
+    | Clases CSS que controlan el layout visual de DashLite. Este valor se
+    | aplica directamente al atributo class del <body> en layouts/app.blade.php.
+    |
+    | Ejemplos:
+    | - npc-default has-apps-sidebar has-sidebar
+    | - bg-lighter npc-general has-sidebar
+    | - ui-rounder npc-default has-sidebar
+    |
+    */
+    'dashliteBodyClass' => 'npc-default has-apps-sidebar has-sidebar',
+    // Variantes SCSS empaquetadas: demo1, demo2, demo3, demo4, demo5, covid
+    'dashliteVariant' => 'demo3',
+
 
     /*
     |--------------------------------------------------------------------------

@@ -1,0 +1,122 @@
+// Core variables and mixins
+@import 'font';
+@import 'elements';
+@import "styles/variables";
+@import "styles/mixins";
+@import "styles/common";
+@import "styles/toolbar";
+@import "styles/btn-group";
+@import "styles/buttons";
+@import "styles/dropdown";
+@import "styles/modal";
+@import "styles/form";
+@import "styles/tooltip";
+@import "styles/popover";
+
+@import 'common';
+
+.note-editor {
+  .note-editing-area {
+    .note-editable {
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+         td, th {
+          border: 1px solid #ececec;
+          padding: 5px 3px;
+        }
+      }
+
+      a {
+        background-color: inherit;
+        text-decoration: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        color: #337ab7;
+      }
+
+      a:hover,
+      a:focus {
+        color: #23527c;
+        text-decoration: underline;
+        outline: 0;
+      }
+
+      figure {
+        margin: 0;
+      }
+      ul,ol{
+        font-family : var(--bs-body-font-family);
+        font-size : var(--bs-body-font-size);
+        letter-spacing: normal;
+        line-height: var(--bs-body-line-height);
+        font-weight: var(--bs-body-font-weight);
+      }
+      blockquote{
+        padding-inline-start: 1rem;
+        padding-block: .5rem;
+        border-inline-start: .25rem solid $light-200;
+      }
+      pre{
+        display: block;
+        padding: .5rem .75rem;
+        word-break: break-all;
+        word-wrap: break-word;
+        background-color: $light-100;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+      }
+      li{
+        margin-inline-start: 2rem;
+      }
+      ul li{
+        list-style: disc;
+      }
+      ol li{
+        list-style: decimal;
+      }
+    }
+  }
+}
+
+/* Dialog
+ ------------------------------------------*/
+.note-modal {
+  .note-modal-body {
+    label {
+      margin-bottom: .75rem;
+      display: inline-block;
+    }
+
+    .checkbox{
+      color: $base-text;
+      label{
+        display: inline-flex;
+        align-items: center;
+      }
+      input[type="checkbox"]{
+        margin-right: 0.5rem;
+      }
+    }
+
+     .help-list-item:hover {
+      background-color: #e0e0e0;
+    }
+  }
+
+   // [workaround] firefox fileinput
+  @-moz-document url-prefix() {
+    .note-image-input {
+      height: auto;
+    }
+  }
+}
+
+
+.help-list-item {
+  label {
+    margin-bottom:5px;
+    display:inline-block;
+  }
+}

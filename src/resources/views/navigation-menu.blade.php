@@ -1,6 +1,13 @@
+@php
+    $bodyClass = ' '.trim((string) config('kitukizuri.dashliteBodyClass', '')).' ';
+    $isAsideLayout = str_contains($bodyClass, ' has-aside ');
+    $menuTarget = $isAsideLayout ? 'sideNav' : 'sidebarMenu';
+    $triggerClass = $isAsideLayout ? 'd-lg-none ms-n1' : 'd-xl-none ms-n1';
+@endphp
+
 <div x-data="{ open: false }" class="nk-header-wrap">
-    <div class="nk-menu-trigger d-xl-none ms-n1">
-        <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+    <div class="nk-menu-trigger {{ $triggerClass }}">
+        <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
     </div>
 
     <div class="nk-header-tools">

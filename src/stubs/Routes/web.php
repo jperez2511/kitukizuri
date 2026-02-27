@@ -17,11 +17,11 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified', 'kitukizuri', 'kmenu', 'klang'])->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('home.index');    
     // Automatic injection routes don't remove this line
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('language/{lang}', [HomeController::class, 'setLanguage'])->name('home.language');
 });

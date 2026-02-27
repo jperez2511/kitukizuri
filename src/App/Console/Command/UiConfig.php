@@ -15,6 +15,8 @@ use Icebearsoft\Kitukizuri\App\Traits\{
     UiConfigTrait
 };
 
+use function Laravel\Prompts\select;
+
 class UiConfig extends Command
 {
     use UtilityTrait, UiConfigTrait;
@@ -50,6 +52,27 @@ class UiConfig extends Command
      */
     public function handle()
     {
-        $this->configBootstrap();
+        $options = [
+            'New UI (Bootstrap 5)',
+            'Switch DashLite demo/layout',
+            'Old UI',
+        ];
+
+        $selectedUi = select('Which visual environment do you want to configure?', $options);
+
+        if ($selectedUi === 'New UI (Bootstrap 5)') {
+            $this->configBootstrap();
+            return;
+        }
+
+        if ($selectedUi === 'Switch DashLite demo/layout') {
+            $this->switchDashliteDemo();
+            return;
+        }
+
+        if ($selectedUi === 'Old UI') {
+            $this->configPrevUI();
+            return;
+        }
     }
 }
