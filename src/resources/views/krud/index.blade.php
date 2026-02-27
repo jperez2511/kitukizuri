@@ -1,4 +1,58 @@
 
+@push('styles')
+    <style>
+        .krud-index .datatable-wrap {
+            border: 1px solid var(--bs-border-color, #dbdfea);
+            border-radius: 0.375rem;
+            overflow: hidden;
+        }
+
+        .krud-index table.dataTable > thead > tr > th {
+            white-space: nowrap;
+        }
+
+        .krud-index .dataTables_wrapper .dataTables_filter input,
+        .krud-index .dt-container .dt-search input {
+            min-width: min(100%, 260px);
+        }
+
+        .krud-index .krud-actions-col,
+        .krud-index .krud-actions-col .krud-action-group {
+            white-space: nowrap;
+        }
+
+        .krud-index .krud-action-group .btn {
+            min-width: 2rem;
+            min-height: 2rem;
+            padding: 0.25rem 0.45rem;
+        }
+
+        .krud-index .krud-action-group .btn i {
+            font-size: 0.875rem;
+        }
+
+        .krud-index .dt-buttons .buttons-create:before {
+            content: "+";
+            font-family: inherit;
+            font-size: 1.125rem;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        @media (max-width: 575.98px) {
+            .krud-index .datatable-filter .d-flex {
+                flex-wrap: wrap;
+                justify-content: flex-start !important;
+            }
+
+            .krud-index .dataTables_wrapper .dataTables_filter input,
+            .krud-index .dt-container .dt-search input {
+                min-width: 100%;
+            }
+        }
+    </style>
+@endpush
+
 <x-app-layout>
     <x-slot name="header">
         <h3 class="title">
@@ -6,20 +60,24 @@
         </h3>
     </x-slot>
 
-    <x-banner />
-    
-    <div class="card">
-        <div class="card-inner">    
-            <table id="table1" class="table table-bordered">
-                <thead>
-                    @foreach($columnas as $c)
-                        <th>{{ $c }}</th>
-                    @endforeach
-                    <th width="10%">{{ __('Actions') }}</th>
-                </thead>
-                <tbody>                        
-                </tbody>
-            </table>
+    <div class="col-12 krud-index">
+        <div class="card card-bordered card-stretch">
+            <div class="card-inner">
+                <div class="table-responsive">
+                    <table id="table1" class="table table-bordered table-hover align-middle nowrap w-100">
+                        <thead>
+                            <tr>
+                                @foreach($columnas as $c)
+                                    <th>{{ $c }}</th>
+                                @endforeach
+                                <th width="10%" class="text-center">{{ __('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -41,6 +99,7 @@
         <script>
             var uriArgs = (String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : '');
             document.addEventListener('DOMContentLoaded', function() {
+                var actionColumnIndex = {{ count($columnas) }};
                 $('#table1').DataTable({
                     language: {
                         search           : "",
@@ -56,7 +115,9 @@
                             "previous": "{{ __('Prev') }}"
                         },
                     },
-                    sortable  : false,
+                    responsive: true,
+                    order     : [],
+                    autoWidth : false,
                     serverSide: true,
                     processing: true,
                     ajax      : {
@@ -74,7 +135,7 @@
                             @endif
                             @if(in_array('create', $permisos))
                                 {
-                                    className: 'btn-success buttons-create',
+                                    className: 'buttons-create',
                                     attr: {
                                         title: '{{ __('Create') }}' // Tooltip en el botón
                                     },
@@ -96,10 +157,15 @@
                             @endif   
                         ],
                     },
-                    sDom: '<"row justify-between g-2 with-export"<"col-7 col-sm-4 text-start"f><"col-5 col-sm-8 text-end"<"datatable-filter"<"d-flex justify-content-end g-2" <"dt-export-buttons d-flex align-center"<"dt-export-title d-none d-md-inline-block">B>l>>>><"datatable-wrap mb-2"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-start text-md-end"i>>',
-                    initComplete: function() {
-                        $('.buttons-create').removeClass('btn-secondary');
-                    }
+                    columnDefs: [
+                        {
+                            targets   : actionColumnIndex,
+                            orderable : false,
+                            searchable: false,
+                            className : 'krud-actions-col text-center align-middle'
+                        }
+                    ],
+                    sDom: '<"row justify-between g-2 with-export"<"col-12 col-sm-6 col-md-4 text-start"f><"col-12 col-sm-6 col-md-8 text-start text-sm-end"<"datatable-filter"<"d-flex justify-content-sm-end g-2"<"dt-export-buttons d-flex align-center flex-wrap"<"dt-export-title d-none d-md-inline-block">B>l>>>><"datatable-wrap mt-2 mb-2"t><"row align-items-center g-2"<"col-12 col-md-9"p><"col-12 col-md-3 text-start text-md-end"i>>'
                 })
             });
             function edit(id){
@@ -142,7 +208,7 @@
                 var botones = {!! $botones !!}
                 $.each(botones, function(index, val) {
                     var url = val.url.replace('{id}', id);
-                    buttons += '<div class="col-md-6 mb-3"><a href="'+url+'" class="btn btn-'+val.class+' btn-block"><i class="'+val.icon+'"></i> '+val.nombre+'</a></div>'
+                    buttons += '<div class="col-md-6 mb-3"><a href="'+url+'" class="btn btn-'+val.class+' w-100"><i class="'+val.icon+'"></i> '+val.nombre+'</a></div>'
                 });
                 $('#modalContent').empty();
                 $('#modalContent').append(buttons);
