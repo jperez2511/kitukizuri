@@ -1,4 +1,10 @@
+import jQuery from 'jquery';
+
 "use strict";
+
+// DashLite expects global jQuery in several plugins; keep both aliases.
+window.$ = window.$ || jQuery;
+window.jQuery = window.jQuery || jQuery;
 
 var NioApp = (function (n, l) {
     "use strict";
@@ -595,6 +601,43 @@ var NioApp = (function (n, l) {
     });
   };
 
+  // Compact Sidebar @v1.0
+  NioApp.sbCompact = function () {
+    var toggle = '.nk-nav-compact',
+      $toggle = $(toggle),
+      $sidebar = $('.' + _sidebar),
+      $sidebarBody = $('.' + _sidebar + '-body');
+
+    if (!$toggle.exists()) {
+      return;
+    }
+
+    $toggle.on('click', function (e) {
+      e.preventDefault();
+      var $self = $(this),
+        getTarget = $self.data('target'),
+        $selfContent = $('[data-content="' + getTarget + '"]');
+
+      $self.toggleClass('compact-active');
+      $selfContent.toggleClass('is-compact');
+      if (!$selfContent.hasClass('is-compact')) {
+        $selfContent.removeClass('has-hover');
+      }
+    });
+
+    $sidebarBody.on('mouseenter', function () {
+      if ($sidebar.hasClass('is-compact')) {
+        $sidebar.addClass('has-hover');
+      }
+    });
+
+    $sidebarBody.on('mouseleave', function () {
+      if ($sidebar.hasClass('is-compact')) {
+        $sidebar.removeClass('has-hover');
+      }
+    });
+  };
+
   
   // BootStrap Extended
   NioApp.BS.ddfix = function (elm, exc) {
@@ -786,6 +829,7 @@ var NioApp = (function (n, l) {
     NioApp.coms.docReady.push(NioApp.ColorTXT);
     NioApp.coms.docReady.push(NioApp.Ani.init);
     NioApp.coms.docReady.push(NioApp.TGL.init);
+    NioApp.coms.docReady.push(NioApp.sbCompact);
     NioApp.coms.docReady.push(NioApp.BS.init);
     NioApp.coms.winLoad.push(NioApp.ModeSwitch);
     NioApp.coms.winLoad.push(NioApp.Preloader);

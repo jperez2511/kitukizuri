@@ -578,6 +578,11 @@ trait UiConfigTrait
         }
 
         $this->ensureCustomImportInAppScss($entryFile);
+        $this->syncKitukizuriResourceDirectory(
+            __DIR__.'/../../resources/fonts',
+            base_path('resources/fonts/'),
+            false
+        );
 
         return true;
     }
