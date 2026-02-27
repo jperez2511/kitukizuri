@@ -169,7 +169,7 @@ class SetDocker extends Command
             $pass = text('Contraseña: ');
 
             $databaseFiles[$databaseEngine][5][1] = str_replace('ReplaceDataBaseName', $database, $databaseFiles[$databaseEngine][5][1]);
-            $databaseFiles[$databaseEngine][6][1] = str_replace('ReplaceRootPassword', $database, $databaseFiles[$databaseEngine][6][1]);
+            $databaseFiles[$databaseEngine][6][1] = str_replace('ReplaceRootPassword', $pass, $databaseFiles[$databaseEngine][6][1]);
 
             // Update docker-compose.yml
             $this->replaceInFile(...$databaseFiles[$databaseEngine][5]);
@@ -190,9 +190,6 @@ class SetDocker extends Command
 
             if(file_exists(base_path('.env'))) {
                 $this->replaceInFile('DB_HOST=127.0.0.1', $databaseFiles[$databaseEngine][7], base_path('.env'));
-                $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env'));
-                $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env'));
-
                 $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env'));
                 $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env'));
             }
