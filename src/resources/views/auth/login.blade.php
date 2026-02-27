@@ -33,10 +33,10 @@
 
             <div class="form-group">
                 <div class="form-label-group">
-                    <label for="remember_me" class="flex items-center">
+                    <div class="form-check">
                         <x-checkbox id="remember_me" name="remember" />
-                        <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                    </label>
+                        <label for="remember_me" class="form-check-label">{{ __('Remember me') }}</label>
+                    </div>
                     @if (Route::has('password.request'))
                         <a class="link link-primary link-sm" href="{{ route('password.request') }}">
                             {{ __('Forgot your password?') }}
@@ -46,7 +46,7 @@
             </div>
 
             <div class="form-group">
-                <x-button class="btn btn-lg btn-primary btn-block">
+                <x-button class="btn btn-lg btn-primary w-100">
                     {{ __('Log in') }}
                 </x-button>
             </div>

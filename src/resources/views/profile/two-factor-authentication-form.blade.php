@@ -26,7 +26,7 @@
                 </div>
             @endif
 
-        <div class="mt-3 text-sm">
+        <div class="mt-3 nk-block-des">
             <p>
                 {{ __('When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone\'s Google Authenticator application.') }}
             </p>
@@ -34,8 +34,8 @@
 
         @if ($this->enabled)
             @if ($showingQrCode)
-                <div class="mt-4 max-w-xl text-sm text-gray-600">
-                    <p class="font-semibold">
+                <div class="mt-4 nk-block-des">
+                    <p class="fw-semibold mb-0">
                         @if ($showingConfirmation)
                             {{ __('To finish enabling two factor authentication, scan the following QR code using your phone\'s authenticator application or enter the setup key and provide the generated OTP code.') }}
                         @else
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="mt-2">
-                    <p class="font-semibold">
+                    <p class="fw-semibold mb-0">
                         {{ __('Setup Key') }}: {{ decrypt($this->user->two_factor_secret) }}
                     </p>
                 </div>
@@ -58,7 +58,7 @@
                     <div class="mt-4">
                         <x-label for="code" value="{{ __('Code') }}" />
 
-                        <x-input id="code" type="text" name="code" class="block mt-1 w-1/2" inputmode="numeric" autofocus autocomplete="one-time-code"
+                        <x-input id="code" type="text" name="code" class="mt-1 w-50" inputmode="numeric" autofocus autocomplete="one-time-code"
                             wire:model="code"
                             wire:keydown.enter="confirmTwoFactorAuthentication" />
 
@@ -69,7 +69,7 @@
 
             @if ($showingRecoveryCodes)
                 <div class="mt-2">
-                    <p class="font-semibold">
+                    <p class="fw-semibold mb-0">
                         {{ __('Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.') }}
                     </p>
                 </div>

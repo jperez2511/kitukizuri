@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h3 class="title">
             {{ __('API Tokens') }}
-        </h2>
+        </h3>
     </x-slot>
 
     <div>

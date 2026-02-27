@@ -3,6 +3,8 @@
     <div class="nk-block-des"><p>{{ $description }}</p></div>
 </div> 
 
-<div class="px-4 sm:px-0">
-    {{ $aside ?? '' }}
-</div>
+@if (!empty($aside))
+    <div class="nk-block-des mt-2">
+        {{ $aside }}
+    </div>
+@endif

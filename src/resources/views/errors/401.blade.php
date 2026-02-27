@@ -12,6 +12,8 @@
 
         @php 
             $isDark = !empty(config('kitukizuri.dark')) ? '-dark' : null;
+            $dashliteVariant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
+            $dashliteBodyClass = trim((string) config('kitukizuri.dashliteBodyClass', 'bg-lighter npc-general'));
         @endphp
 
         <!-- Bootstrap Css -->
@@ -23,7 +25,7 @@
 
     </head>
 
-    <body>
+    <body class="nk-body {{ $dashliteBodyClass }} variant-{{ $dashliteVariant }} no-touch nk-nio-theme">
         <div class="home-btn d-none d-sm-block">
             <a href="{{ url('') }}"><i class="mdi mdi-home-variant h2"></i></a>
         </div>

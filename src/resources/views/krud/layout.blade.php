@@ -18,7 +18,9 @@
 
     @php 
         $isDark = !empty(config('kitukizuri.dark')) ? '-dark' : null;
-        $sideBar = (!empty($isDark) || !empty(config('kitukizuri.darkSideBar')) ? 'dark' : null); 
+        $sideBar = (!empty($isDark) || !empty(config('kitukizuri.darkSideBar')) ? 'dark' : null);
+        $dashliteVariant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
+        $dashliteBodyClass = trim((string) config('kitukizuri.dashliteBodyClass', 'npc-default has-sidebar'));
     @endphp
 
     <!-- Bootstrap -->
@@ -53,7 +55,7 @@
     @endif
 </head>
 
-<body data-sidebar="{{$sideBar}}" class="sidebar-enable">
+<body data-sidebar="{{$sideBar}}" class="sidebar-enable nk-body {{ $dashliteBodyClass }} variant-{{ $dashliteVariant }}">
     <!-- Begin page -->
     <div id="layout-wrapper">
         <header id="page-topbar">

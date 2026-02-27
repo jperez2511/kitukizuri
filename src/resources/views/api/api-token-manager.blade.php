@@ -25,12 +25,12 @@
                     <div class="col-6">
                         <div class="form-group">
                             <x-label for="permissions" value="{{ __('Permissions') }}" />
-                            <div class="g-3 align-center flex-wrap">
+                            <div class="d-flex flex-wrap gap-2">
                                 @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)
-                                    <div class="g">
-                                        <div class="custom-control custom-control custom-checkbox mr-3">
+                                    <div>
+                                        <div class="form-check me-3">
                                             <x-checkbox wire:model="createApiTokenForm.permissions" :id="$permission" :value="$permission"/>
-                                            <label class="custom-control-label" for="{{ $permission }}">{{ $permission }}</label>
+                                            <label class="form-check-label" for="{{ $permission }}">{{ $permission }}</label>
                                         </div>
                                     </div>
                                 @endforeach
@@ -56,7 +56,7 @@
         <x-section-border />
 
         <!-- Manage API Tokens -->
-        <div class="mt-10 sm:mt-0">
+        <div class="mt-4">
             <x-action-section>
                 <x-slot name="title">
                     {{ __('Manage API Tokens') }}
@@ -77,7 +77,7 @@
 
                                 <div class="p-2">
                                     @if ($token->last_used_at)
-                                        <div class="text-sm text-gray-400">
+                                        <div class="small text-soft">
                                             {{ __('Last used') }} {{ $token->last_used_at->diffForHumans() }}
                                         </div>
                                     @endif
@@ -112,7 +112,7 @@
             </div>
 
             <x-input x-ref="plaintextToken" type="text" readonly :value="$plainTextToken"
-                class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                class="mt-4 form-control form-control-sm font-monospace"
                 autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                 @showing-token-modal.window="setTimeout(() => $refs.plaintextToken.select(), 250)"
             />
@@ -132,12 +132,12 @@
         </x-slot>
 
         <x-slot name="content">
-            <div class="g-3 align-center flex-wrap">
+            <div class="d-flex flex-wrap gap-2">
                 @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)    
-                    <div class="g">
-                        <div class="custom-control custom-control custom-checkbox mr-3">
+                    <div>
+                        <div class="form-check me-3">
                             <x-checkbox wire:model="updateApiTokenForm.permissions" :id="$permission" :value="$permission"/>
-                            <label class="custom-control-label" for="{{ $permission }}">{{ $permission }}</label>
+                            <label class="form-check-label" for="{{ $permission }}">{{ $permission }}</label>
                         </div>
                     </div>
                 @endforeach
