@@ -128,7 +128,7 @@ trait TableTrait
                     </a>';
             }
             
-            $item['btn'] = '<div class="krud-action-group d-inline-flex align-items-center flex-wrap gap-1">'.$btns.'</div>';
+            $item['btn'] = '<div class="krud-action-group d-inline-flex align-items-center flex-nowrap gap-1">'.$btns.'</div>';
 
             unset($item[$this->keyName]);
 

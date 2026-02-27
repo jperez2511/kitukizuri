@@ -31,14 +31,6 @@
             font-size: 0.875rem;
         }
 
-        .krud-index .dt-buttons .buttons-create:before {
-            content: "+";
-            font-family: inherit;
-            font-size: 1.125rem;
-            font-weight: 600;
-            line-height: 1;
-        }
-
         @media (max-width: 575.98px) {
             .krud-index .datatable-filter .d-flex {
                 flex-wrap: wrap;
@@ -102,6 +94,14 @@
                 var actionColumnIndex = {{ count($columnas) }};
                 var dtBtnAddClass = @json(trim((string) ($dtBtnAdd ?? 'btn btn-outline-success')).' buttons-create');
                 var dtBtnLinerClass = @json(trim((string) ($dtBtnLiner ?? 'btn btn-outline-secondary')));
+
+                if (!/\bbtn-success\b/.test(dtBtnAddClass)) {
+                    dtBtnAddClass += ' btn-success';
+                }
+
+                if (!/\bbtn-secondary\b/.test(dtBtnLinerClass)) {
+                    dtBtnLinerClass += ' btn-secondary';
+                }
                 $('#table1').DataTable({
                     language: {
                         search           : "",
@@ -176,6 +176,10 @@
                         }
                     ],
                     sDom: '<"row justify-between g-2 with-export"<"col-12 col-sm-6 col-md-4 text-start"f><"col-12 col-sm-6 col-md-8 text-start text-sm-end"<"datatable-filter"<"d-flex justify-content-sm-end g-2"<"dt-export-buttons d-flex align-center flex-wrap"<"dt-export-title d-none d-md-inline-block">B>l>>>><"datatable-wrap mt-2 mb-2"t><"row align-items-center g-2"<"col-12 col-md-9"p><"col-12 col-md-3 text-start text-md-end"i>>'
+                    ,
+                    initComplete: function() {
+                        $('.dt-buttons .buttons-create').removeClass('btn-secondary');
+                    }
                 })
             });
             function edit(id){
