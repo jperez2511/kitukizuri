@@ -1,9 +1,12 @@
 
 <x-app-layout>
+    <x-slot name="header">
+        {{ __('Control Panel') }}
+    </x-slot>
+
     <div class="col-12">
-        <div class="nk-block-head nk-block-head-lg mx-auto">
-            <div class="nk-block-head-content text-center">
-                <h2 class="nk-block-title fw-normal">{{__('Control Panel')}}</h2>
+        <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-head-content">
                 <div class="nk-block-des">
                     <p>{{__('Welcome to the Control Panel! You have the following options available within your application.')}}</p>
                 </div>

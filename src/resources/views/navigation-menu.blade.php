@@ -1,14 +1,32 @@
 @php
-    $bodyClass = ' '.trim((string) config('kitukizuri.dashliteBodyClass', '')).' ';
-    $isAsideLayout = str_contains($bodyClass, ' has-aside ');
-    $menuTarget = $isAsideLayout ? 'sideNav' : 'sidebarMenu';
+    $layout = \Icebearsoft\Kitukizuri\App\Support\DashliteLayoutState::build(false);
+    $isAsideLayout = $layout['isAsideLayout'];
+    $menuTarget = $layout['sidebarTarget'];
     $triggerClass = $isAsideLayout ? 'd-lg-none ms-n1' : 'd-xl-none ms-n1';
 @endphp
 
 <div x-data="{ open: false }" class="nk-header-wrap">
-    <div class="nk-menu-trigger {{ $triggerClass }}">
-        <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
-    </div>
+    @if (!$isAsideLayout)
+        <div class="nk-menu-trigger {{ $triggerClass }}">
+            <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
+        </div>
+    @endif
+    @if ($isAsideLayout)
+        <div class="nk-header-brand">
+            <a href="{{ route('home.index') }}" class="logo-link">
+                <x-application-mark style="width:30px;" />
+            </a>
+        </div>
+        <div class="nk-header-menu">
+            <ul class="nk-menu nk-menu-main">
+                <li class="nk-menu-item">
+                    <a href="{{ route('home.index') }}" class="nk-menu-link">
+                        <span class="nk-menu-text">{{ __('Overview') }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    @endif
 
     <div class="nk-header-tools">
         <ul class="nk-quick-nav">
@@ -68,6 +86,11 @@
                     </div>
                 </div>
             </li>
+            @if ($isAsideLayout)
+                <li class="d-lg-none">
+                    <a href="#" class="toggle nk-quick-nav-icon me-n1" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
+                </li>
+            @endif
         </ul>
     </div>
 </div>
