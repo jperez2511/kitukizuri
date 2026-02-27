@@ -6,13 +6,14 @@
     $isDemo5 = $variant === 'demo5';
     $isDemo6 = $variant === 'demo6';
     $isDemo8 = $variant === 'demo8';
+    $isDemo9 = $variant === 'demo9';
     $isAsideLayout = $layout['isAsideLayout'];
     $menuTarget = $layout['sidebarTarget'];
     $triggerClass = $isAsideLayout ? 'd-lg-none ms-n1' : 'd-xl-none ms-n1';
 @endphp
 
 <div x-data="{ open: false }" class="nk-header-wrap">
-    @if (!$isAsideLayout && !$isDemo6 && !$isDemo8)
+    @if (!$isAsideLayout && !$isDemo6 && !$isDemo8 && !$isDemo9)
         <div class="nk-menu-trigger {{ $triggerClass }}">
             <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
         </div>
@@ -46,6 +47,44 @@
                 <input type="text" class="form-control border-transparent form-focus-none" placeholder="{{ __('Search anything') }}">
             </div>
         @endif
+    @endif
+    @if ($isDemo9)
+        <div class="nk-menu-trigger d-xl-none ms-n1 me-3">
+            <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
+        </div>
+        <div class="nk-header-brand d-xl-none">
+            <a href="{{ route('home.index') }}" class="logo-link">
+                <x-application-mark style="width:34px;" />
+            </a>
+        </div>
+        <div class="nk-header-menu is-light">
+            <div class="nk-header-menu-inner">
+                <ul class="nk-menu nk-menu-main">
+                    <li class="nk-menu-item has-sub{{ request()->routeIs('home.index') ? ' active current-page' : '' }}">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-text">{{ __('Dashboards') }}</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="{{ route('home.index') }}" class="nk-menu-link">
+                                    <span class="nk-menu-text">{{ __('Default Dashboard') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nk-menu-item">
+                        <a href="#" class="nk-menu-link">
+                            <span class="nk-menu-text">{{ __('Apps') }}</span>
+                        </a>
+                    </li>
+                    <li class="nk-menu-item">
+                        <a href="#" class="nk-menu-link">
+                            <span class="nk-menu-text">{{ __('Components') }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     @endif
     @if ($isDemo6 || $isDemo8)
         <div class="nk-menu-trigger me-sm-2 d-lg-none">
@@ -89,8 +128,8 @@
 
     <div class="nk-header-tools">
         <ul class="nk-quick-nav">
-            @if ($isDemo1 || $isDemo2 || $isDemo5 || $isDemo6 || $isDemo8)
-                @if (!$isDemo6 && !$isDemo8)
+            @if ($isDemo1 || $isDemo2 || $isDemo5 || $isDemo6 || $isDemo8 || $isDemo9)
+                @if (!$isDemo6 && !$isDemo8 && !$isDemo9)
                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                             <div class="quick-icon border border-light">
@@ -105,8 +144,8 @@
                         </div>
                     </li>
                 @endif
-                @if ($isDemo2 || $isDemo8)
-                    <li class="dropdown chats-dropdown hide-mb-xs">
+                @if ($isDemo2 || $isDemo8 || $isDemo9)
+                    <li class="dropdown chats-dropdown {{ $isDemo9 ? 'hide-mb-sm' : 'hide-mb-xs' }}">
                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                             <div class="icon-status icon-status-na"><em class="icon ni {{ $isDemo8 ? 'ni-chat' : 'ni-comments' }}"></em></div>
                         </a>
@@ -142,6 +181,21 @@
                         </div>
                     </li>
                 @endif
+                @if ($isDemo9)
+                    <li class="dropdown language-dropdown d-none d-sm-block me-n1">
+                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                            <div class="quick-icon border border-light">
+                                <em class="icon ni ni-globe"></em>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                            <ul class="language-list">
+                                <li><a href="#" class="language-item"><span class="language-name">English</span></a></li>
+                                <li><a href="#" class="language-item"><span class="language-name">Español</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
                 @if ($isDemo8)
                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
@@ -159,7 +213,7 @@
                 @endif
             @endif
             <li class="dropdown user-dropdown{{ $isDemo6 ? ' order-sm-first' : '' }}">
-                <a href="#" class="dropdown-toggle{{ ($isDemo1 || $isDemo5 || $isDemo6 || $isDemo8) ? '' : ' me-n1' }}" data-bs-toggle="dropdown">
+                <a href="#" class="dropdown-toggle{{ ($isDemo1 || $isDemo5 || $isDemo6 || $isDemo8 || $isDemo9) ? '' : ' me-n1' }}" data-bs-toggle="dropdown">
                     <div class="user-toggle">
                         <div class="user-avatar sm">
                             <em class="icon ni ni-user-alt"></em>

@@ -37,7 +37,7 @@ class DashliteLayoutState
         $appsSidebarClass = 'nk-apps-sidebar'.($isLightSurface ? ' is-light' : ' is-dark');
         $headerContainerClass = $isAsideLayout ? 'container-lg wide-xl' : 'container-fluid';
         $contentContainerClass = $isAsideLayout ? 'container wide-xl' : 'container-fluid';
-        if ($variant === 'demo6') {
+        if (in_array($variant, ['demo6', 'demo9'], true)) {
             $headerContainerClass = 'container-xl wide-xl';
             $contentContainerClass = 'container-xl wide-xl';
         }
