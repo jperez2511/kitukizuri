@@ -100,6 +100,8 @@
             var uriArgs = (String(window.location).includes('?') ? '?'+String(window.location).split('?')[1] : '');
             document.addEventListener('DOMContentLoaded', function() {
                 var actionColumnIndex = {{ count($columnas) }};
+                var dtBtnAddClass = @json(trim((string) ($dtBtnAdd ?? 'btn btn-outline-success')).' buttons-create');
+                var dtBtnLinerClass = @json(trim((string) ($dtBtnLiner ?? 'btn btn-outline-secondary')));
                 $('#table1').DataTable({
                     language: {
                         search           : "",
@@ -135,7 +137,7 @@
                             @endif
                             @if(in_array('create', $permisos))
                                 {
-                                    className: 'buttons-create',
+                                    className: dtBtnAddClass,
                                     attr: {
                                         title: '{{ __('Create') }}' // Tooltip en el botón
                                     },
@@ -156,6 +158,14 @@
                                 @endforeach
                             @endif   
                         ],
+                        dom: {
+                            button: {
+                                className: dtBtnLinerClass
+                            },
+                            buttonLiner: {
+                                tag: null
+                            }
+                        }
                     },
                     columnDefs: [
                         {
