@@ -1,15 +1,17 @@
 
 <x-app-layout>
-    <div class="nk-block-head nk-block-head-lg mx-auto">
-        <div class="nk-block-head-content text-center">
-            <h2 class="nk-block-title fw-normal">{{__('Control Panel')}}</h2>
-            <div class="nk-block-des">
-                <p>{{__('Welcome to the Control Panel! You have the following options available within your application.')}}</p>
+    <div class="col-12">
+        <div class="nk-block-head nk-block-head-lg mx-auto">
+            <div class="nk-block-head-content text-center">
+                <h2 class="nk-block-title fw-normal">{{__('Control Panel')}}</h2>
+                <div class="nk-block-des">
+                    <p>{{__('Welcome to the Control Panel! You have the following options available within your application.')}}</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-12 col-md-6">
         <div class="card">
             <div class="card-body mt-3 mb-3 text-center">
                 <a href="{{ route('usuarios.index') }}" style="color:#7c8a96;">
@@ -38,7 +40,7 @@
     </div>
     
     
-<div class="col-6">
+<div class="col-12 col-md-6">
     <div class="card">
         <div class="card-body mt-3 mb-3 text-center">
             <a href="{{ route('empresas.index') }}" style="color:#7c8a96;" >
@@ -65,7 +67,7 @@
     </div>
 </div>
 
-<div class="col-6">
+<div class="col-12 col-md-6">
     <div class="card">
         <div class="card-body mt-3 mb-3 text-center">
             <a href="{{ route('roles.index') }}" style="color:#7c8a96;">

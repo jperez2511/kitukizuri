@@ -93,17 +93,17 @@
                                     </div>
                                 @endif
                                 <div class="nk-content-body">
-                                    <div class="nk-block-head nk-block-head-sm">
-                                        <div class="nk-block-between">
-                                            <div class="nk-block-head-content">
-                                                @if (isset($header))
+                                    @if (isset($header))
+                                        <div class="nk-block-head nk-block-head-sm">
+                                            <div class="nk-block-between">
+                                                <div class="nk-block-head-content">
                                                     <h3 class="nk-block-title page-title">
                                                         {{ $header }}
                                                     </h3>
-                                                @endif
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                     <div class="nk-block">
                                         <div class="row g-gs">
                                             <x-banner />
