@@ -256,7 +256,7 @@ trait UiConfigTrait
 
     protected function applyBootstrapBaseConfiguration($forceCopy)
     {
-        $this->replaceInFileIfPresent(base_path('vite.config.js'), 'resources/css/app.css', 'resources/sass/app.scss');
+        $this->ensureViteSassEntry();
         $this->replaceInFileIfPresent(base_path('resources/views/layouts/app.blade.php'), 'resources/css/app.css', 'resources/sass/app.scss');
         $this->replaceInFileIfPresent(base_path('resources/views/layouts/guest.blade.php'), 'resources/css/app.css', 'resources/sass/app.scss');
         $this->removePatternInFileIfPresent(base_path('postcss.config.js'), '/\s*tailwindcss\s*:\s*\{\s*\}\s*,?\s*/m');
@@ -274,7 +274,37 @@ trait UiConfigTrait
         $this->ensureKrudJsEntryImports(base_path('resources/js/app.js'));
         $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/sass', base_path('resources/sass/'), $forceCopy);
         $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/fonts', base_path('resources/fonts/'), $forceCopy);
+        $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/fonts', public_path('fonts/'), $forceCopy);
         $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/views', base_path('resources/views/'), $forceCopy);
+    }
+
+    protected function ensureViteSassEntry()
+    {
+        $vitePath = base_path('vite.config.js');
+
+        if (!file_exists($vitePath)) {
+            return;
+        }
+
+        $content = file_get_contents($vitePath);
+        if ($content === false) {
+            return;
+        }
+
+        if (str_contains($content, 'resources/sass/app.scss')) {
+            return;
+        }
+
+        $updated = preg_replace(
+            '/([\'"])resources\/css\/app\.css\1/',
+            "'resources/sass/app.scss'",
+            $content,
+            1
+        );
+
+        if ($updated !== null && $updated !== $content) {
+            file_put_contents($vitePath, $updated);
+        }
     }
 
     protected function replaceInFileIfPresent($path, $search, $replace)
@@ -581,6 +611,11 @@ trait UiConfigTrait
         $this->syncKitukizuriResourceDirectory(
             __DIR__.'/../../resources/fonts',
             base_path('resources/fonts/'),
+            false
+        );
+        $this->syncKitukizuriResourceDirectory(
+            __DIR__.'/../../resources/fonts',
+            public_path('fonts/'),
             false
         );
 

@@ -26,9 +26,72 @@ trait TsTrait
     protected function addViteConfigTs()
     {
         $this->replaceInFile('vite build', 'vue-tsc --noEmit && vite build', base_path('package.json'));
-
-        $this->replaceInFile("'resources/css/app.css', 'resources/js/app.js'", "'resources/css/app.css', 'resources/js/app.js', 'resources/ts/app.ts'", base_path('vite.config.js'));
+        $this->ensureTsViteInput();
 
         $this->info('La configuración de TypeScript en Vite fue agregada exitosamente');
+    }
+
+    protected function ensureTsViteInput()
+    {
+        $vitePath = base_path('vite.config.js');
+        if (!file_exists($vitePath)) {
+            return;
+        }
+
+        $content = file_get_contents($vitePath);
+        if ($content === false || str_contains($content, 'resources/ts/app.ts')) {
+            return;
+        }
+
+        $updated = preg_replace_callback(
+            '/input\s*:\s*\[([^\]]*)\]/s',
+            static function ($matches) {
+                $inner = $matches[1];
+                $trimmed = trim($inner);
+
+                if ($trimmed === '') {
+                    return "input: ['resources/ts/app.ts']";
+                }
+
+                if (preg_match('/,\s*$/', $inner) === 1) {
+                    return "input: [".$inner." 'resources/ts/app.ts']";
+                }
+
+                return "input: [".$inner.", 'resources/ts/app.ts']";
+            },
+            $content,
+            1,
+            $staticCount
+        );
+
+        if ($updated !== null && $staticCount > 0 && $updated !== $content) {
+            file_put_contents($vitePath, $updated);
+            return;
+        }
+
+        $updated = preg_replace_callback(
+            '/const\s+inputs\s*=\s*\[([^\]]*)\]\s*;/s',
+            static function ($matches) {
+                $inner = $matches[1];
+                $trimmed = trim($inner);
+
+                if ($trimmed === '') {
+                    return "const inputs = ['resources/ts/app.ts'];";
+                }
+
+                if (preg_match('/,\s*$/', $inner) === 1) {
+                    return "const inputs = [".$inner." 'resources/ts/app.ts'];";
+                }
+
+                return "const inputs = [".$inner.", 'resources/ts/app.ts'];";
+            },
+            $content,
+            1,
+            $dynamicCount
+        );
+
+        if ($updated !== null && $dynamicCount > 0 && $updated !== $content) {
+            file_put_contents($vitePath, $updated);
+        }
     }
  }

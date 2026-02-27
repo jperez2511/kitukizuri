@@ -5,10 +5,13 @@ import fs from 'fs';
 
 export default defineConfig(async () => {
     const plugins = [];
-    const inputs = [
-        'resources/css/app.css',
-        'resources/js/app.js' // Siempre se incluye
-    ];
+    const inputs = ['resources/js/app.js']; // Siempre se incluye
+
+    if (fs.existsSync('./resources/sass/app.scss')) {
+        inputs.unshift('resources/sass/app.scss');
+    } else if (fs.existsSync('./resources/css/app.css')) {
+        inputs.unshift('resources/css/app.css');
+    }
 
     // Carga Vue si existe
     if (fs.existsSync('./node_modules/vue')) {
