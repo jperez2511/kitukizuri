@@ -1,5 +1,7 @@
 @php
     $layout = \Icebearsoft\Kitukizuri\App\Support\DashliteLayoutState::build(false);
+    $variant = $layout['variant'];
+    $isDemo1 = $variant === 'demo1';
     $isAsideLayout = $layout['isAsideLayout'];
     $menuTarget = $layout['sidebarTarget'];
     $triggerClass = $isAsideLayout ? 'd-lg-none ms-n1' : 'd-xl-none ms-n1';
@@ -10,6 +12,26 @@
         <div class="nk-menu-trigger {{ $triggerClass }}">
             <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
         </div>
+        @if ($isDemo1)
+            <div class="nk-header-brand d-xl-none">
+                <a href="{{ route('home.index') }}" class="logo-link">
+                    <x-application-mark style="width:30px;" />
+                </a>
+            </div>
+            <div class="nk-header-news d-none d-xl-block">
+                <div class="nk-news-list">
+                    <a class="nk-news-item" href="#">
+                        <div class="nk-news-icon">
+                            <em class="icon ni ni-card-view"></em>
+                        </div>
+                        <div class="nk-news-text">
+                            <p>Do you know the latest update of 2022? <span>A overview of our is now available on YouTube</span></p>
+                            <em class="icon ni ni-external"></em>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        @endif
     @endif
     @if ($isAsideLayout)
         <div class="nk-header-brand">
@@ -30,12 +52,56 @@
 
     <div class="nk-header-tools">
         <ul class="nk-quick-nav">
+            @if ($isDemo1)
+                <li class="dropdown language-dropdown d-none d-sm-block me-n1">
+                    <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                        <div class="quick-icon border border-light">
+                            <em class="icon ni ni-globe"></em>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                        <ul class="language-list">
+                            <li><a href="#" class="language-item"><span class="language-name">English</span></a></li>
+                            <li><a href="#" class="language-item"><span class="language-name">Español</span></a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropdown notification-dropdown">
+                    <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                        <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end dropdown-menu-s1">
+                        <div class="dropdown-head">
+                            <span class="sub-title nk-dropdown-title">Notifications</span>
+                        </div>
+                        <div class="dropdown-body">
+                            <div class="nk-notification">
+                                <div class="nk-notification-item dropdown-inner">
+                                    <div class="nk-notification-icon">
+                                        <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                    </div>
+                                    <div class="nk-notification-content">
+                                        <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
+                                        <div class="nk-notification-time">2 hrs ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            @endif
             <li class="dropdown user-dropdown">
-                <a href="#" class="dropdown-toggle me-n1" data-bs-toggle="dropdown">
+                <a href="#" class="dropdown-toggle{{ $isDemo1 ? '' : ' me-n1' }}" data-bs-toggle="dropdown">
                     <div class="user-toggle">
                         <div class="user-avatar sm">
                             <em class="icon ni ni-user-alt"></em>
                         </div>
+                        @if ($isDemo1)
+                            <div class="user-info d-none d-md-block">
+                                <div class="user-status">{{ __('Administrator') }}</div>
+                                <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
+                            </div>
+                        @endif
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-md dropdown-menu-end">

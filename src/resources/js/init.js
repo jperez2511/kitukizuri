@@ -275,36 +275,231 @@ var NioApp = (function (n, l) {
     _header = 'nk-header',
     _header_menu = 'nk-header-menu',
     _sidebar = 'nk-sidebar',
+    _aside = 'nk-aside',
     _sidebar_mob = 'nk-sidebar-mobile',
+    _sidebar_short = 'nk-sidebar-short',
+    _short_nav = 'has-sidebar-short',
     _app_sidebar = 'nk-apps-sidebar',
     //breakpoints
-    _break = NioApp.Break;
+    _break = NioApp.Break,
+    _variant = (function () {
+      var bodyClass = $body.attr('class') || '',
+        matched = bodyClass.match(/\bvariant-([a-z0-9-]+)\b/i);
+      return matched ? matched[1].toLowerCase() : 'demo3';
+    })(),
+    _variantMap = {
+      demo1: {
+        bodySidebar: true,
+        bodyAppsSidebar: false,
+        bodyAside: false,
+        navHeader: true,
+        navSidebar: true,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: false,
+        ddSidebar: true,
+        ddAside: false,
+        showmenuBase: _sidebar,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: true
+      },
+      demo2: {
+        bodySidebar: true,
+        bodyAppsSidebar: false,
+        bodyAside: false,
+        navHeader: true,
+        navSidebar: false,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: false,
+        ddSidebar: true,
+        ddAside: false,
+        showmenuBase: _sidebar,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: false
+      },
+      demo3: {
+        bodySidebar: true,
+        bodyAppsSidebar: true,
+        bodyAside: false,
+        navHeader: true,
+        navSidebar: true,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: false,
+        ddSidebar: true,
+        ddAside: false,
+        showmenuBase: _sidebar,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: false
+      },
+      demo4: {
+        bodySidebar: false,
+        bodyAppsSidebar: false,
+        bodyAside: true,
+        navHeader: true,
+        navSidebar: false,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: true,
+        ddSidebar: false,
+        ddAside: true,
+        showmenuBase: _header,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: false
+      },
+      demo5: {
+        bodySidebar: true,
+        bodyAppsSidebar: false,
+        bodyAside: false,
+        navHeader: true,
+        navSidebar: true,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: false,
+        ddSidebar: true,
+        ddAside: false,
+        showmenuBase: _sidebar,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: false
+      },
+      demo6: {
+        bodySidebar: false,
+        bodyAppsSidebar: false,
+        bodyAside: false,
+        navHeader: true,
+        navSidebar: false,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: false,
+        ddSidebar: false,
+        ddAside: false,
+        showmenuBase: _header,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: true
+      },
+      demo7: {
+        bodySidebar: true,
+        bodyAppsSidebar: true,
+        bodyAside: false,
+        navHeader: true,
+        navSidebar: true,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: false,
+        ddSidebar: true,
+        ddAside: false,
+        showmenuBase: _sidebar,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: true
+      },
+      demo8: {
+        bodySidebar: false,
+        bodyAppsSidebar: false,
+        bodyAside: false,
+        navHeader: true,
+        navSidebar: false,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: false,
+        ddSidebar: false,
+        ddAside: false,
+        showmenuBase: _header,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: true
+      },
+      demo9: {
+        bodySidebar: true,
+        bodyAppsSidebar: false,
+        bodyAside: false,
+        navHeader: true,
+        navSidebar: true,
+        navSidebarShort: false,
+        navSidebarIgnoreShort: false,
+        navAside: false,
+        ddSidebar: true,
+        ddAside: false,
+        showmenuBase: _sidebar,
+        showmenuUsesShortNav: false,
+        keepOnMobileResize: false
+      },
+      covid: {
+        bodySidebar: true,
+        bodyAppsSidebar: false,
+        bodyAside: false,
+        navHeader: false,
+        navSidebar: true,
+        navSidebarShort: true,
+        navSidebarIgnoreShort: true,
+        navAside: false,
+        ddSidebar: true,
+        ddAside: true,
+        showmenuBase: _sidebar,
+        showmenuUsesShortNav: true,
+        keepOnMobileResize: false
+      }
+    },
+    _variantRules = _variantMap[_variant] || _variantMap.demo3;
   function extend(obj, ext) {
     Object.keys(ext).forEach(function (key) {
       obj[key] = ext[key];
     });
     return obj;
   }
+  function applyNavBreakClass(initialize) {
+    var headerOptions = initialize ? {
+        timeOut: 0
+      } : {},
+      sidebarOptions = initialize ? {
+        timeOut: 0,
+        classAdd: _sidebar_mob
+      } : {
+        classAdd: _sidebar_mob
+      },
+      asideOptions = initialize ? {
+        timeOut: 0
+      } : {},
+      shortSidebarOptions = initialize ? {
+        timeOut: 0,
+        classAdd: _sidebar_mob
+      } : {
+        classAdd: _sidebar_mob
+      };
+
+    if (_variantRules.navHeader) {
+      NioApp.BreakClass('.' + _header_menu, _break.lg, headerOptions);
+    }
+    if (_variantRules.navSidebar) {
+      if (_variantRules.navSidebarIgnoreShort) {
+        sidebarOptions.ignore = _sidebar_short;
+      }
+      NioApp.BreakClass('.' + _sidebar, _break.lg, sidebarOptions);
+    }
+    if (_variantRules.navSidebarShort) {
+      NioApp.BreakClass('.' + _sidebar_short, _break.md, shortSidebarOptions);
+    }
+    if (_variantRules.navAside) {
+      NioApp.BreakClass('.' + _aside, _break.lg, asideOptions);
+    }
+  }
   // ClassInit @v1.0
   NioApp.ClassBody = function () {
-    NioApp.AddInBody(_sidebar);
-    NioApp.AddInBody(_app_sidebar);
+    if (_variantRules.bodySidebar) {
+      NioApp.AddInBody(_sidebar);
+    }
+    if (_variantRules.bodyAppsSidebar) {
+      NioApp.AddInBody(_app_sidebar);
+    }
+    if (_variantRules.bodyAside) {
+      NioApp.AddInBody(_aside);
+    }
   };
 
   // ClassInit @v1.0
   NioApp.ClassNavMenu = function () {
-    NioApp.BreakClass('.' + _header_menu, _break.lg, {
-      timeOut: 0
-    });
-    NioApp.BreakClass('.' + _sidebar, _break.lg, {
-      timeOut: 0,
-      classAdd: _sidebar_mob
-    });
+    applyNavBreakClass(true);
     $win.on('resize', function () {
-      NioApp.BreakClass('.' + _header_menu, _break.lg);
-      NioApp.BreakClass('.' + _sidebar, _break.lg, {
-        classAdd: _sidebar_mob
-      });
+      applyNavBreakClass(false);
     });
   };
 
@@ -353,7 +548,10 @@ var NioApp = (function (n, l) {
       },
       attr = opt ? extend(def, opt) : def;
     $(imenu).on('click', function (e) {
-      if (NioApp.Win.width < _break.lg || $(this).parents().hasClass(_sidebar)) {
+      var $self = $(this),
+        hasSidebarParent = _variantRules.ddSidebar && $self.parents().hasClass(_sidebar),
+        hasAsideParent = _variantRules.ddAside && $self.parents().hasClass(_aside);
+      if (NioApp.Win.width < _break.lg || hasSidebarParent || hasAsideParent) {
         NioApp.Toggle.dropMenu($(this), attr);
       }
       e.preventDefault();
@@ -365,15 +563,16 @@ var NioApp = (function (n, l) {
     var toggle = elm ? elm : '.nk-nav-toggle',
       $toggle = $(toggle),
       $contentD = $('[data-content]'),
-      toggleBreak = $contentD.hasClass(_header_menu) ? _break.lg : _break.xl,
-      toggleOlay = _sidebar + '-overlay',
+      toggleBreak = (_variantRules.showmenuUsesShortNav && $body.hasClass(_short_nav)) || $contentD.hasClass(_header_menu) ? _break.lg : _break.xl,
+      toggleBase = _variantRules.showmenuBase,
+      toggleOlay = toggleBase + '-overlay',
       toggleClose = {
         profile: true,
         menu: false
       },
       def = {
         active: 'toggle-active',
-        content: _sidebar + '-active',
+        content: toggleBase + '-active',
         body: 'nav-shown',
         overlay: toggleOlay,
         "break": toggleBreak,
@@ -390,7 +589,7 @@ var NioApp = (function (n, l) {
       }
     });
     $win.on('resize', function () {
-      if (NioApp.Win.width < _break.xl || NioApp.Win.width < toggleBreak) {
+      if ((NioApp.Win.width < _break.xl || NioApp.Win.width < toggleBreak) && (!_variantRules.keepOnMobileResize || !NioApp.State.isMobile)) {
         NioApp.Toggle.removed($toggle.data('target'), attr);
       }
     });
