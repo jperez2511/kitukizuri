@@ -93,11 +93,36 @@ class MenuController
             $this->uiElements['li-jr.class']                  = config('kitukizuri.menu.li-jr.class');
 
             $this->vBootstrap = config('kitukizuri.vBootstrap');
+            $this->applyDashliteVariantMenuPreset();
         }
 
         //abriendo tag ul con los estilos personalizables
         $this->tree .= '<ul class="'.$this->uiElements['ul.class'].'" id="'.$this->uiElements['ul.id'].'">';
         
+    }
+
+    /**
+     * Aplica presets de estructura de menu segun variante DashLite.
+     */
+    private function applyDashliteVariantMenuPreset()
+    {
+        $variant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
+
+        if ($variant !== 'demo6') {
+            return;
+        }
+
+        // demo6 usa navegacion principal horizontal en header.
+        $this->uiElements['ul.class'] = 'nk-menu nk-menu-main ui-s2';
+        $this->uiElements['li-parent.class'] = 'nk-menu-item has-sub';
+        $this->uiElements['li-parent.layout'] = '<a href="{{url}}" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">{{label}}</span></a>';
+        $this->uiElements['li-parent.layout-without-son'] = '<a href="{{url}}" class="nk-menu-link"><span class="nk-menu-text">{{label}}</span></a>';
+        $this->uiElements['li-jr.class'] = 'nk-menu-item';
+        $this->uiElements['li-jr.layout'] = '<a href="{{url}}" class="nk-menu-link"><span class="nk-menu-text">{{label}}</span></a>';
+        $this->uiElements['ul-jr'] = [
+            'aria-expanded' => 'false',
+            'class' => 'nk-menu-sub',
+        ];
     }
 
 

@@ -2,17 +2,20 @@
     $layout = \Icebearsoft\Kitukizuri\App\Support\DashliteLayoutState::build(false);
     $variant = $layout['variant'];
     $isDemo1 = $variant === 'demo1';
+    $isDemo2 = $variant === 'demo2';
+    $isDemo5 = $variant === 'demo5';
+    $isDemo6 = $variant === 'demo6';
     $isAsideLayout = $layout['isAsideLayout'];
     $menuTarget = $layout['sidebarTarget'];
     $triggerClass = $isAsideLayout ? 'd-lg-none ms-n1' : 'd-xl-none ms-n1';
 @endphp
 
 <div x-data="{ open: false }" class="nk-header-wrap">
-    @if (!$isAsideLayout)
+    @if (!$isAsideLayout && !$isDemo6)
         <div class="nk-menu-trigger {{ $triggerClass }}">
             <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
         </div>
-        @if ($isDemo1)
+        @if ($isDemo1 || $isDemo5)
             <div class="nk-header-brand d-xl-none">
                 <a href="{{ route('home.index') }}" class="logo-link">
                     <x-application-mark style="width:30px;" />
@@ -31,7 +34,40 @@
                     </a>
                 </div>
             </div>
+        @elseif ($isDemo2)
+            <div class="nk-header-brand d-xl-none">
+                <a href="{{ route('home.index') }}" class="logo-link">
+                    <x-application-mark style="width:30px;" />
+                </a>
+            </div>
+            <div class="nk-header-search ms-3 ms-xl-0">
+                <em class="icon ni ni-search"></em>
+                <input type="text" class="form-control border-transparent form-focus-none" placeholder="{{ __('Search anything') }}">
+            </div>
         @endif
+    @endif
+    @if ($isDemo6)
+        <div class="nk-menu-trigger me-sm-2 d-lg-none">
+            <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="headerNav"><em class="icon ni ni-menu"></em></a>
+        </div>
+        <div class="nk-header-brand">
+            <a href="{{ route('home.index') }}" class="logo-link">
+                <x-application-mark style="width:34px;" />
+            </a>
+        </div>
+        <div class="nk-header-menu" data-content="headerNav">
+            <div class="nk-header-mobile">
+                <div class="nk-header-brand">
+                    <a href="{{ route('home.index') }}" class="logo-link">
+                        <x-application-mark style="width:34px;" />
+                    </a>
+                </div>
+                <div class="nk-menu-trigger me-n2">
+                    <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="headerNav"><em class="icon ni ni-arrow-left"></em></a>
+                </div>
+            </div>
+            {!! session('menu') !!}
+        </div>
     @endif
     @if ($isAsideLayout)
         <div class="nk-header-brand">
@@ -52,53 +88,79 @@
 
     <div class="nk-header-tools">
         <ul class="nk-quick-nav">
-            @if ($isDemo1)
-                <li class="dropdown language-dropdown d-none d-sm-block me-n1">
-                    <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                        <div class="quick-icon border border-light">
-                            <em class="icon ni ni-globe"></em>
+            @if ($isDemo1 || $isDemo2 || $isDemo5 || $isDemo6)
+                @if (!$isDemo6)
+                    <li class="dropdown language-dropdown d-none d-sm-block me-n1">
+                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                            <div class="quick-icon border border-light">
+                                <em class="icon ni ni-globe"></em>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                            <ul class="language-list">
+                                <li><a href="#" class="language-item"><span class="language-name">English</span></a></li>
+                                <li><a href="#" class="language-item"><span class="language-name">Español</span></a></li>
+                            </ul>
                         </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
-                        <ul class="language-list">
-                            <li><a href="#" class="language-item"><span class="language-name">English</span></a></li>
-                            <li><a href="#" class="language-item"><span class="language-name">Español</span></a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="dropdown notification-dropdown">
-                    <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                        <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end dropdown-menu-s1">
-                        <div class="dropdown-head">
-                            <span class="sub-title nk-dropdown-title">Notifications</span>
+                    </li>
+                @endif
+                @if ($isDemo2)
+                    <li class="dropdown chats-dropdown hide-mb-xs">
+                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                            <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                            <ul class="link-list">
+                                <li><a href="#">{{ __('No new chats') }}</a></li>
+                            </ul>
                         </div>
-                        <div class="dropdown-body">
-                            <div class="nk-notification">
-                                <div class="nk-notification-item dropdown-inner">
-                                    <div class="nk-notification-icon">
-                                        <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                                    </div>
-                                    <div class="nk-notification-content">
-                                        <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
-                                        <div class="nk-notification-time">2 hrs ago</div>
+                    </li>
+                @endif
+                @if (!$isDemo5)
+                    <li class="dropdown notification-dropdown">
+                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                            <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end dropdown-menu-s1">
+                            <div class="dropdown-head">
+                                <span class="sub-title nk-dropdown-title">Notifications</span>
+                            </div>
+                            <div class="dropdown-body">
+                                <div class="nk-notification">
+                                    <div class="nk-notification-item dropdown-inner">
+                                        <div class="nk-notification-icon">
+                                            <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                        </div>
+                                        <div class="nk-notification-content">
+                                            <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
+                                            <div class="nk-notification-time">2 hrs ago</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                @endif
             @endif
-            <li class="dropdown user-dropdown">
-                <a href="#" class="dropdown-toggle{{ $isDemo1 ? '' : ' me-n1' }}" data-bs-toggle="dropdown">
+            <li class="dropdown user-dropdown{{ $isDemo6 ? ' order-sm-first' : '' }}">
+                <a href="#" class="dropdown-toggle{{ ($isDemo1 || $isDemo5 || $isDemo6) ? '' : ' me-n1' }}" data-bs-toggle="dropdown">
                     <div class="user-toggle">
                         <div class="user-avatar sm">
                             <em class="icon ni ni-user-alt"></em>
                         </div>
-                        @if ($isDemo1)
+                        @if ($isDemo1 || $isDemo5)
                             <div class="user-info d-none d-md-block">
                                 <div class="user-status">{{ __('Administrator') }}</div>
+                                <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
+                            </div>
+                        @elseif ($isDemo6)
+                            <div class="user-info d-none d-xl-block">
+                                <div class="user-status">{{ __('Administrator') }}</div>
+                                <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
+                            </div>
+                        @elseif ($isDemo2)
+                            <div class="user-info d-none d-xl-block">
+                                <div class="user-status">{{ __('Unverified') }}</div>
                                 <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
                             </div>
                         @endif
@@ -152,6 +214,46 @@
                     </div>
                 </div>
             </li>
+            @if ($isDemo6)
+                <li class="dropdown language-dropdown d-none d-sm-flex me-n1">
+                    <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                        <div class="quick-icon">
+                            <em class="icon ni ni-globe"></em>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                        <ul class="language-list">
+                            <li><a href="#" class="language-item"><span class="language-name">English</span></a></li>
+                            <li><a href="#" class="language-item"><span class="language-name">Español</span></a></li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
+            @if ($isDemo5)
+                <li class="dropdown notification-dropdown me-n1">
+                    <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                        <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end dropdown-menu-s1">
+                        <div class="dropdown-head">
+                            <span class="sub-title nk-dropdown-title">Notifications</span>
+                        </div>
+                        <div class="dropdown-body">
+                            <div class="nk-notification">
+                                <div class="nk-notification-item dropdown-inner">
+                                    <div class="nk-notification-icon">
+                                        <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                    </div>
+                                    <div class="nk-notification-content">
+                                        <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
+                                        <div class="nk-notification-time">2 hrs ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            @endif
             @if ($isAsideLayout)
                 <li class="d-lg-none">
                     <a href="#" class="toggle nk-quick-nav-icon me-n1" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
