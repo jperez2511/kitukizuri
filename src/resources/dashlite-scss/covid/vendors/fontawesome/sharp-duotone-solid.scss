@@ -1,77 +1,96 @@
 /*!
- * Font Awesome Pro 6.6.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Pro 7.1.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
- * Copyright 2024 Fonticons, Inc.
+ * Copyright 2025 Fonticons, Inc.
  */
-@import 'functions';
-@import 'variables';
+@use "sass:string";
+@use 'variables' as v;
+@use 'mixins' as m;
 
 :root, :host {
-  --#{$fa-css-prefix}-style-family-sharp-duotone: 'Font Awesome 6 Sharp Duotone';
-  --#{$fa-css-prefix}-font-sharp-duotone-solid: normal 900 1em/1 'Font Awesome 6 Sharp Duotone';
+  --#{v.$css-prefix}-family-sharp-duotone: 'Font Awesome 7 Sharp Duotone';
+  --#{v.$css-prefix}-font-sharp-duotone-solid: normal 900 1em/1 var(--#{v.$css-prefix}-family-sharp-duotone);
+
+  /* deprecated: this older custom property will be removed next major release */
+  --#{v.$css-prefix}-style-family-sharp-duotone: var(--#{v.$css-prefix}-family-sharp-duotone);
 }
 
 @font-face {
-  font-family: 'Font Awesome 6 Sharp Duotone';
+  font-family: 'Font Awesome 7 Sharp Duotone';
   font-style: normal;
   font-weight: 900;
-  font-display: $fa-font-display;
-  src: url('#{$fa-font-path}/fa-sharp-duotone-solid-900.woff2') format('woff2'),
-    url('#{$fa-font-path}/fa-sharp-duotone-solid-900.ttf') format('truetype');
+  font-display: v.$font-display;
+  src: url('#{v.$font-path}/fa-sharp-duotone-solid-900.woff2');
 }
 
-.fasds,
-  .#{$fa-css-prefix}-sharp-duotone,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid {
+
+.fasds {
+  --#{v.$css-prefix}-family: var(--#{v.$css-prefix}-family-sharp-duotone);
+  --#{v.$css-prefix}-style: 900;
   position: relative;
-  font-weight: 900;
   letter-spacing: normal;
 }
 
+.#{v.$css-prefix}-sharp-duotone {
+  --#{v.$css-prefix}-family: var(--#{v.$css-prefix}-family-sharp-duotone);
+  position: relative;
+  letter-spacing: normal;
+}
+
+.#{v.$css-prefix}-solid {
+  --#{v.$css-prefix}-style: 900;
+}
+
 .fasds::before,
-  .#{$fa-css-prefix}-sharp-duotone::before,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid::before {
+.#{v.$css-prefix}-sharp-duotone::before {
   position: absolute;
-  color: var(--#{$fa-css-prefix}-primary-color, inherit);
-  opacity: var(--#{$fa-css-prefix}-primary-opacity, #{$fa-primary-opacity});
+  color: var(--#{v.$css-prefix}-primary-color, currentColor);
+  opacity: var(--#{v.$css-prefix}-primary-opacity, #{v.$primary-opacity});
 }
 
 .fasds::after,
-  .#{$fa-css-prefix}-sharp-duotone::after,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid::after {
-  color: var(--#{$fa-css-prefix}-secondary-color, inherit);
-  opacity: var(--#{$fa-css-prefix}-secondary-opacity, #{$fa-secondary-opacity});
+.#{v.$css-prefix}-sharp-duotone::after {
+  color: var(--#{v.$css-prefix}-secondary-color, currentColor);
+  opacity: var(--#{v.$css-prefix}-secondary-opacity, #{v.$secondary-opacity});
 }
 
-.#{$fa-css-prefix}-swap-opacity .fasds::before,
-  .#{$fa-css-prefix}-swap-opacity .#{$fa-css-prefix}-sharp-duotone::before,
-.#{$fa-css-prefix}-swap-opacity .#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid::before,
-.fasds.#{$fa-css-prefix}-swap-opacity::before,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-swap-opacity::before,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid.#{$fa-css-prefix}-swap-opacity::before {
-  opacity: var(--#{$fa-css-prefix}-secondary-opacity, #{$fa-secondary-opacity});
+.#{v.$css-prefix}-swap-opacity .fasds::before,
+.#{v.$css-prefix}-swap-opacity .#{v.$css-prefix}-sharp-duotone::before,
+.#{v.$css-prefix}-swap-opacity.fasds::before,
+.#{v.$css-prefix}-swap-opacity.#{v.$css-prefix}-sharp-duotone::before {
+  opacity: var(--#{v.$css-prefix}-secondary-opacity, #{v.$secondary-opacity});
 }
 
-.#{$fa-css-prefix}-swap-opacity .fasds::after,
-  .#{$fa-css-prefix}-swap-opacity .#{$fa-css-prefix}-sharp-duotone::after,
-.#{$fa-css-prefix}-swap-opacity .#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid::after,
-.fasds.#{$fa-css-prefix}-swap-opacity::after,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-swap-opacity::after,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid.#{$fa-css-prefix}-swap-opacity::after {
-  opacity: var(--#{$fa-css-prefix}-primary-opacity, #{$fa-primary-opacity});
+.#{v.$css-prefix}-swap-opacity .fasds::after,
+.#{v.$css-prefix}-swap-opacity .#{v.$css-prefix}-sharp-duotone::after,
+.#{v.$css-prefix}-swap-opacity.fasds::after,
+.#{v.$css-prefix}-swap-opacity.#{v.$css-prefix}-sharp-duotone::after {
+  opacity: var(--#{v.$css-prefix}-primary-opacity, #{v.$primary-opacity});
 }
 
-.fasds.#{$fa-css-prefix}-inverse,
-  .#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-inverse,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid.#{$fa-css-prefix}-inverse {
-  color: var(--#{$fa-css-prefix}-inverse, $fa-inverse);
-}
-
-.fasds.#{$fa-css-prefix}-stack-1x,
-.fasds.#{$fa-css-prefix}-stack-2x,
-  .#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-stack-1x,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid.#{$fa-css-prefix}-stack-1x,
-  .#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-stack-2x,
-.#{$fa-css-prefix}-sharp-duotone.#{$fa-css-prefix}-solid.#{$fa-css-prefix}-stack-2x {
+.#{v.$css-prefix}-li.fasds,
+.#{v.$css-prefix}-li.#{v.$css-prefix}-sharp-duotone,
+.#{v.$css-prefix}-stack-1x.fasds,
+.#{v.$css-prefix}-stack-1x.#{v.$css-prefix}-sharp-duotone,
+.#{v.$css-prefix}-stack-2x.fasds,
+.#{v.$css-prefix}-stack-2x.#{v.$css-prefix}-sharp-duotone {
   position: absolute;
+}
+
+// convenience mixins for declaring pseudo-elements by CSS variable,
+// including all style-specific font properties, and both the ::before
+// and ::after elements in the duotone case.
+@mixin icon($var) {
+  @include m.fa-icon(Font Awesome 7 Sharp Duotone);
+  @extend .#{v.$css-prefix}-sharp-duotone;
+  @extend .#{v.$css-prefix}-solid;
+
+  &::before {
+    content: string.unquote("\"#{ $var }\"");
+  }
+
+  &::after {
+    content: string.unquote("\"#{ $var }\"");
+    font-feature-settings: "ss01";
+  }
 }

@@ -8,19 +8,17 @@
 //FontAwesome Icons
 $fa-font-path: "../fonts";
 @import "fontawesome/fontawesome.scss";
-@import "fontawesome/solid.scss";
+@import "fontawesome/brands.scss";
 @import "fontawesome/regular.scss";
+@import "fontawesome/solid.scss";
+@import "fontawesome/light.scss";
 @import "fontawesome/thin.scss";
 @import "fontawesome/duotone.scss";
-@import "fontawesome/\_duotone-icons.scss";
-@import "fontawesome/light.scss";
-@import "fontawesome/brands.scss";
 @import "fontawesome/sharp-solid.scss";
 @import "fontawesome/sharp-regular.scss";
+@import "fontawesome/sharp-light.scss";
 @import "fontawesome/sharp-thin.scss";
 @import "fontawesome/sharp-duotone-solid.scss";
-@import "fontawesome/\_sharp-duotone-icons";
-@import "fontawesome/sharp-light.scss";
 
 //Themify Icons
 // $ti-font-path : "../fonts";
