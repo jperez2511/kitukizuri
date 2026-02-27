@@ -108,6 +108,21 @@ class MenuController
     {
         $variant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
 
+        if ($variant === 'covid') {
+            // Layout estilo COVID con sidebar corto e icon tooltips.
+            $this->uiElements['ul.class'] = 'nk-menu short-menu';
+            $this->uiElements['li-parent.class'] = 'nk-menu-item has-sub';
+            $this->uiElements['li-parent.layout'] = '<a href="{{url}}" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon">{{iconFormat}}</span><span class="nk-menu-text">{{label}}</span><span class="nk-menu-tooltip" title="{{label}}"></span></a>';
+            $this->uiElements['li-parent.layout-without-son'] = '<a href="{{url}}" class="nk-menu-link"><span class="nk-menu-icon">{{iconFormat}}</span><span class="nk-menu-text">{{label}}</span><span class="nk-menu-tooltip" title="{{label}}"></span></a>';
+            $this->uiElements['li-jr.class'] = 'nk-menu-item';
+            $this->uiElements['li-jr.layout'] = '<a href="{{url}}" class="nk-menu-link"><span class="nk-menu-icon">{{iconFormat}}</span><span class="nk-menu-text">{{label}}</span><span class="nk-menu-tooltip" title="{{label}}"></span></a>';
+            $this->uiElements['ul-jr'] = [
+                'aria-expanded' => 'false',
+                'class' => 'nk-menu-sub',
+            ];
+            return;
+        }
+
         if (!in_array($variant, ['demo6', 'demo8'], true)) {
             return;
         }
