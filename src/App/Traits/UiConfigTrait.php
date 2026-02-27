@@ -65,7 +65,7 @@ trait UiConfigTrait
 
     protected function dashliteRuntimeNpmPackages()
     {
-        // Base tomada de package.json de DashLite v3.3.0 (demo1..demo5 y covid)
+        // Base tomada de package.json de DashLite v3.3.0 (demo1..demo9 y covid)
         // + extras usados por la integración del paquete (axios, highcharts, popper).
         return [
             '@fullcalendar/bootstrap5' => '^6.1.17',
@@ -500,6 +500,10 @@ trait UiConfigTrait
             'demo3' => 'Demo 3 - Apps Sidebar',
             'demo4' => 'Demo 4 - Aside Layout',
             'demo5' => 'Demo 5 - White/Crypto',
+            'demo6' => 'Demo 6 - Invest',
+            'demo7' => 'Demo 7 - Rounder',
+            'demo8' => 'Demo 8 - No Sidebar',
+            'demo9' => 'Demo 9 - Rounder Sidebar',
             'covid' => 'Covid - Clean Rounder',
         ];
     }
@@ -761,6 +765,10 @@ trait UiConfigTrait
             'demo3' => 'npc-default has-apps-sidebar has-sidebar',
             'demo4' => 'bg-white npc-default has-aside',
             'demo5' => 'bg-white has-sidebar',
+            'demo6' => 'npc-invest bg-lighter',
+            'demo7' => 'ui-rounder npc-default has-sidebar',
+            'demo8' => 'bg-lighter',
+            'demo9' => 'ui-rounder has-sidebar',
         ];
     }
 

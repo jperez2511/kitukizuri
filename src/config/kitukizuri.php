@@ -63,7 +63,7 @@ return [
     |
     */
     'dashliteBodyClass' => 'npc-default has-apps-sidebar has-sidebar',
-    // Variantes SCSS empaquetadas: demo1, demo2, demo3, demo4, demo5, covid
+    // Variantes SCSS empaquetadas: demo1, demo2, demo3, demo4, demo5, demo6, demo7, demo8, demo9, covid
     'dashliteVariant' => 'demo3',
 
 

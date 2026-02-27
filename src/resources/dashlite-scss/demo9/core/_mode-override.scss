@@ -1,0 +1,114 @@
+///// Shadow Variable //////////
+$shady_shadow: 0 2px 6px -1px rgba($dark, 0.08);
+
+//// BODY STYLE OVERRIDE 
+////////////////////////////////
+.nk-body{
+    &.ui-bordered{
+        .has-fixed .nk-header-wrap,
+        .nk-sidebar,
+        .card:not([class*="bg-"]),
+        .code-block,
+        .accordion:not(.accordion-s2):not(.accordion-s3),
+        .card-bordered,
+        .nk-chat,.nk-ibx,.nk-msg,.nk-fmg,
+        .nk-download {
+            border: 1px solid var(--bs-border-color);
+            box-shadow: none;
+        }
+    }
+}
+
+.ui-rounder{
+    .card, .ratio, .accordion, .modal-content, .dropdown-menu, .alert, .toast, 
+    .swal2-popup, .code-block, .bq-note-text, .video,div.dt-button-info,
+    .nk-msg, .nk-ibx, .nk-fmg, .nk-chat, .nk-reply-entry.note, .nk-reply-form, .attach-files,
+    .nk-files-view-grid .nk-file, .nk-files-view-group .nk-file, .product-gallery, .product-gallery .slider-nav .slider-item .thumb,.ui-timepicker-container,
+    .entry img, .entry .video, .entry .image-group, .toastr, .tox-tinymce,.tox .tox-menu,.tox-tinymce-inline .tox-editor-header,.tox .tox-toolbar-overlord,
+    .nk-order-ovwg-data, .fc table, .fc-theme-bootstrap5 .fc-list, .kanban-item, .note-dropdown-menu,.note-frame{
+        border-radius: $border-radius-xxl;
+    }
+    .rounded,.round{
+        border-radius: $border-radius-xxl !important;
+    }
+    .nk-header-wrap,.accordion-item:last-of-type, .card > .list-group:last-child, .attach-foot,
+    .dual-listbox .dual-listbox__available, .dual-listbox .dual-listbox__selected, .tox-tinymce-inline .tox-editor-header .tox-toolbar:last-child{
+        border-bottom-left-radius: $border-radius-xxl;
+        border-bottom-right-radius: $border-radius-xxl;
+    }
+    .accordion-item:first-of-type, .card > .list-group:first-child,.dual-listbox__title,.tox-tinymce-inline .tox-editor-header .tox-toolbar:first-child{
+        border-top-left-radius: $border-radius-xxl;
+        border-top-right-radius: $border-radius-xxl;
+    }
+    .rounded-top, .card-img, .card-img-top, .card-header, .modal-header, .toast-header,.ql-toolbar,.note-toolbar,
+    .fc-list-table tr:first-child th,.fc-list-table tr:first-child .fc-list-day-cushion{
+        border-top-left-radius: $border-radius-xxl !important;
+        border-top-right-radius: $border-radius-xxl !important;
+    }
+    .rounded-bottom, .card-img, .card-img-bottom, .card-footer, .modal-footer, .toast-footer, .kanban-board-header,.ql-container,.note-statusbar{
+        border-bottom-left-radius: $border-radius-xxl !important;
+        border-bottom-right-radius: $border-radius-xxl !important;
+    }
+
+    .card > .table tr:first-child th:first-child, .nk-files-view-list .nk-file:first-child > div:first-child,
+    .fc table thead tr:first-child td:first-child, .fc table thead tr:first-child th:first-child{
+        border-top-left-radius: $border-radius-xxl !important;
+    }
+    .card > .table tr:first-child th:last-child, .nk-files-view-list .nk-file:first-child > div:last-child,
+    .fc table thead tr:first-child td:last-child, .fc table thead tr:first-child th:last-child{
+        border-top-right-radius: $border-radius-xxl !important;
+    }
+
+    .card > .table tr:last-child td:first-child, .nk-files-view-list .nk-file:last-child > div:first-child,
+    .fc table tbody tr:last-child td:first-child, .fc table tbody tr:last-child th:first-child{
+        border-bottom-left-radius: $border-radius-xxl !important;
+    }
+    .card > .table tr:last-child td:last-child, .nk-files-view-list .nk-file:last-child > div:last-child,
+    .fc table tbody tr:last-child td:last-child, .fc table tbody tr:last-child th:last-child{
+        border-bottom-right-radius: $border-radius-xxl !important;
+    }
+    // for smaller items
+    .btn,.popover,.prettyprint, .tooltip-inner, .nk-reply-from, .form-control,.custom-control:not(.custom-switch):not(.custom-radio) .custom-control-label::before, .custom-control:not(.custom-switch):not(.custom-radio) .custom-control-label::after,
+    .form-file-label,.dropzone, .custom-control-pro .custom-control-label, .pro-control .custom-control-label, .tox .tox-mbtn,
+    .select2-container--default .select2-selection--single,.datatable-wrap{
+        border-radius: $border-radius-xxl*.5;
+    }
+    .select2-container--default.select2-container--below.select2-container--open .select2-selection--single,.select2-dropdown--above, .popover-header{
+        border-top-left-radius: $border-radius-xxl*.5;
+        border-top-right-radius: $border-radius-xxl*.5;
+    }
+    .select2-dropdown--below, .popover-footer{
+        border-bottom-left-radius: $border-radius-xxl*.5;
+        border-bottom-right-radius: $border-radius-xxl*.5;
+    }
+    .input-daterange input:first-child, .page-item:first-child .page-link{
+        border-top-left-radius: $border-radius-xxl*.5;
+    }
+    .input-daterange input:last-child, .page-item:last-child .page-link{
+        border-top-right-radius: $border-radius-xxl*.5;
+    }
+    .input-daterange input:first-child, .page-item:first-child .page-link{
+        border-bottom-left-radius: $border-radius-xxl*.5;
+    }
+    .input-daterange input:last-child, .page-item:last-child .page-link{
+        border-bottom-right-radius: $border-radius-xxl*.5;
+    }
+}
+
+@include media-breakpoint-up(lg){
+    .ui-rounder{
+        .nk-menu-main{
+            .nk-menu-sub{
+                border-radius: $border-radius-xxl;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(xl){
+    .ui-rounder{
+        .nk-sidebar{
+            border-radius: $border-radius-xxl;
+        }
+    }
+}

@@ -1,0 +1,26 @@
+.nk-cmwg{
+    &1{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        &-ck{
+            height: 70px;
+            margin: -6px;
+        }
+    }
+    &2{
+        &-ck{
+            height: 270px;
+        }
+    }
+    &3{
+        &-ck{
+            height: 140px;
+        }
+    }
+    &4{
+        &-ck{
+            height: 180px;
+        }
+    }
+}
