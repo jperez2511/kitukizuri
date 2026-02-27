@@ -14,6 +14,7 @@ trait UiConfigTrait
     {
         $this->installDashliteRuntimeDependencies();
         $this->installDashliteBuildDependencies();
+        $this->installViteConfigDependencies();
         $this->applyBootstrapBaseConfiguration(true);
 
         $this->configureDashliteDemoAndLayout();
@@ -36,6 +37,7 @@ trait UiConfigTrait
 
         $this->installDashliteRuntimeDependencies();
         $this->installDashliteBuildDependencies();
+        $this->installViteConfigDependencies();
         $this->applyBootstrapBaseConfiguration(false);
         $this->ensureDashliteConfigState();
 
@@ -128,6 +130,76 @@ trait UiConfigTrait
         $this->installMissingNpmPackages($this->dashliteBuildNpmPackages(), true);
     }
 
+    protected function installViteConfigDependencies()
+    {
+        $viteConfigPath = base_path('vite.config.js');
+        if (!file_exists($viteConfigPath)) {
+            return;
+        }
+
+        $content = file_get_contents($viteConfigPath);
+        if ($content === false) {
+            return;
+        }
+
+        $fromMatches = [];
+        $requireMatches = [];
+        $dynamicImportMatches = [];
+        preg_match_all('/from\s+[\'"]([^\'"]+)[\'"]/', $content, $fromMatches);
+        preg_match_all('/require\(\s*[\'"]([^\'"]+)[\'"]\s*\)/', $content, $requireMatches);
+        preg_match_all('/import\(\s*[\'"]([^\'"]+)[\'"]\s*\)/', $content, $dynamicImportMatches);
+
+        $specifiers = array_unique(array_merge(
+            $fromMatches[1] ?? [],
+            $requireMatches[1] ?? [],
+            $dynamicImportMatches[1] ?? []
+        ));
+        $vitePackages = [];
+
+        foreach ($specifiers as $specifier) {
+            $packageName = $this->normalizeImportSpecifierToPackage($specifier);
+            if ($packageName === null || !$this->isViteRelatedPackage($packageName)) {
+                continue;
+            }
+
+            $vitePackages[$packageName] = null;
+        }
+
+        if (empty($vitePackages)) {
+            return;
+        }
+
+        $this->installMissingNpmPackages($vitePackages, true);
+    }
+
+    protected function normalizeImportSpecifierToPackage($specifier)
+    {
+        if (
+            $specifier === ''
+            || str_starts_with($specifier, '.')
+            || str_starts_with($specifier, '/')
+            || str_starts_with($specifier, 'node:')
+            || str_starts_with($specifier, 'virtual:')
+        ) {
+            return null;
+        }
+
+        if (preg_match('/^@[^\/]+\/[^\/]+/', $specifier, $match) === 1) {
+            return $match[0];
+        }
+
+        $parts = explode('/', $specifier);
+        return $parts[0] ?? null;
+    }
+
+    protected function isViteRelatedPackage($packageName)
+    {
+        return $packageName === 'vite'
+            || $packageName === 'laravel-vite-plugin'
+            || str_starts_with($packageName, '@vitejs/')
+            || str_starts_with($packageName, 'vite-plugin-');
+    }
+
     protected function installMissingNpmPackages($requiredPackages, $devDependencies = false)
     {
         $packageData = $this->loadProjectPackageJson();
@@ -193,7 +265,13 @@ trait UiConfigTrait
             \unlink(base_path('tailwind.config.js'));
         }
 
-        $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/js', base_path('resources/js/'), $forceCopy);
+        $this->syncKitukizuriResourceDirectory(
+            __DIR__.'/../../resources/js',
+            base_path('resources/js/'),
+            $forceCopy,
+            ['app.js', 'app.jsx']
+        );
+        $this->ensureKrudJsEntryImports(base_path('resources/js/app.js'));
         $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/sass', base_path('resources/sass/'), $forceCopy);
         $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/fonts', base_path('resources/fonts/'), $forceCopy);
         $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/views', base_path('resources/views/'), $forceCopy);
@@ -236,7 +314,7 @@ trait UiConfigTrait
         return true;
     }
 
-    protected function syncKitukizuriResourceDirectory($source, $target, $forceCopy)
+    protected function syncKitukizuriResourceDirectory($source, $target, $forceCopy, $preserveRelativeFiles = [])
     {
         $filesystem = new Filesystem;
 
@@ -244,9 +322,13 @@ trait UiConfigTrait
             return;
         }
 
-        if ($forceCopy || !$filesystem->isDirectory($target)) {
-            $filesystem->copyDirectory($source, $target);
-            return;
+        $normalizedPreserve = [];
+        foreach ($preserveRelativeFiles as $relativePath) {
+            $normalizedPreserve[] = ltrim(str_replace('\\', '/', $relativePath), '/');
+        }
+
+        if (!$filesystem->isDirectory($target)) {
+            $filesystem->makeDirectory($target, 0755, true);
         }
 
         $sourceRoot = rtrim(str_replace('\\', '/', $source), '/');
@@ -256,8 +338,13 @@ trait UiConfigTrait
             $sourcePath = str_replace('\\', '/', $file->getPathname());
             $relative = ltrim(substr($sourcePath, strlen($sourceRoot)), '/');
             $targetPath = $targetRoot.'/'.$relative;
+            $shouldPreserve = in_array($relative, $normalizedPreserve, true);
 
-            if (file_exists($targetPath)) {
+            if ($shouldPreserve && file_exists($targetPath)) {
+                continue;
+            }
+
+            if (!$forceCopy && file_exists($targetPath)) {
                 continue;
             }
 
@@ -267,6 +354,33 @@ trait UiConfigTrait
             }
 
             $filesystem->copy($sourcePath, $targetPath);
+        }
+    }
+
+    protected function ensureKrudJsEntryImports($appJsPath)
+    {
+        if (!file_exists($appJsPath)) {
+            return;
+        }
+
+        $content = file_get_contents($appJsPath);
+        if ($content === false) {
+            return;
+        }
+
+        $missingImports = [];
+
+        if (preg_match('/^\s*import\s+[\'"]\.\/bootstrap(?:\.js)?[\'"]\s*;?/m', $content) !== 1) {
+            $missingImports[] = "import './bootstrap';";
+        }
+
+        if (preg_match('/^\s*import\s+[\'"]\.\/init\.js[\'"]\s*;?/m', $content) !== 1) {
+            $missingImports[] = "import './init.js';";
+        }
+
+        if (!empty($missingImports)) {
+            $content = implode("\n", $missingImports)."\n".$content;
+            file_put_contents($appJsPath, $content);
         }
     }
 
@@ -576,6 +690,8 @@ trait UiConfigTrait
 
     protected function runViteBuild()
     {
+        $this->installViteConfigDependencies();
+
         if (DIRECTORY_SEPARATOR === '\\') {
             $this->runCommands(['npm run build'], base_path());
             return;
