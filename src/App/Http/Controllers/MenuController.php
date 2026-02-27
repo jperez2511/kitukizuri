@@ -108,11 +108,11 @@ class MenuController
     {
         $variant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
 
-        if ($variant !== 'demo6') {
+        if (!in_array($variant, ['demo6', 'demo8'], true)) {
             return;
         }
 
-        // demo6 usa navegacion principal horizontal en header.
+        // demo6 y demo8 usan navegacion principal horizontal en header.
         $this->uiElements['ul.class'] = 'nk-menu nk-menu-main ui-s2';
         $this->uiElements['li-parent.class'] = 'nk-menu-item has-sub';
         $this->uiElements['li-parent.layout'] = '<a href="{{url}}" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">{{label}}</span></a>';

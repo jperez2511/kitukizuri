@@ -5,13 +5,14 @@
     $isDemo2 = $variant === 'demo2';
     $isDemo5 = $variant === 'demo5';
     $isDemo6 = $variant === 'demo6';
+    $isDemo8 = $variant === 'demo8';
     $isAsideLayout = $layout['isAsideLayout'];
     $menuTarget = $layout['sidebarTarget'];
     $triggerClass = $isAsideLayout ? 'd-lg-none ms-n1' : 'd-xl-none ms-n1';
 @endphp
 
 <div x-data="{ open: false }" class="nk-header-wrap">
-    @if (!$isAsideLayout && !$isDemo6)
+    @if (!$isAsideLayout && !$isDemo6 && !$isDemo8)
         <div class="nk-menu-trigger {{ $triggerClass }}">
             <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="{{ $menuTarget }}"><em class="icon ni ni-menu"></em></a>
         </div>
@@ -46,7 +47,7 @@
             </div>
         @endif
     @endif
-    @if ($isDemo6)
+    @if ($isDemo6 || $isDemo8)
         <div class="nk-menu-trigger me-sm-2 d-lg-none">
             <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="headerNav"><em class="icon ni ni-menu"></em></a>
         </div>
@@ -55,7 +56,7 @@
                 <x-application-mark style="width:34px;" />
             </a>
         </div>
-        <div class="nk-header-menu" data-content="headerNav">
+        <div class="nk-header-menu{{ $isDemo8 ? ' ms-auto' : '' }}" data-content="headerNav">
             <div class="nk-header-mobile">
                 <div class="nk-header-brand">
                     <a href="{{ route('home.index') }}" class="logo-link">
@@ -88,8 +89,8 @@
 
     <div class="nk-header-tools">
         <ul class="nk-quick-nav">
-            @if ($isDemo1 || $isDemo2 || $isDemo5 || $isDemo6)
-                @if (!$isDemo6)
+            @if ($isDemo1 || $isDemo2 || $isDemo5 || $isDemo6 || $isDemo8)
+                @if (!$isDemo6 && !$isDemo8)
                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                             <div class="quick-icon border border-light">
@@ -104,10 +105,10 @@
                         </div>
                     </li>
                 @endif
-                @if ($isDemo2)
+                @if ($isDemo2 || $isDemo8)
                     <li class="dropdown chats-dropdown hide-mb-xs">
                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                            <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
+                            <div class="icon-status icon-status-na"><em class="icon ni {{ $isDemo8 ? 'ni-chat' : 'ni-comments' }}"></em></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
                             <ul class="link-list">
@@ -116,7 +117,7 @@
                         </div>
                     </li>
                 @endif
-                @if (!$isDemo5)
+                @if (!$isDemo5 && !$isDemo8)
                     <li class="dropdown notification-dropdown">
                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                             <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
@@ -141,9 +142,24 @@
                         </div>
                     </li>
                 @endif
+                @if ($isDemo8)
+                    <li class="dropdown language-dropdown d-none d-sm-block me-n1">
+                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                            <div class="quick-icon border border-light">
+                                <em class="icon ni ni-globe"></em>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                            <ul class="language-list">
+                                <li><a href="#" class="language-item"><span class="language-name">English</span></a></li>
+                                <li><a href="#" class="language-item"><span class="language-name">Español</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
             @endif
             <li class="dropdown user-dropdown{{ $isDemo6 ? ' order-sm-first' : '' }}">
-                <a href="#" class="dropdown-toggle{{ ($isDemo1 || $isDemo5 || $isDemo6) ? '' : ' me-n1' }}" data-bs-toggle="dropdown">
+                <a href="#" class="dropdown-toggle{{ ($isDemo1 || $isDemo5 || $isDemo6 || $isDemo8) ? '' : ' me-n1' }}" data-bs-toggle="dropdown">
                     <div class="user-toggle">
                         <div class="user-avatar sm">
                             <em class="icon ni ni-user-alt"></em>
