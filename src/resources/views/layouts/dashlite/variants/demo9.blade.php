@@ -5,7 +5,9 @@
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
                         <a href="{{ route('home.index') }}" class="logo-link nk-sidebar-logo">
-                            <x-application-mark style="width:34px;" />
+                            <x-application-logo class="logo-light logo-img" style="height:34px;" />
+                            <x-application-logo class="logo-dark logo-img" style="height:34px;" />
+                            <x-application-mark class="logo-small logo-img logo-img-small" style="height:32px;" />
                         </a>
                     </div>
                     <div class="nk-menu-trigger me-n2">

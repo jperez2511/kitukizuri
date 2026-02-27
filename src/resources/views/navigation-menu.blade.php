@@ -54,7 +54,8 @@
         </div>
         <div class="nk-header-brand d-xl-none">
             <a href="{{ route('home.index') }}" class="logo-link">
-                <x-application-mark style="width:34px;" />
+                <x-application-logo class="logo-light logo-img" style="height:30px;" />
+                <x-application-logo class="logo-dark logo-img" style="height:30px;" />
             </a>
         </div>
         <div class="nk-header-menu is-light">

@@ -54,7 +54,7 @@ class DashliteLayoutState
         } elseif ($isLightSurface || in_array($variant, ['demo3', 'demo7', 'demo8', 'demo9'], true)) {
             $headerClass .= ' is-light';
         }
-        if ($isRounder) {
+        if ($isRounder && $variant !== 'demo9') {
             $headerClass .= ' border-bottom';
         }
 
