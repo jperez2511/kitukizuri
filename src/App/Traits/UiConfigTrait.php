@@ -54,7 +54,7 @@ trait UiConfigTrait
 
         $this->configureDashliteDemoAndLayout();
 
-        $this->runCommands(['npm run build'], base_path());
+        $this->runViteBuild();
     }
 
     protected function switchDashliteDemo()
@@ -62,7 +62,7 @@ trait UiConfigTrait
         $configured = $this->configureDashliteDemoAndLayout();
 
         if ($configured && confirm('¿Compilar assets ahora?', true)) {
-            $this->runCommands(['npm run build'], base_path());
+            $this->runViteBuild();
         }
     }
 
@@ -188,6 +188,7 @@ trait UiConfigTrait
         }
 
         $filesystem->copyDirectory($source, $target);
+        $this->normalizeDashliteBootstrapImports($target);
 
         $entryFile = $target.'/app.scss';
         $dashliteEntry = $target.'/dashlite.scss';
@@ -208,6 +209,38 @@ trait UiConfigTrait
         $this->ensureCustomImportInAppScss($entryFile);
 
         return true;
+    }
+
+    protected function normalizeDashliteBootstrapImports($sassPath)
+    {
+        if (!is_dir($sassPath)) {
+            return;
+        }
+
+        $filesystem = new Filesystem;
+
+        foreach ($filesystem->allFiles($sassPath) as $file) {
+            $path = $file->getPathname();
+
+            if (pathinfo($path, PATHINFO_EXTENSION) !== 'scss') {
+                continue;
+            }
+
+            $content = file_get_contents($path);
+            if ($content === false || !str_contains($content, 'node_modules/bootstrap/scss/')) {
+                continue;
+            }
+
+            $normalized = preg_replace(
+                '/([\'"])(?:\.\.\/)+node_modules\/bootstrap\/scss\//',
+                '$1bootstrap/scss/',
+                $content
+            );
+
+            if ($normalized !== null && $normalized !== $content) {
+                file_put_contents($path, $normalized);
+            }
+        }
     }
 
     protected function validateDashliteVariant($variant)
@@ -269,6 +302,22 @@ trait UiConfigTrait
         }
 
         file_put_contents($appScssPath, $content);
+    }
+
+    protected function runViteBuild()
+    {
+        if (DIRECTORY_SEPARATOR === '\\') {
+            $this->runCommands(['npm run build'], base_path());
+            return;
+        }
+
+        $commands = [
+            'if [ -f node_modules/.bin/vite ]; then chmod +x node_modules/.bin/vite; fi',
+            'if [ -f node_modules/vite/bin/vite.js ]; then chmod +x node_modules/vite/bin/vite.js; fi',
+            'npm run build || node ./node_modules/vite/bin/vite.js build',
+        ];
+
+        $this->runCommands($commands, base_path());
     }
 
     protected function configureDashliteLayoutPreset($variant)
