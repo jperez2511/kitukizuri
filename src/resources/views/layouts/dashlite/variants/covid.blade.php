@@ -20,7 +20,7 @@
                 <div class="nk-sidebar-element">
                     <div class="nk-sidebar-body" data-simplebar>
                         <div class="nk-sidebar-content">
-                            <div class="nk-sidebar-menu nk-sidebar-menu-middle">
+                            <div class="nk-sidebar-menu nk-sidebar-menu-middle my-auto">
                                 {!! session('menu') !!}
                             </div>
                         </div>

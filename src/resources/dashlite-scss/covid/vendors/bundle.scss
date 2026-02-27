@@ -5,6 +5,21 @@
 // Include NioIcon 
 @import "nioicon/nioicon";
 
+// FontAwesome Icons
+$fa-font-path: "../fonts";
+@import "fontawesome/fontawesome.scss";
+@import "fontawesome/brands.scss";
+@import "fontawesome/regular.scss";
+@import "fontawesome/solid.scss";
+@import "fontawesome/light.scss";
+@import "fontawesome/thin.scss";
+@import "fontawesome/duotone.scss";
+@import "fontawesome/sharp-solid.scss";
+@import "fontawesome/sharp-regular.scss";
+@import "fontawesome/sharp-light.scss";
+@import "fontawesome/sharp-thin.scss";
+@import "fontawesome/sharp-duotone-solid.scss";
+
 // Include Prettify 
 @import "prettify";
 
