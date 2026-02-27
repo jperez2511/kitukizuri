@@ -4,9 +4,25 @@
     $defaultDashliteBodyClass = 'npc-default has-apps-sidebar has-sidebar';
     $dashliteBodyClass = (string) config('kitukizuri.dashliteBodyClass', $defaultDashliteBodyClass);
     $dashliteBodyClass = trim(preg_replace('/\s+/', ' ', $dashliteBodyClass));
-    $hasAppsSidebar = str_contains(' '.$dashliteBodyClass.' ', ' has-apps-sidebar ');
-    $isAsideLayout = str_contains(' '.$dashliteBodyClass.' ', ' has-aside ');
+    $dashliteVariant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
+    $paddedBodyClass = ' '.$dashliteBodyClass.' ';
+    $hasAppsSidebar = str_contains($paddedBodyClass, ' has-apps-sidebar ');
+    $hasSidebar = str_contains($paddedBodyClass, ' has-sidebar ');
+    $isAsideLayout = str_contains($paddedBodyClass, ' has-aside ');
+    $isLightSurface = str_contains($paddedBodyClass, ' bg-white ')
+        || str_contains($paddedBodyClass, ' bg-lighter ')
+        || str_contains($paddedBodyClass, ' ui-clean ');
+    $isRounder = str_contains($paddedBodyClass, ' ui-rounder ');
     $sidebarTarget = $isAsideLayout ? 'sideNav' : 'sidebarMenu';
+    $mainWrapClass = !empty($dash) && $dash == true ? '' : 'nk-wrap';
+    if ($mainWrapClass !== '' && !$hasSidebar && !$isAsideLayout && !$hasAppsSidebar) {
+        $mainWrapClass .= ' nk-wrap-nosidebar';
+    }
+    $appsSidebarClass = 'nk-apps-sidebar'.($isLightSurface ? ' is-light' : ' is-dark');
+    $headerClass = 'nk-header nk-header-fixed'.($isLightSurface ? ' is-light' : '');
+    if ($isRounder) {
+        $headerClass .= ' border-bottom';
+    }
 @endphp
 
 <!DOCTYPE html>
@@ -26,10 +42,10 @@
         @stack('styles')
     </head>
 
-    <body class="nk-body {{ $dashliteBodyClass }} no-touch nk-nio-theme">
+    <body class="nk-body {{ $dashliteBodyClass }} variant-{{ $dashliteVariant }} no-touch nk-nio-theme">
         <div class="nk-app-root">
             @if ($hasAppsSidebar)
-                <div class="nk-apps-sidebar is-dark">
+                <div class="{{ $appsSidebarClass }}">
                     <div class="nk-apps-brand text-center">
                         <a href="{{ route('home.index') }}">
                             <x-application-mark style="width:50%; margin-top:10px;" />
@@ -53,8 +69,8 @@
                 </div>
             @endif
             <div class="nk-main ">
-                <div class="{{ !empty($dash) && $dash == true ? '' : 'nk-wrap' }} ">
-                    <div class="nk-header nk-header-fixed is-light">
+                <div class="{{ $mainWrapClass }}">
+                    <div class="{{ $headerClass }}">
                         <div class="container-fluid">
                             @livewire('navigation-menu')
                         </div>
