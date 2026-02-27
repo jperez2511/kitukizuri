@@ -12,45 +12,9 @@ trait UiConfigTrait
 {
     protected function configBootstrap()
     {
-        // Instalación de paquetes para Bootstrap
-        $components = [
-            'bootstrap@5.3.3', 
-            '@popperjs/core', 
-            'clipboard', 
-            'jquery', 
-            'datatables.net',
-            'datatables.net-bs4',
-            'datatables.net-buttons-bs4',
-            'datatables.net-responsive',
-            'datatables.net-responsive-bs4',
-            'datatables.net-buttons',
-            'datatables.net-buttons-bs4',
-            'jszip',
-            'pdfmake',
-            'select2',
-            'highcharts',
-        ];
-
-        $this->runCommands(['npm install '.implode(' ',$components).' --save'], base_path());
-        $this->runCommands(['npm install -D sass-embedded'], base_path());
-        $this->runCommands(['npm install sass @vitejs/plugin-legacy --save-dev'], base_path());
-
-        // configurando SASS
-        $this->replaceInFile('resources/css/app.css', 'resources/sass/app.scss', base_path('vite.config.js'));
-        $this->replaceInFile('@vite([\'resources/css/app.css\', \'resources/js/app.js\'])', '@vite([\'resources/sass/app.scss\', \'resources/js/app.js\'])', base_path('resources/views/layouts/app.blade.php'));
-        $this->replaceInFile('@vite([\'resources/css/app.css\', \'resources/js/app.js\'])', '@vite([\'resources/sass/app.scss\', \'resources/js/app.js\'])', base_path('resources/views/layouts/guest.blade.php'));
-
-        // Eliminando Tailwind
-        $this->replaceInFile('tailwindcss: {},', '', base_path('postcss.config.js'));
-        
-        if(file_exists(base_path('tailwind.config.js'))) {
-            \unlink(base_path('tailwind.config.js'));
-        }
-
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/js', base_path('resources/js/'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/sass', base_path('resources/sass/'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/fonts', base_path('resources/fonts/'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/views', base_path('resources/views/'));
+        $this->installDashliteRuntimeDependencies();
+        $this->installDashliteBuildDependencies();
+        $this->applyBootstrapBaseConfiguration(true);
 
         $this->configureDashliteDemoAndLayout();
 
@@ -62,6 +26,22 @@ trait UiConfigTrait
         $configured = $this->configureDashliteDemoAndLayout();
 
         if ($configured && confirm('¿Compilar assets ahora?', true)) {
+            $this->runViteBuild();
+        }
+    }
+
+    protected function verifyBootstrapSetup()
+    {
+        $this->info('Verificando configuración de New UI (Bootstrap 5)...');
+
+        $this->installDashliteRuntimeDependencies();
+        $this->installDashliteBuildDependencies();
+        $this->applyBootstrapBaseConfiguration(false);
+        $this->ensureDashliteConfigState();
+
+        $this->info('Verificación completada. La configuración faltante fue aplicada cuando fue necesario.');
+
+        if (confirm('¿Compilar assets ahora?', true)) {
             $this->runViteBuild();
         }
     }
@@ -79,6 +59,279 @@ trait UiConfigTrait
         $this->artisanCommand('vendor:publish','--tag=krud-views');
         $this->artisanCommand('vendor:publish','--tag=krud-app');
         $this->artisanCommand('vendor:publish','--tag=krud-public');
+    }
+
+    protected function dashliteRuntimeNpmPackages()
+    {
+        // Base tomada de package.json de DashLite v3.3.0 (demo1..demo5 y covid)
+        // + extras usados por la integración del paquete (axios, highcharts, popper).
+        return [
+            '@fullcalendar/bootstrap5' => '^6.1.17',
+            '@popperjs/core' => '^2.11.8',
+            '@yaireo/tagify' => '^4.31.3',
+            'axios' => '^1.6.8',
+            'bootstrap' => '^5.3.6',
+            'bootstrap-datepicker' => '^1.10.0',
+            'chart.js' => '^4.4.8',
+            'clipboard' => '^2.0.11',
+            'code-prettify-google' => '^1.0.1',
+            'datatables.net' => '^2.3.0',
+            'datatables.net-bs4' => '^2.3.0',
+            'datatables.net-buttons' => '^3.2.3',
+            'datatables.net-buttons-bs4' => '^3.2.3',
+            'datatables.net-responsive' => '^3.0.4',
+            'datatables.net-responsive-bs4' => '^3.0.4',
+            'dragula' => '^3.7.3',
+            'dropzone' => '^5.9.3',
+            'dual-listbox' => '^2.0.0',
+            'fullcalendar' => '^6.1.17',
+            'highcharts' => '^12.2.0',
+            'isotope-layout' => '^3.0.6',
+            'jkanban' => '^1.3.1',
+            'jquery' => '^3.7.1',
+            'jquery-form' => '^4.3.0',
+            'jquery-timepicker' => '^1.3.3',
+            'jquery-validation' => '^1.21.0',
+            'jstree' => '^3.3.17',
+            'jszip' => '^3.10.1',
+            'knob' => '^1.1.0',
+            'magnific-popup' => '^1.2.0',
+            'nouislider' => '^15.8.1',
+            'pdfmake' => '^0.2.20',
+            'select2' => '^4.0.13',
+            'simplebar' => '^6.3.1',
+            'slick-carousel' => '^1.8.1',
+            'summernote' => '^0.9.1',
+            'sweetalert2' => '9.17.2',
+            'themify-icons' => '^1.0.0',
+            'tinymce' => '^7.9.0',
+            'toastr' => '^2.1.4',
+        ];
+    }
+
+    protected function dashliteBuildNpmPackages()
+    {
+        return [
+            '@vitejs/plugin-legacy' => null,
+            'sass' => '^1.64.0',
+            'sass-embedded' => null,
+        ];
+    }
+
+    protected function installDashliteRuntimeDependencies()
+    {
+        $this->installMissingNpmPackages($this->dashliteRuntimeNpmPackages(), false);
+    }
+
+    protected function installDashliteBuildDependencies()
+    {
+        $this->installMissingNpmPackages($this->dashliteBuildNpmPackages(), true);
+    }
+
+    protected function installMissingNpmPackages($requiredPackages, $devDependencies = false)
+    {
+        $packageData = $this->loadProjectPackageJson();
+        if ($packageData === null) {
+            $this->warn('No se pudo validar package.json, se omite la instalación automática de npm packages.');
+            return;
+        }
+
+        $installedPackages = array_merge(
+            $packageData['dependencies'] ?? [],
+            $packageData['devDependencies'] ?? []
+        );
+
+        $missing = [];
+        foreach ($requiredPackages as $packageName => $version) {
+            if (array_key_exists($packageName, $installedPackages)) {
+                continue;
+            }
+
+            $missing[$packageName] = $version;
+        }
+
+        if (empty($missing)) {
+            $this->info('No hay '.($devDependencies ? 'devDependencies' : 'dependencies').' faltantes por instalar.');
+            return;
+        }
+
+        $packagesToInstall = [];
+        foreach ($missing as $packageName => $version) {
+            $packagesToInstall[] = $version ? $packageName.'@'.$version : $packageName;
+        }
+
+        $saveFlag = $devDependencies ? '--save-dev' : '--save';
+        $label = $devDependencies ? 'devDependencies' : 'dependencies';
+
+        $this->info('Instalando '.$label.' faltantes: '.implode(', ', array_keys($missing)));
+        $this->runCommands(['npm install '.implode(' ', $packagesToInstall).' '.$saveFlag], base_path());
+    }
+
+    protected function loadProjectPackageJson()
+    {
+        $packageJsonPath = base_path('package.json');
+        if (!file_exists($packageJsonPath)) {
+            return null;
+        }
+
+        $decoded = json_decode((string) file_get_contents($packageJsonPath), true);
+        if (!is_array($decoded)) {
+            return null;
+        }
+
+        return $decoded;
+    }
+
+    protected function applyBootstrapBaseConfiguration($forceCopy)
+    {
+        $this->replaceInFileIfPresent(base_path('vite.config.js'), 'resources/css/app.css', 'resources/sass/app.scss');
+        $this->replaceInFileIfPresent(base_path('resources/views/layouts/app.blade.php'), 'resources/css/app.css', 'resources/sass/app.scss');
+        $this->replaceInFileIfPresent(base_path('resources/views/layouts/guest.blade.php'), 'resources/css/app.css', 'resources/sass/app.scss');
+        $this->removePatternInFileIfPresent(base_path('postcss.config.js'), '/\s*tailwindcss\s*:\s*\{\s*\}\s*,?\s*/m');
+
+        if (file_exists(base_path('tailwind.config.js'))) {
+            \unlink(base_path('tailwind.config.js'));
+        }
+
+        $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/js', base_path('resources/js/'), $forceCopy);
+        $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/sass', base_path('resources/sass/'), $forceCopy);
+        $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/fonts', base_path('resources/fonts/'), $forceCopy);
+        $this->syncKitukizuriResourceDirectory(__DIR__.'/../../resources/views', base_path('resources/views/'), $forceCopy);
+    }
+
+    protected function replaceInFileIfPresent($path, $search, $replace)
+    {
+        if (!file_exists($path)) {
+            return false;
+        }
+
+        $content = file_get_contents($path);
+        if ($content === false || !str_contains($content, $search)) {
+            return false;
+        }
+
+        file_put_contents($path, str_replace($search, $replace, $content));
+
+        return true;
+    }
+
+    protected function removePatternInFileIfPresent($path, $pattern)
+    {
+        if (!file_exists($path)) {
+            return false;
+        }
+
+        $content = file_get_contents($path);
+        if ($content === false || preg_match($pattern, $content) !== 1) {
+            return false;
+        }
+
+        $updated = preg_replace($pattern, '', $content);
+        if ($updated === null || $updated === $content) {
+            return false;
+        }
+
+        file_put_contents($path, $updated);
+
+        return true;
+    }
+
+    protected function syncKitukizuriResourceDirectory($source, $target, $forceCopy)
+    {
+        $filesystem = new Filesystem;
+
+        if (!is_dir($source)) {
+            return;
+        }
+
+        if ($forceCopy || !$filesystem->isDirectory($target)) {
+            $filesystem->copyDirectory($source, $target);
+            return;
+        }
+
+        $sourceRoot = rtrim(str_replace('\\', '/', $source), '/');
+        $targetRoot = rtrim(str_replace('\\', '/', $target), '/');
+
+        foreach ($filesystem->allFiles($source) as $file) {
+            $sourcePath = str_replace('\\', '/', $file->getPathname());
+            $relative = ltrim(substr($sourcePath, strlen($sourceRoot)), '/');
+            $targetPath = $targetRoot.'/'.$relative;
+
+            if (file_exists($targetPath)) {
+                continue;
+            }
+
+            $targetDir = dirname($targetPath);
+            if (!$filesystem->isDirectory($targetDir)) {
+                $filesystem->makeDirectory($targetDir, 0755, true);
+            }
+
+            $filesystem->copy($sourcePath, $targetPath);
+        }
+    }
+
+    protected function ensureDashliteConfigState()
+    {
+        $variant = $this->resolveConfiguredDashliteVariant();
+        if (!$this->validateDashliteVariant($variant)) {
+            $this->warn('No fue posible validar la variante DashLite configurada: '.$variant);
+            return false;
+        }
+
+        $sassPath = base_path('resources/sass');
+        $requiredScss = [
+            'app.scss',
+            'core/_style.scss',
+            'core/_layouts.scss',
+            'vendors/bundle.scss',
+            'extend/bootstrap/_variables.scss',
+        ];
+
+        $requiresFullSync = false;
+        foreach ($requiredScss as $file) {
+            if (!file_exists($sassPath.'/'.$file)) {
+                $requiresFullSync = true;
+                break;
+            }
+        }
+
+        if ($requiresFullSync) {
+            if (!$this->syncDashliteScssVariant($variant)) {
+                $this->warn('No fue posible sincronizar SCSS para la variante configurada: '.$variant);
+                return false;
+            }
+        } else {
+            $this->normalizeDashliteBootstrapImports($sassPath);
+            $this->ensureCustomImportInAppScss($sassPath.'/app.scss');
+        }
+
+        $bodyClass = trim((string) config('kitukizuri.dashliteBodyClass', ''));
+        if ($bodyClass === '') {
+            $defaultClass = $this->dashliteVariantDefaults()[$variant] ?? 'npc-default has-sidebar';
+            $this->writeKitukizuriConfigValue('dashliteBodyClass', "'".str_replace("'", "\\'", $defaultClass)."'");
+            $this->info('dashliteBodyClass no estaba definido, se aplicó el preset por defecto de '.$variant.'.');
+        }
+
+        return true;
+    }
+
+    protected function resolveConfiguredDashliteVariant()
+    {
+        $available = $this->getAvailableDashliteVariants();
+        if (empty($available)) {
+            return 'demo3';
+        }
+
+        $configured = trim((string) config('kitukizuri.dashliteVariant', ''));
+        if (in_array($configured, $available, true)) {
+            return $configured;
+        }
+
+        $fallback = in_array('demo3', $available, true) ? 'demo3' : $available[0];
+        $this->writeKitukizuriConfigValue('dashliteVariant', "'".$fallback."'");
+        $this->info('dashliteVariant no estaba definido o era inválido. Se configuró automáticamente en '.$fallback.'.');
+
+        return $fallback;
     }
 
     protected function configureDashliteDemoAndLayout()
@@ -221,21 +474,38 @@ trait UiConfigTrait
 
         foreach ($filesystem->allFiles($sassPath) as $file) {
             $path = $file->getPathname();
+            $normalizedPath = str_replace('\\', '/', $path);
 
             if (pathinfo($path, PATHINFO_EXTENSION) !== 'scss') {
                 continue;
             }
 
             $content = file_get_contents($path);
-            if ($content === false || !str_contains($content, 'node_modules/bootstrap/scss/')) {
+            if ($content === false) {
                 continue;
             }
 
-            $normalized = preg_replace(
+            $normalized = $content;
+
+            if (str_contains($normalized, 'node_modules/bootstrap/scss/')) {
+                $normalized = preg_replace(
                 '/([\'"])(?:\.\.\/)+node_modules\/bootstrap\/scss\//',
                 '$1bootstrap/scss/',
-                $content
-            );
+                $normalized
+                );
+            }
+
+            // DashLite core aggregate files reference "core/*" from inside /core.
+            if (
+                str_contains($normalizedPath, '/core/')
+                && (str_contains($normalized, '@import "core/') || str_contains($normalized, "@import 'core/"))
+            ) {
+                $normalized = preg_replace(
+                    '/(@import\s+[\'"])core\//',
+                    '$1',
+                    $normalized
+                );
+            }
 
             if ($normalized !== null && $normalized !== $content) {
                 file_put_contents($path, $normalized);

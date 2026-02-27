@@ -54,6 +54,7 @@ class UiConfig extends Command
     {
         $options = [
             'New UI (Bootstrap 5)',
+            'Verify / Repair New UI (Bootstrap 5)',
             'Switch DashLite demo/layout',
             'Old UI',
         ];
@@ -62,6 +63,11 @@ class UiConfig extends Command
 
         if ($selectedUi === 'New UI (Bootstrap 5)') {
             $this->configBootstrap();
+            return;
+        }
+
+        if ($selectedUi === 'Verify / Repair New UI (Bootstrap 5)') {
+            $this->verifyBootstrapSetup();
             return;
         }
 
