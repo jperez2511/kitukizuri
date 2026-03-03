@@ -52,32 +52,38 @@ class UiConfig extends Command
      */
     public function handle()
     {
-        $options = [
+        $environmentOptions = [
             'Kitukizuri UI (Bootstrap 5)',
-            'Verify / Repair Kitukizuri UI (Bootstrap 5)',
-            'Switch Kitukizuri demo/layout',
             'Kitukizuri Legacy UI',
         ];
 
-        $selectedUi = select('Which visual environment do you want to configure?', $options);
+        $selectedEnvironment = select('Selecciona el entorno visual que quieres configurar', $environmentOptions);
 
-        if ($selectedUi === 'Kitukizuri UI (Bootstrap 5)') {
+        if ($selectedEnvironment === 'Kitukizuri Legacy UI') {
+            $this->configPrevUI();
+            return;
+        }
+
+        $kitukizuriUiActions = [
+            'Instalar / Configurar Kitukizuri UI',
+            'Verificar / Reparar Kitukizuri UI',
+            'Cambiar layout de Kitukizuri',
+        ];
+
+        $selectedAction = select('Selecciona la acción para Kitukizuri UI', $kitukizuriUiActions);
+
+        if ($selectedAction === 'Instalar / Configurar Kitukizuri UI') {
             $this->configBootstrap();
             return;
         }
 
-        if ($selectedUi === 'Verify / Repair Kitukizuri UI (Bootstrap 5)') {
+        if ($selectedAction === 'Verificar / Reparar Kitukizuri UI') {
             $this->verifyBootstrapSetup();
             return;
         }
 
-        if ($selectedUi === 'Switch Kitukizuri demo/layout') {
+        if ($selectedAction === 'Cambiar layout de Kitukizuri') {
             $this->switchDashliteDemo();
-            return;
-        }
-
-        if ($selectedUi === 'Kitukizuri Legacy UI') {
-            $this->configPrevUI();
             return;
         }
     }
