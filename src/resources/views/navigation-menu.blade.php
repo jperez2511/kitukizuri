@@ -1,15 +1,16 @@
 @php
-    $layout = \Icebearsoft\Kitukizuri\App\Support\DashliteLayoutState::build(false);
-    $variant = $layout['variant'];
-    $isDemo1 = $variant === 'demo1';
-    $isDemo2 = $variant === 'demo2';
-    $isDemo5 = $variant === 'demo5';
-    $isDemo6 = $variant === 'demo6';
-    $isDemo8 = $variant === 'demo8';
-    $isDemo9 = $variant === 'demo9';
-    $isAsideLayout = $layout['isAsideLayout'];
-    $menuTarget = $layout['sidebarTarget'];
-    $triggerClass = $isAsideLayout ? 'd-lg-none ms-n1' : 'd-xl-none ms-n1';
+    $navLayout = dashliteNavigationContext();
+    $layout = $navLayout['layout'];
+    $variant = $navLayout['variant'];
+    $isDemo1 = $navLayout['isDemo1'];
+    $isDemo2 = $navLayout['isDemo2'];
+    $isDemo5 = $navLayout['isDemo5'];
+    $isDemo6 = $navLayout['isDemo6'];
+    $isDemo8 = $navLayout['isDemo8'];
+    $isDemo9 = $navLayout['isDemo9'];
+    $isAsideLayout = $navLayout['isAsideLayout'];
+    $menuTarget = $navLayout['menuTarget'];
+    $triggerClass = $navLayout['triggerClass'];
 @endphp
 
 <div x-data="{ open: false }" class="nk-header-wrap">

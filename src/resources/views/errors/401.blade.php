@@ -10,10 +10,11 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{asset('kitukizuri/images/logo.svg')}}">
 
-        @php 
-            $isDark = !empty(config('kitukizuri.dark')) ? '-dark' : null;
-            $dashliteVariant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
-            $dashliteBodyClass = trim((string) config('kitukizuri.dashliteBodyClass', 'bg-lighter npc-general'));
+        @php
+            $errorLayout = krudErrorLayoutContext();
+            $isDark = $errorLayout['isDarkSuffix'];
+            $dashliteVariant = $errorLayout['dashliteVariant'];
+            $dashliteBodyClass = $errorLayout['dashliteBodyClass'];
         @endphp
 
         <!-- Bootstrap Css -->

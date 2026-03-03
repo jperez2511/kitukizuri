@@ -1,9 +1,9 @@
 @props(['dash' => false])
 
 @php
-    $isDashPage = !empty($dash) && $dash == true;
-    $layout = \Icebearsoft\Kitukizuri\App\Support\DashliteLayoutState::build($isDashPage);
-    $variantView = \Icebearsoft\Kitukizuri\App\Support\DashliteLayoutState::variantView($layout['variant']);
+    $dashliteContext = dashliteLayoutContext($dash);
+    $layout = $dashliteContext['layout'];
+    $variantView = $dashliteContext['variantView'];
 @endphp
 
 <!DOCTYPE html>

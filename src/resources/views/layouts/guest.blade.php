@@ -1,19 +1,7 @@
 @php
-    $defaultDashliteBodyClass = 'npc-default has-apps-sidebar has-sidebar';
-    $configuredBodyClass = (string) config('kitukizuri.dashliteBodyClass', $defaultDashliteBodyClass);
-    $configuredBodyClass = trim(preg_replace('/\s+/', ' ', $configuredBodyClass));
-    $dashliteVariant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
-
-    $guestBodyClass = preg_replace(
-        '/\b(has-apps-sidebar|has-aside|has-sidebar-short|has-sidebar)\b/',
-        '',
-        $configuredBodyClass
-    );
-    $guestBodyClass = trim(preg_replace('/\s+/', ' ', (string) $guestBodyClass));
-    if ($guestBodyClass === '') {
-        $guestBodyClass = 'bg-lighter npc-general';
-    }
-    $guestBodyClass .= ' pg-auth';
+    $dashliteGuestContext = dashliteGuestLayoutContext();
+    $guestBodyClass = $dashliteGuestContext['bodyClass'];
+    $dashliteVariant = $dashliteGuestContext['variant'];
 @endphp
 
 <!DOCTYPE html>

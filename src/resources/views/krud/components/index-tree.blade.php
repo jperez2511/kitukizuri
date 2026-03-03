@@ -1,8 +1,8 @@
 @props([
-    'id'          => ''
+    'id'          => '',
     'classColumn' => '',
     'campos'      => [],
-    'classTitle' => ''
+    'classTitle'  => ''
 ])
 
 @push('css')

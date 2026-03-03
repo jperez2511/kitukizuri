@@ -16,9 +16,10 @@
     
     @stack('css')
 
-    @php 
-        $isDark = !empty(config('kitukizuri.dark')) ? '-dark' : null;
-        $sideBar = (!empty($isDark) || !empty(config('kitukizuri.darkSideBar')) ? 'dark' : null); 
+    @php
+        $krudLayout = krudLayoutContext(false);
+        $isDark = $krudLayout['isDarkSuffix'];
+        $sideBar = $krudLayout['sideBar'];
     @endphp
 
     <!-- Bootstrap -->

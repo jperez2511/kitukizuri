@@ -102,22 +102,25 @@
                 'comentario' => 'The parameter is included as follows:',
                 'code'       => '&lt;?php <br><br>namespace kitukizuri\&nbsp;raining; <br><br>use Krud; <br>use Icebearsoft\\Models\&nbsp;raining; <br><br>class ExapleController extends Krud<br>[<br>&nbsp;public function __construct()<br>&nbsp;[<br>&nbsp;&nbsp;$this->setModel(new Training);<br>&nbsp;&nbsp;$this->setCampo([\'nombre\'=>\'Label del campo\', \'campo\'=>\'tabla_b.columna\', \'columnParent\' => \'id\']);<br>&nbsp;]<br>]'
             ]
-        ]
+        ];
+
+        $trainingEntry = $data[$tipo] ?? null;
+        $safeBad = e((string) ($bad ?? ''));
     @endphp
 
     <div class="card">
         <div class="card-body">
-            @if($tipo == 'help')
+            @if($tipo == 'help' || $trainingEntry === null)
                 <div></div>
             @else
                 <div class="text-center">
-                    <h4 class="text-danger">{!! !empty($bad) ? str_replace('{bad}',$bad,  $data[$tipo]['titulo']) : $data[$tipo]['titulo'] !!}</h4>
+                    <h4 class="text-danger">{!! str_replace('{bad}', $safeBad, $trainingEntry['titulo']) !!}</h4>
                     <hr>
                 </div>
                 <div class="text-justify mb-4">
-                    {{ $data[$tipo]['comentario'] }}
+                    {{ $trainingEntry['comentario'] }}
                 </div>
-                <pre class="prettyprint lang-php">{!! $data[$tipo]['code'] !!}</pre>
+                <pre class="prettyprint lang-php">{!! $trainingEntry['code'] !!}</pre>
             @endif
         </div>
     </div>

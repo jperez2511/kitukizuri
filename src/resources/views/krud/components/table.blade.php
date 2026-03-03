@@ -11,20 +11,21 @@
 ])
 
 @php
-    if(!empty($collection)) {
+    if (!empty($collection)) {
         $data = json_decode($collection);
-        
-        if (!is_array($data) || empty($data)) {
-            return response()->json(['error' => 'Invalid JSON data']);
+
+        if (is_array($data) && !empty($data)) {
+            // Generar headers (las claves del primer objeto)
+            $headers = array_keys(get_object_vars($data[0]));
+
+            // Generar filas (los valores de cada objeto)
+            $rows = array_map(function ($item) {
+                return array_values(get_object_vars($item));
+            }, $data);
+        } else {
+            $headers = [];
+            $rows = [];
         }
-
-        // Generar headers (las claves del primer objeto)
-        $headers = array_keys(get_object_vars($data[0]));
-
-        // Generar filas (los valores de cada objeto)
-        $rows = array_map(function ($item) {
-            return array_values(get_object_vars($item));
-        }, $data);
     } 
 
 @endphp
@@ -44,7 +45,7 @@
                     @foreach($row as $column)
                         <td>{{$column}}</td>
                     @endforeach
-                <tr>
+                </tr>
             @endforeach
         </tbody>
     </table>

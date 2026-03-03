@@ -16,11 +16,12 @@
     
     @stack('css')
 
-    @php 
-        $isDark = !empty(config('kitukizuri.dark')) ? '-dark' : null;
-        $sideBar = (!empty($isDark) || !empty(config('kitukizuri.darkSideBar')) ? 'dark' : null);
-        $dashliteVariant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
-        $dashliteBodyClass = trim((string) config('kitukizuri.dashliteBodyClass', 'npc-default has-sidebar'));
+    @php
+        $krudLayout = krudLayoutContext(true, 'npc-default has-sidebar');
+        $isDark = $krudLayout['isDarkSuffix'];
+        $sideBar = $krudLayout['sideBar'];
+        $dashliteVariant = $krudLayout['dashliteVariant'];
+        $dashliteBodyClass = $krudLayout['dashliteBodyClass'];
     @endphp
 
     <!-- Bootstrap -->
