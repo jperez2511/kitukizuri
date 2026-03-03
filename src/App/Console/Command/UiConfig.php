@@ -53,30 +53,30 @@ class UiConfig extends Command
     public function handle()
     {
         $options = [
-            'New UI (Bootstrap 5)',
-            'Verify / Repair New UI (Bootstrap 5)',
-            'Switch DashLite demo/layout',
-            'Old UI',
+            'Kitukizuri UI (Bootstrap 5)',
+            'Verify / Repair Kitukizuri UI (Bootstrap 5)',
+            'Switch Kitukizuri demo/layout',
+            'Kitukizuri Legacy UI',
         ];
 
         $selectedUi = select('Which visual environment do you want to configure?', $options);
 
-        if ($selectedUi === 'New UI (Bootstrap 5)') {
+        if ($selectedUi === 'Kitukizuri UI (Bootstrap 5)') {
             $this->configBootstrap();
             return;
         }
 
-        if ($selectedUi === 'Verify / Repair New UI (Bootstrap 5)') {
+        if ($selectedUi === 'Verify / Repair Kitukizuri UI (Bootstrap 5)') {
             $this->verifyBootstrapSetup();
             return;
         }
 
-        if ($selectedUi === 'Switch DashLite demo/layout') {
+        if ($selectedUi === 'Switch Kitukizuri demo/layout') {
             $this->switchDashliteDemo();
             return;
         }
 
-        if ($selectedUi === 'Old UI') {
+        if ($selectedUi === 'Kitukizuri Legacy UI') {
             $this->configPrevUI();
             return;
         }

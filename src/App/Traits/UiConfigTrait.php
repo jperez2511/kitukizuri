@@ -525,16 +525,16 @@ trait UiConfigTrait
     protected function getDashliteVariantCatalog()
     {
         return [
-            'demo1' => 'Demo 1 - General Sidebar',
-            'demo2' => 'Demo 2 - Default Sidebar',
-            'demo3' => 'Demo 3 - Apps Sidebar',
-            'demo4' => 'Demo 4 - Aside Layout',
-            'demo5' => 'Demo 5 - White/Crypto',
-            'demo6' => 'Demo 6 - Invest',
-            'demo7' => 'Demo 7 - Rounder',
-            'demo8' => 'Demo 8 - No Sidebar',
-            'demo9' => 'Demo 9 - Rounder Sidebar',
-            'covid' => 'Covid - Clean Rounder',
+            'demo1' => 'Kitukizuri 1 - General Sidebar',
+            'demo2' => 'Kitukizuri 2 - Default Sidebar',
+            'demo3' => 'Kitukizuri 3 - Apps Sidebar',
+            'demo4' => 'Kitukizuri 4 - Aside Layout',
+            'demo5' => 'Kitukizuri 5 - White/Crypto',
+            'demo6' => 'Kitukizuri 6 - Invest',
+            'demo7' => 'Kitukizuri 7 - Rounder',
+            'demo8' => 'Kitukizuri 8 - No Sidebar',
+            'demo9' => 'Kitukizuri 9 - Rounder Sidebar',
+            'covid' => 'Kitukizuri Clean - Rounder',
         ];
     }
 
@@ -792,7 +792,7 @@ trait UiConfigTrait
             'White Sidebar' => 'bg-white has-sidebar',
             'Rounder Sidebar' => 'ui-rounder npc-default has-sidebar',
             'Demo4 / Aside' => 'bg-white npc-default has-aside',
-            'Covid Clean' => 'npc-covid has-sidebar has-sidebar-short ui-clean ui-rounder',
+            'Kitukizuri Clean' => 'npc-covid has-sidebar has-sidebar-short ui-clean ui-rounder',
         ];
     }
 
