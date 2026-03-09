@@ -32,6 +32,7 @@ class RouteRegistrar
             Route::resource('moduloempresas', 'ModuloEmpresasController');
             Route::resource('database', 'DataBaseController');
             Route::resource('logs', 'LogController');
+            Route::resource('personalizacion', 'PersonalizacionController', ['only' => ['index', 'store']]);
         });
     }
 }

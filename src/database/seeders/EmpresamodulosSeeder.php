@@ -17,30 +17,43 @@ class EmpresamodulosSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$dateTime = $this->sqlDateTime();
 		$this->checkForeignKeys();
 
-		DB::table('moduloEmpresas')->truncate();
+		$empresaId = 1;
 
-		DB::table('moduloEmpresas')->insert([
-			['moduloempresaid' => 1, 'empresaid' => 1, 'moduloid' => 1,	 ],
-			['moduloempresaid' => 2, 'empresaid' => 1, 'moduloid' => 2,	 ],
-			['moduloempresaid' => 3, 'empresaid' => 1, 'moduloid' => 3,	 ],
-			['moduloempresaid' => 4, 'empresaid' => 1, 'moduloid' => 4,	 ],
-			['moduloempresaid' => 5, 'empresaid' => 1, 'moduloid' => 5,	 ],
-			['moduloempresaid' => 6, 'empresaid' => 1, 'moduloid' => 6,	 ],
-			['moduloempresaid' => 7, 'empresaid' => 1, 'moduloid' => 7,	 ],
-			['moduloempresaid' => 8, 'empresaid' => 1, 'moduloid' => 8,	 ],
-			['moduloempresaid' => 9, 'empresaid' => 1, 'moduloid' => 9,	 ],
-			['moduloempresaid' => 10, 'empresaid' => 1, 'moduloid' => 10, ],
-			['moduloempresaid' => 11, 'empresaid' => 1, 'moduloid' => 11, ],
-			['moduloempresaid' => 12, 'empresaid' => 1, 'moduloid' => 12, ],
-			['moduloempresaid' => 13, 'empresaid' => 1, 'moduloid' => 13, ],
-			['moduloempresaid' => 14, 'empresaid' => 1, 'moduloid' => 14, ],
-			['moduloempresaid' => 15, 'empresaid' => 1, 'moduloid' => 15, ],
-		]);
+		$modulos = DB::table('modulos')
+			->orderBy('moduloid')
+			->pluck('moduloid')
+			->toArray();
 
-		DB::statement('UPDATE moduloEmpresas SET created_at='.$dateTime.', updated_at='.$dateTime);
+		$modulosActuales = DB::table('moduloEmpresas')
+			->where('empresaid', $empresaId)
+			->pluck('moduloid')
+			->toArray();
+
+		$modulosEliminar = array_diff($modulosActuales, $modulos);
+		if(!empty($modulosEliminar)) {
+			DB::table('moduloEmpresas')
+				->where('empresaid', $empresaId)
+				->whereIn('moduloid', $modulosEliminar)
+				->delete();
+		}
+
+		$rows = [];
+		$modulosAgregar = array_diff($modulos, $modulosActuales);
+		foreach ($modulosAgregar as $moduloId) {
+			$rows[] = [
+				'empresaid' => $empresaId,
+				'moduloid'  => $moduloId,
+				'created_at' => now(),
+				'updated_at' => now(),
+			];
+		}
+
+		if(!empty($rows)) {
+			DB::table('moduloEmpresas')->insert($rows);
+		}
+
 		$this->checkForeignKeys(1);
 	}
 }
