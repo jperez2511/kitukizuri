@@ -62,6 +62,8 @@ php artisan krud:update
 php artisan krud:update --force
 ```
 
+`krud:update` tambien sincroniza el archivo `database/seeders/ModulosSeeder.php` para agregar modulos faltantes sin sobrescribir personalizaciones existentes.
+
 
 ## Configuración opcional
 
