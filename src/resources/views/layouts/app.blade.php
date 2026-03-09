@@ -21,6 +21,9 @@
         <!-- Styles -->
         @livewireStyles
         @stack('styles')
+        <style id="kitukizuri-theme-css">
+            {!! kitukizuriThemeCss() !!}
+        </style>
     </head>
 
     <body class="nk-body {{ $layout['bodyClass'] }} variant-{{ $layout['variant'] }} no-touch nk-nio-theme">

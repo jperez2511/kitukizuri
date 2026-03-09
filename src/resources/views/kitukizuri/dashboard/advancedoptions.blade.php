@@ -29,17 +29,17 @@
             <div>
                 <x-banner style="warning" message="{{ __('Caution: The following options may cause permanent changes within the application that cannot be undone. Please proceed carefully.') }}" />
                 <div class="row">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 mb-2">
                         <a href="{{ route('database.index') }}" class="btn btn-lg w-100 btn-outline-primary">
                             <em class="fa-duotone fa-solid fa-database"></em> <span class="p-1"> {{ __('Database management') }}</span>
                         </a>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 mb-2">
                         <a href="{{ route('logs.index') }}" class="btn btn-lg w-100 btn-outline-primary">
                             <em class="fa-sharp-duotone fa-solid fa-receipt"></em> <span class="p-1"> {{ __('Log viwer') }}</span>
                         </a>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 mb-2">
                         <a href="{{ route('personalizacion.index') }}" class="btn btn-lg w-100 btn-outline-primary">
                             <em class="fa-duotone fa-solid fa-palette"></em> <span class="p-1"> {{ __('Theme customization') }}</span>
                         </a>

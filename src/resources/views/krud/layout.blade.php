@@ -54,6 +54,10 @@
     @if (file_exists(public_path('build/manifest.json')))
         @vite(['resources/js/app.js'])    
     @endif
+
+    <style id="kitukizuri-theme-css">
+        {!! kitukizuriThemeCss() !!}
+    </style>
 </head>
 
 <body data-sidebar="{{$sideBar}}" class="sidebar-enable nk-body {{ $dashliteBodyClass }} variant-{{ $dashliteVariant }}">

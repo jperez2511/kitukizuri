@@ -55,7 +55,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-12 mb-2">
                         <div class="form-group text-center">
                             <a href="{{ route('database.index') }}" class="btn btn-primary btn-icon-split btn-sm btn-block">
                                 <span class="icon">
@@ -65,7 +65,7 @@
                             </a>
                         </div>
                     </div> 
-                    <div class="col-md-4">
+                    <div class="col-12 mb-2">
                         <a href="{{ route('logs.index') }}" class="btn btn-tertiary btn-icon-split btn-sm btn-block">
                             <span class="icon">
                                 <i class="fa-light fa-receipt"></i>
@@ -73,7 +73,7 @@
                             <span class="text">Logs</span>
                         </a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-12 mb-2">
                         <a href="{{ route('personalizacion.index') }}" class="btn btn-warning btn-icon-split btn-sm btn-block">
                             <span class="icon">
                                 <i class="fa-light fa-palette"></i>
