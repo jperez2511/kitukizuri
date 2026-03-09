@@ -52,6 +52,16 @@ docker exec -it idContainer bash
 php artisan krud:install
 ```
 
+## Actualización de una instalación existente
+
+```bash
+# sincroniza recursos publicados, migraciones y seeders base
+php artisan krud:update
+
+# util cuando necesitas sobrescribir archivos publicados
+php artisan krud:update --force
+```
+
 
 ## Configuración opcional
 
