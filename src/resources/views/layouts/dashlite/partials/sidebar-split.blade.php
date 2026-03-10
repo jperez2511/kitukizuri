@@ -1,5 +1,9 @@
 @if ($layout['showSidebar'])
-    <div class="nk-sidebar" data-content="{{ $layout['sidebarTarget'] }}">
+    @php
+        $splitSidebarClass = trim((string) ($layout['sidebarStyleClass'] ?? ''));
+        $splitSidebarMainClass = $splitSidebarClass !== '' ? $splitSidebarClass : 'is-light';
+    @endphp
+    <div class="nk-sidebar {{ $splitSidebarClass }}" data-content="{{ $layout['sidebarTarget'] }}">
         <div class="nk-sidebar-bar">
             <div class="nk-apps-brand">
                 <a href="{{ route('home.index') }}" class="logo-link">
@@ -22,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="nk-sidebar-main is-light">
+        <div class="nk-sidebar-main {{ $splitSidebarMainClass }}">
             <div class="nk-sidebar-inner" data-simplebar>
                 {!! session('menu') !!}
             </div>

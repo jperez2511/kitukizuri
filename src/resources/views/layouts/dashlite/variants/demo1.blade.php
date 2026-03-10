@@ -1,7 +1,8 @@
 <div class="nk-app-root">
     <div class="nk-main">
         @if ($layout['showSidebar'])
-            <div class="nk-sidebar nk-sidebar-fixed is-dark" data-content="{{ $layout['sidebarTarget'] }}">
+            @php($sidebarTone = $layout['sidebarStyleClass'] ?: 'is-dark')
+            <div class="nk-sidebar nk-sidebar-fixed {{ $sidebarTone }}" data-content="{{ $layout['sidebarTarget'] }}">
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-menu-trigger">
                         <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="{{ $layout['sidebarTarget'] }}"><em class="icon ni ni-arrow-left"></em></a>

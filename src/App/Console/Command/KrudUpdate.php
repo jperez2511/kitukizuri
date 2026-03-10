@@ -16,7 +16,7 @@ class KrudUpdate extends Command
      * @var string
      */
     protected $signature = "krud:update
-                            {--force : Sobrescribe archivos publicados}
+                            {--force : Sobrescribe todos los archivos publicados (con respaldo *_old)}
                             {--skip-publish : Omite vendor:publish}
                             {--skip-migrate : Omite migraciones}
                             {--skip-seed : Omite sincronizacion de seeders}";
@@ -171,26 +171,189 @@ class KrudUpdate extends Command
      */
     private function publishPackageResources()
     {
-        $tags = [
-            'krud-migrations',
-            'krud-seeders',
-            'krud-error',
-            'krud-views',
-            'krud-app',
-            'krud-config',
-            'krud-public',
+        $definitions = [
+            [
+                'tag' => 'krud-migrations',
+                'from' => __DIR__.'/../../../database/migrations',
+                'to' => base_path('database/migrations'),
+                'force' => false,
+            ],
+            [
+                'tag' => 'krud-seeders',
+                'from' => __DIR__.'/../../../database/seeders',
+                'to' => base_path('database/seeders'),
+                'force' => false,
+            ],
+            [
+                'tag' => 'krud-error',
+                'from' => __DIR__.'/../../../resources/views/errors',
+                'to' => base_path('resources/views/errors'),
+                'force' => true,
+            ],
+            [
+                'tag' => 'krud-views',
+                'from' => __DIR__.'/../../../resources/views/krud',
+                'to' => base_path('resources/views/krud'),
+                'force' => true,
+            ],
+            [
+                'tag' => 'krud-app',
+                'from' => __DIR__.'/../../../resources/views/app',
+                'to' => base_path('resources/views/app'),
+                'force' => true,
+            ],
+            [
+                'tag' => 'krud-config',
+                'from' => __DIR__.'/../../../config',
+                'to' => base_path('config'),
+                'force' => false,
+            ],
+            [
+                'tag' => 'krud-public',
+                'from' => __DIR__.'/../../../public',
+                'to' => base_path('public'),
+                'force' => true,
+            ],
         ];
 
-        foreach ($tags as $tag) {
-            $this->line('Publicando: '.$tag);
+        foreach ($definitions as $definition) {
+            $replace = $this->option('force') || $definition['force'];
+            $mode = $replace ? 'replace' : 'skip-existing';
 
-            $options = ['--tag='.$tag];
-            if ($this->option('force')) {
-                $options[] = '--force';
+            $this->line('Publicando: '.$definition['tag'].' ['.$mode.']');
+
+            $stats = $this->syncDirectoryWithBackup(
+                $definition['from'],
+                $definition['to'],
+                $replace
+            );
+
+            $this->line(
+                '  Copiados: '.$stats['copied'].
+                ' | Reemplazados: '.$stats['replaced'].
+                ' | Respaldos: '.$stats['backups'].
+                ' | Omitidos: '.$stats['skipped']
+            );
+        }
+    }
+
+    /**
+     * Sincroniza un directorio conservando respaldo antes de reemplazar.
+     *
+     * @param  string  $sourceDir
+     * @param  string  $targetDir
+     * @param  bool  $replaceExisting
+     * @return array
+     */
+    private function syncDirectoryWithBackup($sourceDir, $targetDir, $replaceExisting = false)
+    {
+        $stats = [
+            'copied' => 0,
+            'replaced' => 0,
+            'backups' => 0,
+            'skipped' => 0,
+        ];
+
+        if (!is_dir($sourceDir)) {
+            $this->warn('Directorio fuente no encontrado: '.$sourceDir);
+            return $stats;
+        }
+
+        if (!is_dir($targetDir)) {
+            @mkdir($targetDir, 0777, true);
+        }
+
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($sourceDir, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($iterator as $sourceFile) {
+            if (!$sourceFile->isFile()) {
+                continue;
             }
 
-            $this->artisanCommand('vendor:publish', $options);
+            $sourcePath = $sourceFile->getPathname();
+            $relativePath = ltrim(str_replace($sourceDir, '', $sourcePath), DIRECTORY_SEPARATOR);
+            $targetPath = $targetDir.DIRECTORY_SEPARATOR.$relativePath;
+
+            $targetPathDir = dirname($targetPath);
+            if (!is_dir($targetPathDir)) {
+                @mkdir($targetPathDir, 0777, true);
+            }
+
+            if (!file_exists($targetPath)) {
+                if (@copy($sourcePath, $targetPath)) {
+                    $stats['copied']++;
+                } else {
+                    $stats['skipped']++;
+                }
+                continue;
+            }
+
+            $sameContent = @hash_file('sha1', $sourcePath) === @hash_file('sha1', $targetPath);
+            if ($sameContent) {
+                $stats['skipped']++;
+                continue;
+            }
+
+            if (!$replaceExisting) {
+                $stats['skipped']++;
+                continue;
+            }
+
+            if ($this->backupFileWithOldSuffix($targetPath)) {
+                $stats['backups']++;
+            }
+
+            if (@copy($sourcePath, $targetPath)) {
+                $stats['replaced']++;
+            } else {
+                $stats['skipped']++;
+            }
         }
+
+        return $stats;
+    }
+
+    /**
+     * Crea un respaldo con sufijo _old antes de reemplazar.
+     *
+     * @param  string  $filePath
+     * @return bool
+     */
+    private function backupFileWithOldSuffix($filePath)
+    {
+        if (!file_exists($filePath)) {
+            return false;
+        }
+
+        $backupPath = $this->buildOldBackupPath($filePath);
+        return @copy($filePath, $backupPath);
+    }
+
+    /**
+     * Construye la ruta de respaldo con sufijo _old.
+     *
+     * @param  string  $filePath
+     * @return string
+     */
+    private function buildOldBackupPath($filePath)
+    {
+        $dir = dirname($filePath);
+        $info = pathinfo($filePath);
+        $fileName = $info['filename'] ?? 'file';
+        $extension = isset($info['extension']) ? '.'.$info['extension'] : '';
+
+        $backupPath = $dir.DIRECTORY_SEPARATOR.$fileName.'_old'.$extension;
+        $counter = 1;
+
+        while (file_exists($backupPath)) {
+            $backupPath = $dir.DIRECTORY_SEPARATOR.$fileName.'_old_'.$counter.$extension;
+            $counter++;
+        }
+
+        return $backupPath;
     }
 
     /**

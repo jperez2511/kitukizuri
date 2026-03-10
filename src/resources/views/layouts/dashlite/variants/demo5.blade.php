@@ -1,7 +1,7 @@
 <div class="nk-app-root">
     <div class="nk-main">
         @if ($layout['showSidebar'])
-            <div class="nk-sidebar nk-sidebar-fixed" data-content="{{ $layout['sidebarTarget'] }}">
+            <div class="nk-sidebar nk-sidebar-fixed {{ $layout['sidebarStyleClass'] }}" data-content="{{ $layout['sidebarTarget'] }}">
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
                         <a href="{{ route('home.index') }}" class="logo-link nk-sidebar-logo">

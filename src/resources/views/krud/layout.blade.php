@@ -22,6 +22,7 @@
         $sideBar = $krudLayout['sideBar'];
         $dashliteVariant = $krudLayout['dashliteVariant'];
         $dashliteBodyClass = $krudLayout['dashliteBodyClass'];
+        $dashliteDirection = $krudLayout['direction'];
     @endphp
 
     <!-- Bootstrap -->
@@ -60,7 +61,7 @@
     </style>
 </head>
 
-<body data-sidebar="{{$sideBar}}" class="sidebar-enable nk-body {{ $dashliteBodyClass }} variant-{{ $dashliteVariant }}">
+<body dir="{{ $dashliteDirection }}" data-sidebar="{{$sideBar}}" class="sidebar-enable nk-body {{ $dashliteBodyClass }} variant-{{ $dashliteVariant }}">
     <!-- Begin page -->
     <div id="layout-wrapper">
         <header id="page-topbar">

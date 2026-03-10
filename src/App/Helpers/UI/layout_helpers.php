@@ -32,6 +32,7 @@ if (!function_exists('dashliteGuestLayoutContext')) {
         return [
             'bodyClass' => trim($guestBodyClass.' pg-auth'),
             'variant' => (string) ($layout['variant'] ?? 'demo3'),
+            'direction' => (string) ($layout['direction'] ?? 'ltr'),
         ];
     }
 }
@@ -47,17 +48,22 @@ if (!function_exists('krudLayoutContext')) {
             'sideBar' => $sideBar,
             'dashliteVariant' => null,
             'dashliteBodyClass' => null,
+            'direction' => 'ltr',
         ];
 
         if (!$withDashlite) {
+            if (function_exists('kitukizuriLayoutConfig')) {
+                $layoutConfig = kitukizuriLayoutConfig();
+                $context['direction'] = (string) ($layoutConfig['direction'] ?? 'ltr');
+            }
             return $context;
         }
 
-        $dashliteVariant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
-        $dashliteBodyClass = trim((string) config('kitukizuri.dashliteBodyClass', $defaultBodyClass));
+        $layout = \Icebearsoft\Kitukizuri\App\Support\DashliteLayoutState::build(false);
 
-        $context['dashliteVariant'] = $dashliteVariant === '' ? 'demo3' : $dashliteVariant;
-        $context['dashliteBodyClass'] = $dashliteBodyClass === '' ? $defaultBodyClass : $dashliteBodyClass;
+        $context['dashliteVariant'] = (string) ($layout['variant'] ?? 'demo3');
+        $context['dashliteBodyClass'] = trim((string) ($layout['bodyClass'] ?? $defaultBodyClass));
+        $context['direction'] = (string) ($layout['direction'] ?? 'ltr');
 
         return $context;
     }
@@ -66,10 +72,13 @@ if (!function_exists('krudLayoutContext')) {
 if (!function_exists('krudErrorLayoutContext')) {
     function krudErrorLayoutContext(): array
     {
+        $layout = \Icebearsoft\Kitukizuri\App\Support\DashliteLayoutState::build(false);
+
         return [
             'isDarkSuffix' => !empty(config('kitukizuri.dark')) ? '-dark' : null,
-            'dashliteVariant' => trim((string) config('kitukizuri.dashliteVariant', 'demo3')),
-            'dashliteBodyClass' => trim((string) config('kitukizuri.dashliteBodyClass', 'bg-lighter npc-general')),
+            'dashliteVariant' => (string) ($layout['variant'] ?? 'demo3'),
+            'dashliteBodyClass' => trim((string) ($layout['bodyClass'] ?? 'bg-lighter npc-general')),
+            'direction' => (string) ($layout['direction'] ?? 'ltr'),
         ];
     }
 }

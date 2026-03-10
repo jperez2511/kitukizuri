@@ -7,6 +7,7 @@ class DashliteLayoutState
     public static function build($isDashPage = false)
     {
         $defaultBodyClass = 'npc-default has-apps-sidebar has-sidebar';
+        $layoutConfig = self::layoutConfig();
         $variant = trim((string) config('kitukizuri.dashliteVariant', 'demo3'));
 
         if (!array_key_exists($variant, self::variantViews())) {
@@ -16,6 +17,7 @@ class DashliteLayoutState
         $configuredBodyClass = trim((string) config('kitukizuri.dashliteBodyClass', $defaultBodyClass));
         $configuredBodyClass = trim((string) preg_replace('/\s+/', ' ', $configuredBodyClass));
         $bodyClass = self::normalizeBodyClass($variant, $configuredBodyClass, $defaultBodyClass);
+        $bodyClass = self::applyVisualPreferences($bodyClass, $layoutConfig);
 
         $paddedBodyClass = ' '.$bodyClass.' ';
         $hasAppsSidebar = str_contains($paddedBodyClass, ' has-apps-sidebar ');
@@ -34,7 +36,12 @@ class DashliteLayoutState
 
         $sidebarTarget = $isAsideLayout ? 'sideNav' : 'sidebarMenu';
         $mainWrapClass = $isDashPage ? '' : 'nk-wrap';
-        $appsSidebarClass = 'nk-apps-sidebar'.($isLightSurface ? ' is-light' : ' is-dark');
+        $sidebarStyle = self::resolveSidebarStyle($variant, (string) $layoutConfig['sidebar_style']);
+        $sidebarStyleClass = self::mapSidebarStyleClass($sidebarStyle);
+        $appsSidebarToneClass = $layoutConfig['sidebar_style'] === 'auto'
+            ? ($isLightSurface ? 'is-light' : 'is-dark')
+            : self::mapSidebarStyleClass((string) $layoutConfig['sidebar_style']);
+        $appsSidebarClass = 'nk-apps-sidebar'.($appsSidebarToneClass !== '' ? ' '.$appsSidebarToneClass : '');
         $headerContainerClass = $isAsideLayout ? 'container-lg wide-xl' : 'container-fluid';
         $contentContainerClass = $isAsideLayout ? 'container wide-xl' : 'container-fluid';
         if (in_array($variant, ['demo6', 'demo9'], true)) {
@@ -61,6 +68,7 @@ class DashliteLayoutState
         return [
             'variant' => $variant,
             'bodyClass' => $bodyClass,
+            'direction' => $layoutConfig['direction'],
             'hasAppsSidebar' => $hasAppsSidebar,
             'hasSidebar' => $hasSidebar,
             'isAsideLayout' => $isAsideLayout,
@@ -73,6 +81,8 @@ class DashliteLayoutState
             'usesThemeHeader' => $usesThemeHeader,
             'sidebarTarget' => $sidebarTarget,
             'mainWrapClass' => $mainWrapClass,
+            'sidebarStyle' => $sidebarStyle,
+            'sidebarStyleClass' => $sidebarStyleClass,
             'appsSidebarClass' => $appsSidebarClass,
             'headerClass' => $headerClass,
             'headerContainerClass' => $headerContainerClass,
@@ -102,6 +112,106 @@ class DashliteLayoutState
         ));
 
         return $normalized !== '' ? $normalized : $defaultBodyClass;
+    }
+
+    protected static function layoutConfig()
+    {
+        $config = [
+            'direction' => 'ltr',
+            'ui_style' => 'default',
+            'sidebar_style' => 'auto',
+            'skin_mode' => 'light',
+        ];
+
+        if (!function_exists('kitukizuriLayoutConfig')) {
+            return $config;
+        }
+
+        $settings = kitukizuriLayoutConfig();
+        if (!is_array($settings)) {
+            return $config;
+        }
+
+        $direction = strtolower(trim((string) ($settings['direction'] ?? 'ltr')));
+        if (in_array($direction, ['ltr', 'rtl'], true)) {
+            $config['direction'] = $direction;
+        }
+
+        $uiStyle = strtolower(trim((string) ($settings['ui_style'] ?? 'default')));
+        if (in_array($uiStyle, ['default', 'bordered'], true)) {
+            $config['ui_style'] = $uiStyle;
+        }
+
+        $sidebarStyle = strtolower(trim((string) ($settings['sidebar_style'] ?? 'auto')));
+        if (in_array($sidebarStyle, ['auto', 'white', 'dark', 'theme'], true)) {
+            $config['sidebar_style'] = $sidebarStyle;
+        }
+
+        $skinMode = strtolower(trim((string) ($settings['skin_mode'] ?? 'light')));
+        if (in_array($skinMode, ['light', 'dark'], true)) {
+            $config['skin_mode'] = $skinMode;
+        }
+
+        return $config;
+    }
+
+    protected static function applyVisualPreferences($bodyClass, $layoutConfig)
+    {
+        $classList = array_values(array_filter(
+            explode(' ', preg_replace('/\s+/', ' ', trim((string) $bodyClass)))
+        ));
+
+        $classList = array_values(array_filter($classList, function ($class) {
+            return !in_array($class, ['ui-bordered', 'has-rtl', 'dark-mode'], true);
+        }));
+
+        if (($layoutConfig['ui_style'] ?? 'default') === 'bordered') {
+            $classList[] = 'ui-bordered';
+        }
+
+        if (($layoutConfig['direction'] ?? 'ltr') === 'rtl') {
+            $classList[] = 'has-rtl';
+        }
+
+        if (($layoutConfig['skin_mode'] ?? 'light') === 'dark') {
+            $classList[] = 'dark-mode';
+        }
+
+        return trim(implode(' ', array_values(array_unique($classList))));
+    }
+
+    protected static function resolveSidebarStyle($variant, $requestedStyle)
+    {
+        if ($requestedStyle !== 'auto') {
+            return $requestedStyle;
+        }
+
+        return self::sidebarDefaultStyleByVariant()[$variant] ?? 'auto';
+    }
+
+    protected static function mapSidebarStyleClass($sidebarStyle)
+    {
+        return [
+            'white' => 'is-light',
+            'dark' => 'is-dark',
+            'theme' => 'is-theme',
+        ][$sidebarStyle] ?? '';
+    }
+
+    protected static function sidebarDefaultStyleByVariant()
+    {
+        return [
+            'demo1' => 'dark',
+            'demo2' => 'white',
+            'demo3' => 'auto',
+            'demo4' => 'white',
+            'demo5' => 'auto',
+            'demo6' => 'auto',
+            'demo7' => 'white',
+            'demo8' => 'auto',
+            'demo9' => 'white',
+            'covid' => 'white',
+        ];
     }
 
     protected static function layoutFlagsByVariant()

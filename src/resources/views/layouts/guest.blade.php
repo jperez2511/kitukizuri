@@ -2,10 +2,11 @@
     $dashliteGuestContext = dashliteGuestLayoutContext();
     $guestBodyClass = $dashliteGuestContext['bodyClass'];
     $dashliteVariant = $dashliteGuestContext['variant'];
+    $dashliteDirection = $dashliteGuestContext['direction'];
 @endphp
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ $dashliteDirection }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +21,7 @@
         @livewireStyles
         @stack('styles')
     </head>
-    <body class="nk-body {{ $guestBodyClass }} variant-{{ $dashliteVariant }} no-touch nk-nio-theme">
+    <body dir="{{ $dashliteDirection }}" class="nk-body {{ $guestBodyClass }} variant-{{ $dashliteVariant }} no-touch nk-nio-theme">
         <div class="nk-app-root">
             <div class="nk-main">
                 <div class="nk-wrap nk-wrap-nosidebar">

@@ -1,7 +1,8 @@
 <div class="nk-app-root">
     <div class="nk-main">
         @if ($layout['showSidebar'])
-            <div class="nk-sidebar nk-sidebar-short nk-sidebar-fixed is-light" data-content="{{ $layout['sidebarTarget'] }}">
+            @php($sidebarTone = $layout['sidebarStyleClass'] ?: 'is-light')
+            <div class="nk-sidebar nk-sidebar-short nk-sidebar-fixed {{ $sidebarTone }}" data-content="{{ $layout['sidebarTarget'] }}">
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
                         <a href="{{ route('home.index') }}" class="logo-link nk-sidebar-logo">

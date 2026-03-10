@@ -15,6 +15,7 @@
             $isDark = $errorLayout['isDarkSuffix'];
             $dashliteVariant = $errorLayout['dashliteVariant'];
             $dashliteBodyClass = $errorLayout['dashliteBodyClass'];
+            $dashliteDirection = $errorLayout['direction'];
         @endphp
 
         <!-- Bootstrap Css -->
@@ -26,7 +27,7 @@
 
     </head>
 
-    <body class="nk-body {{ $dashliteBodyClass }} variant-{{ $dashliteVariant }} no-touch nk-nio-theme">
+    <body dir="{{ $dashliteDirection }}" class="nk-body {{ $dashliteBodyClass }} variant-{{ $dashliteVariant }} no-touch nk-nio-theme">
         <div class="home-btn d-none d-sm-block">
             <a href="{{ url('') }}"><i class="mdi mdi-home-variant h2"></i></a>
         </div>

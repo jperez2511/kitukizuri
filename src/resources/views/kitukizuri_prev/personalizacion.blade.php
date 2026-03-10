@@ -1,9 +1,17 @@
 @extends($layout)
 
 @section('content')
+    @php
+        $selectedDirection = old('direction', $personalizacion->direction ?? 'ltr');
+        $selectedUiStyle = old('ui_style', $personalizacion->ui_style ?? 'default');
+        $selectedSidebarStyle = old('sidebar_style', $personalizacion->sidebar_style ?? 'auto');
+        $selectedSkinMode = old('skin_mode', $personalizacion->skin_mode ?? 'light');
+        $selectedPrimarySkin = old('primary_skin', $personalizacion->primary_skin ?? 'custom');
+    @endphp
+
     <div class="col-12">
         <div class="alert alert-info">
-            Configura los colores base para la capa de personalizacion del tema.
+            Configura layout y colores del tema, guardados directamente en base de datos.
         </div>
     </div>
 
@@ -36,6 +44,61 @@
         <form method="POST" action="{{ route('personalizacion.store') }}">
             @csrf
             <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="direction">Direction</label>
+                        <select class="form-control" id="direction" name="direction">
+                            @foreach ($layoutOptions['direction'] as $value => $label)
+                                <option value="{{ $value }}" {{ $selectedDirection === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="ui_style">Main UI Style</label>
+                        <select class="form-control" id="ui_style" name="ui_style">
+                            @foreach ($layoutOptions['ui_style'] as $value => $label)
+                                <option value="{{ $value }}" {{ $selectedUiStyle === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="sidebar_style">Sidebar Style</label>
+                        <select class="form-control" id="sidebar_style" name="sidebar_style">
+                            @foreach ($layoutOptions['sidebar_style'] as $value => $label)
+                                <option value="{{ $value }}" {{ $selectedSidebarStyle === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="skin_mode">Skin Mode</label>
+                        <select class="form-control" id="skin_mode" name="skin_mode">
+                            @foreach ($layoutOptions['skin_mode'] as $value => $label)
+                                <option value="{{ $value }}" {{ $selectedSkinMode === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="primary_skin">Primary Skin</label>
+                        <select class="form-control" id="primary_skin" name="primary_skin">
+                            @foreach ($skinPresetLabels as $value => $label)
+                                <option value="{{ $value }}" {{ $selectedPrimarySkin === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <div class="col-12 col-md-6">
                     <div class="form-group mb-3">
                         <label for="primary_color">Color primario</label>

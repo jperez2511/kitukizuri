@@ -58,11 +58,12 @@ php artisan krud:install
 # sincroniza recursos publicados, migraciones y seeders base
 php artisan krud:update
 
-# util cuando necesitas sobrescribir archivos publicados
+# fuerza sobrescritura en todos los tags (con respaldo *_old)
 php artisan krud:update --force
 ```
 
 `krud:update` tambien sincroniza el archivo `database/seeders/ModulosSeeder.php` para agregar modulos faltantes sin sobrescribir personalizaciones existentes.
+Para vistas y recursos visuales, actualiza archivos existentes y crea respaldo automatico con sufijo `_old` antes de reemplazar.
 
 
 ## Configuración opcional
