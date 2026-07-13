@@ -2,8 +2,7 @@
 
 namespace Icebearsoft\Kitukizuri\App\Logging;
 
-use App\Models\Log as LogEntry; // evita colisión con Facade Log
-use Closure;
+use Icebearsoft\Kitukizuri\App\Models\Log as LogEntry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
@@ -20,11 +19,12 @@ class DatabaseLogger extends AbstractProcessingHandler
     // Para usarlo como "via" en logging.php
     public function __invoke(array $config): MonoLogger
     {
-        // Nivel por defecto (debug) o el que mandes en el canal
         $level = $config['level'] ?? Level::Debug;
-        // NO empujes el StreamHandler aquí; solo este handler.
+
         $logger = new MonoLogger('database');
-        $logger->pushHandler($this->setLevel($level));
+        $this->setLevel($level);
+        $logger->pushHandler($this);
+
         return $logger;
     }
 
@@ -95,8 +95,8 @@ class DatabaseLogger extends AbstractProcessingHandler
                 'message' => $message,
                 'context' => json_encode([
                     'original' => $context,
-                    'all'      => $exception,
-                ]),
+                    'all' => $exception,
+                ], JSON_PARTIAL_OUTPUT_ON_ERROR),
             ]);
         } catch (Throwable $e) {
             $this->fallbackToFile($record, [
@@ -121,6 +121,10 @@ class DatabaseLogger extends AbstractProcessingHandler
             DB::connection()->getPdo();
 
             // 3) ¿Existe la tabla del modelo?
+            if (!class_exists(LogEntry::class)) {
+                return false;
+            }
+
             $table = (new LogEntry)->getTable();
             if (!Schema::hasTable($table)) {
                 return false;

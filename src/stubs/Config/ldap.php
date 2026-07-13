@@ -67,7 +67,11 @@ return [
 
         'ldap' => [
             'driver' => 'ldap',
-            'model' => LdapRecord\Models\ActiveDirectory\User::class,
+            'model' => env('LDAP_DIRECTORY_TYPE', 'activedirectory') === 'openldap'
+                ? LdapRecord\Models\OpenLDAP\User::class
+                : LdapRecord\Models\ActiveDirectory\User::class,
+            'rules' => [],
+            'scopes' => [],
             'database' => [
                 'model' => App\Models\User::class,
                 'sync_passwords' => true,
@@ -75,8 +79,11 @@ return [
                     'name' => 'cn',
                     'email' => 'mail',
                 ],
-            ]
-        ]
+                'sync_existing' => [
+                    'email' => 'mail',
+                ],
+            ],
+        ],
 
         // 'users' => [
         //     'driver' => 'database',

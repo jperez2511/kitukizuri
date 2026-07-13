@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Icebearsoft\Kitukizuri\App\Models\UsuarioRol;
 
 use LdapRecord\Laravel\Auth\HasLdapUser;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
@@ -22,6 +23,7 @@ class User extends Authenticatable implements LdapAuthenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasLdapUser;
+    use AuthenticatesWithLdap;
 
     /**
      * The attributes that are mass assignable.
@@ -113,7 +115,7 @@ class User extends Authenticatable implements LdapAuthenticatable
     }
 
 
-    public function roles()
+    public function roles(): HasMany
     {
         return $this->hasMany(UsuarioRol::class, 'usuarioid', 'id');
     }

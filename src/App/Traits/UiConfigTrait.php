@@ -142,6 +142,12 @@ trait UiConfigTrait
             return;
         }
 
+        $packageData = $this->loadProjectPackageJson();
+        if ($packageData === null) {
+            $this->warn('No se pudo validar package.json, se omite la instalación automática de npm packages.');
+            return;
+        }
+
         $fromMatches = [];
         $requireMatches = [];
         $dynamicImportMatches = [];
@@ -162,6 +168,10 @@ trait UiConfigTrait
                 continue;
             }
 
+            if (!$this->shouldInstallViteConfigPackage($packageName, $packageData)) {
+                continue;
+            }
+
             $vitePackages[$packageName] = null;
         }
 
@@ -169,7 +179,7 @@ trait UiConfigTrait
             return;
         }
 
-        $this->installMissingNpmPackages($vitePackages, true);
+        $this->installMissingNpmPackages($vitePackages, true, $packageData);
     }
 
     protected function normalizeImportSpecifierToPackage($specifier)
@@ -200,9 +210,32 @@ trait UiConfigTrait
             || str_starts_with($packageName, 'vite-plugin-');
     }
 
-    protected function installMissingNpmPackages($requiredPackages, $devDependencies = false)
+    protected function shouldInstallViteConfigPackage($packageName, $packageData)
     {
-        $packageData = $this->loadProjectPackageJson();
+        if ($packageName === '@vitejs/plugin-react') {
+            return $this->hasProjectNpmPackage($packageData, 'react');
+        }
+
+        if ($packageName === '@vitejs/plugin-vue') {
+            return $this->hasProjectNpmPackage($packageData, 'vue');
+        }
+
+        return true;
+    }
+
+    protected function hasProjectNpmPackage($packageData, $packageName)
+    {
+        $installedPackages = array_merge(
+            $packageData['dependencies'] ?? [],
+            $packageData['devDependencies'] ?? []
+        );
+
+        return array_key_exists($packageName, $installedPackages);
+    }
+
+    protected function installMissingNpmPackages($requiredPackages, $devDependencies = false, $packageData = null)
+    {
+        $packageData ??= $this->loadProjectPackageJson();
         if ($packageData === null) {
             $this->warn('No se pudo validar package.json, se omite la instalación automática de npm packages.');
             return;

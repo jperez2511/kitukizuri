@@ -3,12 +3,11 @@
 namespace App\Providers;
 
 use DB;
+use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-use App\Ldap\User;
 use App\Models\User as U;
 use Icebearsoft\Kitukizuri\App\Models\Modulo;
 use Icebearsoft\Kitukizuri\App\Models\Empresa;
@@ -33,41 +32,85 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Fortify::authenticateUsing(function ($request) {
+        Fortify::authenticateUsing(function (Request $request): ?U {
             $validated = Auth::validate([
-                'mail'     => $request->email,
+                'mail' => $request->email,
                 'password' => $request->password,
             ]);
-            if ($validated === true) {
-                $this->setEmpresaRol(Auth::getLastAttempted());
+
+            $user = Auth::getLastAttempted();
+
+            if ($validated === true && $user instanceof U) {
+                $this->setEmpresaRol($user);
+
+                return $user;
             }
-            return $validated ? Auth::getLastAttempted() : null;
+
+            return null;
         });
     }
 
-    private function setEmpresaRol($user)
+    private function setEmpresaRol(U $user): void
     {
-        if($user->empresaid == null) {
-            $ldapUserData = User::where('mail', '=', $user->email)->first();
+        if ($user->empresaid === null) {
+            $ldapUserData = $user->ldap;
+            $company = $ldapUserData?->getFirstAttribute('company') ?: config('app.name', 'Empresa');
 
             $empresa = Empresa::firstOrCreate([
-                'nombre' => $ldapUserData['company'][0]
+                'nombre' => $company,
             ]);
 
             $userData = U::find($user->id);
             $userData->empresaid = $empresa->empresaid;
             $userData->save();
 
-            $modulos = Modulo::select(DB::raw($empresa->empresaid.' as empresaid'), 'moduloid')->get()->toArray();
-            ModuloEmpresas::insert($modulos);
+            $modulos = Modulo::select(DB::raw($empresa->empresaid.' as empresaid'), 'moduloid')
+                ->whereNotIn('moduloid', function ($query) use ($empresa) {
+                    $query->select('moduloid')
+                        ->from('moduloEmpresas')
+                        ->where('empresaid', $empresa->empresaid);
+                })
+                ->get()
+                ->toArray();
+
+            if (!empty($modulos)) {
+                ModuloEmpresas::insert($modulos);
+            }
         }
 
-        $rol = UsuarioRol::where('usuarioid',$user->id)->count();
-        if($rol == 0){
+        $roles = UsuarioRol::where('usuarioid', $user->id)->pluck('rolid')->toArray();
+        if (empty($roles)) {
+            $rolId = (int) env('LDAP_DEFAULT_ROLE_ID', 2);
             $usuarioRol = new UsuarioRol;
-            $usuarioRol->rolid = 2;
+            $usuarioRol->rolid = $rolId;
             $usuarioRol->usuarioid = $user->id;
             $usuarioRol->save();
+
+            $roles = [$rolId];
+        }
+
+        foreach ($roles as $rolId) {
+            $this->ensureDefaultRoleCanAccessDashboard((int) $rolId);
+        }
+    }
+
+    private function ensureDefaultRoleCanAccessDashboard(int $rolId): void
+    {
+        $moduloPermisos = DB::table('moduloPermiso as mp')
+            ->join('modulos as m', 'm.moduloid', '=', 'mp.moduloid')
+            ->whereIn('m.ruta', ['home', 'dashboard'])
+            ->where('mp.permisoid', 2)
+            ->pluck('mp.modulopermisoid')
+            ->toArray();
+
+        foreach ($moduloPermisos as $moduloPermisoId) {
+            DB::table('rolModuloPermiso')->updateOrInsert([
+                'rolid' => $rolId,
+                'modulopermisoid' => $moduloPermisoId,
+            ], [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
     }
 }
