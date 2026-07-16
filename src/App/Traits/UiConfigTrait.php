@@ -14,6 +14,7 @@ trait UiConfigTrait
     {
         $this->installDashliteRuntimeDependencies();
         $this->installDashliteBuildDependencies();
+        $this->ensureViteUsesDeclaredFrontendPackages();
         $this->installViteConfigDependencies();
         $this->applyBootstrapBaseConfiguration(true);
 
@@ -37,6 +38,7 @@ trait UiConfigTrait
 
         $this->installDashliteRuntimeDependencies();
         $this->installDashliteBuildDependencies();
+        $this->ensureViteUsesDeclaredFrontendPackages();
         $this->installViteConfigDependencies();
         $this->applyBootstrapBaseConfiguration(false);
         $this->ensureDashliteConfigState();
@@ -285,6 +287,73 @@ trait UiConfigTrait
         }
 
         return $decoded;
+    }
+
+    protected function ensureViteUsesDeclaredFrontendPackages(): void
+    {
+        $viteConfigPath = base_path('vite.config.js');
+        if (!file_exists($viteConfigPath)) {
+            return;
+        }
+
+        $content = file_get_contents($viteConfigPath);
+        if ($content === false) {
+            return;
+        }
+
+        $updated = str_replace(
+            [
+                "fs.existsSync('./node_modules/vue')",
+                "canResolve('vue') && canResolve('/plugin-vue')",
+                "canResolve('vue') && canResolve('@vitejs/plugin-vue')",
+            ],
+            "hasProjectPackage('vue') && hasProjectPackage('@vitejs/plugin-vue')",
+            $content
+        );
+        $updated = str_replace(
+            [
+                "fs.existsSync('./node_modules/react')",
+                "canResolve('react') && canResolve('/plugin-react')",
+                "canResolve('react') && canResolve('@vitejs/plugin-react')",
+            ],
+            "hasProjectPackage('react') && hasProjectPackage('@vitejs/plugin-react')",
+            $updated
+        );
+
+        if (!str_contains($updated, 'hasProjectPackage(')) {
+            return;
+        }
+
+        $updated = str_replace("import { createRequire } from 'module';\n", '', $updated);
+        $updated = preg_replace(
+            '/\nconst require = createRequire\\(import\\.meta\\.url\\);\nconst canResolve = \\(packageName\\) => \\{.*?\n\\};\n/s',
+            "\n",
+            $updated
+        );
+
+        if ($updated === null || str_contains($updated, 'const hasProjectPackage =')) {
+            if ($updated !== null && $updated !== $content) {
+                file_put_contents($viteConfigPath, $updated);
+            }
+
+            return;
+        }
+
+        $helper = <<<'JS'
+
+const packageJson = JSON.parse(fs.readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+const projectPackages = {
+    ...packageJson.dependencies,
+    ...packageJson.devDependencies,
+};
+const hasProjectPackage = (packageName) => Object.prototype.hasOwnProperty.call(projectPackages, packageName);
+JS;
+
+        $updated = str_replace("import fs from 'fs';", "import fs from 'fs';\n".$helper, $updated);
+
+        if ($updated !== $content) {
+            file_put_contents($viteConfigPath, $updated);
+        }
     }
 
     protected function applyBootstrapBaseConfiguration($forceCopy)

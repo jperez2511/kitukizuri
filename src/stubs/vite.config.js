@@ -3,6 +3,13 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import fs from 'fs';
 
+const packageJson = JSON.parse(fs.readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+const projectPackages = {
+    ...packageJson.dependencies,
+    ...packageJson.devDependencies,
+};
+const hasProjectPackage = (packageName) => Object.prototype.hasOwnProperty.call(projectPackages, packageName);
+
 export default defineConfig(async () => {
     const plugins = [];
     const inputs = ['resources/js/app.js']; // Siempre se incluye
@@ -14,7 +21,7 @@ export default defineConfig(async () => {
     }
 
     // Carga Vue si existe
-    if (fs.existsSync('./node_modules/vue')) {
+    if (hasProjectPackage('vue') && hasProjectPackage('@vitejs/plugin-vue')) {
         const vue = (await import('@vitejs/plugin-vue')).default;
         plugins.push(vue({
             template: {
@@ -27,7 +34,7 @@ export default defineConfig(async () => {
     }
 
     // Carga React si existe
-    if (fs.existsSync('./node_modules/react')) {
+    if (hasProjectPackage('react') && hasProjectPackage('@vitejs/plugin-react')) {
         const react = (await import('@vitejs/plugin-react')).default;
         plugins.push(react());
 
