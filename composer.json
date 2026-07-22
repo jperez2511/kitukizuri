@@ -28,7 +28,11 @@
                 "Icebearsoft\\Kitukizuri\\KitukizuriServiceProvider",
                 "Icebearsoft\\Kitukizuri\\App\\Providers\\PostgresGrammarProvider",
                 "Icebearsoft\\Kitukizuri\\App\\Providers\\ForceHttpsProvider"
-            ]
+            ],
+            "aliases": {
+                "Kitukizuri": "Icebearsoft\\Kitukizuri\\KituKizuri",
+                "Krud": "Icebearsoft\\Kitukizuri\\Krud"
+            }
         }
     }
 }
