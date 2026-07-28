@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\URL;
 
 class ForceHttpsProvider extends ServiceProvider
 {
-    
     public function register(): void
     {
         if(env('APP_FORCE_HTTPS', false)){
