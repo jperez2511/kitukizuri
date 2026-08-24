@@ -498,6 +498,14 @@
     </div>
 
     @push('scripts')
+        @php
+            $permissionMessages = [
+                'pendingChanges' => __('Cambios pendientes'),
+                'noPendingChanges' => __('Sin cambios pendientes'),
+                'incompatiblePreset' => __('No se encontró un permiso compatible con esa plantilla.'),
+                'saving' => __('Guardando...'),
+            ];
+        @endphp
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const form = document.getElementById('permission-form');
@@ -510,12 +518,7 @@
                 const changeSummary = document.getElementById('permission-change-summary');
                 const saveButton = document.getElementById('save-permissions');
                 const initialSelection = new Set(permissionItems.filter(item => item.checked).map(item => item.value));
-                const messages = @json([
-                    'pendingChanges' => __('Cambios pendientes'),
-                    'noPendingChanges' => __('Sin cambios pendientes'),
-                    'incompatiblePreset' => __('No se encontró un permiso compatible con esa plantilla.'),
-                    'saving' => __('Guardando...'),
-                ]);
+                const messages = @json($permissionMessages);
                 let activeFilter = 'all';
                 let isSubmitting = false;
 
