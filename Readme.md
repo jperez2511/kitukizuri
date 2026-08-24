@@ -64,6 +64,7 @@ php artisan krud:update --force
 
 `krud:update` tambien sincroniza el archivo `database/seeders/ModulosSeeder.php` para agregar modulos faltantes sin sobrescribir personalizaciones existentes.
 Para vistas y recursos visuales, actualiza archivos existentes y crea respaldo automatico con sufijo `_old` antes de reemplazar.
+Despues de publicar vistas, limpia automaticamente el cache Blade para evitar conflictos de timestamps y permisos entre el usuario de consola y PHP-FPM.
 
 
 ## Configuración opcional

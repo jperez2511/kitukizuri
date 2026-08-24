@@ -38,9 +38,10 @@ Observed behavior:
 2. Synchronizes published directories.
 3. Replaces view/public resources by default according to per-tag settings.
 4. Creates `_old`, `_old_1`, etc. backups before replacements.
-5. Checks database connectivity before migration/seeding work.
-6. Runs migrations unless skipped.
-7. Runs selected base seeders unless skipped.
+5. Clears compiled Blade views after published resources are synchronized.
+6. Checks database connectivity before migration/seeding work.
+7. Runs migrations unless skipped.
+8. Runs selected base seeders unless skipped.
 
 Review application customizations before running with `--force`.
 

@@ -39,6 +39,7 @@ class KrudUpdate extends Command
 
         if (!$this->option('skip-publish')) {
             $this->publishPackageResources();
+            $this->clearCompiledViews();
         }
 
         $this->syncPublishedModulosSeeder();
@@ -234,6 +235,51 @@ class KrudUpdate extends Command
                 ' | Respaldos: '.$stats['backups'].
                 ' | Omitidos: '.$stats['skipped']
             );
+        }
+    }
+
+    /**
+     * Limpia vistas compiladas despues de publicar plantillas Blade.
+     *
+     * Evita que Laravel intente actualizar el timestamp de un archivo compilado
+     * creado por otro usuario (por ejemplo, CLI/root frente a PHP-FPM/www-data).
+     *
+     * @return void
+     */
+    private function clearCompiledViews()
+    {
+        $this->line('Limpiando cache de vistas compiladas...');
+
+        try {
+            $exitCode = $this->call('view:clear');
+        } catch (\Throwable $exception) {
+            $this->warn('No se pudo limpiar el cache de vistas: '.$exception->getMessage());
+            $this->warn('Ejecuta "php artisan view:clear" con el usuario que administra storage/framework/views.');
+            return;
+        }
+
+        if ($exitCode !== 0) {
+            $this->warn('La limpieza del cache de vistas no finalizo correctamente.');
+            $this->warn('Verifica los permisos de storage/framework/views y ejecuta "php artisan view:clear".');
+            return;
+        }
+
+        $compiledPath = config('view.compiled');
+
+        if (!is_string($compiledPath) || !is_dir($compiledPath)) {
+            return;
+        }
+
+        $compiledFiles = glob(rtrim($compiledPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'*.php') ?: [];
+        $unwritableFiles = array_filter($compiledFiles, function ($file) {
+            return !is_writable($file);
+        });
+
+        if (!empty($unwritableFiles)) {
+            $this->warn(
+                'Quedaron '.count($unwritableFiles).' vista(s) compilada(s) sin permiso de escritura en '.$compiledPath.'.'
+            );
+            $this->warn('Ajusta el propietario/permisos para que coincidan con el usuario de PHP-FPM.');
         }
     }
 
