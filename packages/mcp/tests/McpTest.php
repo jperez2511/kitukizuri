@@ -19,7 +19,12 @@ class McpTest extends TestCase
 {
     protected function getPackageProviders($app): array
     {
-        return [\Laravel\Mcp\Server\McpServiceProvider::class, McpServiceProvider::class];
+        $package = json_decode(file_get_contents(__DIR__.'/../../../composer.json'), true, flags: JSON_THROW_ON_ERROR);
+
+        return array_merge([\Laravel\Mcp\Server\McpServiceProvider::class], array_values(array_filter(
+            $package['extra']['laravel']['providers'],
+            fn (string $provider): bool => $provider === McpServiceProvider::class,
+        )));
     }
     protected function defineEnvironment($app): void
     {

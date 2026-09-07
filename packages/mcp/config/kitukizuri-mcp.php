@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'enabled' => false,
+    'enabled' => env('KITUKIZURI_MCP_ENABLED', false),
     'path' => 'mcp/kitukizuri',
     // Use a tenant-local guard. Passport auth:api is another host-app option.
     'middleware' => ['auth:sanctum'],

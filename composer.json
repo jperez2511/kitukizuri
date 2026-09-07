@@ -9,15 +9,18 @@
         }
     ],
     "require": {
-        "php": "^8.0"
+        "php": "^8.2",
+        "laravel/mcp": "~0.9.4",
+        "illuminate/database": "^12.41.1 || ^13.0",
+        "illuminate/support": "^12.41.1 || ^13.0"
     },
     "minimum-stability": "stable",
     "autoload": {
-	   "classmap": [
-    	],
-    	"psr-4": {
-    	    "Icebearsoft\\Kitukizuri\\": "src"
-    	},
+        "classmap": [],
+        "psr-4": {
+            "Icebearsoft\\Kitukizuri\\": "src",
+            "Icebearsoft\\Kitukizuri\\Mcp\\": "packages/mcp/src/"
+        },
         "files": [
             "src/App/Helpers/krud_ui.php"
         ]
@@ -27,7 +30,8 @@
             "providers": [
                 "Icebearsoft\\Kitukizuri\\KitukizuriServiceProvider",
                 "Icebearsoft\\Kitukizuri\\App\\Providers\\PostgresGrammarProvider",
-                "Icebearsoft\\Kitukizuri\\App\\Providers\\ForceHttpsProvider"
+                "Icebearsoft\\Kitukizuri\\App\\Providers\\ForceHttpsProvider",
+                "Icebearsoft\\Kitukizuri\\Mcp\\McpServiceProvider"
             ],
             "aliases": {
                 "Kitukizuri": "Icebearsoft\\Kitukizuri\\KituKizuri",
