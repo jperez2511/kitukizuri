@@ -20,6 +20,15 @@ Commands are discovered dynamically from `src/App/Console/Command/*.php` by `Com
 | `migrate:tts` | `--all`, `--rollback`, `--id=*` | Run or roll back tenant migrations |
 | `db:tts` | `--class=*`, `--tenantid=*` / `-t` | Run seeders for selected tenants |
 
+## LDAP and passkeys during `krud:install`
+
+Selecting LDAP installs an authentication provider that explicitly sets
+`Laravel\Passkeys\Passkeys::useUserModel(App\Models\User::class)` when Laravel
+Passkeys is available. If installed, the generated local User also implements
+`PasskeyUser` and uses `PasskeyAuthenticatable`. The LDAP provider continues to
+use its directory model. Existing passkeys migrations remain unchanged and run
+after LDAP configuration, together with the other migrations.
+
 ## `krud:update`
 
 Signature:

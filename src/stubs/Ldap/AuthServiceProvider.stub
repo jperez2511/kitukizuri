@@ -32,6 +32,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // Passkeys belongs to the local Eloquent user, not the directory model.
+        if (class_exists(\Laravel\Passkeys\Passkeys::class)) {
+            \Laravel\Passkeys\Passkeys::useUserModel(U::class);
+        }
+
         Fortify::authenticateUsing(function (Request $request): ?U {
             $validated = Auth::validate([
                 'mail' => $request->email,
