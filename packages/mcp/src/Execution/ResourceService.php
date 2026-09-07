@@ -38,6 +38,9 @@ class ResourceService
 
     public function execute(ResourceDefinition $resource, string $operation, array $arguments, Authenticatable $user): array
     {
+        if ($resource->requiresOperationAdapter($operation)) {
+            throw new LogicException('This operation requires a domain ResourceService adapter.');
+        }
         if (in_array($operation, ['create', 'update', 'delete'], true)) {
             return $this->write($resource, $operation, $arguments, $user);
         }

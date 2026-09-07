@@ -106,6 +106,37 @@ class McpTest extends TestCase
         $this->actingAs($this->user([2], 2));
         $this->assertFalse($this->tool('list')->shouldRegister(new \Laravel\Mcp\Request));
     }
+
+    public function test_custom_destroy_allows_scoped_reads_but_cannot_be_bypassed(): void
+    {
+        Route::resource('pacientes', \Icebearsoft\Kitukizuri\Mcp\Tests\Fixtures\CustomDeletePatientController::class);
+        $user = $this->user([1, 2, 3, 4]);
+        $resource = new \Icebearsoft\Kitukizuri\Mcp\Metadata\ResourceDefinition('pacientes',
+            \Icebearsoft\Kitukizuri\Mcp\Tests\Fixtures\CustomDeletePatientController::class,
+            PatientController::mcpConfiguration());
+        KitukizuriServer::actingAs($user)->tool(new KrudTool($resource, 'list'))
+            ->assertOk()->assertSee('Ana')->assertDontSee('special')->assertDontSee('Inactive');
+        KitukizuriServer::actingAs($user)->tool(new KrudTool($resource, 'get'), ['id' => '1'])
+            ->assertOk()->assertSee('Ana');
+        KitukizuriServer::actingAs($user)->tool(new KrudTool($resource, 'get'), ['id' => '2'])->assertHasErrors();
+        KitukizuriServer::actingAs($user)->tool(new KrudTool($resource, 'delete'), ['id' => '1'])->assertHasErrors();
+        $this->assertSame(3, Patient::count());
+    }
+
+    public function test_custom_store_allows_reads_but_blocks_both_insert_and_update(): void
+    {
+        Route::resource('pacientes', \Icebearsoft\Kitukizuri\Mcp\Tests\Fixtures\CustomStorePatientController::class);
+        $user = $this->user([1, 2, 3, 4]);
+        $resource = new \Icebearsoft\Kitukizuri\Mcp\Metadata\ResourceDefinition('pacientes',
+            \Icebearsoft\Kitukizuri\Mcp\Tests\Fixtures\CustomStorePatientController::class,
+            PatientController::mcpConfiguration());
+        KitukizuriServer::actingAs($user)->tool(new KrudTool($resource, 'list'))->assertOk()->assertSee('Ana');
+        $arguments = ['nombre' => 'Changed', 'fecha_nacimiento' => '2000-01-02'];
+        KitukizuriServer::actingAs($user)->tool(new KrudTool($resource, 'create'), $arguments)->assertHasErrors();
+        KitukizuriServer::actingAs($user)->tool(new KrudTool($resource, 'update'), ['id' => '1'] + $arguments)->assertHasErrors();
+        $this->assertSame(3, Patient::count());
+        $this->assertSame('Ana', Patient::findOrFail(1)->nombre);
+    }
     public function test_manual_forbidden_call_is_denied_again_in_handler(): void
     {
         $this->actingAs($this->user());

@@ -43,12 +43,30 @@ class ResourceDefinition
         $state['complex'] = $state['complex'] || $query->groups || $query->havings || $query->unions
             || $query->limit !== null || $query->offset !== null
             || $query->from !== $state['model']->getTable();
-        foreach (['store', 'destroy', 'show', 'getData', 'index', 'edit', 'create'] as $method) {
+        // Custom read paths may enforce visibility rules shared by every operation.
+        foreach (['show', 'getData', 'index'] as $method) {
             if ((new ReflectionMethod($this->controller, $method))->getDeclaringClass()->getName() !== Krud::class) {
                 $state['complex'] = true;
             }
         }
         return $this->snapshot = $state;
+    }
+
+    public function requiresOperationAdapter(string $operation): bool
+    {
+        // Krud uses store() for both inserts and updates. Never bypass custom writes.
+        $methods = match ($operation) {
+            'create' => ['store', 'create'],
+            'update' => ['store', 'edit'],
+            'delete' => ['destroy'],
+            default => [],
+        };
+        foreach ($methods as $method) {
+            if ((new ReflectionMethod($this->controller, $method))->getDeclaringClass()->getName() !== Krud::class) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function fields(): array
