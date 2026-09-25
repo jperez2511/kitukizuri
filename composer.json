@@ -10,9 +10,14 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/mcp": "~0.9.4",
         "illuminate/database": "^12.41.1 || ^13.0",
         "illuminate/support": "^12.41.1 || ^13.0"
+    },
+    "suggest": {
+        "laravel/mcp": "Requerido solo para la integracion MCP (krud:mcp). El proyecto consumidor fija la version."
+    },
+    "conflict": {
+        "laravel/mcp": "<0.9.4"
     },
     "minimum-stability": "stable",
     "autoload": {
