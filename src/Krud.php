@@ -61,6 +61,22 @@ class Krud extends Controller
     // viables únicas para vista calendario
     private $defaultCalendarView = null;
 
+    /** Metadata snapshot for opt-in application adapters; never renders a view. */
+    public function resourceState(): array
+    {
+        return [
+            'model' => $this->model,
+            'query' => $this->queryBuilder === null ? null : clone $this->queryBuilder,
+            'fields' => $this->campos,
+            'validation' => $this->validations,
+            'title' => $this->titulo,
+            'errors' => $this->errors,
+            'complex' => !empty($this->parents) || $this->parentid !== null
+                || !empty($this->storeFunctions) || !empty($this->editEmbed)
+                || !empty($this->externalData) || !empty($this->searchInED),
+        ];
+    }
+
     /**
      * getPermisos
      * Define los permisos a los que tiene acceso el controller
@@ -656,7 +672,7 @@ class Krud extends Controller
         $uriQuery .= implode('&', $uriItems);
 
         try {
-            $this->model->save();
+            app(\Icebearsoft\Kitukizuri\Resources\ModelPersistence::class)->save($this->model);
 
             if(!empty($dataOtherLocation)) {
                 foreach($dataOtherLocation as $values) {
@@ -725,7 +741,7 @@ class Krud extends Controller
         }
 
         try {
-            $this->model->destroy($id);
+            app(\Icebearsoft\Kitukizuri\Resources\ModelPersistence::class)->delete($item);
             Session::flash('type', 'success');
             Session::flash('msg', $this->getStoreMSG());
         } catch (QueryException $e) {

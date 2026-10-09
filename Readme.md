@@ -69,6 +69,50 @@ Despues de publicar vistas, limpia automaticamente el cache Blade para evitar co
 
 ## Configuración opcional
 
+### Servidor MCP
+
+El servidor MCP viene incluido en `icebearsoft/kitukizuri`. Requiere PHP 8.2 o superior y Laravel 12.41.1 o 13 (Laravel 13 requiere PHP 8.3 o superior). No se instala como un paquete separado.
+
+Después de actualizar Kitukizuri, publica la configuración:
+
+```bash
+php artisan vendor:publish --tag=krud-mcp-config
+```
+
+Agrega `KITUKIZURI_MCP_ENABLED=true` al `.env` y ejecuta `php artisan config:clear`. Esto registra el endpoint HTTP `/mcp/kitukizuri`, protegido por `auth:sanctum` de forma predeterminada. El cliente MCP debe conectarse a ese endpoint con un token Bearer válido; `boost:mcp` es un servidor diferente.
+
+Los controladores Krud deben habilitar explícitamente los recursos y campos que exponen:
+
+```php
+use Icebearsoft\Kitukizuri\Mcp\Concerns\ExposesMcp;
+
+// Dentro de un controlador que extiende Krud y tiene rutas nombradas:
+use ExposesMcp;
+
+protected static function mcp(): array
+{
+    return [
+        'enabled' => true,
+        'operations' => ['list', 'get'],
+        'company_column' => 'empresaid',
+    ];
+}
+
+// En el constructor, después de configurar el modelo y sus campos:
+$this->setMcpField('nombre', ['read' => true, 'write' => false]);
+```
+
+Adapta la columna de empresa y los campos al modelo. El usuario necesita los permisos Kitukizuri del módulo y su asignación a la empresa. Si usas múltiples tenants, configura el middleware que resuelve el tenant antes de `auth:sanctum` en `config/kitukizuri-mcp.php`.
+
+Verifica el registro y los recursos configurados:
+
+```bash
+php artisan route:list --path=mcp
+php artisan krud:mcp:inspect
+```
+
+El servidor está deshabilitado por defecto. Las herramientas disponibles se filtran según el usuario autenticado.
+
 ### Seeders
 
 Agregar en **database/seeds/DatabaseSeeder.php**

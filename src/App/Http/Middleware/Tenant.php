@@ -19,9 +19,15 @@ class Tenant
             return $next($request);
         }
 
-        $dominio = $request->server()['HTTP_HOST'];
+        $dominio = $request->getHost();
+        $hostOriginal = $request->server('HTTP_HOST', $dominio);
 
         $tenant = Tts::where('dominio', $dominio)->where('activo', 1)->first();
+
+        if (!$tenant && $hostOriginal !== $dominio) {
+            $tenant = Tts::where('dominio', $hostOriginal)->where('activo', 1)->first();
+            $dominio = $hostOriginal;
+        }
 
         if (!$tenant) {
             if ($request->expectsJson()) {

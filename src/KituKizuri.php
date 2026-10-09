@@ -45,13 +45,8 @@ class KituKizuri extends Controller
         ];
 
         $arrayAccion = !empty($acciones[$nombreRuta]) ? $acciones[$nombreRuta] : [$nombreRuta];
-        $moduloID = Modulo::where('ruta', $moduloNombre)->value('moduloid');
-
-        if(!empty($moduloID)){
-            $estado = UsuarioRol::getPermisosAsignados(Auth::id(), $moduloID, $arrayAccion);
-        }
-
-        return $estado;
+        return (new \Icebearsoft\Kitukizuri\Authorization\ModuleAccess)
+            ->permits(Auth::user(), $moduloNombre, $arrayAccion);
     }
 
     /**
@@ -87,19 +82,7 @@ class KituKizuri extends Controller
      */
     public static function validar($ruta)
     {
-        $estado = false;
-
-        if (!empty(Auth::user()->empresaid)) {
-            $empresaID = Auth::user()->empresaid;
-            $ruta      = explode('.', $ruta);
-            $moduloID  = Modulo::where('ruta', $ruta[0])->value('moduloid');
-            $estado    = ModuloEmpresas::where('empresaid', $empresaID)
-                ->where('moduloid', $moduloID)
-                ->exists();
-        } else {
-            $estado = true;
-        }
-
-        return $estado;
+        return (new \Icebearsoft\Kitukizuri\Authorization\ModuleAccess)
+            ->companyAllows(Auth::user(), explode('.', $ruta)[0]);
     }
 }

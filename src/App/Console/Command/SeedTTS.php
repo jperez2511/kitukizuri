@@ -42,10 +42,11 @@ class SeedTTS extends Command
      */
     public function handle()
     {
-        if ($this->option('class') === 'InicialSeeder' && empty($this->option('tenantid'))) {
+        if (in_array('InicialSeeder', (array) $this->option('class'), true) && empty($this->option('tenantid'))) {
             return $this->info('Especificar tenantid con -t.');
         }
 
+        $defaultHost = Config::get('database.connections.mysql.host');
         $dbs = $this->getDB($this->option('tenantid'));
         foreach ($dbs as $db) {
             $this->info('Seed DB: ' . $db->db);
@@ -53,6 +54,7 @@ class SeedTTS extends Command
             Config::set('database.connections.mysql.database',  $db->db);
             Config::set('database.connections.mysql.username',  $db->db_username);
             Config::set('database.connections.mysql.password',  $db->db_password);
+            Config::set('database.connections.mysql.host',      $db->db_host ?: $defaultHost);
             DB::reconnect('mysql');
             if ($this->option('class')) {
                 foreach ($this->option('class') as $clase) {
@@ -69,7 +71,7 @@ class SeedTTS extends Command
     {
         $query = DB::connection('tenants')
           ->table('tenants')
-          ->select('db', 'db_password', 'db_username')
+          ->select('db', 'db_host', 'db_password', 'db_username')
           ->where('activo', true)
           ->orderBy('tenant_id');
     

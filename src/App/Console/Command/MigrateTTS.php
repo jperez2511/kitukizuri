@@ -54,6 +54,7 @@ class MigrateTTS extends Command
 
         // opcion migration all database or by ID
         if ($this->option('all') || !empty($this->option('id'))) {
+            $defaultHost = Config::get('database.connections.mysql.host');
             $dbs = $this->getDB($this->option('id'));
             foreach ($dbs as $db) {
                 $this->info('Start '.$msg.': '.$db->db);
@@ -61,6 +62,7 @@ class MigrateTTS extends Command
                 Config::set('database.connections.mysql.database',  $db->db);
                 Config::set('database.connections.mysql.username',  $db->db_username);
                 Config::set('database.connections.mysql.password',  $db->db_password);
+                Config::set('database.connections.mysql.host',      $db->db_host ?: $defaultHost);
                 DB::reconnect('mysql');
                 Artisan::call('migrate'.$action);
                 $output = Artisan::output();
@@ -77,14 +79,14 @@ class MigrateTTS extends Command
     {
         $query = DB::connection('tenants')
           ->table('tenants')
-          ->select('db', 'db_password', 'db_username')
+          ->select('db', 'db_host', 'db_password', 'db_username')
           ->where('activo', true);
 
         if (!empty($tenantids)) {
           $query->whereIn('tenant_id', $tenantids);
         }
 
-        $dbs = $query->groupBy('db', 'db_password', 'db_username')->get();
+        $dbs = $query->groupBy('db', 'db_host', 'db_password', 'db_username')->get();
 
         if ($dbs->isEmpty()) {
           throw new \Exception('Data Base not exist.');

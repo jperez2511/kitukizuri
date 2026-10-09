@@ -132,6 +132,11 @@ class KrudInstall extends Command
             $this->artisanCommand('db:seed', '--class=ModulosSeeder');
             $this->artisanCommand('db:seed', '--class=InicialSeeder');
 
+            // registrando el tenant inicial sobre la base recien migrada
+            if ($multiTenant == true) {
+                $this->bootstrapTenants() || $this->multiTenantsHint();
+            }
+
         } catch (\Exception $e) {
             $this->error('
                 La base de datos no está configurada correctamente.

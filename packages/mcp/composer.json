@@ -1,0 +1,37 @@
+{
+    "name": "icebearsoft/kitukizuri-mcp-tests",
+    "description": "Test harness for the MCP integration bundled with Kitukizuri",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "icebearsoft/kitukizuri": "@dev"
+    },
+    "require-dev": {
+        "laravel/mcp": "^1.0",
+        "orchestra/testbench": "^10.8 || ^11.0",
+        "phpunit/phpunit": "^11.5 || ^12.0"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../..",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "Icebearsoft\\Kitukizuri\\Mcp\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "allow-plugins": false,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
