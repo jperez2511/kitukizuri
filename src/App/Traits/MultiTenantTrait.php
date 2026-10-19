@@ -4,6 +4,7 @@ namespace Icebearsoft\Kitukizuri\App\Traits;
 
 use DB;
 use File;
+use PDO;
 use Config;
 
 use function Laravel\Prompts\text;

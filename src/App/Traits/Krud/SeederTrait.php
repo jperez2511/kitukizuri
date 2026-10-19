@@ -39,12 +39,11 @@ trait SeederTrait
 	}
 
 	protected function sqlDateTime() {
-		$connectionName = env('DB_CONNECTION');
-		if($connectionName === 'pgsql' || $connectionName === 'mysql' || !empty(env('TENANTS_CONNECTION'))) {
-			return 'NOW()';
-		} else if($connectionName === 'sqlite') {
-			return 'datetime(\'now\')';
-		}
+		// Segun el driver real de la conexion, no segun env: durante la instalacion
+		// TENANTS_CONNECTION ya esta seteado y delata el driver equivocado (ver KrudInstall).
+		return DB::connection()->getDriverName() === 'sqlite'
+			? 'datetime(\'now\')'
+			: 'NOW()';
 	}
 
    	protected function saveModuleData($modulos)

@@ -94,7 +94,8 @@ class SetDocker extends Command
                 'DB_HOST=mysql',
                 [
                     '"3306:3306"', '"replacePort:3306"', $baseDockerCompose
-                ]
+                ],
+                'mysql'
             ],
             'PostgreSQL' => [
                 __DIR__.'/../../../stubs/Docker/dockerfiles/postgresql',
@@ -115,7 +116,8 @@ class SetDocker extends Command
                 'DB_HOST=pgsql',
                 [
                     '"5432:5432"', '"replacePort:5432"', $baseDockerCompose
-                ]
+                ],
+                'pgsql'
             ],
             'SQLServer' => [
                 __DIR__.'/../../../stubs/Docker/dockerfiles/sqlserver',
@@ -136,7 +138,8 @@ class SetDocker extends Command
                 'DB_HOST=sqlserver',
                 [
                     '"1433:1433"', '"replacePort:1433"', $baseDockerCompose
-                ]
+                ],
+                'sqlsrv'
             ]
         ];
 
@@ -180,18 +183,20 @@ class SetDocker extends Command
             $this->replaceInFile('"MONGO_ROOT_PASSWORD=rootPassword"', '"MONGO_ROOT_PASSWORD='.$pass.'"', base_path('docker-compose.yml'));
 
             // Update .env y .env.example
-            if(file_exists(base_path('.env.example'))) {
+            $connection = $databaseFiles[$databaseEngine][9];
 
-                $this->replaceInFile('DB_HOST=127.0.0.1', $databaseFiles[$databaseEngine][7], base_path('.env.example'));
+            foreach ([base_path('.env.example'), base_path('.env')] as $envFile) {
+                if (! file_exists($envFile)) {
+                    continue;
+                }
 
-                $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env.example'));
-                $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env.example'));
-            }
-
-            if(file_exists(base_path('.env'))) {
-                $this->replaceInFile('DB_HOST=127.0.0.1', $databaseFiles[$databaseEngine][7], base_path('.env'));
-                $this->replaceInFile('DB_DATABASE=laravel', 'DB_DATABASE='.$database, base_path('.env'));
-                $this->replaceInFile('DB_PASSWORD=', 'DB_PASSWORD='.$pass, base_path('.env'));
+                // setEnvValue machaca la linea completa: el .env de Laravel 11+ trae
+                // DB_CONNECTION=sqlite y las variables del motor comentadas ("# DB_HOST=mysql"),
+                // asi que replaceInFile del valor viejo no matchea y no descomenta nada.
+                $this->setEnvValue('DB_CONNECTION', 'DB_CONNECTION='.$connection, $envFile);
+                $this->setEnvValue('DB_HOST', $databaseFiles[$databaseEngine][7], $envFile);
+                $this->setEnvValue('DB_DATABASE', 'DB_DATABASE='.$database, $envFile);
+                $this->setEnvValue('DB_PASSWORD', 'DB_PASSWORD='.$pass, $envFile);
             }
             
             info('La base de datos se ha configurado correctamente!');
