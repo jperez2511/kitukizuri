@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Icebearsoft\Kitukizuri\App\Models\Rol;
 use Icebearsoft\Kitukizuri\App\Models\Empresa;
 use Icebearsoft\Kitukizuri\App\Models\Usuario;
+use Icebearsoft\Kitukizuri\App\Models\UsuarioRol;
 
 class UsuariosController extends Krud
 {
@@ -80,6 +81,34 @@ class UsuariosController extends Krud
             foreach($camposCustom as $campo) {
                 $this->setCampo($campo);
             }
+        }
+    }
+
+    public function destroy($id, Request $request)
+    {
+        try {
+            $idUsuario = Crypt::decrypt($id);
+        } catch (Exception $e) {
+            abort(404, 'Usuario no encontrado');
+        }
+
+        // 1. eliminado referencia a roles
+        UsuarioRol::where('usuarioid', $idUsuario)->delete();
+        $usuario = Usuario::find($idUsuario);
+
+        // 2. eliminado usuario
+        if ($usuario) {
+            try {
+                $usuario->delete();
+                $this->buildMsg('success', 'Usuario eliminado correctamente.');
+                return 1;
+            } catch (\Exception $e) {
+                // Manejar la excepción aquí, por ejemplo, registrarla o mostrar un mensaje de error
+                $this->buildMsg('error', 'Error al eliminar el usuario: ' . $e->getMessage());
+                return 0; // O cualquier otro valor que indique fallo
+            }
+        } else {
+            $this->buildMsg('error', 'Usuario no encontrado.');
         }
     }
 }

@@ -46,6 +46,40 @@ trait UtilityTrait
         file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
 
+    /**
+     * Escribe una clave de .env machacando la linea completa, exista o no exista.
+     *
+     * Laravel 11+ entrega el .env con DB_CONNECTION=sqlite y las variables de MySQL
+     * comentadas ("# DB_HOST=mysql"), asi que un str_replace literal del valor viejo
+     * no matchea. Ademas replaceInFile('DB_PASSWORD=', ...) manglea la linea porque
+     * matchea como subcadena: "# DB_PASSWORD=old" pasa a "# DB_PASSWORD=oldnuevo".
+     *
+     * @param  string  $value  ya viene con el "KEY=" incluido
+     * @return bool    false si el archivo no existe o no se pudo escribir
+     */
+    protected function setEnvValue($key, $value, $path)
+    {
+        if (! is_file($path) || ! is_writable($path)) {
+            return false;
+        }
+
+        $contents = file_get_contents($path);
+        $pattern = '/^([ \t]*)(?:#[ \t]*)?(?:export[ \t]+)?'.preg_quote($key, '/').'[ \t]*=.*$/m';
+        $replaced = 0;
+        $contents = preg_replace($pattern, '$1'.addcslashes($value, '\\$'), $contents, -1, $replaced);
+
+        if ($replaced === null) {
+            return false;
+        }
+
+        if ($replaced === 0) {
+            // la clave no existia: se agrega al final, respetando el salto de linea
+            $contents = rtrim($contents, "\r\n")."\n".$value."\n";
+        }
+
+        return file_put_contents($path, $contents) !== false;
+    }
+
     protected function runCommands($commands, $path = null)
     {
         $process = Process::fromShellCommandline(implode(' && ', $commands), $path, null, null, null);
