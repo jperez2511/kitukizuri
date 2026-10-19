@@ -3,8 +3,8 @@
 namespace Icebearsoft\Kitukizuri\App\Http\Controllers;
 
 use Krud;
-
 use Auth;
+use Crypt;
 
 use Illuminate\Http\Request;
 use Icebearsoft\Kitukizuri\App\Models\Rol;
